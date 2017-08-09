@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+<title></title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: visible; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+
+<style type = "text/css">
+body {
+  margin-top: 45px;
+}
+.main-container {
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+</style>
+
+
+<script src="library/auto_tab_first_section.js"></script>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+
+</head>
+
+<body>
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Fertility diary</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="1_power_analysis.html">Power analysis</a>
+</li>
+<li>
+  <a href="1_researcher_df_analysis.html">Researcher degree of freedom simulation</a>
+</li>
+<li>
+  <a href="1_wrangle_data.html">Data wrangling</a>
+</li>
+<li>
+  <a href="2_descriptives.html">Descriptives</a>
+</li>
+<li>
+  <a href="3_fertility_as_prereg.html">Preregistered analyses</a>
+</li>
+<li>
+  <a href="3_fertility_robustness.html">Robustness tests</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="container-fluid main-container">
+
+
+<div id="helper-functions-used-throughout" class="section level1 tab-content">
+<h1>Helper functions used throughout</h1>
+<p>documentation on the functions is interspersed through code comments</p>
+<div id="set-some-options" class="section level2">
+<h2>set some options</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">library =<span class="st"> </span>function (...) <span class="kw">suppressMessages</span>(base::<span class="kw">library</span>(...))
+
+<span class="kw">options</span>(<span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)
+<span class="kw">options</span>(<span class="dt">digits =</span> <span class="dv">4</span>)
+<span class="kw">options</span>(<span class="dt">scipen =</span> <span class="dv">7</span>)
+<span class="kw">options</span>(<span class="dt">width =</span> <span class="dv">110</span>)</code></pre></div>
+</div>
+<div id="load-packages" class="section level2">
+<h2>Load packages</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rmarkdown); <span class="kw">library</span>(knitr); <span class="kw">library</span>(formr); <span class="kw">library</span>(data.table); <span class="kw">library</span>(stringr); <span class="kw">library</span>(ggplot2); <span class="kw">library</span>(plyr);  <span class="kw">library</span>(psych); <span class="kw">library</span>(lubridate); <span class="kw">library</span>(car); <span class="kw">library</span>(psych); <span class="kw">library</span>(lme4);<span class="kw">library</span>(lmerTest); <span class="kw">library</span>(sjPlot); <span class="kw">library</span>(dplyr); <span class="kw">library</span>(dtplyr); <span class="kw">library</span>(tidyr);
+<span class="kw">library</span>(svglite); <span class="kw">library</span>(knitr)
+<span class="kw">library</span>(ggplot2); <span class="kw">library</span>(ggthemes); <span class="kw">library</span>(extrafont)
+<span class="kw">library</span>(pander)
+
+opts_chunk$<span class="kw">set</span>(<span class="dt">dev =</span> <span class="st">&quot;png&quot;</span>)
+
+fool_packrat =<span class="st"> </span>function() {
+  <span class="kw">library</span>(formatR)
+  <span class="kw">library</span>(foreach)
+  <span class="kw">library</span>(KernSmooth)
+  <span class="kw">library</span>(GPArotation)
+  <span class="kw">library</span>(nlme)
+  <span class="kw">library</span>(devtools)
+}</code></pre></div>
+</div>
+<div id="package-options" class="section level2">
+<h2>Package options</h2>
+<p>I’m tired of data table messing up my rmarkdown. Never want to print this in a live report anyway, I’m using pander for that.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">options</span>(<span class="dt">datatable.print.nrows=</span><span class="dv">0</span>)
+<span class="kw">options</span>(<span class="dt">dplyr.print_max =</span> <span class="dv">0</span>)
+<span class="kw">options</span>(<span class="dt">dplyr.print_min =</span> <span class="dv">0</span>)
+<span class="kw">options</span>(<span class="dt">rmarkdown.df_print =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<p>always use these plot settings throughout</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">theme_set</span>(<span class="kw">theme_tufte</span>(<span class="dt">base_size =</span> <span class="dv">20</span>, <span class="dt">base_family=</span><span class="st">&#39;Helvetica Neue&#39;</span>))</code></pre></div>
+<p>Auto-adjust the table column alignment depending on data type.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">alignment =<span class="st"> </span>function (...) <span class="kw">UseMethod</span>(<span class="st">&#39;alignment&#39;</span>)
+alignment.default =<span class="st"> </span>function (...) <span class="st">&#39;left&#39;</span>
+alignment.integer =<span class="st"> </span>function (...) <span class="st">&#39;right&#39;</span>
+alignment.numeric =<span class="st"> </span>function (...) <span class="st">&#39;right&#39;</span>
+<span class="kw">panderOptions</span>(<span class="st">&quot;table.split.table&quot;</span>, <span class="ot">Inf</span>)</code></pre></div>
+</div>
+<div id="helper-functions" class="section level2">
+<h2>Helper functions</h2>
+<div id="clean-pipes" class="section level3">
+<h3>clean pipes</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="st">`</span><span class="dt">%-&gt;%</span><span class="st">`</span> =<span class="st"> </span>function(val, var) { <span class="kw">assign</span>(<span class="kw">deparse</span>(<span class="kw">substitute</span>(var)),val, <span class="dt">envir =</span> <span class="kw">parent.frame</span>()); <span class="kw">invisible</span>(val) }</code></pre></div>
+</div>
+<div id="a-shorthand-to-quickly-find-objects-of-a-certain-class" class="section level3">
+<h3>a shorthand to quickly find objects of a certain class</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ls_type =<span class="st"> </span>function(<span class="dt">types=</span><span class="kw">c</span>(<span class="st">&#39;lmerMod&#39;</span>,<span class="st">&#39;glmerMod&#39;</span>,<span class="st">&#39;bglmerMod&#39;</span>,<span class="st">&#39;blmerMod&#39;</span>,<span class="st">&#39;merModLmerTest&#39;</span>), <span class="dt">envir =</span> <span class="kw">parent.frame</span>(), ...){
+  inlist &lt;-<span class="st"> </span><span class="kw">ls</span>(<span class="dt">envir =</span> envir, ...)
+  ifexistsgetclass =<span class="st"> </span>function(x, envir) {
+    if(<span class="kw">exists</span>(x, <span class="dt">envir =</span> envir, <span class="dt">inherits =</span> <span class="ot">FALSE</span>)) {
+      bla =<span class="st"> </span><span class="kw">get</span>(x, <span class="dt">envir =</span> envir, <span class="dt">inherits =</span> <span class="ot">FALSE</span>)
+      <span class="kw">class</span>(bla)
+    } else {
+      <span class="ot">NULL</span>
+    }
+  }
+  classlist &lt;-<span class="st"> </span><span class="kw">sapply</span>(inlist,function(x) <span class="kw">ifexistsgetclass</span>(x, <span class="dt">envir =</span> envir))
+  if (<span class="kw">length</span>(classlist) &gt;<span class="st"> </span><span class="dv">0</span> ) {
+    <span class="kw">names</span>(classlist[
+      <span class="kw">sapply</span>(classlist,function(x){ !!<span class="kw">length</span>(<span class="kw">intersect</span>(x, types) ) }) ## take any who have a class that is in our list
+      ])
+  } else <span class="kw">character</span>(<span class="dv">0</span>)
+}</code></pre></div>
+</div>
+<div id="cut-in-with-a-printed-message" class="section level3">
+<h3>cut in with a printed message</h3>
+<p>and pass the object along</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cat_in =<span class="st"> </span>function(obj, cat) {
+  <span class="kw">cat</span>(cat)
+  <span class="kw">invisible</span>(obj)
+}</code></pre></div>
+</div>
+<div id="display-error-messages-in-html" class="section level3">
+<h3>display error messages in HTML</h3>
+<p>don’t interrupt during iterated model fitting</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cat_message =<span class="st"> </span>function(cat, <span class="dt">class =</span> <span class="st">&quot;danger&quot;</span>) {
+  if (class ==<span class="st"> &quot;danger&quot;</span>) {
+    prob =<span class="st"> &quot;Error&quot;</span>
+  } else {
+    prob =<span class="st"> &quot;Information&quot;</span>
+  }
+  <span class="kw">cat</span>(<span class="kw">paste0</span>(<span class="st">&quot;</span><span class="ch">\n\n</span><span class="st">&lt;div class=&#39;alert alert-&quot;</span>,class,<span class="st">&quot;&#39;&gt;&lt;strong&gt;&quot;</span>,prob,<span class="st">&quot;:&lt;/strong&gt; &quot;</span>, cat, <span class="st">&quot;&lt;/div&gt;</span><span class="ch">\n\n</span><span class="st">&quot;</span>))
+}</code></pre></div>
+</div>
+<div id="print-summary-and-pass-on-obj" class="section level3">
+<h3>print summary and pass on obj</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">print_summary =<span class="st"> </span>function(obj) {
+  <span class="kw">cat</span>(<span class="st">&quot;</span><span class="ch">\n\n</span><span class="st">```</span><span class="ch">\n</span><span class="st">&quot;</span>)
+  <span class="kw">print</span>(<span class="kw">summary</span>(obj))
+  <span class="kw">cat</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">```</span><span class="ch">\n\n</span><span class="st">&quot;</span>)
+  <span class="kw">invisible</span>(obj)
+}</code></pre></div>
+</div>
+<div id="print-confint-and-pass-on-obj" class="section level3">
+<h3>print confint and pass on obj</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">print_confint =<span class="st"> </span>function(obj) {
+  <span class="kw">print</span>(<span class="kw">confint</span>(obj))
+  <span class="kw">invisible</span>(obj)
+}</code></pre></div>
+</div>
+<div id="calculate-effects-and-pass-obj" class="section level3">
+<h3>calculate effects and pass obj</h3>
+<p>store them in attributes so that other functions can access</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">calculate_effects =<span class="st"> </span>function(obj, <span class="dt">partial.residuals =</span> F) {
+  <span class="kw">library</span>(effects)
+  if (<span class="kw">length</span>(<span class="kw">attributes</span>(obj)$effects) ==<span class="st"> </span><span class="dv">0</span>) {
+    <span class="kw">attributes</span>(obj)$effects =<span class="st"> </span><span class="kw">allEffects</span>(obj, <span class="dt">xlevels =</span> <span class="dv">3</span>, <span class="dt">partial.residuals =</span> partial.residuals)
+  }
+  <span class="kw">invisible</span>(obj)
+}</code></pre></div>
+</div>
+<div id="plot-previously-stored-effects" class="section level3">
+<h3>plot (previously stored) effects</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">plot_all_effects =<span class="st"> </span>function(obj, <span class="dt">multiline=</span>F, <span class="dt">partial.residuals =</span> F) {
+  <span class="kw">library</span>(effects)
+  if(<span class="kw">length</span>(<span class="kw">attributes</span>(obj)$effects) ==<span class="st"> </span><span class="dv">0</span>) {
+    <span class="kw">attributes</span>(obj)$effects =<span class="st"> </span><span class="kw">allEffects</span>(obj, <span class="dt">xlevels =</span> <span class="dv">3</span>, <span class="dt">partial.residuals =</span> partial.residuals)
+  }
+  <span class="kw">plot</span>(<span class="kw">attributes</span>(obj)$effects,<span class="dt">multiline=</span>multiline, <span class="dt">rug =</span> F)
+  <span class="kw">invisible</span>(obj)
+}</code></pre></div>
+</div>
+<div id="substitute-my-own-lme-tidier" class="section level3">
+<h3>substitute my own lme tidier</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_tidy.lme =<span class="st"> </span>function(fit, <span class="dt">effects =</span> <span class="st">&quot;fixed&quot;</span>) {
+  if (effects ==<span class="st"> &quot;fixed&quot;</span>) {
+    confintervals =<span class="st"> </span><span class="kw">data.frame</span>(nlme::<span class="kw">intervals</span>(fit)$fixed)
+    confintervals$term =<span class="st"> </span><span class="kw">rownames</span>(confintervals)
+    mydf =<span class="st"> </span>confintervals[confintervals$term !=<span class="st"> &quot;(Intercept)&quot;</span>, ]
+    <span class="kw">names</span>(mydf) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;conf.low&quot;</span>, <span class="st">&quot;estimate&quot;</span>, <span class="st">&quot;conf.high&quot;</span>, <span class="st">&quot;term&quot;</span>)
+    pvals =<span class="st"> </span><span class="kw">data.frame</span>(nlme:::<span class="kw">summary.lme</span>(fit)$tTable)
+    <span class="kw">names</span>(pvals) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;estimate&quot;</span>,<span class="st">&quot;std.error&quot;</span>,<span class="st">&quot;df&quot;</span>,<span class="st">&quot;statistic&quot;</span>,<span class="st">&quot;p.value&quot;</span>)
+    pvals$term =<span class="st"> </span><span class="kw">rownames</span>(pvals)
+    mydf =<span class="st"> </span><span class="kw">merge</span>(mydf, pvals[, <span class="kw">c</span>(<span class="st">&quot;term&quot;</span>,<span class="st">&quot;p.value&quot;</span>,<span class="st">&quot;std.error&quot;</span>,<span class="st">&quot;statistic&quot;</span>)], <span class="dt">by =</span> <span class="st">&#39;term&#39;</span>)
+
+    <span class="kw">rownames</span>(mydf) =<span class="st"> </span><span class="ot">NULL</span>
+    mydf =<span class="st"> </span>mydf[, <span class="kw">c</span>(<span class="st">&quot;term&quot;</span>, <span class="st">&quot;estimate&quot;</span>, <span class="st">&quot;std.error&quot;</span>, <span class="st">&quot;statistic&quot;</span>, <span class="st">&quot;p.value&quot;</span>, <span class="st">&quot;conf.low&quot;</span>,<span class="st">&quot;conf.high&quot;</span>)]
+    mydf
+  } else {
+    <span class="kw">stop</span>(<span class="st">&quot;Only fixed effects.&quot;</span>)
+  }
+}</code></pre></div>
+</div>
+<div id="plot-sjp-interaction" class="section level3">
+<h3>Plot sjp interaction</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">plot_sjp_int =<span class="st"> </span>function(obj) {
+  <span class="kw">library</span>(effects)
+  <span class="kw">library</span>(sjPlot)
+  sjp_eff =<span class="st"> </span><span class="kw">sjp.int</span>(obj, <span class="dt">type =</span> <span class="st">&#39;eff&#39;</span>, <span class="dt">showCI =</span> T, <span class="dt">plevel=</span><span class="dv">1</span>, <span class="dt">printPlot =</span> F, <span class="dt">moderatorValues =</span> <span class="st">&#39;minmax&#39;</span> )
+  sjp_plot =<span class="st"> </span>sjp_eff$plot.list[[<span class="dv">1</span>]]
+  <span class="kw">print</span>(sjp_plot)
+  <span class="kw">invisible</span>(obj)
+}</code></pre></div>
+</div>
+<div id="overwrite-function-for-old-apiversion" class="section level3">
+<h3>Overwrite function for old apiversion</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">formr_items =<span class="st"> </span>function (survey_name, <span class="dt">host =</span> <span class="st">&quot;https://formr.org&quot;</span>)
+{
+  resp =<span class="st"> </span>httr::<span class="kw">GET</span>(<span class="kw">paste0</span>(host, <span class="st">&quot;/admin/survey/&quot;</span>, survey_name,
+                          <span class="st">&quot;/export_item_table?format=json&quot;</span>))
+  if (resp$status_code ==<span class="st"> </span><span class="dv">200</span>) {
+    item_list =<span class="st"> </span>jsonlite::<span class="kw">fromJSON</span>(<span class="dt">simplifyDataFrame =</span> <span class="ot">FALSE</span>,
+                                   httr::<span class="kw">content</span>(resp, <span class="dt">encoding =</span> <span class="st">&quot;utf8&quot;</span>, <span class="dt">as =</span> <span class="st">&quot;text&quot;</span>))
+    for (i in <span class="kw">seq_along</span>(item_list)) {
+      if (item_list[[i]]$type ==<span class="st"> &quot;rating_button&quot;</span>) {
+        from =<span class="st"> </span><span class="dv">1</span>
+        to =<span class="st"> </span><span class="dv">5</span>
+        by =<span class="st"> </span><span class="dv">1</span>
+        if (!<span class="kw">is.null</span>(item_list[[i]]$type_options)) {
+          sequence =<span class="st"> </span>stringr::<span class="kw">str_split</span>(item_list[[i]]$type_options,
+                                        <span class="st">&quot;,&quot;</span>)[[<span class="dv">1</span>]]
+          if (<span class="kw">length</span>(sequence) ==<span class="st"> </span><span class="dv">3</span>) {
+            from =<span class="st"> </span><span class="kw">as.numeric</span>(sequence[<span class="dv">1</span>])
+            to =<span class="st"> </span><span class="kw">as.numeric</span>(sequence[<span class="dv">2</span>])
+            by =<span class="st"> </span><span class="kw">as.numeric</span>(sequence[<span class="dv">3</span>])
+          }
+          else if (<span class="kw">length</span>(sequence) ==<span class="st"> </span><span class="dv">2</span>) {
+            from =<span class="st"> </span><span class="kw">as.numeric</span>(sequence[<span class="dv">1</span>])
+            to =<span class="st"> </span><span class="kw">as.numeric</span>(sequence[<span class="dv">2</span>])
+          }
+          else if (<span class="kw">length</span>(sequence) ==<span class="st"> </span><span class="dv">1</span>) {
+            to =<span class="st"> </span><span class="kw">as.numeric</span>(sequence[<span class="dv">1</span>])
+          }
+        }
+        sequence =<span class="st"> </span><span class="kw">seq</span>(from, to, by)
+        <span class="kw">names</span>(sequence) =<span class="st"> </span>sequence
+        sequence[<span class="dv">1</span>] =<span class="st"> </span>item_list[[i]]$choices[[<span class="dv">1</span>]]
+        sequence[<span class="kw">length</span>(sequence)] =<span class="st"> </span>item_list[[i]]$choices[[<span class="dv">2</span>]]
+        item_list[[i]]$choices =<span class="st"> </span><span class="kw">as.list</span>(sequence)
+      }
+    }
+    <span class="kw">class</span>(item_list) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;formr_item_list&quot;</span>, <span class="kw">class</span>(item_list))
+    item_list
+  }
+  else <span class="kw">stop</span>(<span class="st">&quot;This survey does not exist.&quot;</span>)
+}
+<span class="kw">assignInNamespace</span>(<span class="st">&quot;formr_items&quot;</span>,formr_items,<span class="dt">ns=</span><span class="st">&quot;formr&quot;</span>)</code></pre></div>
+</div>
+<div id="n-excluded" class="section level3">
+<h3>n excluded</h3>
+<p>count how many more are set to false (compared to internal counter)</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">excluded_old =<span class="st"> </span><span class="dv">0</span>
+n_excluded =<span class="st"> </span>function(x) {
+  excluded_new =<span class="st"> </span><span class="kw">sum</span>(<span class="kw">is.na</span>(x) |<span class="st"> </span>x ==<span class="st"> </span><span class="ot">FALSE</span>,<span class="dt">na.rm =</span> T)
+  if (<span class="kw">is.null</span>(excluded_old)) {
+    excluded =<span class="st"> </span>excluded_new
+  } else {
+    excluded =<span class="st"> </span>excluded_new -<span class="st"> </span>excluded_old
+  }
+  <span class="kw">cat</span>(excluded, <span class="st">&quot;excluded</span><span class="ch">\n</span><span class="st">&quot;</span>)
+  excluded_old &lt;&lt;-<span class="st"> </span>excluded_new
+  excluded
+}</code></pre></div>
+</div>
+<div id="recode-a-var-into-a-properly-ordered-factor" class="section level3">
+<h3>recode a var into a properly ordered factor</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">recode_ordered =<span class="st"> </span>function(levels, var) {
+  <span class="kw">factor</span>(var, <span class="dt">levels =</span> <span class="kw">sort</span>(<span class="kw">unique</span>(var)), <span class="dt">labels =</span> levels[<span class="kw">sort</span>(<span class="kw">unique</span>(var))])
+}</code></pre></div>
+</div>
+<div id="make-a-bar-plot-with-counts-and-ages" class="section level3">
+<h3>make a bar plot with counts and %ages</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">bar_count =<span class="st"> </span>function(data, variable, <span class="dt">na.rm =</span> <span class="ot">FALSE</span>) {
+  varname =<span class="st"> </span><span class="kw">deparse</span>(<span class="kw">substitute</span>(variable))
+  var =<span class="st"> </span>data %&gt;%<span class="st"> </span><span class="kw">select_</span>(varname) %&gt;%<span class="st"> </span>.[[<span class="dv">1</span>]]
+  if (na.rm ==<span class="st"> </span>T) {
+    var =<span class="st"> </span>var %&gt;%<span class="st"> </span><span class="kw">na.omit</span>()
+  }
+  var =<span class="st"> </span><span class="kw">factor</span>(var, <span class="dt">exclude =</span> <span class="ot">NULL</span>)
+  data$var =<span class="st"> </span>var
+
+  <span class="kw">ggplot</span>(data, <span class="kw">aes</span>(<span class="dt">x =</span> var)) +
+<span class="st">    </span><span class="kw">geom_bar</span>() +
+<span class="st">    </span><span class="kw">stat_count</span>(<span class="kw">aes</span>(<span class="dt">label =</span> <span class="kw">paste</span>(..count.., <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>, scales::<span class="kw">percent</span>(<span class="kw">round</span>(..count../<span class="kw">sum</span>(count),<span class="dv">2</span>)))), <span class="dt">hjust =</span> -<span class="fl">0.1</span>, <span class="dt">geom =</span> <span class="st">&quot;text&quot;</span>, <span class="dt">position =</span> <span class="st">&quot;identity&quot;</span>, <span class="dt">na.rm =</span> T) +
+<span class="st">    </span><span class="kw">scale_y_continuous</span>(<span class="dt">expand =</span> <span class="kw">c</span>(<span class="fl">0.1</span>, <span class="dv">0</span>)) +
+<span class="st">    </span><span class="kw">xlab</span>(varname) +
+<span class="st">    </span><span class="kw">coord_flip</span>()
+}</code></pre></div>
+</div>
+<div id="fixed-sqrt-transformation-for-ggplot" class="section level3">
+<h3>fixed sqrt transformation for ggplot</h3>
+<p>from <a href="https://github.com/hadley/ggplot2/issues/980" class="uri">https://github.com/hadley/ggplot2/issues/980</a></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mysqrt_trans &lt;-<span class="st"> </span>function() {
+  <span class="kw">library</span>(scales)
+  domain &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">0</span>, <span class="ot">Inf</span>)
+  transform &lt;-<span class="st"> </span>base::sqrt
+  range &lt;-<span class="st"> </span><span class="kw">transform</span>(domain)
+  <span class="kw">trans_new</span>(<span class="st">&quot;mysqrt&quot;</span>,
+            <span class="dt">transform =</span> transform,
+            <span class="dt">inverse =</span> function(x) <span class="kw">squish</span>(x, <span class="dt">range=</span>range)^<span class="dv">2</span>,
+            <span class="dt">domain =</span> domain)
+}</code></pre></div>
+</div>
+</div>
+<div id="curve-plot" class="section level2">
+<h2>curve plot</h2>
+<p>plot residuals/raw values over reverse cycle days relative to ovulation</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">plot_curve =<span class="st"> </span>function(model, diary, <span class="dt">caption_x =</span> <span class="st">&quot;Days until next menstruation&quot;</span>) {
+  outcome =<span class="st"> </span><span class="kw">names</span>(model@frame)[<span class="dv">1</span>]
+  options =<span class="st"> </span><span class="kw">list</span>(<span class="dt">fig.path =</span> <span class="kw">paste0</span>(knitr::opts_chunk$<span class="kw">get</span>(<span class="st">&quot;fig.path&quot;</span>), outcome, <span class="st">&quot;-curve-&quot;</span>),
+                 <span class="dt">cache.path =</span> <span class="kw">paste0</span>(knitr::opts_chunk$<span class="kw">get</span>(<span class="st">&quot;cache.path&quot;</span>), outcome, <span class="st">&quot;-curve-&quot;</span>))
+  <span class="kw">asis_knit_child</span>(<span class="st">&quot;_plot_curve.Rmd&quot;</span>, <span class="dt">options =</span> options)
+}</code></pre></div>
+</div>
+<div id="moderated-curve" class="section level2">
+<h2>moderated curve</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">plot_moderated_curve =<span class="st"> </span>function(obj, diary, moderator, modlabel, <span class="dt">include =</span> <span class="kw">c</span>(<span class="st">&quot;cycling&quot;</span>)) {
+  outcome =<span class="st"> </span><span class="kw">names</span>(obj@frame)[<span class="dv">1</span>]
+  new_form =<span class="st"> </span><span class="kw">update.formula</span>(<span class="kw">formula</span>(obj), <span class="dt">new =</span> . ~<span class="st"> </span>. -<span class="st"> </span>fertile *<span class="st"> </span>included )
+  <span class="kw">library</span>(ggplot2)
+  <span class="kw">options</span>(<span class="dt">warn =</span> -<span class="dv">1</span>)
+
+  diary %&gt;%
+<span class="st">    </span><span class="kw">filter</span>(!<span class="kw">is.na</span>(included)) %&gt;%
+<span class="st">    </span><span class="kw">mutate</span>(.,<span class="dt">residuals =</span> <span class="kw">residuals</span>(<span class="kw">update</span>(obj, new_form, <span class="dt">data =</span> ., <span class="dt">na.action =</span> na.exclude))
+    ) %&gt;%
+<span class="st">    </span><span class="kw">filter</span>(!<span class="kw">is.na</span>(RCD_rel_to_ovulation) &amp;<span class="st"> </span>RCD_rel_to_ovulation &lt;=<span class="st"> </span><span class="dv">15</span> &amp;<span class="st"> </span>RCD_rel_to_ovulation &gt;<span class="st"> </span>-<span class="dv">15</span>, !<span class="kw">is.na</span>(residuals)) -&gt;
+<span class="st">    </span>tmp
+  <span class="co"># tmp$real = FALSE</span>
+  tmp_before =<span class="st"> </span>tmp
+  tmp_before$RCD_rel_to_ovulation =<span class="st"> </span>tmp_before$RCD_rel_to_ovulation -<span class="st"> </span><span class="dv">30</span>
+  tmp_after =<span class="st"> </span>tmp
+  tmp_after$RCD_rel_to_ovulation =<span class="st"> </span>tmp_after$RCD_rel_to_ovulation +<span class="st"> </span><span class="dv">30</span>
+  <span class="co"># tmp$real = TRUE</span>
+  tmp =<span class="st"> </span><span class="kw">rbind</span>(tmp_before, tmp, tmp_after)
+
+  <span class="kw">tryCatch</span>({
+    trend_plot =<span class="st"> </span><span class="kw">ggplot</span>(tmp,<span class="kw">aes_string</span>(<span class="dt">x =</span> <span class="st">&quot;RCD_rel_to_ovulation&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;residuals&quot;</span>, <span class="dt">colour =</span> moderator)) +<span class="st"> </span><span class="kw">stat_smooth</span>(<span class="dt">geom =</span> <span class="st">&#39;smooth&#39;</span>,<span class="dt">size =</span> <span class="fl">0.8</span>, <span class="dt">fill =</span> <span class="st">&quot;#9ECAE1&quot;</span>, <span class="dt">method =</span> <span class="st">&#39;gam&#39;</span>, <span class="dt">formula =</span> y ~<span class="st"> </span><span class="kw">s</span>(x))
+  }, <span class="dt">error =</span> function(e){<span class="kw">cat_message</span>(e, <span class="st">&quot;danger&quot;</span>)})
+  <span class="kw">tryCatch</span>({
+    trend_data =<span class="st"> </span><span class="kw">ggplot_build</span>(trend_plot)$data[[<span class="dv">1</span>]]
+  }, <span class="dt">error =</span> function(e){<span class="kw">cat_message</span>(e, <span class="st">&quot;danger&quot;</span>)})
+
+  trend_data$RCD_rel_to_ovulation =<span class="st"> </span><span class="kw">round</span>(trend_data$x)
+  trend_data =<span class="st"> </span><span class="kw">merge</span>(trend_data, <span class="kw">unique</span>(<span class="kw">data.frame</span>(diary[, <span class="kw">list</span>(RCD_rel_to_ovulation,fertile_cont)])), <span class="dt">by =</span> <span class="st">&quot;RCD_rel_to_ovulation&quot;</span>, <span class="dt">all.x =</span> T)
+
+  trend_data %&gt;%
+<span class="st">    </span><span class="kw">filter</span>(RCD_rel_to_ovulation &gt;<span class="st"> </span>-<span class="dv">15</span> &amp;<span class="st"> </span>RCD_rel_to_ovulation &lt;=<span class="st"> </span><span class="dv">15</span>) %&gt;%
+<span class="st">    </span><span class="kw">mutate</span>(<span class="dt">superimposed =</span> ( ( (fertile_cont -<span class="st"> </span><span class="fl">0.01</span>)/<span class="fl">0.58</span>) *<span class="st"> </span>(<span class="kw">max</span>(y)-<span class="kw">min</span>(y) ) ) +<span class="st"> </span><span class="kw">min</span>(y) ) -&gt;
+<span class="st">    </span>trend_data
+
+  trend_data$mod =<span class="st"> </span><span class="kw">factor</span>(trend_data$group)
+  <span class="kw">levels</span>(trend_data$mod) =<span class="st"> </span><span class="kw">levels</span>(<span class="kw">model.frame</span>(<span class="kw">as.formula</span>(<span class="kw">paste0</span>(<span class="st">&quot;~&quot;</span>,moderator)), diary)[, <span class="dv">1</span>])
+  ymax =<span class="st"> </span><span class="kw">max</span>(trend_data$ymax)
+  ymin =<span class="st"> </span><span class="kw">min</span>(trend_data$ymin)
+
+  plot =<span class="st"> </span><span class="kw">ggplot</span>(trend_data) +
+<span class="st">    </span><span class="kw">geom_smooth</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">ymin =</span> ymin,<span class="dt">ymax =</span> ymax, <span class="dt">colour =</span> mod, <span class="dt">fill =</span> mod), <span class="dt">size =</span> <span class="fl">0.8</span>, <span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.2</span>) +
+<span class="st">    </span><span class="kw">scale_x_continuous</span>(<span class="st">&quot;Cycle days relative to estimated day of ovulation (at 0)&quot;</span>,<span class="dt">limits=</span><span class="kw">c</span>(-<span class="fl">14.4</span>,<span class="fl">15.5</span>)) +
+<span class="st">    </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x=</span> x, <span class="dt">y =</span> superimposed), <span class="dt">color =</span> <span class="st">&quot;#a83fbf&quot;</span>, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">linetype =</span> <span class="st">&#39;dashed&#39;</span>) +
+<span class="st">    </span><span class="kw">annotate</span>(<span class="st">&quot;text&quot;</span>,<span class="dt">x =</span> -<span class="dv">2</span>,  <span class="dt">y =</span> <span class="kw">max</span>(trend_data$superimposed,<span class="dt">na.rm=</span>T) *<span class="st"> </span><span class="fl">1.2</span>, <span class="dt">label =</span> <span class="st">&#39;superimposed fertility peak&#39;</span>, <span class="dt">color =</span> <span class="st">&quot;#a83fbf&quot;</span>) +
+<span class="st">    </span><span class="kw">scale_y_continuous</span>(outcome, <span class="dt">limits =</span> <span class="kw">c</span>(ymin, ymax)) +
+<span class="st">    </span><span class="kw">ggtitle</span>(<span class="st">&quot;Smoothed&quot;</span>) +
+<span class="st">    </span><span class="kw">scale_color_hue</span>(modlabel) +
+<span class="st">    </span><span class="kw">scale_fill_hue</span>(modlabel)
+  <span class="kw">print</span>(plot)
+  <span class="kw">options</span>(<span class="dt">warn =</span> <span class="dv">0</span>)
+
+  <span class="kw">invisible</span>(obj)
+}
+
+
+plot_triptych =<span class="st"> </span>function(obj, <span class="dt">x.var =</span> <span class="st">&#39;fertile&#39;</span>, <span class="dt">multiline=</span>F, <span class="dt">partial.residuals =</span> F, <span class="dt">xlevels =</span> <span class="dv">3</span>, <span class="dt">term =</span> <span class="ot">NULL</span>, <span class="dt">panel_rows =</span> <span class="dv">2</span>) {
+  <span class="kw">library</span>(effects)
+  if(<span class="kw">length</span>(<span class="kw">attributes</span>(obj)$effects) ==<span class="st"> </span><span class="dv">0</span>) {
+    <span class="kw">attributes</span>(obj)$effects =<span class="st"> </span><span class="kw">allEffects</span>(obj, <span class="dt">xlevels =</span> xlevels, <span class="dt">partial.residuals =</span> partial.residuals)
+  }
+  if(<span class="kw">is.null</span>(term)) {
+    interaction =<span class="st"> </span><span class="kw">attributes</span>(obj)$effects[
+      <span class="kw">which.max</span>(stringr::<span class="kw">str_length</span>(<span class="kw">names</span>(<span class="kw">attributes</span>(obj)$effects)))
+      ]
+  } else {
+    interaction =<span class="st"> </span><span class="kw">attributes</span>(obj)$effects[ <span class="kw">names</span>(<span class="kw">attributes</span>(obj)$effects) ==<span class="st"> </span>term ]
+  }
+  if (multiline) {
+    panel_rows =<span class="st"> </span><span class="dv">1</span>
+    colors =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;red&quot;</span>,<span class="st">&quot;black&quot;</span>)
+  } else {
+    colors =<span class="st"> &quot;black&quot;</span>
+  }
+  layout =<span class="st"> </span><span class="kw">c</span>(xlevels,panel_rows,<span class="dv">1</span>)
+  <span class="kw">plot</span>(interaction,<span class="dt">x.var =</span> x.var, <span class="dt">multiline =</span> multiline, <span class="dt">layout =</span> layout, <span class="dt">colors =</span> colors, <span class="dt">rug =</span> F)
+  <span class="kw">invisible</span>(obj)
+}</code></pre></div>
+<div id="intra-individual-correlations-meta-analysed-for-kelly" class="section level3">
+<h3>Intra-individual correlations meta-analysed for Kelly</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">compute_intra_individual_correlations =<span class="st"> </span>function(obj, diary, corrs) {
+  <span class="kw">library</span>(dplyr)
+  <span class="kw">library</span>(compute.es)
+  <span class="kw">library</span>(metafor)
+  outcome =<span class="st"> </span><span class="kw">as.formula</span>(<span class="kw">paste</span>(<span class="st">&quot;~ &quot;</span>, <span class="kw">as.character</span>((<span class="kw">formula</span>(obj)[<span class="dv">2</span>]))))
+  diary %&gt;%
+<span class="st">    </span><span class="kw">filter</span>(include_lax ==<span class="st"> </span>T) %&gt;%
+<span class="st">    </span><span class="kw">mutate_</span>(<span class="dt">outcome =</span> outcome) %&gt;%
+<span class="st">    </span><span class="kw">group_by</span>(person) %&gt;%
+<span class="st">    </span><span class="kw">summarise</span>(<span class="dt">days =</span> <span class="kw">n</span>(), <span class="dt">correlation =</span> <span class="kw">cor</span>(outcome, fertile_cont, <span class="dt">use =</span><span class="st">&#39;pairwise.complete.obs&#39;</span>)) %&gt;%
+<span class="st">    </span><span class="kw">mutate</span>(<span class="dt">cohens.d =</span> <span class="kw">res</span>(correlation, <span class="dt">n =</span> days, <span class="dt">verbose =</span> F)$d,
+           <span class="dt">hedges.g =</span> <span class="kw">des</span>(cohens.d, <span class="dt">n.1 =</span> <span class="kw">floor</span>(days/<span class="dv">2</span>), <span class="dt">n.2 =</span> <span class="kw">ceiling</span>(days/<span class="dv">2</span>), <span class="dt">verbose=</span> F)$g) %-&gt;%
+<span class="st">    </span>correlations %&gt;%
+<span class="st">    </span><span class="kw">escalc</span>(<span class="dt">measure =</span> <span class="st">&quot;COR&quot;</span>, <span class="dt">ri =</span> correlation, <span class="dt">ni =</span> days, <span class="dt">data =</span> .) %-&gt;%
+<span class="st">    </span>hedges
+  <span class="kw">rma</span>(hedges$yi, hedges$vi) %-&gt;%
+<span class="st">    </span>meta_anal
+
+  correlations$outcome =<span class="st"> </span><span class="kw">as.character</span>((<span class="kw">formula</span>(obj)[<span class="dv">2</span>]))
+  corrs &lt;&lt;-<span class="st"> </span><span class="kw">rbind</span>(corrs, <span class="kw">select</span>(correlations, outcome, person, days, correlation))
+  <span class="kw">forest</span>(meta_anal)
+  <span class="kw">print</span>(meta_anal)
+  <span class="kw">invisible</span>(obj)
+}</code></pre></div>
+</div>
+<div id="switch-window-to-broad-window" class="section level3">
+<h3>Switch window to broad window</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">switch_window_to_broad =<span class="st"> </span>function(obj, diary) {
+  <span class="kw">tryCatch</span>({
+    <span class="kw">library</span>(lmerTest)
+    outcome =<span class="st"> </span><span class="kw">names</span>(obj@frame)[<span class="dv">1</span>]
+    if (diary %&gt;%<span class="st"> </span><span class="kw">ungroup</span>() %&gt;%<span class="st">  </span><span class="kw">select</span>( <span class="kw">one_of</span>(outcome) ) %&gt;%<span class="st"> </span><span class="kw">unique</span>() %&gt;%<span class="st"> </span><span class="kw">na.omit</span>() %&gt;%<span class="st"> </span><span class="kw">nrow</span>() ==<span class="st"> </span><span class="dv">2</span>) {
+        form =<span class="st"> </span><span class="kw">formula</span>(obj)
+        <span class="kw">glmer</span>(form, <span class="dt">data =</span> diary2, <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="dt">link =</span> <span class="st">&#39;probit&#39;</span>)) -&gt;
+<span class="st">        </span>broad_window
+    } else {
+      form =<span class="st"> </span><span class="kw">formula</span>(obj)
+      <span class="kw">lmer</span>(form, <span class="dt">data =</span> diary2) -&gt;
+<span class="st">      </span>broad_window
+    }
+
+  }, <span class="dt">error =</span> function(e) { <span class="kw">cat_message</span>(e, <span class="st">&quot;danger&quot;</span>) })
+  broad_window %&gt;%
+<span class="st">    </span><span class="kw">print_summary</span>() %&gt;%
+<span class="st">    </span><span class="kw">plot_all_effects</span>() %&gt;%
+<span class="st">    </span><span class="kw">cat_in</span>(<span class="st">&quot;</span><span class="ch">\n\n\n</span><span class="st">#### Diagnostics {.accordion}</span><span class="ch">\n\n</span><span class="st">&quot;</span>) %&gt;%
+<span class="st">    </span><span class="kw">print_diagnostics</span>()
+  <span class="kw">invisible</span>(broad_window)
+}</code></pre></div>
+</div>
+<div id="adjust-for-self-esteem" class="section level3">
+<h3>Adjust for self esteem</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">adjust_for_self_esteem =<span class="st"> </span>function(obj, diary) {
+  <span class="kw">tryCatch</span>({
+    <span class="kw">library</span>(lmerTest)
+    outcome =<span class="st"> </span><span class="kw">names</span>(obj@frame)[<span class="dv">1</span>]
+    form =<span class="st"> </span><span class="kw">update.formula</span>(<span class="kw">formula</span>(obj), . ~<span class="st"> </span>. +<span class="st"> </span>self_esteem_1)
+    if (diary %&gt;%<span class="st"> </span><span class="kw">ungroup</span>() %&gt;%<span class="st"> </span><span class="kw">select</span>( <span class="kw">one_of</span>(outcome) ) %&gt;%<span class="st"> </span><span class="kw">unique</span>() %&gt;%<span class="st"> </span><span class="kw">nrow</span>() ==<span class="st"> </span><span class="dv">2</span>) {
+      <span class="kw">glmer</span>(form, <span class="dt">data =</span> diary, <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="dt">link =</span> <span class="st">&#39;probit&#39;</span>)) -&gt;
+<span class="st">        </span>adj_self_esteem
+    } else {
+      <span class="kw">lmer</span>(form, <span class="dt">data =</span> diary) -&gt;
+<span class="st">        </span>adj_self_esteem
+    }
+
+  }, <span class="dt">error =</span> function(e) { <span class="kw">cat_message</span>(e, <span class="st">&quot;danger&quot;</span>) })
+  adj_self_esteem %&gt;%
+<span class="st">    </span><span class="kw">print_summary</span>() %&gt;%
+<span class="st">    </span><span class="kw">plot_all_effects</span>()
+  <span class="kw">invisible</span>(obj)
+}</code></pre></div>
+</div>
+</div>
+<div id="robustness-analyses" class="section level2">
+<h2>Robustness analyses</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">robustness_check_ovu_shift =<span class="st"> </span>function(obj, diary) {
+  <span class="kw">library</span>(lme4); <span class="kw">library</span>(lmerTest); <span class="kw">library</span>(sjPlot)
+  get_coefs =<span class="st"> </span>function(fit, model_name) {
+    <span class="kw">library</span>(broom)
+    if (<span class="kw">class</span>(fit) ==<span class="st"> &quot;lme&quot;</span>) {
+      obj_coef =<span class="st"> </span><span class="kw">tryCatch</span>({<span class="kw">my_tidy.lme</span>(fit, <span class="dt">effects =</span> <span class="st">&#39;fixed&#39;</span>) }, <span class="dt">error =</span> function(e) { <span class="kw">cat_message</span>(e, <span class="st">&quot;danger&quot;</span>) })
+    } else {
+      obj_coef =<span class="st"> </span><span class="kw">tryCatch</span>({<span class="kw">tidy</span>(fit, <span class="dt">conf.int =</span> <span class="ot">TRUE</span>, <span class="dt">effects =</span> <span class="st">&quot;fixed&quot;</span>)}, <span class="dt">error =</span> function(e) { <span class="kw">cat_message</span>(e, <span class="st">&quot;danger&quot;</span>) })
+    }
+    obj_coef$model =<span class="st"> </span>model_name
+    obj_coef
+  }
+  outcome =<span class="st"> </span><span class="kw">as.character</span>(<span class="kw">formula</span>(obj)[<span class="dv">2</span>])
+  outcome_label =<span class="st"> </span><span class="kw">recode</span>(<span class="kw">str_replace_all</span>(<span class="kw">str_replace_all</span>(<span class="kw">str_replace_all</span>(outcome, <span class="st">&quot;_&quot;</span>, <span class="st">&quot; &quot;</span>), <span class="st">&quot; pair&quot;</span>, <span class="st">&quot;-pair&quot;</span>), <span class="st">&quot; 1&quot;</span>, <span class="st">&quot;&quot;</span>),
+                         <span class="st">&quot;desirability&quot;</span> =<span class="st"> &quot;self-perceived desirability&quot;</span>,
+                         <span class="st">&quot;NARQ admiration&quot;</span> =<span class="st"> &quot;narcissistic admiration&quot;</span>,
+                         <span class="st">&quot;NARQ rivalry&quot;</span> =<span class="st"> &quot;narcissistic rivalry&quot;</span>,
+                         <span class="st">&quot;extra-pair&quot;</span> =<span class="st"> &quot;extra-pair desire &amp; behaviour&quot;</span>,
+                         <span class="st">&quot;had sexual intercourse&quot;</span> =<span class="st"> &quot;sexual intercourse&quot;</span>)
+
+
+  less_ctrl_formula =<span class="st"> </span><span class="kw">update.formula</span>(<span class="kw">formula</span>(obj), <span class="dt">new =</span> . ~<span class="st"> </span>. -<span class="st"> </span>included *<span class="st"> </span>menstruation -<span class="st"> </span>fertile_mean)
+  <span class="kw">tryCatch</span>({
+    <span class="kw">update</span>(obj, <span class="dt">formula =</span> less_ctrl_formula) -&gt;<span class="st"> </span>fewer_controls
+  }, <span class="dt">error =</span> function(e) { <span class="kw">cat_message</span>(e, <span class="st">&quot;danger&quot;</span>) })
+
+  <span class="kw">tryCatch</span>({
+    one_ctrl_formula =<span class="st"> </span><span class="kw">update.formula</span>(<span class="kw">formula</span>(obj), <span class="dt">new =</span> . ~<span class="st"> </span>. -<span class="st"> </span>fertile_mean)
+    <span class="kw">update</span>(obj, <span class="dt">formula =</span> one_ctrl_formula) -&gt;<span class="st"> </span>dontcontrolavg
+  }, <span class="dt">error =</span> function(e) { <span class="kw">cat_message</span>(e, <span class="st">&quot;danger&quot;</span>) })
+
+  <span class="kw">tryCatch</span>({
+    diary_nododgy =<span class="st"> </span>diary %&gt;%<span class="st"> </span><span class="kw">filter</span>(dodgy_data ==<span class="st"> </span>F)
+    <span class="kw">update</span>(obj, <span class="dt">data =</span> diary_nododgy) -&gt;<span class="st"> </span>nododgy
+  }, <span class="dt">error =</span> function(e) { <span class="kw">cat_message</span>(e, <span class="st">&quot;danger&quot;</span>) })
+
+  <span class="kw">tryCatch</span>({
+  diary_broad =<span class="st"> </span>diary %&gt;%<span class="st"> </span><span class="kw">mutate</span>(<span class="dt">fertile =</span> fertile_broad)
+  <span class="kw">update</span>(obj, <span class="dt">formula =</span> less_ctrl_formula, <span class="dt">data =</span> diary_broad) -&gt;<span class="st"> </span>broad_window
+}, <span class="dt">error =</span> function(e) { <span class="kw">cat_message</span>(e, <span class="st">&quot;danger&quot;</span>) })
+
+  <span class="kw">tryCatch</span>({
+    diary_broad =<span class="st"> </span>diary %&gt;%<span class="st"> </span><span class="kw">mutate</span>(<span class="dt">fertile =</span> fertile_broad)
+    <span class="kw">update</span>(obj, <span class="dt">data =</span> diary_broad) -&gt;<span class="st"> </span>broad_window_ctrl
+  }, <span class="dt">error =</span> function(e) { <span class="kw">cat_message</span>(e, <span class="st">&quot;danger&quot;</span>) })
+
+  <span class="kw">tryCatch</span>({
+    diary_bci =<span class="st"> </span>diary %&gt;%<span class="st"> </span><span class="kw">mutate</span>(<span class="dt">fertile =</span> prc_stirn_b_backward_inferred)
+    <span class="kw">update</span>(obj, <span class="dt">formula =</span> less_ctrl_formula, <span class="dt">data =</span> diary_bci) -&gt;<span class="st"> </span>backward_inferred
+  }, <span class="dt">error =</span> function(e) { <span class="kw">cat_message</span>(e, <span class="st">&quot;danger&quot;</span>) })
+
+<span class="kw">tryCatch</span>({
+  diary_narrow =<span class="st"> </span>diary %&gt;%<span class="st"> </span><span class="kw">mutate</span>(<span class="dt">fertile =</span> fertile_narrow)
+  <span class="kw">update</span>(obj, <span class="dt">formula =</span> less_ctrl_formula, <span class="dt">data =</span> diary_narrow) -&gt;<span class="st"> </span>narrow_window
+}, <span class="dt">error =</span> function(e) { <span class="kw">cat_message</span>(e, <span class="st">&quot;danger&quot;</span>) })
+
+<span class="kw">tryCatch</span>({
+    diary_cont_fc =<span class="st"> </span>diary %&gt;%<span class="st"> </span><span class="kw">mutate</span>(<span class="dt">fertile =</span> prc_stirn_b_forward_counted)
+    <span class="kw">update</span>(obj, <span class="dt">data =</span> diary_cont_fc) -&gt;<span class="st"> </span>forward_counting
+}, <span class="dt">error =</span> function(e) { <span class="kw">cat_message</span>(e, <span class="st">&quot;danger&quot;</span>) })
+
+<span class="kw">tryCatch</span>({
+  diary_narrow_fc =<span class="st"> </span>diary %&gt;%<span class="st"> </span><span class="kw">mutate</span>(<span class="dt">fertile =</span> fertile_narrow_forward_counted)
+  <span class="kw">update</span>(obj, <span class="dt">formula =</span> less_ctrl_formula, <span class="dt">data =</span> diary_narrow_fc) -&gt;<span class="st"> </span>forward_counting_narrow
+}, <span class="dt">error =</span> function(e) { <span class="kw">cat_message</span>(e, <span class="st">&quot;danger&quot;</span>) })
+
+  <span class="kw">tryCatch</span>({
+    diary_broad_fc =<span class="st"> </span>diary %&gt;%<span class="st"> </span><span class="kw">mutate</span>(<span class="dt">fertile =</span> fertile_broad_forward_counted)
+    <span class="kw">update</span>(obj, <span class="dt">formula =</span> less_ctrl_formula, <span class="dt">data =</span> diary_broad_fc) -&gt;<span class="st"> </span>forward_counting_broad
+  }, <span class="dt">error =</span> function(e) { <span class="kw">cat_message</span>(e, <span class="st">&quot;danger&quot;</span>) })
+
+  <span class="kw">tryCatch</span>({
+    diary_cont =<span class="st"> </span>diary %&gt;%<span class="st"> </span><span class="kw">mutate</span>(<span class="dt">fertile =</span> prc_stirn_b)
+    <span class="kw">update</span>(obj, <span class="dt">data =</span> diary_cont) -&gt;<span class="st"> </span>backward
+  }, <span class="dt">error =</span> function(e) { <span class="kw">cat_message</span>(e, <span class="st">&quot;danger&quot;</span>) })
+
+<span class="co"># tryCatch({</span>
+<span class="co">#   diary %&gt;% mutate(fertile = prc_wcx_b) %&gt;%</span>
+<span class="co">#     update(obj, data = .) -&gt; wilcox</span>
+<span class="co"># }, error = function(e) { cat_message(e, &quot;danger&quot;) })</span>
+
+<span class="kw">tryCatch</span>({
+  ilax =<span class="st"> </span>diary %&gt;%<span class="st"> </span><span class="kw">mutate</span>(<span class="dt">included =</span> included_lax)
+  <span class="kw">update</span>(obj, <span class="dt">data =</span> ilax) -&gt;<span class="st"> </span>included_lax
+}, <span class="dt">error =</span> function(e) { <span class="kw">cat_message</span>(e, <span class="st">&quot;danger&quot;</span>) })
+
+<span class="kw">tryCatch</span>({
+  if(outcome !=<span class="st"> &#39;self_esteem_1&#39;</span>) {
+    <span class="kw">update</span>(obj, <span class="dt">formula =</span> <span class="kw">update.formula</span>(<span class="kw">formula</span>(obj), <span class="dt">new =</span> . ~<span class="st"> </span>. +<span class="st"> </span>self_esteem_1)) -&gt;<span class="st"> </span>control_self_esteem
+  }
+}, <span class="dt">error =</span> function(e) { <span class="kw">cat_message</span>(e, <span class="st">&quot;danger&quot;</span>) })
+
+<span class="kw">tryCatch</span>({
+  iconser =<span class="st"> </span>diary %&gt;%<span class="st"> </span><span class="kw">mutate</span>(<span class="dt">included =</span> included_conservative)
+  <span class="kw">update</span>(obj, <span class="dt">data =</span> iconser) -&gt;<span class="st"> </span>included_conservative
+}, <span class="dt">error =</span> function(e) { <span class="kw">cat_message</span>(e, <span class="st">&quot;danger&quot;</span>) })
+
+
+<span class="kw">tryCatch</span>({
+  istrict =<span class="st"> </span>diary %&gt;%<span class="st"> </span><span class="kw">mutate</span>(<span class="dt">included =</span> included_strict)
+  <span class="kw">update</span>(obj, <span class="dt">data =</span> istrict) -&gt;<span class="st"> </span>included_strict
+}, <span class="dt">error =</span> function(e) { <span class="kw">cat_message</span>(e, <span class="st">&quot;danger&quot;</span>) })
+
+  <span class="kw">tryCatch</span>({
+    no_short =<span class="st"> </span>diary %&gt;%<span class="st"> </span><span class="kw">filter</span>(<span class="kw">is.na</span>(cycle_length_diary) |<span class="st"> </span>cycle_length_diary &gt;=<span class="st"> </span><span class="dv">20</span>)
+    <span class="kw">update</span>(obj, <span class="dt">data =</span> no_short) -&gt;<span class="st"> </span>no_cycles_shorter_than_20
+  }, <span class="dt">error =</span> function(e) { <span class="kw">cat_message</span>(e, <span class="st">&quot;danger&quot;</span>) })
+
+  <span class="kw">tryCatch</span>({
+    no_long =<span class="st"> </span>diary %&gt;%<span class="st"> </span><span class="kw">filter</span>(<span class="kw">is.na</span>(cycle_length_diary) |<span class="st"> </span>(cycle_length_diary &gt;=<span class="st"> </span><span class="dv">20</span> &amp;<span class="st"> </span>cycle_length_diary &lt;=<span class="st"> </span><span class="dv">40</span>))
+    <span class="kw">update</span>(obj, <span class="dt">data =</span> no_long) -&gt;<span class="st"> </span>cycles_between_20_40
+  }, <span class="dt">error =</span> function(e) { <span class="kw">cat_message</span>(e, <span class="st">&quot;danger&quot;</span>) })
+
+  <span class="kw">tryCatch</span>({
+    <span class="kw">update</span>(obj, <span class="dt">formula =</span> <span class="kw">update.formula</span>(<span class="kw">formula</span>(obj), <span class="dt">new =</span> . ~<span class="st"> </span>. +<span class="st"> </span>weekday +<span class="st"> </span>week_number)) -&gt;<span class="st"> </span>control_week
+  }, <span class="dt">error =</span> function(e) { <span class="kw">cat_message</span>(e, <span class="st">&quot;danger&quot;</span>) })
+
+  <span class="kw">tryCatch</span>({
+    <span class="kw">update</span>(obj, <span class="dt">formula =</span> <span class="kw">update.formula</span>(<span class="kw">formula</span>(obj), <span class="dt">new =</span> . ~<span class="st"> </span>. +<span class="st"> </span>time_of_response +<span class="st"> </span><span class="kw">log10</span>(time_for_response<span class="dv">+1</span>))) -&gt;<span class="st"> </span>control_time_of_response
+  }, <span class="dt">error =</span> function(e) { <span class="kw">cat_message</span>(e, <span class="st">&quot;danger&quot;</span>) })
+
+
+  <span class="kw">tryCatch</span>({
+    diary %&gt;%
+<span class="st">      </span><span class="kw">mutate</span>(<span class="dt">fertile =</span> prc_stirn_b_forward_counted) %&gt;%
+<span class="st">      </span><span class="kw">filter</span>(!<span class="kw">is.na</span>(fertile) &amp;<span class="st"> </span>!<span class="kw">is.na</span>(included) &amp;<span class="st"> </span>menstruation ==<span class="st"> &quot;no&quot;</span>) %&gt;%
+<span class="st">      </span><span class="kw">filter_</span>(lazyeval::<span class="kw">interp</span>( ~<span class="st"> </span>!<span class="kw">is.na</span>(outcome), <span class="dt">outcome =</span> <span class="kw">as.name</span>(obj@frame %&gt;%<span class="st"> </span><span class="kw">names</span>() %&gt;%<span class="st"> </span>.[<span class="dv">1</span>]))) %&gt;%
+<span class="st">      </span><span class="kw">filter</span>(!<span class="kw">duplicated</span>(person)) -&gt;<span class="st"> </span>diary_tmp2
+      form =<span class="st"> </span><span class="kw">update.formula</span>(<span class="kw">formula</span>(obj), <span class="dt">new =</span> . ~<span class="st"> </span>. -<span class="st"> </span>fertile_mean -<span class="st"> </span>menstruation -<span class="st"> </span>included:menstruation -<span class="st"> </span>(<span class="dv">1</span> |<span class="st"> </span>person))
+      <span class="kw">environment</span>(form) =<span class="st"> </span><span class="kw">environment</span>()
+      <span class="kw">lm</span>(<span class="dt">formula =</span> form, <span class="dt">data =</span> diary_tmp2) -&gt;<span class="st"> </span>between_person
+  }, <span class="dt">error =</span> function(e) { <span class="kw">cat_message</span>(e, <span class="st">&quot;danger&quot;</span>) })
+
+
+  <span class="kw">tryCatch</span>({
+    four_occ =<span class="st"> </span>diary %&gt;%
+<span class="st">      </span><span class="kw">mutate</span>(<span class="dt">fertile =</span> fertile_narrow_forward_counted,
+             <span class="dt">person_occasion =</span> <span class="kw">paste</span>(person, fertile)) %&gt;%
+<span class="st">      </span><span class="kw">filter</span>(!<span class="kw">is.na</span>(fertile) &amp;<span class="st"> </span>!<span class="kw">is.na</span>(included) &amp;<span class="st"> </span>menstruation ==<span class="st"> &quot;no&quot;</span>) %&gt;%
+<span class="st">      </span><span class="kw">filter_</span>(lazyeval::<span class="kw">interp</span>( ~<span class="st"> </span>!<span class="kw">is.na</span>(outcome), <span class="dt">outcome =</span> <span class="kw">as.name</span>(obj@frame %&gt;%<span class="st"> </span><span class="kw">names</span>() %&gt;%<span class="st"> </span>.[<span class="dv">1</span>]))) %&gt;%
+<span class="st">      </span><span class="kw">mutate</span>(<span class="dt">row_nr_even =</span> <span class="kw">row_number</span>(person) %%<span class="st"> </span><span class="dv">2</span>,
+             <span class="dt">person_occasion =</span> <span class="kw">paste</span>(person_occasion, row_nr_even)) %&gt;%
+<span class="st">      </span><span class="kw">filter</span>(!<span class="kw">duplicated</span>(person_occasion)) %&gt;%
+<span class="st">      </span><span class="kw">group_by</span>(person) %&gt;%
+<span class="st">      </span><span class="kw">mutate</span>(<span class="dt">nr_days =</span> <span class="kw">n</span>()) %&gt;%
+<span class="st">      </span><span class="kw">filter</span>(nr_days ==<span class="st"> </span><span class="dv">4</span>)
+
+    <span class="kw">update</span>(obj, <span class="dt">formula =</span> <span class="kw">update.formula</span>(<span class="kw">formula</span>(obj), <span class="dt">new =</span> . ~<span class="st"> </span>. -<span class="st"> </span>fertile_mean -<span class="st"> </span>included:menstruation -<span class="st"> </span>menstruation) , <span class="dt">data =</span> four_occ) -&gt;<span class="st"> </span>within_person_four_occasions
+  }, <span class="dt">error =</span> function(e) { <span class="kw">cat_message</span>(e, <span class="st">&quot;danger&quot;</span>) })
+
+  <span class="kw">tryCatch</span>({
+    avg_twotime =<span class="st"> </span>diary %&gt;%
+<span class="st">      </span><span class="kw">mutate</span>(<span class="dt">fertile =</span> fertile_broad) %&gt;%
+<span class="st">      </span><span class="kw">filter</span>(!<span class="kw">is.na</span>(fertile) &amp;<span class="st"> </span>!<span class="kw">is.na</span>(included) &amp;<span class="st"> </span>menstruation ==<span class="st"> &quot;no&quot;</span>) %&gt;%
+<span class="st">      </span><span class="kw">select</span>(person, fertile, included, <span class="kw">one_of</span>(outcome)) %&gt;%
+<span class="st">      </span><span class="kw">group_by</span>(included, person, fertile) %&gt;%
+<span class="st">      </span><span class="kw">summarise_all</span>(<span class="kw">funs</span>(<span class="kw">mean</span>(.,<span class="dt">na.rm =</span> T)))
+
+    <span class="kw">update</span>(obj, <span class="dt">formula =</span> less_ctrl_formula , <span class="dt">data =</span> avg_twotime) -&gt;<span class="st"> </span>within_person_avg_hilow
+  }, <span class="dt">error =</span> function(e) { <span class="kw">cat_message</span>(e, <span class="st">&quot;danger&quot;</span>) })
+
+
+  <span class="kw">tryCatch</span>({
+    two_occ =<span class="st"> </span>diary %&gt;%
+<span class="st">      </span><span class="kw">mutate</span>(<span class="dt">fertile =</span> fertile_narrow_forward_counted,
+             <span class="dt">person_occasion =</span> <span class="kw">paste</span>(person, fertile)) %&gt;%
+<span class="st">      </span><span class="kw">filter</span>(!<span class="kw">is.na</span>(fertile) &amp;<span class="st"> </span>!<span class="kw">is.na</span>(included) &amp;<span class="st"> </span>menstruation ==<span class="st"> &quot;no&quot;</span>) %&gt;%
+<span class="st">      </span><span class="kw">filter_</span>(lazyeval::<span class="kw">interp</span>( ~<span class="st"> </span>!<span class="kw">is.na</span>(outcome), <span class="dt">outcome =</span> <span class="kw">as.name</span>(obj@frame %&gt;%<span class="st"> </span><span class="kw">names</span>() %&gt;%<span class="st"> </span>.[<span class="dv">1</span>]))) %&gt;%
+<span class="st">      </span><span class="kw">filter</span>(!<span class="kw">duplicated</span>(person_occasion)) %&gt;%
+<span class="st">      </span><span class="kw">group_by</span>(person) %&gt;%
+<span class="st">      </span><span class="kw">mutate</span>(<span class="dt">nr_days =</span> <span class="kw">n</span>()) %&gt;%
+<span class="st">      </span><span class="kw">filter</span>(nr_days ==<span class="st"> </span><span class="dv">2</span>)
+
+      <span class="kw">update</span>(obj, <span class="dt">formula =</span> <span class="kw">update.formula</span>(<span class="kw">formula</span>(obj), <span class="dt">new =</span> . ~<span class="st"> </span>. -<span class="st"> </span>fertile_mean -<span class="st"> </span>included:menstruation -<span class="st"> </span>menstruation) , <span class="dt">data =</span> two_occ) -&gt;<span class="st"> </span>within_person_two_occasions
+  }, <span class="dt">error =</span> function(e) { <span class="kw">cat_message</span>(e, <span class="st">&quot;danger&quot;</span>) })
+
+
+  <span class="kw">tryCatch</span>({
+    <span class="co"># findbars(formula(obj))[[1]]</span>
+    if (<span class="kw">class</span>(obj) !=<span class="st"> &quot;glmerMod&quot;</span>) {
+      nlme::<span class="kw">lme</span>(<span class="dt">fixed =</span> <span class="kw">nobars</span>(<span class="kw">formula</span>(obj)), <span class="dt">random =</span> ~<span class="st"> </span><span class="dv">1</span> |<span class="st"> </span>person, <span class="dt">data =</span> diary, <span class="dt">na.action =</span> na.exclude, <span class="dt">correlation =</span> nlme::<span class="kw">corAR1</span>(<span class="dt">form =</span> ~<span class="st"> </span>day_number |<span class="st"> </span>person), <span class="dt">method =</span> <span class="st">&quot;REML&quot;</span>) -&gt;<span class="st"> </span>control_autocorrelation
+    control_autocorrelation$call$fixed =<span class="st"> </span>control_autocorrelation$terms
+    }
+  }, <span class="dt">error =</span> function(e) { <span class="kw">cat_message</span>(e, <span class="st">&quot;danger&quot;</span>) })
+
+  <span class="kw">tryCatch</span>({
+    if (<span class="kw">class</span>(obj) !=<span class="st"> &quot;glmerMod&quot;</span>) {
+      nlme::<span class="kw">lme</span>(<span class="dt">fixed =</span> <span class="kw">nobars</span>(<span class="kw">formula</span>(obj)), <span class="dt">random =</span> ~<span class="st"> </span><span class="dv">1</span> |<span class="st"> </span>person, <span class="dt">data =</span> diary, <span class="dt">na.action =</span> na.exclude, <span class="dt">correlation =</span> nlme::<span class="kw">corARMA</span>(<span class="dt">form =</span> ~<span class="st"> </span>day_number |<span class="st"> </span>person, <span class="dt">p =</span> <span class="dv">1</span>, <span class="dt">q =</span> <span class="dv">1</span>), <span class="dt">method =</span> <span class="st">&quot;REML&quot;</span>) -&gt;<span class="st"> </span>autocorrelation_moving_avg
+    autocorrelation_moving_avg$call$fixed =<span class="st"> </span>autocorrelation_moving_avg$terms
+    }
+  }, <span class="dt">error =</span> function(e) { <span class="kw">cat_message</span>(e, <span class="st">&quot;danger&quot;</span>) })
+
+
+  models_in_function =<span class="st"> </span><span class="kw">ls_type</span>(<span class="kw">c</span>(<span class="st">&#39;lmerMod&#39;</span>,<span class="st">&#39;glmerMod&#39;</span>,<span class="st">&#39;bglmerMod&#39;</span>,<span class="st">&#39;blmerMod&#39;</span>,<span class="st">&#39;merModLmerTest&#39;</span>,<span class="st">&#39;lme&#39;</span>,<span class="st">&#39;lm&#39;</span>))
+  coefs =<span class="st"> </span><span class="kw">rbindlist</span>(<span class="kw">lapply</span>(models_in_function, <span class="dt">FUN =</span> function(x) { <span class="kw">get_coefs</span>(<span class="kw">get</span>(x), x) }), <span class="dt">fill =</span> <span class="ot">TRUE</span>)
+  <span class="co"># eff_coefs = rbindlist(lapply(models_in_function, FUN = function(x) { get_eff_coefs(get(x), x) }), fill = TRUE)</span>
+
+  coefs$model  =<span class="st">  </span>dplyr::<span class="kw">recode_factor</span>(<span class="kw">factor</span>(coefs$model),
+  <span class="st">&#39;obj&#39;</span> =<span class="st"> &#39;M_1. Main model (all), BC+BCi&#39;</span>,
+  <span class="st">&#39;included_lax&#39;</span> =<span class="st"> &#39;M_e2. Lax exclusion criteria&#39;</span>,
+  <span class="st">&#39;included_conservative&#39;</span> =<span class="st"> &#39;M_e3. Conservative exclusion criteria&#39;</span>,
+  <span class="st">&#39;included_strict&#39;</span> =<span class="st"> &#39;M_e4. Strict exclusion criteria&#39;</span>,
+  <span class="st">&#39;nododgy&#39;</span> =<span class="st"> &#39;M_e5. Exclude potentially dodgy data&#39;</span>,
+
+  <span class="st">&#39;backward&#39;</span> =<span class="st"> &#39;M_p1. Continuous, BC&#39;</span>,
+  <span class="st">&#39;forward_counting&#39;</span> =<span class="st"> &#39;M_p2. Continuous, FC&#39;</span>,
+  <span class="st">&#39;broad_window&#39;</span> =<span class="st"> &#39;M_p3. Broad window, BC&#39;</span>,
+  <span class="st">&#39;narrow_window&#39;</span> =<span class="st"> &#39;M_p4. Narrow window, BC&#39;</span>,
+  <span class="st">&#39;forward_counting_narrow&#39;</span> =<span class="st"> &#39;M_p5. Narrow window, FC&#39;</span>,
+  <span class="st">&#39;forward_counting_broad&#39;</span> =<span class="st"> &#39;M_p6. Broad window, FC&#39;</span>,
+  <span class="st">&#39;backward_inferred&#39;</span> =<span class="st"> &#39;M_p7. BC from rep. cycle length, when onset unknown&#39;</span>,
+  <span class="st">&#39;cycles_between_20_40&#39;</span> =<span class="st"> &#39;M_p8. Only cycles 20-40 days long&#39;</span>,
+  <span class="st">&#39;within_person_avg_hilow&#39;</span> =<span class="st"> &#39;M_p9. Within, BC, average high/low all&#39;</span>,
+
+  <span class="st">&#39;between_person&#39;</span> =<span class="st"> &#39;M_d1. Between, FC (first obs. only)&#39;</span>,
+  <span class="st">&#39;within_person_two_occasions&#39;</span> =<span class="st"> &#39;M_d2. Within, FC, high/low 2 obs.&#39;</span>,
+  <span class="st">&#39;within_person_four_occasions&#39;</span> =<span class="st"> &#39;M_d3. Within, FC, two high/low 4 obs.&#39;</span>,
+  <span class="st">&#39;no_cycles_shorter_than_20&#39;</span> =<span class="st"> &#39;M_d4. No cycles shorter than 20 days&#39;</span>,
+
+    <span class="st">&#39;control_self_esteem&#39;</span> =<span class="st"> &#39;M_c1. Adjust for self esteem&#39;</span>,
+  <span class="st">&#39;dontcontrolavg&#39;</span> =<span class="st"> &#39;M_c2. No adjustment for avg. fertility&#39;</span>,
+  <span class="st">&#39;fewer_controls&#39;</span> =<span class="st"> &#39;M_c3. No adjustment for menstruation &amp; avg. fertility&#39;</span>,
+  <span class="st">&#39;control_week&#39;</span> =<span class="st"> &#39;M_c4. Control week day and number&#39;</span>,
+  <span class="st">&#39;control_time_of_response&#39;</span> =<span class="st"> &#39;M_c5. Adjust for time of/for response&#39;</span>,
+  <span class="st">&#39;control_autocorrelation&#39;</span> =<span class="st"> &#39;M_c6. Model autocorrelation, lag 1&#39;</span>,
+  <span class="st">&#39;autocorrelation_moving_avg&#39;</span> =<span class="st"> &#39;M_c7. Model autocorrelation, moving avg., lag 1&#39;</span>,
+  <span class="st">&#39;broad_window_ctrl&#39;</span> =<span class="st"> &#39;M_c8. Broad BC, adj. menstruation&#39;</span>, <span class="dt">.ordered =</span> T)
+  coefs$model =<span class="st"> </span><span class="kw">factor</span>(coefs$model, <span class="dt">levels =</span>  <span class="kw">rev</span>(<span class="kw">levels</span>(coefs$model)))
+  coefs =<span class="st"> </span>coefs %&gt;%<span class="st"> </span><span class="kw">mutate</span>(<span class="dt">term =</span> <span class="kw">recode</span>(term, <span class="st">&quot;fertile:includedhorm_contra&quot;</span> =<span class="st"> &quot;includedhorm_contra:fertile&quot;</span>))
+  <span class="co"># eff_coefs$model = factor( car::Recode(eff_coefs$model, modeltranslate ))</span>
+  coefs_all =<span class="st"> </span>coefs
+  coefs =<span class="st"> </span>coefs %&gt;%<span class="st"> </span><span class="kw">filter</span>(term ==<span class="st"> &quot;fertile&quot;</span> |<span class="st"> </span>term ==<span class="st"> &quot;includedhorm_contra:fertile&quot;</span>)
+
+  <span class="kw">cat</span>(<span class="st">&quot;</span><span class="ch">\n\n\n</span><span class="st">#### M_e: Exclusion criteria </span><span class="ch">\n\n</span><span class="st">&quot;</span>)
+
+  plot =<span class="st">  </span><span class="kw">ggplot</span>(coefs %&gt;%<span class="st"> </span><span class="kw">filter</span>(model %begins_with%<span class="st"> &quot;M_e&quot;</span> |<span class="st"> </span>model %begins_with%<span class="st"> &quot;M_1. &quot;</span>), <span class="kw">aes</span>(<span class="dt">x =</span> model, <span class="dt">y =</span> estimate, <span class="dt">ymax =</span> conf.high, <span class="dt">ymin =</span> conf.low, <span class="dt">colour =</span> term), <span class="dt">group =</span> <span class="dv">1</span>) +
+<span class="st">    </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="dv">0</span>, <span class="dt">linetype =</span> <span class="st">&quot;dotted&quot;</span>, <span class="dt">color =</span> <span class="st">&quot;gray70&quot;</span>) +
+<span class="st">    </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">label =</span> <span class="kw">round</span>(estimate,<span class="dv">2</span>), <span class="dt">y =</span> estimate),  <span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="dt">width =</span> <span class="fl">0.6</span>), <span class="dt">vjust =</span> -<span class="fl">0.7</span>) +
+<span class="st">    </span><span class="kw">geom_pointrange</span>( <span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="dt">width =</span> <span class="fl">0.6</span>), <span class="dt">size =</span> <span class="dv">1</span>) +
+<span class="st">    </span><span class="kw">scale_color_manual</span>(<span class="st">&quot;Contraception status&quot;</span>, <span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;includedhorm_contra:fertile&quot;</span>=<span class="st">&quot;black&quot;</span>,<span class="st">&quot;fertile&quot;</span> =<span class="st"> &quot;red&quot;</span>), <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;includedhorm_contra:fertile&quot;</span>=<span class="st">&quot;hormonally</span><span class="ch">\n</span><span class="st">contracepting&quot;</span>,<span class="st">&quot;fertile&quot;</span> =<span class="st"> &quot;fertile&quot;</span>), <span class="dt">guide =</span> F) +
+<span class="st">    </span><span class="kw">xlab</span>(<span class="st">&quot;Model&quot;</span>) +
+<span class="st">    </span><span class="kw">ylab</span>(<span class="kw">paste</span>(<span class="st">&quot;Regression slope + 95 CI%&quot;</span>)) +
+<span class="st">    </span><span class="kw">ggtitle</span>(outcome_label) +
+<span class="st">    </span><span class="kw">coord_flip</span>()
+    <span class="kw">print</span>(plot)
+
+    <span class="co"># cat(&quot;\n\n\n&quot;)</span>
+    <span class="co"># coefs_all %&gt;%</span>
+    <span class="co">#   filter(model %begins_with% &quot;M_e&quot; | model %begins_with% &quot;M_1. &quot;) %&gt;%</span>
+    <span class="co">#   select(model, term, estimate, conf.low, conf.high) %&gt;%</span>
+    <span class="co">#   pander() %&gt;%</span>
+    <span class="co">#   cat()</span>
+
+    <span class="kw">cat</span>(<span class="st">&quot;</span><span class="ch">\n\n\n</span><span class="st">#### M_p: Predictors </span><span class="ch">\n\n</span><span class="st">&quot;</span>)
+    plot =<span class="st">  </span><span class="kw">ggplot</span>( coefs %&gt;%<span class="st"> </span><span class="kw">filter</span>(model %begins_with%<span class="st"> &quot;M_p&quot;</span> |<span class="st"> </span>model %begins_with%<span class="st"> &quot;M_1. &quot;</span>), <span class="kw">aes</span>(<span class="dt">x =</span> model, <span class="dt">y =</span> estimate, <span class="dt">ymax =</span> conf.high, <span class="dt">ymin =</span> conf.low, <span class="dt">colour =</span> term), <span class="dt">group =</span> <span class="dv">1</span>) +
+<span class="st">      </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="dv">0</span>, <span class="dt">linetype =</span> <span class="st">&quot;dotted&quot;</span>, <span class="dt">color =</span> <span class="st">&quot;gray70&quot;</span>) +
+<span class="st">      </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">label =</span> <span class="kw">round</span>(estimate,<span class="dv">2</span>), <span class="dt">y =</span> estimate),  <span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="dt">width =</span> <span class="fl">0.6</span>), <span class="dt">vjust =</span> -<span class="fl">0.7</span>) +
+<span class="st">      </span><span class="kw">geom_pointrange</span>( <span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="dt">width =</span> <span class="fl">0.6</span>), <span class="dt">size =</span> <span class="dv">1</span>) +
+<span class="st">      </span><span class="kw">scale_color_manual</span>(<span class="st">&quot;Contraception status&quot;</span>, <span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;includedhorm_contra:fertile&quot;</span>=<span class="st">&quot;black&quot;</span>,<span class="st">&quot;fertile&quot;</span>=<span class="st"> &quot;red&quot;</span>), <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;includedhorm_contra:fertile&quot;</span>=<span class="st">&quot;hormonally</span><span class="ch">\n</span><span class="st">contracepting&quot;</span>,<span class="st">&quot;fertile&quot;</span>=<span class="st">&quot;fertile&quot;</span>), <span class="dt">guide =</span> F) +
+<span class="st">      </span><span class="kw">xlab</span>(<span class="st">&quot;Model&quot;</span>) +
+<span class="st">      </span><span class="kw">ylab</span>(<span class="kw">paste</span>(<span class="st">&quot;Regression slope + 95 CI%&quot;</span>)) +
+<span class="st">      </span><span class="kw">ggtitle</span>(outcome_label) +
+<span class="st">      </span><span class="kw">coord_flip</span>()
+    <span class="kw">print</span>(plot)
+<span class="co">#</span>
+    <span class="kw">cat</span>(<span class="st">&quot;</span><span class="ch">\n\n\n</span><span class="st">#### M_c: Covariates, controls, autocorrelation </span><span class="ch">\n\n</span><span class="st">&quot;</span>)
+
+    plot =<span class="st">  </span><span class="kw">ggplot</span>(coefs %&gt;%<span class="st"> </span><span class="kw">filter</span>(model %begins_with%<span class="st"> &quot;M_c&quot;</span> |<span class="st"> </span>model %begins_with%<span class="st"> &quot;M_1. &quot;</span>), <span class="kw">aes</span>(<span class="dt">x =</span> model, <span class="dt">y =</span> estimate, <span class="dt">ymax =</span> conf.high, <span class="dt">ymin =</span> conf.low, <span class="dt">colour =</span> term), <span class="dt">group =</span> <span class="dv">1</span>) +
+<span class="st">      </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="dv">0</span>, <span class="dt">linetype =</span> <span class="st">&quot;dotted&quot;</span>, <span class="dt">color =</span> <span class="st">&quot;gray70&quot;</span>) +
+<span class="st">      </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">label =</span> <span class="kw">round</span>(estimate,<span class="dv">2</span>), <span class="dt">y =</span> estimate),  <span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="dt">width =</span> <span class="fl">0.6</span>), <span class="dt">vjust =</span> -<span class="fl">0.7</span>) +
+<span class="st">      </span><span class="kw">geom_pointrange</span>( <span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="dt">width =</span> <span class="fl">0.6</span>), <span class="dt">size =</span> <span class="dv">1</span>) +
+<span class="st">      </span><span class="kw">scale_color_manual</span>(<span class="st">&quot;Contraception status&quot;</span>, <span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;includedhorm_contra:fertile&quot;</span>=<span class="st">&quot;black&quot;</span>,<span class="st">&quot;fertile&quot;</span>=<span class="st"> &quot;red&quot;</span>), <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;includedhorm_contra:fertile&quot;</span>=<span class="st">&quot;hormonally</span><span class="ch">\n</span><span class="st">contracepting&quot;</span>,<span class="st">&quot;fertile&quot;</span>=<span class="st">&quot;fertile&quot;</span>), <span class="dt">guide =</span> F) +
+<span class="st">      </span><span class="kw">xlab</span>(<span class="st">&quot;Model&quot;</span>) +
+<span class="st">      </span><span class="kw">ylab</span>(<span class="kw">paste</span>(<span class="st">&quot;Regression slope + 95 CI%&quot;</span>)) +
+<span class="st">      </span><span class="kw">ggtitle</span>(outcome_label) +
+<span class="st">      </span><span class="kw">coord_flip</span>()
+    <span class="kw">print</span>(plot)
+
+    <span class="kw">tryCatch</span>({
+      if (<span class="kw">class</span>(obj) !=<span class="st"> &quot;glmerMod&quot;</span>) {
+        <span class="kw">print_summary</span>(control_autocorrelation)
+        <span class="kw">print_summary</span>(autocorrelation_moving_avg)
+      } else {
+        <span class="kw">cat_message</span>(<span class="st">&quot;No AR1/ARMA autocorrelation models were fitted for binomial outcomes.&quot;</span>, <span class="st">&quot;info&quot;</span>)
+      }
+    }, <span class="dt">error =</span> function(e) { <span class="kw">cat_message</span>(e, <span class="st">&quot;danger&quot;</span>) })
+
+    <span class="kw">cat</span>(<span class="st">&quot;</span><span class="ch">\n\n\n</span><span class="st">#### M_d: Other designs </span><span class="ch">\n\n</span><span class="st">&quot;</span>)
+    plot =<span class="st">  </span><span class="kw">ggplot</span>( coefs %&gt;%<span class="st"> </span><span class="kw">filter</span>(model %begins_with%<span class="st"> &quot;M_d&quot;</span> |<span class="st"> </span>model %begins_with%<span class="st"> &quot;M_1. &quot;</span>), <span class="kw">aes</span>(<span class="dt">x =</span> model, <span class="dt">y =</span> estimate, <span class="dt">ymax =</span> conf.high, <span class="dt">ymin =</span> conf.low, <span class="dt">colour =</span> term), <span class="dt">group =</span> <span class="dv">1</span>) +
+<span class="st">      </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="dv">0</span>, <span class="dt">linetype =</span> <span class="st">&quot;dotted&quot;</span>, <span class="dt">color =</span> <span class="st">&quot;gray70&quot;</span>) +
+<span class="st">      </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">label =</span> <span class="kw">round</span>(estimate,<span class="dv">2</span>), <span class="dt">y =</span> estimate),  <span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="dt">width =</span> <span class="fl">0.6</span>), <span class="dt">vjust =</span> -<span class="fl">0.7</span>) +
+<span class="st">      </span><span class="kw">geom_pointrange</span>( <span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="dt">width =</span> <span class="fl">0.6</span>), <span class="dt">size =</span> <span class="dv">1</span>) +
+<span class="st">      </span><span class="kw">scale_color_manual</span>(<span class="st">&quot;Contraception status&quot;</span>, <span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;includedhorm_contra:fertile&quot;</span>=<span class="st">&quot;black&quot;</span>,<span class="st">&quot;fertile&quot;</span>=<span class="st"> &quot;red&quot;</span>), <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;includedhorm_contra:fertile&quot;</span>=<span class="st">&quot;hormonally</span><span class="ch">\n</span><span class="st">contracepting&quot;</span>,<span class="st">&quot;fertile&quot;</span>=<span class="st">&quot;fertile&quot;</span>), <span class="dt">guide =</span> F) +
+<span class="st">      </span><span class="kw">xlab</span>(<span class="st">&quot;Model&quot;</span>) +
+<span class="st">      </span><span class="kw">ylab</span>(<span class="kw">paste</span>(<span class="st">&quot;Estimate of effect on&quot;</span>, outcome)) +
+<span class="st">      </span><span class="kw">coord_flip</span>()
+    <span class="kw">print</span>(plot)
+
+    <span class="kw">cat</span>(<span class="st">&quot;</span><span class="ch">\n\n\n</span><span class="st">#### _M_m1_: Moderation by contraceptive method </span><span class="ch">\n\n</span>
+<span class="st">Based on the sample with lax exclusion criteria. Users who used any hormonal contraception are classified as hormonal, users who use any awareness-based methods (counting, temperature-based) are classified as &#39;fertility-awareness&#39;, women who don&#39;t fall into the before groups and use condoms, pessars, coitus interruptus etc. are classified as &#39;barrie or abstinence&#39;. Women who don&#39;t use contraception or use other methods such as sterilisation are excluded from this analysis.</span>
+<span class="st">        </span><span class="ch">\n\n</span><span class="st">&quot;</span>)
+
+    <span class="kw">tryCatch</span>({
+
+      <span class="kw">update</span>(obj, <span class="dt">formula =</span> . ~<span class="st"> </span>. -<span class="st"> </span>included *<span class="st"> </span>(menstruation +<span class="st"> </span>fertile) +<span class="st"> </span>contraceptive_methods +<span class="st"> </span>(fertile +<span class="st"> </span>menstruation) +<span class="st"> </span>included:(fertile +<span class="st"> </span>menstruation),
+             <span class="dt">data =</span> diary, <span class="dt">subset =</span> !<span class="kw">is.na</span>(included_lax) &amp;<span class="st"> </span>contraceptive_method !=<span class="st"> &quot;other&quot;</span>) -&gt;<span class="st">  </span>add_main
+
+            <span class="kw">update</span>(obj, <span class="dt">formula =</span> . ~<span class="st"> </span>. -<span class="st"> </span>included *<span class="st"> </span>(menstruation +<span class="st"> </span>fertile) +<span class="st"> </span>contraceptive_methods *<span class="st"> </span>(fertile +<span class="st"> </span>menstruation),
+             <span class="dt">data =</span> diary, <span class="dt">subset =</span> !<span class="kw">is.na</span>(included_lax) &amp;<span class="st"> </span>contraceptive_method !=<span class="st"> &quot;other&quot;</span>) -&gt;<span class="st"> </span>by_method
+
+      method_eff_coefs =<span class="st"> </span><span class="kw">sjp.int</span>(by_method, <span class="dt">type =</span> <span class="st">&quot;eff&quot;</span>, <span class="dt">showCI =</span> F, <span class="dt">printPlot =</span> F)$data.list[[<span class="dv">1</span>]]
+      rec =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;hormonal&quot;</span> =<span class="st"> &quot;hormonally</span><span class="ch">\n</span><span class="st">contracepting&quot;</span>,<span class="st">&quot;barrier_or_abstinence&quot;</span> =<span class="st"> &quot;only barrier</span><span class="ch">\n</span><span class="st">(condoms, ...)</span><span class="ch">\n</span><span class="st">or abstinence&quot;</span>, <span class="st">&quot;fertility_awareness&quot;</span> =<span class="st"> &quot;potentially</span><span class="ch">\n</span><span class="st">fertility aware&quot;</span>, <span class="st">&quot;none&quot;</span> =<span class="st"> &quot;not using contraception&quot;</span>)
+      method_eff_coefs$method =<span class="st"> </span>rec[<span class="kw">as.character</span>(method_eff_coefs$grp)]
+      eff_plot =<span class="st">  </span><span class="kw">ggplot</span>(method_eff_coefs,
+                         <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">ymax =</span> conf.high, <span class="dt">ymin =</span> conf.low)) +
+<span class="st">        </span><span class="kw">geom_smooth</span>( <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="dt">color =</span> <span class="st">&#39;black&#39;</span>) +
+<span class="st">        </span><span class="kw">xlab</span>(<span class="st">&quot;Conception probability&quot;</span>) +
+<span class="st">        </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>method) +
+<span class="st">        </span><span class="kw">ylab</span>(outcome)
+      <span class="kw">print</span>(eff_plot)
+
+      coefs =<span class="st"> </span><span class="kw">get_coefs</span>(by_method, <span class="st">&quot;by method&quot;</span>)  %&gt;%<span class="st"> </span><span class="kw">filter</span>(term !=<span class="st"> &quot;(Intercept)&quot;</span>)
+      plot =<span class="st"> </span><span class="kw">ggplot</span>(coefs, <span class="kw">aes</span>(<span class="dt">x =</span> term, <span class="dt">y =</span> estimate, <span class="dt">ymax =</span> conf.high, <span class="dt">ymin =</span> conf.low, <span class="dt">group =</span> term)) +
+<span class="st">        </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="dv">0</span>, <span class="dt">linetype =</span> <span class="st">&quot;dotted&quot;</span>, <span class="dt">color =</span> <span class="st">&quot;gray70&quot;</span>) +
+<span class="st">        </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">label =</span> <span class="kw">round</span>(estimate,<span class="dv">2</span>), <span class="dt">y =</span> estimate),  <span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="dt">width =</span> <span class="fl">0.6</span>), <span class="dt">vjust =</span> -<span class="fl">0.7</span>) +
+<span class="st">        </span><span class="kw">geom_pointrange</span>( <span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="dt">width =</span> <span class="fl">0.6</span>), <span class="dt">size =</span> <span class="dv">1</span>) +
+<span class="st">        </span><span class="kw">xlab</span>(<span class="st">&quot;Model&quot;</span>) +
+<span class="st">        </span><span class="kw">ylab</span>(<span class="kw">paste</span>(<span class="st">&quot;Estimate of effect on&quot;</span>, outcome)) +
+<span class="st">        </span><span class="kw">coord_flip</span>()
+      <span class="kw">print</span>(plot)
+      <span class="kw">print_summary</span>(by_method)
+
+      <span class="kw">cat</span>(<span class="kw">pander</span>(<span class="kw">anova</span>(add_main, by_method)))
+
+    }, <span class="dt">error =</span> function(e) { <span class="kw">cat_message</span>(e, <span class="st">&quot;danger&quot;</span>) })
+
+    <span class="kw">invisible</span>(obj)
+}</code></pre></div>
+</div>
+<div id="test-a-moderator" class="section level2">
+<h2>Test a moderator</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">test_moderator =<span class="st"> </span>function (obj, moderator, diary, <span class="dt">multiline =</span> F, <span class="dt">xlevels =</span> <span class="dv">3</span>) {
+  <span class="kw">tryCatch</span>({
+
+    add_main =<span class="st"> </span><span class="kw">update.formula</span>(<span class="kw">formula</span>(obj), <span class="dt">new =</span> <span class="kw">as.formula</span>(<span class="kw">paste0</span>(<span class="st">&quot;. ~ . + &quot;</span>, moderator, <span class="st">&quot; * included &quot;</span>))) <span class="co"># reorder so that the triptych looks nice</span>
+    add_mod_formula =<span class="st"> </span><span class="kw">update.formula</span>(<span class="kw">update.formula</span>(<span class="kw">formula</span>(obj), <span class="dt">new =</span> . ~<span class="st"> </span>. -<span class="st"> </span>included *<span class="st"> </span>fertile), <span class="dt">new =</span> <span class="kw">as.formula</span>(<span class="kw">paste0</span>(<span class="st">&quot;. ~ . + &quot;</span>, moderator, <span class="st">&quot; * included * fertile&quot;</span>))) <span class="co"># reorder so that the triptych looks nice</span>
+
+    <span class="kw">update</span>(obj, <span class="dt">formula =</span> add_main) -&gt;<span class="st"> </span>with_main
+    <span class="kw">update</span>(obj, <span class="dt">formula =</span> add_mod_formula) -&gt;<span class="st"> </span>with_mod
+    <span class="kw">cat</span>(<span class="kw">pander</span>(<span class="kw">anova</span>(with_main, with_mod)))
+    <span class="kw">plot_triptych</span>(with_mod, <span class="dt">x.var =</span> <span class="st">&quot;fertile&quot;</span>, <span class="dt">multiline =</span> multiline, <span class="dt">xlevels =</span> xlevels)
+    <span class="kw">print_summary</span>(with_mod)
+  }, <span class="dt">error =</span> function(e) { <span class="kw">cat_message</span>(e, <span class="st">&quot;danger&quot;</span>) })
+
+  <span class="kw">invisible</span>(obj)
+}</code></pre></div>
+</div>
+<div id="diagnostics-plots" class="section level2">
+<h2>Diagnostics plots</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">print_diagnostics =<span class="st"> </span>function(obj) {
+  <span class="kw">print</span>(<span class="kw">plot</span>(obj))
+  <span class="kw">cat</span>(<span class="st">&quot;</span><span class="ch">\n\n\n</span><span class="st">&quot;</span>)
+  <span class="kw">qqnorm</span>(<span class="kw">resid</span>(obj))
+  <span class="kw">cat</span>(<span class="st">&quot;</span><span class="ch">\n\n\n</span><span class="st">&quot;</span>)
+  <span class="kw">sjp.lmer</span>(obj, <span class="dt">type =</span> <span class="st">&quot;fe.cor&quot;</span>)
+  <span class="kw">cat</span>(<span class="st">&quot;</span><span class="ch">\n\n\n</span><span class="st">&quot;</span>)
+  <span class="kw">sjp.lmer</span>(obj, <span class="dt">type =</span> <span class="st">&quot;re.qq&quot;</span>)
+  <span class="kw">cat</span>(<span class="st">&quot;</span><span class="ch">\n\n\n</span><span class="st">&quot;</span>)
+  <span class="kw">invisible</span>(obj)
+}</code></pre></div>
+<div id="plot-outcome-distribution" class="section level3">
+<h3>Plot outcome distribution</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">plot_outcome =<span class="st"> </span>function(obj, diary) {
+  outcome =<span class="st"> </span>obj@frame[, <span class="dv">1</span>]
+  outcome_name =<span class="st"> </span><span class="kw">names</span>(obj@frame)[<span class="dv">1</span>]
+  label =<span class="st"> </span><span class="kw">attributes</span>(diary[, outcome_name][[<span class="dv">1</span>]])$label
+  if (<span class="kw">is.null</span>(label)) label =<span class="st"> </span>outcome_name
+  <span class="kw">qplot</span>(outcome) +<span class="st"> </span><span class="kw">xlab</span>(label)
+}</code></pre></div>
+</div>
+<div id="slightly-custom-marginal_effects" class="section level3">
+<h3>slightly custom marginal_effects</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">marginal_effects_pass =<span class="st"> </span>function(obj, ...) {
+  marg =<span class="st"> </span><span class="kw">plot</span>(<span class="kw">marginal_effects</span>(obj, ...), <span class="dt">do_plot =</span> <span class="ot">FALSE</span>)
+  marg$<span class="st">`</span><span class="dt">fertile:included</span><span class="st">`</span> =<span class="st"> </span>marg$<span class="st">`</span><span class="dt">fertile:included</span><span class="st">`</span> +<span class="st"> </span><span class="kw">scale_color_manual</span>(<span class="st">&quot;Contraception status&quot;</span>, <span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;horm_contra&quot;</span>=<span class="st">&quot;black&quot;</span>,<span class="st">&quot;cycling&quot;</span>=<span class="st"> &quot;red&quot;</span>), <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;horm_contra&quot;</span>=<span class="st">&quot;hormonally</span><span class="ch">\n</span><span class="st">contracepting&quot;</span>,<span class="st">&quot;cycling&quot;</span>=<span class="st">&quot;cycling&quot;</span>), <span class="dt">guide =</span> F) +<span class="st"> </span><span class="kw">scale_fill_manual</span>(<span class="st">&quot;Contraception status&quot;</span>, <span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;horm_contra&quot;</span>=<span class="st">&quot;black&quot;</span>,<span class="st">&quot;cycling&quot;</span>=<span class="st"> &quot;red&quot;</span>), <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;horm_contra&quot;</span>=<span class="st">&quot;hormonally</span><span class="ch">\n</span><span class="st">contracepting&quot;</span>,<span class="st">&quot;cycling&quot;</span>=<span class="st">&quot;cycling&quot;</span>), <span class="dt">guide =</span> F) +<span class="st"> </span><span class="kw">facet_wrap</span>(~<span class="st"> </span>included)
+  for(i in <span class="kw">seq_along</span>(marg)) {
+    <span class="kw">print</span>(marg[[i]])
+  }
+  <span class="kw">invisible</span>(obj)
+}</code></pre></div>
+</div>
+</div>
+<div id="reporting-tools" class="section level2">
+<h2>reporting tools</h2>
+<p>helper function for magrittr pipes, pass and print</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pap =<span class="st"> </span>function(pass, <span class="dt">to_print =</span> <span class="ot">NULL</span>, <span class="dt">side_effect =</span> <span class="ot">NULL</span>) {
+  if( !<span class="kw">is.null</span>(to_print)) {
+    if (<span class="kw">is.function</span>(to_print)) {
+      <span class="kw">print</span>(<span class="kw">to_print</span>(pass))
+    } else {
+      <span class="kw">print</span>(to_print)
+    }
+  }
+  side_effect
+  <span class="kw">invisible</span>(pass)
+}
+
+drop_random_effects_brms =<span class="st"> </span>function(mod) {
+  rand =<span class="st"> </span>stringr::<span class="kw">str_detect</span>(mod$fit@sim$fnames_oi, <span class="st">&quot;^r_&quot;</span>)
+
+  mod$fit@sim$fnames_oi =<span class="st"> </span>mod$fit@sim$fnames_oi[ !rand ]
+  for (i in <span class="dv">1</span>:<span class="kw">length</span>(mod$fit@sim$samples)) {
+    mod$fit@sim$samples[[i]] =<span class="st"> </span>mod$fit@sim$samples[[i]][ !rand ]
+  }
+  mod$fit@sim$dims_oi =<span class="st"> </span>mod$fit@sim$dims_oi[ !stringr::<span class="kw">str_detect</span>(<span class="kw">names</span>(mod$fit@sim$dims_oi), <span class="st">&quot;^r_&quot;</span>)]
+  mod$fit@sim$pars_oi =<span class="st"> </span>mod$fit@sim$pars_oi[ !stringr::<span class="kw">str_detect</span>(mod$fit@sim$pars_oi, <span class="st">&quot;^r_&quot;</span>)]
+  mod$fit@sim$n_flatnames =<span class="st"> </span><span class="kw">length</span>(mod$fit@sim$samples[[i]])
+  mod
+}</code></pre></div>
+<p>Get p values from lme4 model</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">get_p_val =<span class="st"> </span>function(obj) {
+  summa =<span class="st"> </span><span class="kw">summary</span>(obj)
+  fixefs =<span class="st"> </span><span class="kw">data.frame</span>(summa$coefficients, <span class="dt">check.names =</span> F)
+  fixefs$term =<span class="st"> </span><span class="kw">rownames</span>(fixefs)
+  <span class="kw">rownames</span>(fixefs) =<span class="st"> </span><span class="ot">NULL</span>
+  if(<span class="st">&quot;Pr(&gt;|z|)&quot;</span> %in%<span class="st"> </span><span class="kw">names</span>(fixefs)) {
+    fixefs =<span class="st"> </span>fixefs %&gt;%<span class="st"> </span><span class="kw">rename</span>(<span class="dt">p.value =</span> <span class="st">`</span><span class="dt">Pr(&gt;|z|)</span><span class="st">`</span>) %&gt;%<span class="st"> </span><span class="kw">select</span>(term, p.value)
+  } else if(<span class="st">&quot;Pr(&gt;|t|)&quot;</span> %in%<span class="st"> </span><span class="kw">names</span>(fixefs)) {
+    fixefs =<span class="st"> </span>fixefs %&gt;%<span class="st"> </span><span class="kw">rename</span>(<span class="dt">p.value =</span> <span class="st">`</span><span class="dt">Pr(&gt;|t|)</span><span class="st">`</span>) %&gt;%<span class="st"> </span><span class="kw">select</span>(term, p.value)
+  } else {
+    fixefs$p.value =<span class="st"> </span><span class="ot">NA_real_</span>
+  }
+  fixefs
+}</code></pre></div>
+<p>2 digit number, no more no less</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">form =<span class="st"> </span>function(x, <span class="dt">digits =</span> <span class="dv">2</span>) <span class="kw">format</span>(<span class="kw">round</span>(x, <span class="dt">digits =</span> digits), <span class="dt">nsmall =</span> digits, <span class="dt">digits =</span> digits)</code></pre></div>
+<p>from shamrt/rapa Report a p-value</p>
+<p>Formats and reports a p-value according to APA 6 guidelines. Returns a string. Only accepts values between 0 and 1.</p>
+<p>This function is primarily intended for use by other  helper functions, so by default p-values are pretty-printed (e.g., “<em>p</em> = .152”) instead of simply returning the correctly rounded p-value (e.g., “.152”).</p>
+<p><span class="citation">@param</span> p A number representing a p-value (must be less than 1). <span class="citation">@param</span> pretty.print An optional dichotomous indicator for whether to prepend the p-value abbreviation and appropriate sign to the returned number (see details).</p>
+<p><span class="citation">@examples</span> apa.p.value(.15201) apa.p.value(.152e-2) apa.p.value(.00001)</p>
+<p><span class="citation">@include</span> errors.R <span class="citation">@export</span></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">apa.p.value &lt;-<span class="st"> </span>function(p, <span class="dt">pretty.print =</span> <span class="ot">TRUE</span>) {
+  <span class="co"># error handling</span>
+  if (<span class="kw">is.na</span>(p)) {
+    <span class="kw">return</span>(<span class="ot">NA_real_</span>)
+  }
+  else if (!<span class="kw">is.numeric</span>(p)) {
+    <span class="kw">stop</span>(<span class="kw">.type.error</span>(<span class="st">&#39;p&#39;</span>, <span class="st">&#39;numeric&#39;</span>))
+  }
+  if (p &gt;<span class="st"> </span><span class="dv">1</span>) {
+    <span class="kw">stop</span>(<span class="kw">.value.error</span>(<span class="st">&#39;p&#39;</span>, <span class="st">&quot;less than or equal to 1&quot;</span>))
+  } else if (p &lt;<span class="st"> </span><span class="dv">0</span>) {
+    <span class="kw">stop</span>(<span class="kw">.value.error</span>(<span class="st">&#39;p&#39;</span>, <span class="st">&quot;greater than or equal to 0&quot;</span>))
+  }
+
+  <span class="co"># calculate displayed p-value</span>
+  if (p &gt;=<span class="st"> </span>.<span class="dv">001</span>) {
+    p.drop.trailing<span class="fl">.0</span> &lt;-<span class="st"> </span><span class="kw">form</span>(p, <span class="dv">3</span>)
+    p.drop.leading<span class="fl">.0</span> &lt;-<span class="st"> </span><span class="kw">sub</span>(<span class="st">&quot;0</span><span class="ch">\\</span><span class="st">.(</span><span class="ch">\\</span><span class="st">d+)&quot;</span>, <span class="st">&quot;.</span><span class="ch">\\</span><span class="st">1&quot;</span>,
+                            <span class="kw">as.character</span>(p.drop.trailing<span class="fl">.0</span>))
+    p.clean &lt;-<span class="st"> </span>p.drop.leading<span class="fl">.0</span>
+
+    p.pp &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="st">&quot;_p_&quot;</span>, <span class="st">&quot;=&quot;</span>, p.clean)
+  } else {
+    p &lt;-<span class="st"> &quot;.001&quot;</span>
+
+    p.pp &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="st">&quot;_p_&quot;</span>, <span class="st">&quot;&lt;&quot;</span>, p)
+  }
+
+  <span class="kw">return</span>(<span class="kw">ifelse</span>(pretty.print, p.pp, p))
+}
+pvalues =<span class="st"> </span>function(x) {
+  <span class="kw">str_sub</span>(<span class="kw">sapply</span>(x, <span class="dt">FUN =</span> apa.p.value), <span class="dv">5</span>)
+}
+
+pander.tbl_df =<span class="st"> </span>pander.tbl_dt =<span class="st"> </span>function(x,...) { pander::<span class="kw">pander</span>(<span class="kw">data.frame</span>(x, <span class="dt">check.names =</span> F), ...) }
+
+
+effect_size =<span class="st"> </span>function(model) {
+  eff =<span class="st"> </span><span class="kw">diff</span>(<span class="kw">range</span>(model@frame$fertile, <span class="dt">na.rm =</span> T))
+  coefs =<span class="st"> </span>broom::<span class="kw">tidy</span>(model)
+  fert =<span class="st"> </span>coefs[coefs$term ==<span class="st"> &quot;fertile&quot;</span>, ]
+  sd =<span class="st"> </span><span class="kw">sqrt</span>(<span class="kw">sum</span>(coefs[coefs$term %starts_with%<span class="st"> &quot;sd_Observation&quot;</span>, <span class="st">&quot;estimate&quot;</span>]^<span class="dv">2</span> ))
+  <span class="kw">form</span>(fert$estimate*<span class="dv">3</span>/<span class="dv">2</span>*<span class="st"> </span>eff /<span class="st"> </span>sd)
+}</code></pre></div>
+</div>
+<div id="spin-r-files" class="section level2">
+<h2>Spin R files</h2>
+<p>R scripts can be documented in markdown using Roxygen comments, as demonstrated here This function turns all R files (that don’t have an Rmd file of the same name and that don’t start with an underscore _) into HTML pages</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">spin_R_files_to_site_html =<span class="st"> </span>function() {
+  <span class="kw">library</span>(knitr)
+  all_Rs =<span class="st"> </span><span class="kw">c</span>(<span class="kw">list.files</span>(<span class="dt">pattern =</span> <span class="st">&quot;^[^_].+</span><span class="ch">\\</span><span class="st">.R$&quot;</span>), <span class="st">&quot;.Rprofile&quot;</span>)
+  component_Rmds =<span class="st"> </span><span class="kw">list.files</span>(<span class="dt">pattern =</span> <span class="st">&quot;^_.+</span><span class="ch">\\</span><span class="st">.Rmd$&quot;</span>)
+  temporary_Rmds =<span class="st"> </span><span class="kw">c</span>()
+  for (i in <span class="kw">seq_along</span>(all_Rs)) {
+    if (all_Rs[i] ==<span class="st"> &quot;.Rprofile&quot;</span>) {
+      Rmd_file =<span class="st"> &quot;.Rprofile.Rmd&quot;</span>
+    } else {
+      Rmd_file =<span class="st"> </span><span class="kw">paste0</span>(all_Rs[i], <span class="st">&quot;md&quot;</span>)
+    }
+    if (!<span class="kw">file.exists</span>(Rmd_file)) {
+      next_document =<span class="st"> </span><span class="kw">length</span>(temporary_Rmds) +<span class="st"> </span><span class="dv">1</span>
+      temporary_Rmds[next_document] =<span class="st"> </span><span class="kw">spin</span>(all_Rs[i], <span class="dt">knit =</span> <span class="ot">FALSE</span>, <span class="dt">envir =</span> <span class="kw">new.env</span>(), <span class="dt">format =</span> <span class="st">&quot;Rmd&quot;</span>)
+      prepended_yaml =<span class="st"> </span><span class="kw">paste0</span>(<span class="kw">c</span>(<span class="st">&quot;---</span>
+<span class="st">output:</span>
+<span class="st">  formr::markdown_custom_options:</span>
+<span class="st">    code_folding: &#39;show&#39;</span>
+<span class="st">---</span>
+
+<span class="st">&quot;</span>, <span class="kw">readLines</span>(temporary_Rmds[next_document])), <span class="dt">collapse =</span> <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)
+<span class="kw">cat</span>(prepended_yaml, <span class="dt">file =</span> temporary_Rmds[next_document])
+    }
+  }
+  components_and_scripts =<span class="st"> </span><span class="kw">c</span>(temporary_Rmds, component_Rmds)
+  for (i in <span class="kw">seq_along</span>(components_and_scripts)) {
+    opts_chunk$<span class="kw">set</span>(<span class="dt">eval =</span> <span class="ot">FALSE</span>, <span class="dt">cache =</span> <span class="ot">FALSE</span>)
+    <span class="kw">print</span>(components_and_scripts[i])
+    <span class="co"># if we call render_site on the .R file directly it adds a header I don&#39;t like</span>
+    rmarkdown::<span class="kw">render_site</span>(components_and_scripts[i], <span class="dt">quiet =</span> <span class="ot">TRUE</span>)
+  }
+  opts_chunk$<span class="kw">set</span>(<span class="dt">eval =</span> <span class="ot">TRUE</span>, <span class="dt">cache =</span> <span class="ot">TRUE</span>)
+  <span class="kw">unlink</span>(temporary_Rmds)
+}</code></pre></div>
+</div>
+</div>
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+</body>
+</html>

@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title></title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-1.1/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+<script src="library/auto_tab_first_section.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="library/custom_styles.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 64px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+
+.section h2 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h3 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h4 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h5 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h6 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Fertility diary</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="1_power_analysis.html">Power analysis</a>
+</li>
+<li>
+  <a href="1_researcher_df_analysis.html">Researcher degree of freedom simulation</a>
+</li>
+<li>
+  <a href="1_wrangle_data.html">Data wrangling</a>
+</li>
+<li>
+  <a href="2_descriptives.html">Descriptives</a>
+</li>
+<li>
+  <a href="3_fertility_as_prereg.html">Preregistered analyses</a>
+</li>
+<li>
+  <a href="3_fertility_robustness.html">Robustness tests</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+
+</div>
+
+
+<pre class="r"><code>library(knitr)
+opts_chunk$set(fig.width = 8, fig.height = 8, cache = T, warning = T, message = F, cache = F)
+source(&quot;0_helpers.R&quot;)
+load(&quot;full_data.rdata&quot;)
+diary = diary %&gt;% 
+  mutate(
+  included = included_all,
+  fertile = if_else(is.na(prc_stirn_b_squished), prc_stirn_b_backward_inferred, prc_stirn_b_squished)
+)  %&gt;% group_by(person) %&gt;% 
+  mutate(
+      fertile_mean = mean(fertile, na.rm = T)
+  )
+opts_chunk$set(warning = F)
+library(Cairo)
+opts_chunk$set(dev = &quot;CairoPNG&quot;)</code></pre>
+<pre class="r"><code>predictor_check = function(obj) {
+get_coefs = function(fit, model_name) {
+  library(broom)
+  if (class(fit) == &quot;lme&quot;) {
+    obj_coef = tryCatch({my_tidy.lme(fit, effects = &#39;fixed&#39;) }, error = function(e) { cat_message(e, &quot;danger&quot;) })
+  } else {
+    obj_coef = tryCatch({tidy(fit, conf.int = TRUE, effects = &quot;fixed&quot;)}, error = function(e) { cat_message(e, &quot;danger&quot;) })
+  }
+  obj_coef$model = model_name
+  obj_coef
+}
+outcome = as.character(formula(obj)[2])
+
+
+less_ctrl_formula = update.formula(formula(obj), new = . ~ . - included * menstruation - fertile_mean)
+
+tryCatch({
+  diary_broad = diary %&gt;% mutate(fertile = fertile_broad)
+  update(obj, formula = less_ctrl_formula, data = diary_broad) -&gt; broad_window
+}, error = function(e) { cat_message(e, &quot;danger&quot;) })
+
+tryCatch({
+  diary_broad = diary %&gt;% mutate(fertile = fertile_broad)
+  update(obj, data = diary_broad) -&gt; broad_window_ctrl
+}, error = function(e) { cat_message(e, &quot;danger&quot;) })
+
+tryCatch({
+  diary_bci = diary %&gt;% mutate(fertile = prc_stirn_b_backward_inferred)
+  update(obj, formula = less_ctrl_formula, data = diary_bci) -&gt; backward_inferred
+}, error = function(e) { cat_message(e, &quot;danger&quot;) })
+
+tryCatch({
+  update(obj, formula = less_ctrl_formula) -&gt; fewer_controls
+}, error = function(e) { cat_message(e, &quot;danger&quot;) })
+
+tryCatch({
+  diary_narrow = diary %&gt;% mutate(fertile = fertile_narrow)
+  update(obj, formula = less_ctrl_formula, data = diary_narrow) -&gt; narrow_window
+}, error = function(e) { cat_message(e, &quot;danger&quot;) })
+
+tryCatch({
+  diary_cont_fc = diary %&gt;% mutate(fertile = prc_stirn_b_forward_counted)
+  update(obj, data = diary_cont_fc) -&gt; forward_counting
+}, error = function(e) { cat_message(e, &quot;danger&quot;) })
+
+tryCatch({
+  diary_narrow_fc = diary %&gt;% mutate(fertile = fertile_narrow_forward_counted)
+  update(obj, formula = less_ctrl_formula, data = diary_narrow_fc) -&gt; forward_counting_narrow
+}, error = function(e) { cat_message(e, &quot;danger&quot;) })
+
+
+tryCatch({
+  no_long = diary %&gt;% filter(is.na(cycle_length_diary) | (cycle_length_diary &gt;= 20 &amp; cycle_length_diary &lt;= 40))
+  update(obj, data = no_long) -&gt; cycles_between_20_40
+}, error = function(e) { cat_message(e, &quot;danger&quot;) })
+tryCatch({
+  diary_broad_fc = diary %&gt;% mutate(fertile = fertile_broad_forward_counted)
+  update(obj, formula = less_ctrl_formula, data = diary_broad_fc) -&gt; forward_counting_broad
+}, error = function(e) { cat_message(e, &quot;danger&quot;) })
+
+tryCatch({
+  diary_cont = diary %&gt;% mutate(fertile = prc_stirn_b)
+  update(obj, data = diary_cont) -&gt; backward
+}, error = function(e) { cat_message(e, &quot;danger&quot;) })
+
+  tryCatch({
+    diary_broad = diary %&gt;% mutate(fertile = fertile_broad)
+    update(obj, data = diary_broad) -&gt; broad_window_ctrl
+  }, error = function(e) { cat_message(e, &quot;danger&quot;) })
+
+  models_in_function = ls_type(c(&#39;lmerMod&#39;,&#39;glmerMod&#39;,&#39;bglmerMod&#39;,&#39;blmerMod&#39;,&#39;merModLmerTest&#39;,&#39;lme&#39;,&#39;lm&#39;))
+  coefs = rbindlist(lapply(models_in_function, FUN = function(x) { get_coefs(get(x), x) }), fill = TRUE)
+  # eff_coefs = rbindlist(lapply(models_in_function, FUN = function(x) { get_eff_coefs(get(x), x) }), fill = TRUE)
+
+  coefs$model  =  dplyr::recode_factor(factor(coefs$model),
+  &#39;obj&#39; = &#39;M_1. Main model (all), BC+BCi&#39;,
+  &#39;included_lax&#39; = &#39;M_e2. Lax exclusion criteria&#39;,
+  &#39;included_conservative&#39; = &#39;M_e3. Conservative exclusion criteria&#39;,
+  &#39;included_strict&#39; = &#39;M_e4. Strict exclusion criteria&#39;,
+  &#39;nododgy&#39; = &#39;M_e5. Exclude potentially dodgy data&#39;,
+
+  &#39;backward&#39; = &#39;M_p1. Continuous, BC&#39;,
+  &#39;forward_counting&#39; = &#39;M_p2. Continuous, FC&#39;,
+  &#39;broad_window&#39; = &#39;M_p3. Broad window, BC\nnot adj. for menstruation&#39;,
+  &#39;narrow_window&#39; = &#39;M_p4. Narrow window, BC\nnot adj. for menstruation&#39;,
+  &#39;forward_counting_narrow&#39; = &#39;M_p5. Narrow window, FC\nnot adj. for menstruation&#39;,
+  &#39;forward_counting_broad&#39; = &#39;M_p6. Broad window, FC\nnot adj. for menstruation&#39;,
+  &#39;backward_inferred&#39; = &#39;M_p7. BC from rep. cycle length\nwhen onset unknown&#39;,
+  &#39;cycles_between_20_40&#39; = &#39;M_p8. Only cycles 20-40 days long&#39;,
+
+  &#39;between_person&#39; = &#39;M_d1. Between, FC (first obs. only)&#39;,
+  &#39;within_person_two_occasions&#39; = &#39;M_d2. Within, FC, high/low 2 obs.&#39;,
+  &#39;within_person_four_occasions&#39; = &#39;M_d3. Within, FC, two high/low 4 obs.&#39;,
+  &#39;no_cycles_shorter_than_20&#39; = &#39;M_d4. No cycles shorter than 20 days&#39;,
+  &#39;within_person_avg_hilow&#39; = &#39;M_d5. Within, BC, average high/low all&#39;,
+
+  &#39;control_self_esteem&#39; = &#39;M_c1. Adjust for self esteem&#39;,
+  &#39;dontcontrolavg&#39; = &#39;M_c2. No adjustment for avg. fertility&#39;,
+  &#39;fewer_controls&#39; = &#39;M_c3. Continuous BC+BCi\nnot adj. for menstruation&#39;,
+  &#39;control_week&#39; = &#39;M_c4. Control week day and number&#39;,
+  &#39;control_time_of_response&#39; = &#39;M_c5. Adjust for time of/for response&#39;,
+  &#39;control_autocorrelation&#39; = &#39;M_c6. Model autocorrelation, lag 1&#39;,
+  &#39;autocorrelation_moving_avg&#39; = &#39;M_c7. Model autocorrelation, moving avg., lag 1&#39;,
+  &#39;broad_window_ctrl&#39; = &#39;M_c8. Broad window BC\nadj. for menstruation&#39;, .ordered = T)
+  coefs$model = factor(coefs$model, levels =  rev(levels(coefs$model)))
+  
+  coefs = coefs %&gt;% mutate(term = recode(term, &quot;fertile:includedhorm_contra&quot; = &quot;includedhorm_contra:fertile&quot;))
+  
+  coefs_all = coefs
+  coefs = coefs %&gt;% filter(term == &quot;fertile&quot; | term == &quot;includedhorm_contra:fertile&quot;)
+}</code></pre>
+<div id="models" class="section level2">
+<h2>Models</h2>
+<pre class="r"><code>extra_pair = lmer(extra_pair ~ included * (menstruation + fertile) + fertile_mean + ( 1 | person), data = diary)
+in_pair_desire = lmer(in_pair_desire ~ included * (menstruation + fertile) + fertile_mean + ( 1 | person), data = diary)
+desirability_1 = lmer(desirability_1 ~ included * (menstruation + fertile) + fertile_mean + ( 1 | person), data = diary)
+
+coefs = bind_rows(
+  extra_pair = predictor_check(extra_pair),
+  in_pair_desire = predictor_check(in_pair_desire),
+  desirability_1 = predictor_check(desirability_1),
+  .id = &quot;outcome&quot;
+)
+coefs$outcome_label = recode(str_replace_all(str_replace_all(str_replace_all(coefs$outcome, &quot;_&quot;, &quot; &quot;), &quot; pair&quot;, &quot;-pair&quot;), &quot; 1&quot;, &quot;&quot;),
+     &quot;desirability&quot; = &quot;self-perceived desirability&quot;,
+     &quot;NARQ admiration&quot; = &quot;narcissistic admiration&quot;,
+     &quot;NARQ rivalry&quot; = &quot;narcissistic rivalry&quot;,
+     &quot;extra-pair&quot; = &quot;extra-pair desire &amp; behaviour&quot;,
+     &quot;had sexual intercourse&quot; = &quot;sexual intercourse&quot;)
+
+coefplot =  ggplot(coefs, aes(x = model, y = estimate, ymax = conf.high, ymin = conf.low, colour = term), group = 1) +
+    geom_segment(y = 0, yend = 0, x = 0.5, xend = 10.5, linetype = &quot;dotted&quot;, color = &quot;gray70&quot;) +
+    # geom_segment(aes(y = if_else(model %contains% &quot;M_1&quot;, estimate, NA_real_), yend = if_else(model %contains% &quot;M_1&quot;, estimate, NA_real_)), x = 0.5, xend = 10.5, linetype = &#39;dashed&#39;) +
+    geom_text(aes(label = round(estimate,2), y = estimate),  position = position_dodge(width = 0.6), vjust = -0.7) +
+    geom_pointrange( position = position_dodge(width = 0.6), size = 1) +
+    scale_color_manual(&quot;Contraception status&quot;, values = c(&quot;includedhorm_contra:fertile&quot;=&quot;black&quot;,&quot;fertile&quot; = &quot;red&quot;), labels = c(&quot;includedhorm_contra:fertile&quot;=&quot;hormonally\ncontracepting&quot;,&quot;fertile&quot; = &quot;fertile&quot;), guide = F) +
+    xlab(&quot;Model&quot;) +
+    ylab(paste(&quot;Regression slope + 95 CI%&quot;)) +
+    coord_flip() + 
+    facet_wrap(~ outcome_label, ncol = 3)
+    print(coefplot)</code></pre>
+<p><img src="4_plot_predictors_files/figure-html/unnamed-chunk-2-1.png" width="768" /></p>
+<pre class="r"><code>ggsave(coefplot, filename = &quot;coefplot_predictors.png&quot;, width = 16, height = 10)</code></pre>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

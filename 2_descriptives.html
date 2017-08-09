@@ -1,0 +1,3814 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Descriptives</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-1.1/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+<script src="site_libs/htmlwidgets-0.8/htmlwidgets.js"></script>
+<script src="site_libs/d3-3.3.8/d3.min.js"></script>
+<script src="site_libs/dagre-0.4.0/dagre-d3.min.js"></script>
+<link href="site_libs/mermaid-0.3.0/dist/mermaid.css" rel="stylesheet" />
+<script src="site_libs/mermaid-0.3.0/dist/mermaid.slim.min.js"></script>
+<link href="site_libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
+<script src="site_libs/chromatography-0.1/chromatography.js"></script>
+<script src="site_libs/DiagrammeR-binding-0.9.0/DiagrammeR.js"></script>
+<script src="library/auto_tab_first_section.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="library/custom_styles.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 64px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+
+.section h2 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h3 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h4 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h5 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h6 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Fertility diary</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="1_power_analysis.html">Power analysis</a>
+</li>
+<li>
+  <a href="1_researcher_df_analysis.html">Researcher degree of freedom simulation</a>
+</li>
+<li>
+  <a href="1_wrangle_data.html">Data wrangling</a>
+</li>
+<li>
+  <a href="2_descriptives.html">Descriptives</a>
+</li>
+<li>
+  <a href="3_fertility_as_prereg.html">Preregistered analyses</a>
+</li>
+<li>
+  <a href="3_fertility_robustness.html">Robustness tests</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+
+</div>
+
+
+<div id="descriptives" class="section level1 tab-content">
+<h1>Descriptives</h1>
+<p><span style="background:red;width:20px;height:20px;display:inline-block;"></span> Cycling women (not on hormonal birth control)</p>
+<p><span style="background:black;width:20px;height:20px;display:inline-block;"></span> Women on hormonal birth control</p>
+<pre class="r"><code>library(knitr)
+opts_chunk$set(fig.width = 9, fig.height = 7, cache = T, warning = F, message = F, render = formr::pander_handler)</code></pre>
+<pre class="r"><code>source(&quot;0_helpers.R&quot;)
+load(&quot;full_data.rdata&quot;)
+hcfacet = facet_wrap(~ hormonal_contraception, labeller = as_labeller(c(&quot;0&quot; = &quot;Naturally cycling&quot;, &quot;1&quot; = &quot;Hormonal contraception user&quot;)))</code></pre>
+<div id="exclusion-criteria-participant-flow" class="section level2 tab-content">
+<h2>Exclusion criteria, participant flow</h2>
+<p>After this section, descriptives are only on women who are included.</p>
+<div id="participant-flow" class="section level3">
+<h3>Participant flow</h3>
+<pre class="r"><code>library(DiagrammeR)
+load(&quot;pipeline.rdata&quot;)
+consort = with(pipeline,
+paste0(&#39;graph TB
+  start[&quot;Participants enrolled&lt;br&gt;
+  N=&#39;,signed_up,&#39;&quot;]
+  ineligible[&quot;Ineligible&lt;br&gt;
+  n=&#39;,ineligible,&#39;&quot;]
+  notfinish[&quot;Did not finish pre-survey&lt;br&gt;
+  n=&#39;,did_not_complete_pre_survey,&#39;&quot;]
+  eligible[&quot;Finished pre-survey&lt;br&gt;
+  n=&#39;,finished_pre_survey,&#39;&quot;]
+
+  horm_ineligible[&quot;Excluded n=&#39;,never_did_diary,&#39; no diary entries,&lt;br&gt;
+  n=&#39;,pregnant,&#39; pregnant, n=&#39;,infertile,&#39; infertile,&lt;br&gt;
+  n=&#39;,sterilised,&#39; sterilised,&lt;br&gt;
+  n=&#39;,no_period,&#39; fertility not estimable&quot;]
+
+  nc[&quot;Naturally cycling&lt;br&gt;
+  n=&#39;,naturally_cycling,&#39;&quot;]
+
+  hc[&quot;Using hormonal contraception&lt;br&gt;
+  n=&#39;,hc$HC_users,&#39;&quot;]
+
+  c_lax_ineligible[&quot;Excluded n=&#39;,older_than_40,&#39; older than 40, &lt;br&gt;
+  n=&#39;,finished_post_survey,&#39; did not finish study, &lt;br&gt;
+  n=&#39;,hc_users_broad,&#39; used morning-after-pill, &lt;br&gt;
+  n=&#39;,breast_feeding,&#39; breast-feeding, &lt;br&gt;
+  n=&#39;,pill_last_3m,&#39; HC used in last 3m, &lt;br&gt;
+  n=&#39;,hormonal_medicine,&#39; hormonal medication, &lt;br&gt;
+  n=&#39;,long_or_short_cycle,&#39; cycle length not in 22-37 days&quot;]
+
+  c_lax[&quot;Included (lax)&lt;br&gt;
+  n=&#39;,criterion_lax,&#39;&quot;]
+
+  c_cons_ineligible[&quot;Excluded n=&#39;,heavy_smokers,&#39; heavy smokers, &lt;br&gt;
+  n=&#39;,intensive_sports,&#39; did intensive sports, &lt;br&gt;
+  n=&#39;,changed_contraception,&#39; changed contraception,&lt;br&gt;
+  n=&#39;,broke_up,&#39; broke up, n=&#39;,lost_more_than_8kg,&#39; lost &gt; 8kg, &lt;br&gt;
+  n=&#39;,BMI_lt_17,&#39; BMI &lt; 17, n=&#39;,BMI_gt_30,&#39; BMI &gt; 30, &lt;br&gt;
+  n=&#39;,confident_that_cycle_irregular,&#39; irregular cycle (confident)&quot;]
+
+  c_cons[&quot;Included (conservative)&lt;br&gt;
+  n=&#39;,criterion_conservative,&#39;&quot;]
+
+  c_strict_ineligible[&quot;Excluded n=&#39;,stressed,&#39; stressed, &lt;br&gt;
+  n=&#39;,cycle_possibly_irregular,&#39; possibly irregular cycle&quot;]
+
+  c_strict[&quot;Included (strict)&lt;br&gt;
+  n=&#39;,criterion_strict,&#39;&quot;]
+
+  hc_lax_ineligible[&quot;Excluded n=&#39;,hc$older_than_40,&#39; older than 40,&lt;br&gt;
+  n=&#39;,hc$finished_post_survey,&#39; did not finish study, &lt;br&gt;
+  n=&#39;,hc$breast_feeding,&#39; breast-feeding, &lt;br&gt;
+  n=&#39;,hc$long_or_short_cycle,&#39; cycle length not in 22-37 days&quot;]
+
+  hc_lax[&quot;Included (lax)&lt;br&gt;
+  n=&#39;,hc$criterion_lax,&#39;&quot;]
+
+  hc_cons_ineligible[&quot;Excluded n=&#39;,hc$heavy_smokers,&#39; heavy smokers, &lt;br&gt;
+  n=&#39;,hc$intensive_sports,&#39; did intensive sports, &lt;br&gt;
+  n=&#39;,hc$changed_contraception,&#39; changed contraception,&lt;br&gt;
+  n=&#39;,hc$broke_up,&#39; broke up, n=&#39;,hc$lost_more_than_8kg,&#39; lost &gt; 8kg, &lt;br&gt;
+  n=&#39;,hc$BMI_lt_17,&#39; BMI &lt; 17, n=&#39;,hc$BMI_gt_30,&#39; BMI &gt; 30, &lt;br&gt;
+  n=&#39;,hc$confident_that_cycle_irregular,&#39; irregular cycle (confident)&quot;]
+
+  hc_cons[&quot;Included (conservative)&lt;br&gt;
+  n=&#39;,hc$criterion_conservative,&#39;&quot;]
+
+  hc_strict_ineligible[&quot;Excluded n=&#39;,hc$stressed,&#39; stressed, &lt;br&gt;
+  n=&#39;,cycle_possibly_irregular,&#39; possibly irregular cycle&quot;]
+
+  hc_strict[&quot;Included (strict)&lt;br&gt;
+  n=&#39;,hc$criterion_strict,&#39;&quot;]
+
+
+
+  start --&gt; ineligible
+  start --&gt; eligible
+  start --&gt; notfinish
+  eligible --&gt; hc
+  eligible --&gt; horm_ineligible
+  eligible --&gt; nc
+  nc --&gt; c_lax
+  nc --&gt; c_lax_ineligible
+  hc --&gt; hc_lax_ineligible
+  hc --&gt; hc_lax
+  c_lax --&gt; c_cons
+  c_lax --&gt; c_cons_ineligible
+  hc_lax --&gt; hc_cons_ineligible
+  hc_lax --&gt; hc_cons
+  c_cons --&gt; c_strict
+  c_cons --&gt; c_strict_ineligible
+  hc_cons --&gt; hc_strict_ineligible
+  hc_cons --&gt; hc_strict
+
+classDef default fill:#fff,stroke:#000,stroke-width:1px
+&#39;)
+)
+mermaid(consort, width = 1400, height = 900)</code></pre>
+<div id="htmlwidget-f1ef99e6c53e3edcc09d" style="width:1400px;height:900px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-f1ef99e6c53e3edcc09d">{"x":{"diagram":"graph TB\n  start[\"Participants enrolled<br>\n  N=1720\"]\n  ineligible[\"Ineligible<br>\n  n=259\"]\n  notfinish[\"Did not finish pre-survey<br>\n  n=253\"]\n  eligible[\"Finished pre-survey<br>\n  n=1208\"]\n\n  horm_ineligible[\"Excluded n=54 no diary entries,<br>\n  n=24 pregnant, n=5 infertile,<br>\n  n=12 sterilised,<br>\n  n=70 fertility not estimable\"]\n\n  nc[\"Naturally cycling<br>\n  n=421\"]\n\n  hc[\"Using hormonal contraception<br>\n  n=622\"]\n\n  c_lax_ineligible[\"Excluded n=46 older than 40, <br>\n  n=137 did not finish study, <br>\n  n=2 used morning-after-pill, <br>\n  n=6 breast-feeding, <br>\n  n=14 HC used in last 3m, <br>\n  n=25 hormonal medication, <br>\n  n=10 cycle length not in 22-37 days\"]\n\n  c_lax[\"Included (lax)<br>\n  n=143\"]\n\n  c_cons_ineligible[\"Excluded n=4 heavy smokers, <br>\n  n=6 did intensive sports, <br>\n  n=0 changed contraception,<br>\n  n=3 broke up, n=2 lost > 8kg, <br>\n  n=3 BMI < 17, n=8 BMI > 30, <br>\n  n=5 irregular cycle (confident)\"]\n\n  c_cons[\"Included (conservative)<br>\n  n=112\"]\n\n  c_strict_ineligible[\"Excluded n=43 stressed, <br>\n  n=12 possibly irregular cycle\"]\n\n  c_strict[\"Included (strict)<br>\n  n=57\"]\n\n  hc_lax_ineligible[\"Excluded n=7 older than 40,<br>\n  n=168 did not finish study, <br>\n  n=2 breast-feeding, <br>\n  n=28 cycle length not in 22-37 days\"]\n\n  hc_lax[\"Included (lax)<br>\n  n=374\"]\n\n  hc_cons_ineligible[\"Excluded n=10 heavy smokers, <br>\n  n=18 did intensive sports, <br>\n  n=14 changed contraception,<br>\n  n=10 broke up, n=6 lost > 8kg, <br>\n  n=7 BMI < 17, n=10 BMI > 30, <br>\n  n=6 irregular cycle (confident)\"]\n\n  hc_cons[\"Included (conservative)<br>\n  n=293\"]\n\n  hc_strict_ineligible[\"Excluded n=120 stressed, <br>\n  n=12 possibly irregular cycle\"]\n\n  hc_strict[\"Included (strict)<br>\n  n=161\"]\n\n\n\n  start --> ineligible\n  start --> eligible\n  start --> notfinish\n  eligible --> hc\n  eligible --> horm_ineligible\n  eligible --> nc\n  nc --> c_lax\n  nc --> c_lax_ineligible\n  hc --> hc_lax_ineligible\n  hc --> hc_lax\n  c_lax --> c_cons\n  c_lax --> c_cons_ineligible\n  hc_lax --> hc_cons_ineligible\n  hc_lax --> hc_cons\n  c_cons --> c_strict\n  c_cons --> c_strict_ineligible\n  hc_cons --> hc_strict_ineligible\n  hc_cons --> hc_strict\n\nclassDef default fill:#fff,stroke:#000,stroke-width:1px\n"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="exclusion-by-hormonal-contraception" class="section level3">
+<h3>Exclusion by hormonal contraception</h3>
+<pre class="r"><code>bar_count(xsection, included_levels)</code></pre>
+<p><img src="2_descriptives_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<pre class="r"><code>bar_count(xsection, included_levels) + hcfacet</code></pre>
+<p><img src="2_descriptives_files/figure-html/unnamed-chunk-4-2.png" width="672" /></p>
+<pre class="r"><code>xtabs(~ dodgy_data + included_levels, data = diary)</code></pre>
+<pre><code>##           included_levels
+## dodgy_data  all  lax conservative strict
+##      FALSE 9960 3655         6261   7465
+##      TRUE   573  158          204    217</code></pre>
+<pre class="r"><code>xsection = xsection %&gt;% filter(!is.na(included_all)) %&gt;% mutate(duration_relationship_total = duration_relationship_total/12)
+diary = diary %&gt;% filter(!is.na(included_all))</code></pre>
+</div>
+</div>
+<div id="data-collection" class="section level2">
+<h2>Data collection</h2>
+<p>First included participant enrolled on 2014-03-19, last participant enrolled on 2015-07-02. Last diary entry on 2015-12-03.</p>
+</div>
+<div id="tables" class="section level2">
+<h2>Tables</h2>
+<pre class="r"><code>options(digits = 2)
+xsection %&gt;% 
+  select(age, religiosity, first_time, menarche, duration_relationship_total, cycle_length, number_sexual_partner) %&gt;%
+  gather(variable, value) %&gt;%
+  group_by(variable) %&gt;%
+  filter(!is.na(value)) %&gt;% 
+  summarise(mean = form(mean(value), 1), sd = form(sd(value),1), 
+            median = median(value),
+            min = min(value), max  = max(value)) %&gt;% 
+  pander()</code></pre>
+<pre><code>## Warning: attributes are not identical across measure variables; they will be dropped</code></pre>
+<table style="width:85%;">
+<colgroup>
+<col width="38%" />
+<col width="9%" />
+<col width="6%" />
+<col width="12%" />
+<col width="8%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">variable</th>
+<th align="center">mean</th>
+<th align="center">sd</th>
+<th align="center">median</th>
+<th align="center">min</th>
+<th align="center">max</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">age</td>
+<td align="center">25.5</td>
+<td align="center">6.3</td>
+<td align="center">24</td>
+<td align="center">18</td>
+<td align="center">53</td>
+</tr>
+<tr class="even">
+<td align="center">cycle_length</td>
+<td align="center">28.4</td>
+<td align="center">3.3</td>
+<td align="center">28</td>
+<td align="center">20</td>
+<td align="center">40</td>
+</tr>
+<tr class="odd">
+<td align="center">duration_relationship_total</td>
+<td align="center">3.8</td>
+<td align="center">4.3</td>
+<td align="center">2.5</td>
+<td align="center">0</td>
+<td align="center">30.08</td>
+</tr>
+<tr class="even">
+<td align="center">first_time</td>
+<td align="center">16.9</td>
+<td align="center">2.3</td>
+<td align="center">17</td>
+<td align="center">10</td>
+<td align="center">29</td>
+</tr>
+<tr class="odd">
+<td align="center">menarche</td>
+<td align="center">13.0</td>
+<td align="center">1.4</td>
+<td align="center">13</td>
+<td align="center">9</td>
+<td align="center">19</td>
+</tr>
+<tr class="even">
+<td align="center">number_sexual_partner</td>
+<td align="center">7.1</td>
+<td align="center">11.1</td>
+<td align="center">4</td>
+<td align="center">0</td>
+<td align="center">150</td>
+</tr>
+<tr class="odd">
+<td align="center">religiosity</td>
+<td align="center">2.0</td>
+<td align="center">1.1</td>
+<td align="center">2</td>
+<td align="center">1</td>
+<td align="center">5</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code># options(digits = 4)
+
+# xsection %&gt;% 
+#   select(age, religiosity, first_time, menarche, duration_relationship_total, cycle_length, number_sexual_partner) %&gt;%
+#   gather(variable, value) %&gt;%
+#   group_by(variable) %&gt;%
+#   filter(!is.na(value)) %&gt;% 
+#   summarise(mean = round(mean(value),1), sd = round(sd(value),1), 
+#             median = median(value),
+#             min = min(value), max  = round(max(value))) %&gt;%
+#   stargazer::stargazer(summary = FALSE, rownames = F, label = &quot;Descriptive statistics&quot;, align = T, header = F, digits = 1, digits.extra = 1)</code></pre>
+</div>
+<div id="comparison-with-quasi-control-group" class="section level2 tab-content">
+<h2>Comparison with quasi-control group</h2>
+<pre class="r"><code>comps = data_frame(var = character(0), 
+                   `HC user - Mean (SD)` = character(0), 
+                   `Cycling - Mean (SD)` = character(0),
+                   hedges_g = character(0),
+                   p_value = character(0)
+)
+compare_by_group = function(var, data) {
+ sd_hc = sd(data[data$hormonal_contraception == 1,][[var]], na.rm = T)
+ sd_nc = sd(data[data$hormonal_contraception == 0,][[var]], na.rm = T)
+  data$hormonal_contraception = factor(if_else(data$hormonal_contraception == 1, &quot;hormonal contraceptive user&quot;, &quot;naturally cycling&quot;))
+ comp = as.formula(paste0(var, &quot; ~ hormonal_contraception&quot;))
+ tt = t.test(comp, data = data)
+ print(tt)
+ eff = effsize::cohen.d(comp, data = data, hedges.correction = TRUE, na.rm = T, pooled = FALSE)
+ print(eff)
+ 
+ summary = data_frame(var = var, 
+                   `HC user - Mean (SD)` = paste0(form(tt$estimate[1], 1),&quot; (&quot;, form(sd_hc, 1),&quot;)&quot;), 
+                   `Cycling - Mean (SD)` = paste0(form(tt$estimate[2], 1), &quot; (&quot;, form(sd_nc, 1), &quot;)&quot;),
+                   hedges_g = form(eff$estimate),
+                   p_value = pvalues(tt$p.value)
+)
+ rownames(summary) = NULL
+ comps &lt;&lt;- bind_rows(comps, summary)
+
+ggplot(data, aes_string(var, colour = &quot;hormonal_contraception&quot;, fill = &quot;hormonal_contraception&quot;)) + 
+  geom_density(alpha = 0.3, size = 0) +
+  scale_color_manual(&quot;&quot;, values = c(&quot;naturally cycling&quot; = &quot;red&quot;, &quot;hormonal contraceptive user&quot; = &quot;black&quot;), guide = F) +
+  scale_fill_manual(&quot;&quot;, values = c(&quot;naturally cycling&quot; = &quot;red&quot;, &quot;hormonal contraceptive user&quot; = &quot;black&quot;), guide = F) 
+}</code></pre>
+<div id="age" class="section level3">
+<h3>Age</h3>
+<pre class="r"><code>compare_by_group(&quot;age&quot;, xsection)</code></pre>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  age by hormonal_contraception
+## t = -10, df = 600, p-value &lt;2e-16
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -5.6 -4.0
+## sample estimates:
+## mean in group hormonal contraceptive user           mean in group naturally cycling 
+##                                        24                                        28 
+## 
+## 
+## Hedges&#39;s g
+## 
+## g estimate: 1.1 (large)
+## 95 percent confidence interval:
+##  inf  sup 
+## 0.96 1.23</code></pre>
+<p><img src="2_descriptives_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+</div>
+<div id="religiosity" class="section level3">
+<h3>Religiosity</h3>
+<pre class="r"><code>compare_by_group(&quot;religiosity&quot;, xsection)</code></pre>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  religiosity by hormonal_contraception
+## t = -0.1, df = 900, p-value = 0.9
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.15  0.13
+## sample estimates:
+## mean in group hormonal contraceptive user           mean in group naturally cycling 
+##                                         2                                         2 
+## 
+## 
+## Hedges&#39;s g
+## 
+## g estimate: 0.009 (negligible)
+## 95 percent confidence interval:
+##   inf   sup 
+## -0.11  0.13</code></pre>
+<p><img src="2_descriptives_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+</div>
+<div id="age-at-first-time" class="section level3">
+<h3>Age at first time</h3>
+<pre class="r"><code>compare_by_group(&quot;first_time&quot;, xsection)</code></pre>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  first_time by hormonal_contraception
+## t = 0.1, df = 800, p-value = 0.9
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.28  0.32
+## sample estimates:
+## mean in group hormonal contraceptive user           mean in group naturally cycling 
+##                                        17                                        17 
+## 
+## 
+## Hedges&#39;s g
+## 
+## g estimate: -0.0094 (negligible)
+## 95 percent confidence interval:
+##   inf   sup 
+## -0.14  0.12</code></pre>
+<pre><code>## Warning: Removed 29 rows containing non-finite values (stat_density).</code></pre>
+<p><img src="2_descriptives_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+</div>
+<div id="age-at-menarche" class="section level3">
+<h3>Age at menarche</h3>
+<pre class="r"><code>compare_by_group(&quot;menarche&quot;, xsection)</code></pre>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  menarche by hormonal_contraception
+## t = 0.6, df = 400, p-value = 0.6
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.18  0.34
+## sample estimates:
+## mean in group hormonal contraceptive user           mean in group naturally cycling 
+##                                        13                                        13 
+## 
+## 
+## Hedges&#39;s g
+## 
+## g estimate: -0.06 (negligible)
+## 95 percent confidence interval:
+##   inf   sup 
+## -0.24  0.12</code></pre>
+<pre><code>## Warning: Removed 585 rows containing non-finite values (stat_density).</code></pre>
+<p><img src="2_descriptives_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+</div>
+<div id="relationship-duration" class="section level3">
+<h3>Relationship duration</h3>
+<pre class="r"><code>compare_by_group(&quot;duration_relationship_total&quot;, xsection) + scale_x_sqrt(breaks = c(1,5, 10, 20, 30))</code></pre>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  duration_relationship_total by hormonal_contraception
+## t = -7, df = 600, p-value = 6e-12
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -2.7 -1.5
+## sample estimates:
+## mean in group hormonal contraceptive user           mean in group naturally cycling 
+##                                       2.9                                       5.0 
+## 
+## 
+## Hedges&#39;s g
+## 
+## g estimate: 0.7 (medium)
+## 95 percent confidence interval:
+##  inf  sup 
+## 0.57 0.83</code></pre>
+<pre><code>## Warning: Removed 5 rows containing non-finite values (stat_density).</code></pre>
+<p><img src="2_descriptives_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+</div>
+<div id="reported-cycle-length" class="section level3">
+<h3>Reported cycle length</h3>
+<pre class="r"><code>compare_by_group(&quot;cycle_length&quot;, xsection)</code></pre>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  cycle_length by hormonal_contraception
+## t = -6, df = 800, p-value = 0.00000001
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -1.6 -0.8
+## sample estimates:
+## mean in group hormonal contraceptive user           mean in group naturally cycling 
+##                                        28                                        29 
+## 
+## 
+## Hedges&#39;s g
+## 
+## g estimate: 0.41 (small)
+## 95 percent confidence interval:
+##  inf  sup 
+## 0.29 0.54</code></pre>
+<p><img src="2_descriptives_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+</div>
+<div id="reported-cycle-regularity" class="section level3">
+<h3>Reported cycle regularity</h3>
+<pre class="r"><code>jmv::contTables(
+    data = xsection,
+    rows = c( &quot;cycle_regularity&quot;),
+    cols = &quot;hormonal_contraception&quot;, pcCol = T)</code></pre>
+<pre><code>## 
+##  CONTINGENCY TABLES
+## 
+##  Contingency Tables                                                                     
+##  ────────────────────────────────────────────────────────────────────────────────────── 
+##    cycle_regularity                                           0        1        Total   
+##  ────────────────────────────────────────────────────────────────────────────────────── 
+##    very regular,
+## up to 2 days off          Observed             195      502      697   
+##                                            % within column     46.3     80.7            
+##                                                                                         
+##    slightly irregular,
+## up to 5 days off    Observed             142       72      214   
+##                                            % within column     33.7     11.6            
+##                                                                                         
+##    irregular,
+## more than 5 days off         Observed              84       48      132   
+##                                            % within column     20.0      7.7            
+##                                                                                         
+##    Total                                   Observed             421      622     1043   
+##                                            % within column    100.0    100.0            
+##  ────────────────────────────────────────────────────────────────────────────────────── 
+## 
+## 
+##  χ² Tests                        
+##  ─────────────────────────────── 
+##          Value    df    p        
+##  ─────────────────────────────── 
+##    χ²      134     2    &lt; .001   
+##    N      1043                   
+##  ───────────────────────────────</code></pre>
+</div>
+<div id="number-of-sexual-partners" class="section level3">
+<h3>Number of sexual partners</h3>
+<pre class="r"><code>compare_by_group(&quot;number_sexual_partner&quot;, xsection) + scale_x_sqrt(breaks = c(1,5, 10, 20, 50, 100))</code></pre>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  number_sexual_partner by hormonal_contraception
+## t = -5, df = 600, p-value = 0.000006
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -5.1 -2.0
+## sample estimates:
+## mean in group hormonal contraceptive user           mean in group naturally cycling 
+##                                       5.7                                       9.3 
+## 
+## 
+## Hedges&#39;s g
+## 
+## g estimate: 0.5 (small)
+## 95 percent confidence interval:
+##  inf  sup 
+## 0.37 0.62</code></pre>
+<p><img src="2_descriptives_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+</div>
+<div id="extraversion" class="section level3">
+<h3>Extraversion</h3>
+<pre class="r"><code>compare_by_group(&quot;BFI_extra&quot;, xsection)</code></pre>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  BFI_extra by hormonal_contraception
+## t = -0.5, df = 900, p-value = 0.6
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.122  0.074
+## sample estimates:
+## mean in group hormonal contraceptive user           mean in group naturally cycling 
+##                                       3.5                                       3.5 
+## 
+## 
+## Hedges&#39;s g
+## 
+## g estimate: 0.029 (negligible)
+## 95 percent confidence interval:
+##    inf    sup 
+## -0.095  0.153</code></pre>
+<p><img src="2_descriptives_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+</div>
+<div id="agreeableness" class="section level3">
+<h3>Agreeableness</h3>
+<pre class="r"><code>compare_by_group(&quot;BFI_agree&quot;, xsection)</code></pre>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  BFI_agree by hormonal_contraception
+## t = 0.04, df = 900, p-value = 1
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.071  0.075
+## sample estimates:
+## mean in group hormonal contraceptive user           mean in group naturally cycling 
+##                                       3.6                                       3.6 
+## 
+## 
+## Hedges&#39;s g
+## 
+## g estimate: -0.0028 (negligible)
+## 95 percent confidence interval:
+##   inf   sup 
+## -0.13  0.12</code></pre>
+<p><img src="2_descriptives_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+</div>
+<div id="neuroticism" class="section level3">
+<h3>Neuroticism</h3>
+<pre class="r"><code>compare_by_group(&quot;BFI_neuro&quot;, xsection)</code></pre>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  BFI_neuro by hormonal_contraception
+## t = 2, df = 900, p-value = 0.04
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  0.0062 0.1941
+## sample estimates:
+## mean in group hormonal contraceptive user           mean in group naturally cycling 
+##                                       3.1                                       3.0 
+## 
+## 
+## Hedges&#39;s g
+## 
+## g estimate: -0.14 (negligible)
+## 95 percent confidence interval:
+##    inf    sup 
+## -0.260 -0.012</code></pre>
+<p><img src="2_descriptives_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+</div>
+<div id="conscientiousness" class="section level3">
+<h3>Conscientiousness</h3>
+<pre class="r"><code>compare_by_group(&quot;BFI_consc&quot;, xsection)</code></pre>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  BFI_consc by hormonal_contraception
+## t = 2, df = 900, p-value = 0.02
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  0.013 0.182
+## sample estimates:
+## mean in group hormonal contraceptive user           mean in group naturally cycling 
+##                                       3.6                                       3.5 
+## 
+## 
+## Hedges&#39;s g
+## 
+## g estimate: -0.15 (negligible)
+## 95 percent confidence interval:
+##    inf    sup 
+## -0.271 -0.023</code></pre>
+<p><img src="2_descriptives_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+</div>
+<div id="openness" class="section level3">
+<h3>Openness</h3>
+<pre class="r"><code>compare_by_group(&quot;BFI_open&quot;, xsection)</code></pre>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  BFI_open by hormonal_contraception
+## t = -5, df = 900, p-value = 0.0000009
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.28 -0.12
+## sample estimates:
+## mean in group hormonal contraceptive user           mean in group naturally cycling 
+##                                       3.6                                       3.8 
+## 
+## 
+## Hedges&#39;s g
+## 
+## g estimate: 0.31 (small)
+## 95 percent confidence interval:
+##  inf  sup 
+## 0.18 0.43</code></pre>
+<p><img src="2_descriptives_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+</div>
+<div id="relationship-satisfaction" class="section level3">
+<h3>Relationship satisfaction</h3>
+<pre class="r"><code>compare_by_group(&quot;ZIP&quot;, xsection)</code></pre>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  ZIP by hormonal_contraception
+## t = 3, df = 800, p-value = 0.003
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  0.045 0.225
+## sample estimates:
+## mean in group hormonal contraceptive user           mean in group naturally cycling 
+##                                       4.2                                       4.0 
+## 
+## 
+## Hedges&#39;s g
+## 
+## g estimate: -0.2 (negligible)
+## 95 percent confidence interval:
+##    inf    sup 
+## -0.321 -0.073</code></pre>
+<p><img src="2_descriptives_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+</div>
+<div id="occupation" class="section level3">
+<h3>Occupation</h3>
+<pre class="r"><code>xsection$occupation_clean = factor(xsection$occupation_clean, c( &quot;Studentin&quot;,  &quot;Schülerin&quot;, &quot;Auszubildende&quot;, &quot;Berufstätig&quot;, &quot;Hausfrau&quot;, &quot;Nicht berufstätig&quot;))
+jmv::contTables(
+    data = xsection,
+    rows = c( &quot;occupation_clean&quot;),
+    cols = &quot;hormonal_contraception&quot;, pcCol = T)</code></pre>
+<pre><code>## 
+##  CONTINGENCY TABLES
+## 
+##  Contingency Tables                                                  
+##  ─────────────────────────────────────────────────────────────────── 
+##    occupation_clean                        0        1        Total   
+##  ─────────────────────────────────────────────────────────────────── 
+##    Studentin            Observed             247      489      736   
+##                         % within column     58.8     78.9            
+##                                                                      
+##    Schülerin            Observed               3       12       15   
+##                         % within column      0.7      1.9            
+##                                                                      
+##    Auszubildende        Observed               4       10       14   
+##                         % within column      1.0      1.6            
+##                                                                      
+##    Berufstätig          Observed             145      101      246   
+##                         % within column     34.5     16.3            
+##                                                                      
+##    Hausfrau             Observed              12        6       18   
+##                         % within column      2.9      1.0            
+##                                                                      
+##    Nicht berufstätig    Observed               9        2       11   
+##                         % within column      2.1      0.3            
+##                                                                      
+##    Total                Observed             420      620     1040   
+##                         % within column    100.0    100.0            
+##  ─────────────────────────────────────────────────────────────────── 
+## 
+## 
+##  χ² Tests                        
+##  ─────────────────────────────── 
+##          Value    df    p        
+##  ─────────────────────────────── 
+##    χ²     65.8     5    &lt; .001   
+##    N      1040                   
+##  ───────────────────────────────</code></pre>
+<pre class="r"><code>bar_count(xsection, occupation_clean) + hcfacet</code></pre>
+<p><img src="2_descriptives_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+</div>
+<div id="religion" class="section level3">
+<h3>Religion</h3>
+<pre class="r"><code>jmv::contTables(
+    data = xsection,
+    rows = c( &quot;religion_clean&quot;),
+    cols = &quot;hormonal_contraception&quot;, pcCol = T)</code></pre>
+<pre><code>## 
+##  CONTINGENCY TABLES
+## 
+##  Contingency Tables                                               
+##  ──────────────────────────────────────────────────────────────── 
+##    religion_clean                       0        1        Total   
+##  ──────────────────────────────────────────────────────────────── 
+##    Buddhismus        Observed               5        2        7   
+##                      % within column      1.2      0.3            
+##                                                                   
+##    Christentum       Observed             214      365      579   
+##                      % within column     51.0     58.8            
+##                                                                   
+##    Islam             Observed               8        7       15   
+##                      % within column      1.9      1.1            
+##                                                                   
+##    Judentum          Observed               1        0        1   
+##                      % within column      0.2      0.0            
+##                                                                   
+##    Nicht gläubig     Observed             192      247      439   
+##                      % within column     45.7     39.8            
+##                                                                   
+##    Total             Observed             420      621     1041   
+##                      % within column    100.0    100.0            
+##  ──────────────────────────────────────────────────────────────── 
+## 
+## 
+##  χ² Tests                       
+##  ────────────────────────────── 
+##          Value    df    p       
+##  ────────────────────────────── 
+##    χ²     10.2     4    0.037   
+##    N      1041                  
+##  ──────────────────────────────</code></pre>
+<pre class="r"><code>bar_count(xsection, religion_clean) + hcfacet</code></pre>
+<p><img src="2_descriptives_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+</div>
+<div id="income" class="section level3">
+<h3>Income</h3>
+<pre class="r"><code>xsection$income = factor(xsection$income, c(&quot;&lt; 500€&quot;, &quot;500-1000€&quot;, &quot;1000-2000€&quot;, &quot;2000-3000€&quot;, &quot;&gt; 3000€&quot;))
+jmv::contTables(
+    data = xsection,
+    rows = c( &quot;income&quot;),
+    cols = &quot;hormonal_contraception&quot;, pcCol = T)</code></pre>
+<pre><code>## 
+##  CONTINGENCY TABLES
+## 
+##  Contingency Tables                                           
+##  ──────────────────────────────────────────────────────────── 
+##    income                           0        1        Total   
+##  ──────────────────────────────────────────────────────────── 
+##    &lt; 500€        Observed              38       65      103   
+##                  % within column     17.0     27.7            
+##                                                               
+##    500-1000€     Observed              60       90      150   
+##                  % within column     26.9     38.3            
+##                                                               
+##    1000-2000€    Observed              63       44      107   
+##                  % within column     28.3     18.7            
+##                                                               
+##    2000-3000€    Observed              40       23       63   
+##                  % within column     17.9      9.8            
+##                                                               
+##    &gt; 3000€       Observed              22       13       35   
+##                  % within column      9.9      5.5            
+##                                                               
+##    Total         Observed             223      235      458   
+##                  % within column    100.0    100.0            
+##  ──────────────────────────────────────────────────────────── 
+## 
+## 
+##  χ² Tests                        
+##  ─────────────────────────────── 
+##          Value    df    p        
+##  ─────────────────────────────── 
+##    χ²     23.1     4    &lt; .001   
+##    N       458                   
+##  ───────────────────────────────</code></pre>
+<pre class="r"><code>bar_count(xsection, income) + hcfacet</code></pre>
+<p><img src="2_descriptives_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
+</div>
+<div id="income-partner" class="section level3">
+<h3>Income partner</h3>
+<pre class="r"><code>xsection$income_partner = factor(xsection$income_partner, c(&quot;&lt; 500€&quot;, &quot;500-1000€&quot;, &quot;1000-2000€&quot;, &quot;2000-3000€&quot;, &quot;&gt; 3000€&quot;))
+jmv::contTables(
+    data = xsection,
+    rows = c( &quot;income_partner&quot;),
+    cols = &quot;hormonal_contraception&quot;, pcCol = T)</code></pre>
+<pre><code>## 
+##  CONTINGENCY TABLES
+## 
+##  Contingency Tables                                               
+##  ──────────────────────────────────────────────────────────────── 
+##    income_partner                       0        1        Total   
+##  ──────────────────────────────────────────────────────────────── 
+##    &lt; 500€            Observed              62      121      183   
+##                      % within column     14.7     19.5            
+##                                                                   
+##    500-1000€         Observed             121      244      365   
+##                      % within column     28.7     39.2            
+##                                                                   
+##    1000-2000€        Observed             101      141      242   
+##                      % within column     24.0     22.7            
+##                                                                   
+##    2000-3000€        Observed              62       73      135   
+##                      % within column     14.7     11.7            
+##                                                                   
+##    &gt; 3000€           Observed              75       43      118   
+##                      % within column     17.8      6.9            
+##                                                                   
+##    Total             Observed             421      622     1043   
+##                      % within column    100.0    100.0            
+##  ──────────────────────────────────────────────────────────────── 
+## 
+## 
+##  χ² Tests                        
+##  ─────────────────────────────── 
+##          Value    df    p        
+##  ─────────────────────────────── 
+##    χ²     39.4     4    &lt; .001   
+##    N      1043                   
+##  ───────────────────────────────</code></pre>
+<pre class="r"><code>bar_count(xsection, income_partner) + hcfacet</code></pre>
+<p><img src="2_descriptives_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+</div>
+<div id="relationship-status" class="section level3">
+<h3>Relationship status</h3>
+<pre class="r"><code>xsection$relationship_status_clean = factor(xsection$relationship_status_clean, levels = c(&quot;Partnerschaft&quot;, &quot;Verlobt&quot;, &quot;Verheiratet&quot;))
+jmv::contTables(
+    data = xsection,
+    rows = c( &quot;relationship_status_clean&quot;),
+    cols = &quot;hormonal_contraception&quot;, pcCol = T)</code></pre>
+<pre><code>## 
+##  CONTINGENCY TABLES
+## 
+##  Contingency Tables                                                          
+##  ─────────────────────────────────────────────────────────────────────────── 
+##    relationship_status_clean                       0        1        Total   
+##  ─────────────────────────────────────────────────────────────────────────── 
+##    Partnerschaft                Observed             301      576      877   
+##                                 % within column     71.5     92.6            
+##                                                                              
+##    Verlobt                      Observed              21       18       39   
+##                                 % within column      5.0      2.9            
+##                                                                              
+##    Verheiratet                  Observed              99       28      127   
+##                                 % within column     23.5      4.5            
+##                                                                              
+##    Total                        Observed             421      622     1043   
+##                                 % within column    100.0    100.0            
+##  ─────────────────────────────────────────────────────────────────────────── 
+## 
+## 
+##  χ² Tests                        
+##  ─────────────────────────────── 
+##          Value    df    p        
+##  ─────────────────────────────── 
+##    χ²     90.8     2    &lt; .001   
+##    N      1043                   
+##  ───────────────────────────────</code></pre>
+<pre class="r"><code>bar_count(xsection, relationship_status_clean) + hcfacet</code></pre>
+<p><img src="2_descriptives_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+</div>
+<div id="cohabitation" class="section level3">
+<h3>Cohabitation</h3>
+<pre class="r"><code>xsection$cohabitation = factor(xsection$cohabitation, c(&quot;Long-distance&quot;, &quot;Live in same city&quot;, &quot;Live in same apartment&quot;))
+jmv::contTables(
+    data = xsection,
+    rows = c( &quot;cohabitation&quot;),
+    cols = &quot;hormonal_contraception&quot;, pcCol = T)</code></pre>
+<pre><code>## 
+##  CONTINGENCY TABLES
+## 
+##  Contingency Tables                                                       
+##  ──────────────────────────────────────────────────────────────────────── 
+##    cohabitation                                 0        1        Total   
+##  ──────────────────────────────────────────────────────────────────────── 
+##    Long-distance             Observed             107      221      328   
+##                              % within column     25.4     35.5            
+##                                                                           
+##    Live in same city         Observed              89      206      295   
+##                              % within column     21.1     33.1            
+##                                                                           
+##    Live in same apartment    Observed             225      195      420   
+##                              % within column     53.4     31.4            
+##                                                                           
+##    Total                     Observed             421      622     1043   
+##                              % within column    100.0    100.0            
+##  ──────────────────────────────────────────────────────────────────────── 
+## 
+## 
+##  χ² Tests                        
+##  ─────────────────────────────── 
+##          Value    df    p        
+##  ─────────────────────────────── 
+##    χ²     51.3     2    &lt; .001   
+##    N      1043                   
+##  ───────────────────────────────</code></pre>
+<pre class="r"><code>bar_count(xsection, cohabitation) + hcfacet</code></pre>
+<p><img src="2_descriptives_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
+<pre class="r"><code>jmv::contTables(
+    data = xsection,
+    rows = c( &quot;days_with_partner_per_month&quot;),
+    cols = &quot;hormonal_contraception&quot;, pcCol = T)</code></pre>
+<pre><code>## 
+##  CONTINGENCY TABLES
+## 
+##  Contingency Tables                                                            
+##  ───────────────────────────────────────────────────────────────────────────── 
+##    days_with_partner_per_month                       0        1        Total   
+##  ───────────────────────────────────────────────────────────────────────────── 
+##    &lt; 3 days                       Observed              20       20       40   
+##                                   % within column     18.7      9.0            
+##                                                                                
+##    3-5 days                       Observed              14       28       42   
+##                                   % within column     13.1     12.7            
+##                                                                                
+##    5-7 days                       Observed              41       78      119   
+##                                   % within column     38.3     35.3            
+##                                                                                
+##    7-14 days                      Observed              30       84      114   
+##                                   % within column     28.0     38.0            
+##                                                                                
+##    &gt; 14 days                      Observed               2       11       13   
+##                                   % within column      1.9      5.0            
+##                                                                                
+##    Total                          Observed             107      221      328   
+##                                   % within column    100.0    100.0            
+##  ───────────────────────────────────────────────────────────────────────────── 
+## 
+## 
+##  χ² Tests                       
+##  ────────────────────────────── 
+##          Value    df    p       
+##  ────────────────────────────── 
+##    χ²     9.51     4    0.050   
+##    N       328                  
+##  ──────────────────────────────</code></pre>
+<pre class="r"><code>bar_count(xsection, days_with_partner_per_month) + hcfacet</code></pre>
+<p><img src="2_descriptives_files/figure-html/unnamed-chunk-26-2.png" width="672" /></p>
+<pre class="r"><code>jmv::contTables(
+    data = xsection,
+    rows = c( &quot;days_with_partner&quot;),
+    cols = &quot;hormonal_contraception&quot;, pcCol = T)</code></pre>
+<pre><code>## 
+##  CONTINGENCY TABLES
+## 
+##  Contingency Tables                                                  
+##  ─────────────────────────────────────────────────────────────────── 
+##    days_with_partner                       0        1        Total   
+##  ─────────────────────────────────────────────────────────────────── 
+##    &lt; 3 days             Observed             118      201      319   
+##                         % within column     28.0     32.3            
+##                                                                      
+##    3-5 days             Observed              94      213      307   
+##                         % within column     22.3     34.2            
+##                                                                      
+##    7 days               Observed             209      208      417   
+##                         % within column     49.6     33.4            
+##                                                                      
+##    Total                Observed             421      622     1043   
+##                         % within column    100.0    100.0            
+##  ─────────────────────────────────────────────────────────────────── 
+## 
+## 
+##  χ² Tests                        
+##  ─────────────────────────────── 
+##          Value    df    p        
+##  ─────────────────────────────── 
+##    χ²     30.1     2    &lt; .001   
+##    N      1043                   
+##  ───────────────────────────────</code></pre>
+<pre class="r"><code>bar_count(xsection, days_with_partner) + hcfacet</code></pre>
+<p><img src="2_descriptives_files/figure-html/unnamed-chunk-26-3.png" width="672" /></p>
+<pre class="r"><code>jmv::contTables(
+    data = xsection,
+    rows = c( &quot;nights_with_partner&quot;),
+    cols = &quot;hormonal_contraception&quot;, pcCol = T)</code></pre>
+<pre><code>## 
+##  CONTINGENCY TABLES
+## 
+##  Contingency Tables                                                    
+##  ───────────────────────────────────────────────────────────────────── 
+##    nights_with_partner                       0        1        Total   
+##  ───────────────────────────────────────────────────────────────────── 
+##    &lt; 3 nights             Observed             142      239      381   
+##                           % within column     33.7     38.4            
+##                                                                        
+##    3-5 nights             Observed             100      191      291   
+##                           % within column     23.8     30.7            
+##                                                                        
+##    7 nights               Observed             179      192      371   
+##                           % within column     42.5     30.9            
+##                                                                        
+##    Total                  Observed             421      622     1043   
+##                           % within column    100.0    100.0            
+##  ───────────────────────────────────────────────────────────────────── 
+## 
+## 
+##  χ² Tests                        
+##  ─────────────────────────────── 
+##          Value    df    p        
+##  ─────────────────────────────── 
+##    χ²     15.4     2    &lt; .001   
+##    N      1043                   
+##  ───────────────────────────────</code></pre>
+<pre class="r"><code>bar_count(xsection, nights_with_partner) + hcfacet</code></pre>
+<p><img src="2_descriptives_files/figure-html/unnamed-chunk-26-4.png" width="672" /></p>
+</div>
+<div id="living-situation" class="section level3">
+<h3>Living situation</h3>
+<pre class="r"><code>xsection$living_situation = factor(xsection$living_situation)
+jmv::contTables(
+    data = xsection,
+    rows = c( &quot;living_situation&quot;),
+    cols = &quot;hormonal_contraception&quot;, pcCol = T)</code></pre>
+<pre><code>## 
+##  CONTINGENCY TABLES
+## 
+##  Contingency Tables                                                               
+##  ──────────────────────────────────────────────────────────────────────────────── 
+##    living_situation                                     0        1        Total   
+##  ──────────────────────────────────────────────────────────────────────────────── 
+##    living alone                      Observed              90      175      265   
+##                                      % within column     21.4     28.1            
+##                                                                                   
+##    living in all-female flatshare    Observed              41      116      157   
+##                                      % within column      9.7     18.6            
+##                                                                                   
+##    living in mixed-sex flatshare     Observed              65      136      201   
+##                                      % within column     15.4     21.9            
+##                                                                                   
+##    living with partner               Observed             225      195      420   
+##                                      % within column     53.4     31.4            
+##                                                                                   
+##    Total                             Observed             421      622     1043   
+##                                      % within column    100.0    100.0            
+##  ──────────────────────────────────────────────────────────────────────────────── 
+## 
+## 
+##  χ² Tests                        
+##  ─────────────────────────────── 
+##          Value    df    p        
+##  ─────────────────────────────── 
+##    χ²     53.6     3    &lt; .001   
+##    N      1043                   
+##  ───────────────────────────────</code></pre>
+<pre class="r"><code>bar_count(xsection, living_situation) + hcfacet</code></pre>
+<p><img src="2_descriptives_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+</div>
+<div id="children" class="section level3">
+<h3>Children</h3>
+<pre class="r"><code>xsection$children_broad_categories = factor(xsection$children_broad_categories, levels = c(&quot;no_children&quot;, &quot;children&quot;))
+
+jmv::contTables(
+    data = xsection,
+    rows = c( &quot;children_narrow_categories&quot;),
+    cols = &quot;hormonal_contraception&quot;, pcCol = T)</code></pre>
+<pre><code>## 
+##  CONTINGENCY TABLES
+## 
+##  Contingency Tables                                                           
+##  ──────────────────────────────────────────────────────────────────────────── 
+##    children_narrow_categories                       0        1        Total   
+##  ──────────────────────────────────────────────────────────────────────────── 
+##    Biological children           Observed              80       25      105   
+##                                  % within column     19.0      4.0            
+##                                                                               
+##    Complex family                Observed               4        3        7   
+##                                  % within column      1.0      0.5            
+##                                                                               
+##    Foster children               Observed               0        1        1   
+##                                  % within column      0.0      0.2            
+##                                                                               
+##    No children                   Observed             331      591      922   
+##                                  % within column     78.6     95.0            
+##                                                                               
+##    Step children                 Observed               6        2        8   
+##                                  % within column      1.4      0.3            
+##                                                                               
+##    Total                         Observed             421      622     1043   
+##                                  % within column    100.0    100.0            
+##  ──────────────────────────────────────────────────────────────────────────── 
+## 
+## 
+##  χ² Tests                        
+##  ─────────────────────────────── 
+##          Value    df    p        
+##  ─────────────────────────────── 
+##    χ²     69.1     4    &lt; .001   
+##    N      1043                   
+##  ───────────────────────────────</code></pre>
+<pre class="r"><code>bar_count(xsection, children_narrow_categories) + hcfacet</code></pre>
+<p><img src="2_descriptives_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
+<pre class="r"><code>jmv::contTables(
+    data = xsection,
+    rows = c( &quot;children_broad_categories&quot;),
+    cols = &quot;hormonal_contraception&quot;, pcCol = T)</code></pre>
+<pre><code>## 
+##  CONTINGENCY TABLES
+## 
+##  Contingency Tables                                                          
+##  ─────────────────────────────────────────────────────────────────────────── 
+##    children_broad_categories                       0        1        Total   
+##  ─────────────────────────────────────────────────────────────────────────── 
+##    no_children                  Observed             332      593      925   
+##                                 % within column     78.9     95.3            
+##                                                                              
+##    children                     Observed              89       29      118   
+##                                 % within column     21.1      4.7            
+##                                                                              
+##    Total                        Observed             421      622     1043   
+##                                 % within column    100.0    100.0            
+##  ─────────────────────────────────────────────────────────────────────────── 
+## 
+## 
+##  χ² Tests                        
+##  ─────────────────────────────── 
+##          Value    df    p        
+##  ─────────────────────────────── 
+##    χ²     67.9     1    &lt; .001   
+##    N      1043                   
+##  ───────────────────────────────</code></pre>
+<pre class="r"><code>bar_count(xsection, children_broad_categories) + hcfacet</code></pre>
+<p><img src="2_descriptives_files/figure-html/unnamed-chunk-28-2.png" width="672" /></p>
+</div>
+<div id="comparison-summary" class="section level3">
+<h3>Comparison summary</h3>
+<div id="comparison-of-continuous-variables" class="section level4">
+<h4>Comparison of continuous variables</h4>
+<pre class="r"><code>pander(comps)</code></pre>
+<table>
+<colgroup>
+<col width="29%" />
+<col width="23%" />
+<col width="23%" />
+<col width="11%" />
+<col width="11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">var</th>
+<th align="center">HC user - Mean (SD)</th>
+<th align="center">Cycling - Mean (SD)</th>
+<th align="center">hedges_g</th>
+<th align="center">p_value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">age</td>
+<td align="center">23.6 (4.4)</td>
+<td align="center">28.4 (7.6)</td>
+<td align="center">1.10</td>
+<td align="center">&lt; .001</td>
+</tr>
+<tr class="even">
+<td align="center">religiosity</td>
+<td align="center">2.0 (1.1)</td>
+<td align="center">2.0 (1.2)</td>
+<td align="center">0.01</td>
+<td align="center">= .891</td>
+</tr>
+<tr class="odd">
+<td align="center">first_time</td>
+<td align="center">16.9 (2.3)</td>
+<td align="center">16.9 (2.4)</td>
+<td align="center">-0.01</td>
+<td align="center">= .886</td>
+</tr>
+<tr class="even">
+<td align="center">menarche</td>
+<td align="center">13.0 (1.3)</td>
+<td align="center">13.0 (1.5)</td>
+<td align="center">-0.06</td>
+<td align="center">= .557</td>
+</tr>
+<tr class="odd">
+<td align="center">duration_relationship_total</td>
+<td align="center">2.9 (3.0)</td>
+<td align="center">5.0 (5.5)</td>
+<td align="center">0.70</td>
+<td align="center">&lt; .001</td>
+</tr>
+<tr class="even">
+<td align="center">cycle_length</td>
+<td align="center">27.9 (2.9)</td>
+<td align="center">29.1 (3.6)</td>
+<td align="center">0.41</td>
+<td align="center">&lt; .001</td>
+</tr>
+<tr class="odd">
+<td align="center">number_sexual_partner</td>
+<td align="center">5.7 (7.2)</td>
+<td align="center">9.3 (14.9)</td>
+<td align="center">0.50</td>
+<td align="center">&lt; .001</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_extra</td>
+<td align="center">3.5 (0.8)</td>
+<td align="center">3.5 (0.8)</td>
+<td align="center">0.03</td>
+<td align="center">= .638</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_agree</td>
+<td align="center">3.6 (0.6)</td>
+<td align="center">3.6 (0.6)</td>
+<td align="center">0.00</td>
+<td align="center">= .964</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_neuro</td>
+<td align="center">3.1 (0.7)</td>
+<td align="center">3.0 (0.8)</td>
+<td align="center">-0.14</td>
+<td align="center">= .037</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_consc</td>
+<td align="center">3.6 (0.7)</td>
+<td align="center">3.5 (0.7)</td>
+<td align="center">-0.15</td>
+<td align="center">= .024</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_open</td>
+<td align="center">3.6 (0.6)</td>
+<td align="center">3.8 (0.6)</td>
+<td align="center">0.31</td>
+<td align="center">&lt; .001</td>
+</tr>
+<tr class="odd">
+<td align="center">ZIP</td>
+<td align="center">4.2 (0.7)</td>
+<td align="center">4.0 (0.8)</td>
+<td align="center">-0.20</td>
+<td align="center">= .003</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="categorical-regression-with-many-predictors-at-once" class="section level4">
+<h4>Categorical regression with many predictors at once</h4>
+<pre class="r"><code>altogether = glm(hormonal_contraception ~ age + cohabitation + living_situation + religiosity + ZIP + BFI_extra + BFI_neuro + BFI_agree + BFI_consc + BFI_open + first_time + duration_relationship_years + log1p(number_sexual_partner) + children_broad_categories + relationship_status_clean  + occupation_clean + income_partner, data = xsection, family = binomial(&quot;probit&quot;))
+summary(altogether)</code></pre>
+<pre><code>## 
+## Call:
+## glm(formula = hormonal_contraception ~ age + cohabitation + living_situation + 
+##     religiosity + ZIP + BFI_extra + BFI_neuro + BFI_agree + BFI_consc + 
+##     BFI_open + first_time + duration_relationship_years + log1p(number_sexual_partner) + 
+##     children_broad_categories + relationship_status_clean + occupation_clean + 
+##     income_partner, family = binomial(&quot;probit&quot;), data = xsection)
+## 
+## Deviance Residuals: 
+##    Min      1Q  Median      3Q     Max  
+## -2.421  -1.014   0.578   0.851   2.616  
+## 
+## Coefficients: (1 not defined because of singularities)
+##                                                Estimate Std. Error z value  Pr(&gt;|z|)    
+## (Intercept)                                      1.5811     0.7481    2.11   0.03455 *  
+## age                                             -0.0738     0.0152   -4.84 0.0000013 ***
+## cohabitationLive in same city                    0.1618     0.1173    1.38   0.16774    
+## cohabitationLive in same apartment              -0.2031     0.1321   -1.54   0.12423    
+## living_situationliving in all-female flatshare   0.0626     0.1505    0.42   0.67762    
+## living_situationliving in mixed-sex flatshare   -0.1316     0.1366   -0.96   0.33512    
+## living_situationliving with partner                  NA         NA      NA        NA    
+## religiosity                                      0.0230     0.0424    0.54   0.58694    
+## ZIP                                              0.1509     0.0632    2.39   0.01689 *  
+## BFI_extra                                        0.0254     0.0623    0.41   0.68366    
+## BFI_neuro                                        0.0994     0.0668    1.49   0.13683    
+## BFI_agree                                       -0.0109     0.0818   -0.13   0.89375    
+## BFI_consc                                        0.2267     0.0701    3.24   0.00122 ** 
+## BFI_open                                        -0.3597     0.0738   -4.87 0.0000011 ***
+## first_time                                       0.0106     0.0226    0.47   0.63883    
+## duration_relationship_years                      0.0206     0.0179    1.15   0.25107    
+## log1p(number_sexual_partner)                    -0.0639     0.0799   -0.80   0.42381    
+## children_broad_categorieschildren               -0.1042     0.1817   -0.57   0.56640    
+## relationship_status_cleanVerlobt                -0.1328     0.2402   -0.55   0.58034    
+## relationship_status_cleanVerheiratet            -0.6300     0.1910   -3.30   0.00097 ***
+## occupation_cleanSchülerin                        0.5031     0.4510    1.12   0.26460    
+## occupation_cleanAuszubildende                    0.3145     0.4010    0.78   0.43279    
+## occupation_cleanBerufstätig                      0.0759     0.1350    0.56   0.57375    
+## occupation_cleanHausfrau                         0.3116     0.3741    0.83   0.40493    
+## occupation_cleanNicht berufstätig               -0.9293     0.5043   -1.84   0.06536 .  
+## income_partner500-1000€                          0.0955     0.1330    0.72   0.47264    
+## income_partner1000-2000€                         0.1041     0.1446    0.72   0.47167    
+## income_partner2000-3000€                         0.1048     0.1714    0.61   0.54086    
+## income_partner&gt; 3000€                            0.2330     0.2029    1.15   0.25074    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 1347.9  on 1005  degrees of freedom
+## Residual deviance: 1105.9  on  978  degrees of freedom
+##   (37 observations deleted due to missingness)
+## AIC: 1162
+## 
+## Number of Fisher Scoring iterations: 5</code></pre>
+<pre class="r"><code>library(effects)
+plot(allEffects(altogether))</code></pre>
+<p><img src="2_descriptives_files/figure-html/unnamed-chunk-30-1.png" width="1440" /></p>
+</div>
+<div id="categorical-regression-limited-to-lax-subset" class="section level4">
+<h4>Categorical regression limited to lax subset</h4>
+<pre class="r"><code>altogether = glm(hormonal_contraception ~ age + cohabitation + living_situation + religiosity + ZIP + BFI_extra + BFI_neuro + BFI_agree + BFI_consc + BFI_open + first_time + duration_relationship_years + log1p(number_sexual_partner) + children_broad_categories + relationship_status_clean  + occupation_clean + income_partner, data = xsection %&gt;% filter(!is.na(included_lax)), family = binomial(&quot;probit&quot;))
+summary(altogether)</code></pre>
+<pre><code>## 
+## Call:
+## glm(formula = hormonal_contraception ~ age + cohabitation + living_situation + 
+##     religiosity + ZIP + BFI_extra + BFI_neuro + BFI_agree + BFI_consc + 
+##     BFI_open + first_time + duration_relationship_years + log1p(number_sexual_partner) + 
+##     children_broad_categories + relationship_status_clean + occupation_clean + 
+##     income_partner, family = binomial(&quot;probit&quot;), data = xsection %&gt;% 
+##     filter(!is.na(included_lax)))
+## 
+## Deviance Residuals: 
+##    Min      1Q  Median      3Q     Max  
+## -2.374  -0.640   0.512   0.751   1.658  
+## 
+## Coefficients: (1 not defined because of singularities)
+##                                                 Estimate Std. Error z value Pr(&gt;|z|)   
+## (Intercept)                                      2.67698    1.21001    2.21   0.0269 * 
+## age                                             -0.04113    0.02777   -1.48   0.1386   
+## cohabitationLive in same city                    0.23039    0.17782    1.30   0.1951   
+## cohabitationLive in same apartment              -0.31849    0.21603   -1.47   0.1404   
+## living_situationliving in all-female flatshare  -0.03763    0.23561   -0.16   0.8731   
+## living_situationliving in mixed-sex flatshare   -0.30461    0.20124   -1.51   0.1301   
+## living_situationliving with partner                   NA         NA      NA       NA   
+## religiosity                                      0.05996    0.06547    0.92   0.3597   
+## ZIP                                              0.05308    0.11036    0.48   0.6305   
+## BFI_extra                                       -0.09321    0.09820   -0.95   0.3425   
+## BFI_neuro                                       -0.01510    0.10506   -0.14   0.8857   
+## BFI_agree                                       -0.04111    0.12686   -0.32   0.7459   
+## BFI_consc                                        0.25412    0.11110    2.29   0.0222 * 
+## BFI_open                                        -0.34491    0.10984   -3.14   0.0017 **
+## first_time                                      -0.00127    0.03490   -0.04   0.9709   
+## duration_relationship_years                     -0.01880    0.02902   -0.65   0.5171   
+## log1p(number_sexual_partner)                    -0.17006    0.12527   -1.36   0.1746   
+## children_broad_categorieschildren               -0.07860    0.31329   -0.25   0.8019   
+## relationship_status_cleanVerlobt                -0.25265    0.39302   -0.64   0.5203   
+## relationship_status_cleanVerheiratet            -0.27336    0.32458   -0.84   0.3997   
+## occupation_cleanSchülerin                        4.57837  135.22482    0.03   0.9730   
+## occupation_cleanAuszubildende                   -0.13051    0.61475   -0.21   0.8319   
+## occupation_cleanBerufstätig                     -0.17331    0.21402   -0.81   0.4181   
+## occupation_cleanHausfrau                         0.10827    0.95176    0.11   0.9094   
+## occupation_cleanNicht berufstätig               -0.44499    0.69345   -0.64   0.5211   
+## income_partner500-1000€                          0.19814    0.19447    1.02   0.3083   
+## income_partner1000-2000€                         0.04447    0.21683    0.21   0.8375   
+## income_partner2000-3000€                         0.02285    0.27543    0.08   0.9339   
+## income_partner&gt; 3000€                            0.17485    0.32482    0.54   0.5904   
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 565.86  on 494  degrees of freedom
+## Residual deviance: 477.26  on 467  degrees of freedom
+##   (22 observations deleted due to missingness)
+## AIC: 533.3
+## 
+## Number of Fisher Scoring iterations: 14</code></pre>
+<pre class="r"><code>library(effects)
+plot(allEffects(altogether))</code></pre>
+<p><img src="2_descriptives_files/figure-html/unnamed-chunk-31-1.png" width="1440" /></p>
+<div id="restricted-to-predictors-significant-in-the-whole-sample" class="section level5">
+<h5>Restricted to predictors significant in the whole sample</h5>
+<pre class="r"><code>fewer_preds = glm(hormonal_contraception ~ age + cohabitation + + ZIP + BFI_consc + BFI_open + relationship_status_clean, data = xsection %&gt;% filter(!is.na(included_lax)), family = binomial(&quot;probit&quot;))
+summary(fewer_preds)</code></pre>
+<pre><code>## 
+## Call:
+## glm(formula = hormonal_contraception ~ age + cohabitation + +ZIP + 
+##     BFI_consc + BFI_open + relationship_status_clean, family = binomial(&quot;probit&quot;), 
+##     data = xsection %&gt;% filter(!is.na(included_lax)))
+## 
+## Deviance Residuals: 
+##    Min      1Q  Median      3Q     Max  
+## -2.326  -0.906   0.575   0.758   2.066  
+## 
+## Coefficients:
+##                                      Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)                            2.5342     0.6909    3.67  0.00024 ***
+## age                                   -0.0587     0.0166   -3.53  0.00041 ***
+## cohabitationLive in same city          0.0511     0.1580    0.32  0.74649    
+## cohabitationLive in same apartment    -0.2522     0.1643   -1.53  0.12494    
+## ZIP                                    0.0433     0.1001    0.43  0.66576    
+## BFI_consc                              0.2109     0.0953    2.21  0.02701 *  
+## BFI_open                              -0.3591     0.0983   -3.65  0.00026 ***
+## relationship_status_cleanVerlobt      -0.6205     0.3314   -1.87  0.06115 .  
+## relationship_status_cleanVerheiratet  -0.2598     0.2702   -0.96  0.33614    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 609.76  on 516  degrees of freedom
+## Residual deviance: 542.03  on 508  degrees of freedom
+## AIC: 560
+## 
+## Number of Fisher Scoring iterations: 4</code></pre>
+<pre class="r"><code>plot(allEffects(fewer_preds))</code></pre>
+<p><img src="2_descriptives_files/figure-html/unnamed-chunk-32-1.png" width="672" /></p>
+</div>
+</div>
+</div>
+</div>
+<div id="further-plots" class="section level2">
+<h2>Further plots</h2>
+<pre class="r"><code>bar_count(xsection, has_not_had_sex_yet)</code></pre>
+<p><img src="2_descriptives_files/figure-html/demographic data-1.png" width="672" /></p>
+<pre class="r"><code>bar_count(xsection, had_sex_with_partner_yet)</code></pre>
+<p><img src="2_descriptives_files/figure-html/demographic data-2.png" width="672" /></p>
+<pre class="r"><code>bar_count(xsection, trying_to_get_pregnant)</code></pre>
+<p><img src="2_descriptives_files/figure-html/demographic data-3.png" width="672" /></p>
+<pre class="r"><code>bar_count(xsection, breast_feeding_in_last_3_months)</code></pre>
+<p><img src="2_descriptives_files/figure-html/demographic data-4.png" width="672" /></p>
+<pre class="r"><code>bar_count(xsection, pregnant_in_last_3_months)</code></pre>
+<p><img src="2_descriptives_files/figure-html/demographic data-5.png" width="672" /></p>
+<pre class="r"><code>bar_count(xsection, hormonal_medication_in_last_3_months)</code></pre>
+<p><img src="2_descriptives_files/figure-html/demographic data-6.png" width="672" /></p>
+<pre class="r"><code>bar_count(xsection, pill_in_last_3_months)</code></pre>
+<p><img src="2_descriptives_files/figure-html/demographic data-7.png" width="672" /></p>
+</div>
+<div id="predictors" class="section level2 tab-content">
+<h2>Predictors</h2>
+<div id="sample-sizes" class="section level3">
+<h3>Sample sizes</h3>
+<p>Comparing the various predictors</p>
+<pre class="r"><code>diary %&gt;% select(person, day_number, fertile_narrow, fertile_broad, fertile_narrow_forward_counted, fertile_broad_forward_counted, prc_stirn_b_squished, prc_stirn_b_backward_inferred) %&gt;% 
+  gather(predictor, value, -person) %&gt;% 
+  mutate(description = recode(predictor, &quot;day_number&quot; = &#39;&#39;, 
+  &quot;fertile_narrow&quot; = &#39;narrow window, backward counted&#39;, 
+  &quot;fertile_broad&quot; = &#39;broad window, backward counted&#39;, 
+  &quot;fertile_narrow_forward_counted&quot; = &#39;narrow window, forward counted&#39;, 
+  &quot;fertile_broad_forward_counted&quot; = &#39;broad window, forward counted&#39;, 
+  &quot;prc_stirn_b_squished&quot; = &#39;continuous, backward counted&#39;, 
+  &quot;prc_stirn_b_backward_inferred&quot; = &#39;continuous, backward counted from reported cycle length&#39;),
+  predictor = factor(recode(predictor, &quot;day_number&quot; = &#39;all days&#39;, 
+  &quot;fertile_narrow&quot; = &#39;narrow BC&#39;, 
+  &quot;fertile_broad&quot; = &#39;broad BC&#39;, 
+  &quot;fertile_narrow_forward_counted&quot; = &#39;narrow FC&#39;, 
+  &quot;fertile_broad_forward_counted&quot; = &#39;broad FC&#39;, 
+  &quot;prc_stirn_b_squished&quot; = &#39;cont. BC&#39;, 
+  &quot;prc_stirn_b_backward_inferred&quot; = &#39;continuous BCi&#39;), levels = 
+    c(&quot;all days&quot;, &quot;narrow BC&quot;, &quot;broad BC&quot;, &quot;narrow FC&quot;, &quot;broad FC&quot;, 
+&quot;cont. BC&quot;, &quot;continuous BCi&quot;))) %&gt;% 
+  group_by(predictor, description) %&gt;% 
+  summarise(`n (days)` = n_nonmissing(value), 
+            `% of days` = form(n_nonmissing(value)/n()*100), 
+            `n (women)` = n_distinct(person[!is.na(value)])) %&gt;% 
+  data.frame(check.names = F) %&gt;% 
+  pander()</code></pre>
+<table>
+<colgroup>
+<col width="18%" />
+<col width="38%" />
+<col width="13%" />
+<col width="14%" />
+<col width="14%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">predictor</th>
+<th align="center">description</th>
+<th align="center">n (days)</th>
+<th align="center">% of days</th>
+<th align="center">n (women)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">all days</td>
+<td align="center"></td>
+<td align="center">28493</td>
+<td align="center">100.00</td>
+<td align="center">1043</td>
+</tr>
+<tr class="even">
+<td align="center">narrow BC</td>
+<td align="center">narrow window, backward counted</td>
+<td align="center">9501</td>
+<td align="center">33.35</td>
+<td align="center">794</td>
+</tr>
+<tr class="odd">
+<td align="center">broad BC</td>
+<td align="center">broad window, backward counted</td>
+<td align="center">11497</td>
+<td align="center">40.35</td>
+<td align="center">796</td>
+</tr>
+<tr class="even">
+<td align="center">narrow FC</td>
+<td align="center">narrow window, forward counted</td>
+<td align="center">12171</td>
+<td align="center">42.72</td>
+<td align="center">973</td>
+</tr>
+<tr class="odd">
+<td align="center">broad FC</td>
+<td align="center">broad window, forward counted</td>
+<td align="center">15880</td>
+<td align="center">55.73</td>
+<td align="center">997</td>
+</tr>
+<tr class="even">
+<td align="center">cont. BC</td>
+<td align="center">continuous, backward counted</td>
+<td align="center">17614</td>
+<td align="center">61.82</td>
+<td align="center">817</td>
+</tr>
+<tr class="odd">
+<td align="center">continuous BCi</td>
+<td align="center">continuous, backward counted from reported cycle length</td>
+<td align="center">26580</td>
+<td align="center">93.29</td>
+<td align="center">1043</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>pander(missingness_patterns(diary %&gt;% ungroup %&gt;% select(prc_stirn_b, prc_stirn_b_forward_counted, prc_stirn_b_backward_inferred)))</code></pre>
+<p>index col missings 1 prc_stirn_b 10898 2 prc_stirn_b_backward_inferred 1913 3 prc_stirn_b_forward_counted 1780</p>
+<table style="width:61%;">
+<colgroup>
+<col width="13%" />
+<col width="9%" />
+<col width="37%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Pattern</th>
+<th align="center">Freq</th>
+<th align="center">Culprit</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">_____</td>
+<td align="center">16566</td>
+<td align="center">_</td>
+</tr>
+<tr class="even">
+<td align="center">1____</td>
+<td align="center">8985</td>
+<td align="center">prc_stirn_b</td>
+</tr>
+<tr class="odd">
+<td align="center">1_2__</td>
+<td align="center">1162</td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="center">____3</td>
+<td align="center">1029</td>
+<td align="center">prc_stirn_b_forward_counted</td>
+</tr>
+<tr class="odd">
+<td align="center">1_2_3</td>
+<td align="center">751</td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="correlations" class="section level3">
+<h3>Correlations</h3>
+<pre class="r"><code>diary %&gt;% select(prc_stirn_b_squished, prc_stirn_b_forward_counted) %&gt;% 
+cor(use=&#39;pairwise.complete.obs&#39;) %&gt;% form() %&gt;% pander()</code></pre>
+<table>
+<colgroup>
+<col width="39%" />
+<col width="26%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">prc_stirn_b_squished</th>
+<th align="center">prc_stirn_b_forward_counted</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>prc_stirn_b_squished</strong></td>
+<td align="center">1.00</td>
+<td align="center">0.67</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>prc_stirn_b_forward_counted</strong></td>
+<td align="center">0.67</td>
+<td align="center">1.00</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="plotted-menstruation-and-fertility-estimates" class="section level3 tab-content">
+<h3>Plotted menstruation and fertility estimates</h3>
+<pre class="r"><code>wall = list(scale_y_discrete(&quot;Person&quot;),
+  geom_tile(), 
+  scale_x_continuous(&quot;Relative to last observed menstrual onset&quot;, limits= c(-40, 15), breaks = seq(-40,15, by = 5)),
+  geom_point(aes(colour=menstruation_strength)),
+  scale_fill_distiller(&quot;Conception risk&quot;),
+  scale_color_manual(&quot;Menstruation strength&quot;, values = c(&quot;0&quot;=&quot;transparent&quot;,&quot;1&quot;=&quot;pink&quot;,&quot;2&quot;=&quot;red&quot;,&quot;3&quot;=&quot;darkred&quot;)),
+  geom_vline(aes(xintercept = limits, linetype = Window),data = data.frame(limits= c(-14.5,-19.5, -13.5,-22.5,-3.5,-12.5), Window = rep(c(&quot;narrow&quot;,&quot;broad&quot;,&quot;infertile&quot;),each=2)),color = &#39;black&#39;, size = 0.9, alpha = 0.9,show.legend = T),
+  scale_linetype_manual(&quot;Window&quot;, values = c(&quot;narrow&quot;=&quot;solid&quot;,&quot;broad&quot;=&quot;dashed&quot;,&quot;infertile&quot;=&quot;dotted&quot;))
+)</code></pre>
+<div id="predictor-backward-counted" class="section level4">
+<h4>Predictor: Backward-counted</h4>
+<div id="cycling" class="section level5">
+<h5>Cycling</h5>
+<pre class="r"><code>diary %&gt;% filter(included_all == &quot;cycling&quot;,fertile_days_known_backward &gt; 10, sufficient_diary_coverage==T, ever_menstruated == T, any_RCD == T, person &lt; 400) %&gt;%
+  ggplot(aes(x = RCD, y = factor(person), fill = prc_stirn_b)) + wall </code></pre>
+<pre><code>## Warning: Removed 693 rows containing missing values (geom_tile).</code></pre>
+<pre><code>## Warning: Removed 693 rows containing missing values (geom_point).</code></pre>
+<p><img src="2_descriptives_files/figure-html/unnamed-chunk-36-1.png" width="960" /></p>
+</div>
+<div id="hormonally-contracepting" class="section level5">
+<h5>Hormonally contracepting</h5>
+<pre class="r"><code>diary %&gt;% filter(included_all == &quot;horm_contra&quot;,fertile_days_known_backward &gt; 10, sufficient_diary_coverage==T, ever_menstruated == T, any_RCD == T, person &lt; 400) %&gt;%
+  ggplot(aes(x = RCD, y = factor(person), fill = prc_stirn_b)) + wall </code></pre>
+<pre><code>## Warning: Removed 1312 rows containing missing values (geom_tile).</code></pre>
+<pre><code>## Warning: Removed 1312 rows containing missing values (geom_point).</code></pre>
+<p><img src="2_descriptives_files/figure-html/unnamed-chunk-37-1.png" width="960" /></p>
+</div>
+</div>
+<div id="predictor-forward-counted" class="section level4">
+<h4>Predictor: Forward-counted</h4>
+<div id="cycling-1" class="section level5">
+<h5>Cycling</h5>
+<pre class="r"><code>diary %&gt;% filter(included_all == &quot;cycling&quot;,fertile_days_known_backward &gt; 10, sufficient_diary_coverage==T, ever_menstruated == T, any_RCD == T, person &lt; 400) %&gt;%
+  ggplot(aes(x = RCD, y = factor(person), fill = prc_stirn_b_forward_counted)) + wall </code></pre>
+<pre><code>## Warning: Removed 693 rows containing missing values (geom_tile).</code></pre>
+<pre><code>## Warning: Removed 693 rows containing missing values (geom_point).</code></pre>
+<p><img src="2_descriptives_files/figure-html/unnamed-chunk-38-1.png" width="960" /></p>
+</div>
+<div id="hormonally-contracepting-1" class="section level5">
+<h5>Hormonally contracepting</h5>
+<pre class="r"><code>diary %&gt;% filter(included_all == &quot;horm_contra&quot;,fertile_days_known_backward &gt; 10, sufficient_diary_coverage==T, ever_menstruated == T, any_RCD == T, person &lt; 400) %&gt;%
+  ggplot(aes(x = RCD, y = factor(person), fill = prc_stirn_b_forward_counted)) + wall </code></pre>
+<pre><code>## Warning: Removed 1312 rows containing missing values (geom_tile).</code></pre>
+<pre><code>## Warning: Removed 1312 rows containing missing values (geom_point).</code></pre>
+<p><img src="2_descriptives_files/figure-html/unnamed-chunk-39-1.png" width="960" /></p>
+</div>
+</div>
+<div id="predictor-forward-and-backward-averaged" class="section level4">
+<h4>Predictor: Forward and backward averaged</h4>
+<div id="cycling-2" class="section level5">
+<h5>Cycling</h5>
+<pre class="r"><code>diary %&gt;% filter(included_all == &quot;cycling&quot;,fertile_days_known_backward &gt; 10, sufficient_diary_coverage==T, ever_menstruated == T, any_RCD == T, person &lt; 400) %&gt;%
+  ggplot(aes(x = RCD, y = factor(person), fill = fertile_forward_and_backward)) + wall </code></pre>
+<pre><code>## Warning: Removed 693 rows containing missing values (geom_tile).</code></pre>
+<pre><code>## Warning: Removed 693 rows containing missing values (geom_point).</code></pre>
+<p><img src="2_descriptives_files/figure-html/unnamed-chunk-40-1.png" width="960" /></p>
+</div>
+<div id="hormonally-contracepting-2" class="section level5">
+<h5>Hormonally contracepting</h5>
+<pre class="r"><code>diary %&gt;% filter(included_all == &quot;horm_contra&quot;,fertile_days_known_backward &gt; 10, sufficient_diary_coverage==T, ever_menstruated == T, any_RCD == T, person &lt; 400) %&gt;%
+  ggplot(aes(x = RCD, y = factor(person), fill = fertile_forward_and_backward)) + wall </code></pre>
+<pre><code>## Warning: Removed 1312 rows containing missing values (geom_tile).</code></pre>
+<pre><code>## Warning: Removed 1312 rows containing missing values (geom_point).</code></pre>
+<p><img src="2_descriptives_files/figure-html/unnamed-chunk-41-1.png" width="960" /></p>
+</div>
+</div>
+</div>
+</div>
+<div id="diary-generalizability" class="section level2 tab-content">
+<h2>Diary generalizability</h2>
+<pre class="r"><code>multi_rel = function(x, lme = T, lmer = T) { 
+  mrel = x %&gt;%
+  filter(day_number &lt;= 40) %&gt;%
+  gather(variable, value, -person, -day_number) %&gt;%
+  multilevel.reliability(., &quot;person&quot;, &quot;day_number&quot;, lme = lme, lmer = lmer, items = &quot;variable&quot;, values = &quot;value&quot;, long = T, aov = F)
+  mrel
+}</code></pre>
+<div id="extra-pair-desire" class="section level3">
+<h3>Extra-pair desire</h3>
+<pre class="r"><code>diary %&gt;% 
+  select(person, day_number, extra_pair_2:extra_pair_13) %&gt;%
+  multi_rel(lmer = T, lme = F)</code></pre>
+<pre><code>## Warning: attributes are not identical across measure variables; they will be dropped</code></pre>
+<pre><code>## 
+## Multilevel Generalizability analysis   
+## Call: multilevel.reliability(x = ., grp = &quot;person&quot;, Time = &quot;day_number&quot;, 
+##     items = &quot;variable&quot;, aov = F, lmer = lmer, lme = lme, long = T, 
+##     values = &quot;value&quot;)
+## 
+## The data had  1043  observations taken over  41  time intervals for  12 items.
+## 
+##  Alternative estimates of reliabilty based upon Generalizability theory
+## 
+## RkF  =  0.99 Reliability of average of all ratings across all items and  times (Fixed time effects)
+## R1R  =  0.5 Generalizability of a single time point across all items (Random time effects)
+## RkR  =  0.98 Generalizability of average time points across all items (Random time effects)
+## Rc   =  0.76 Generalizability of change (fixed time points, fixed items) 
+## RkRn =  0.98 Generalizability of between person differences averaged over time (time nested within people)
+## Rcn  =  0.6 Generalizability of within person variations averaged over items  (time nested within people)
+## 
+##  These reliabilities are derived from the components of variance estimated by lmer 
+##              variance Percent
+## ID               0.28    0.12
+## Time             0.00    0.00
+## Items            0.21    0.09
+## ID x time        0.24    0.10
+## ID x items       0.40    0.17
+## time x items     0.28    0.12
+## Residual         0.91    0.39
+## Total            2.32    1.00
+## 
+##  The nested components of variance estimated from lmer are:
+##          variance Percent
+## id           0.32   0.157
+## id(time)     0.19   0.093
+## residual     1.51   0.750
+## total        2.02   1.000
+## 
+## To see the ANOVA and alpha by subject, use the short = FALSE option.
+##  To see the summaries of the ICCs by subject and time, use all=TRUE
+##  To see specific objects select from the following list:
+##  ANOVA s.lmer s.lme alpha summary.by.person summary.by.time ICC.by.person ICC.by.time lmer long Call</code></pre>
+</div>
+<div id="in-pair-desire" class="section level3">
+<h3>In-pair desire</h3>
+<pre class="r"><code>diary %&gt;% 
+  select(person, day_number, sexual_intercourse_1_6scale, desirability_partner, attention_2) %&gt;%
+  multi_rel(lme = F, lmer = T)</code></pre>
+<pre><code>## Warning: attributes are not identical across measure variables; they will be dropped</code></pre>
+<pre><code>## Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl = control$checkConv, : Model failed to converge with
+## max|grad| = 0.0062894 (tol = 0.002, component 1)</code></pre>
+<pre><code>## 
+## Multilevel Generalizability analysis   
+## Call: multilevel.reliability(x = ., grp = &quot;person&quot;, Time = &quot;day_number&quot;, 
+##     items = &quot;variable&quot;, aov = F, lmer = lmer, lme = lme, long = T, 
+##     values = &quot;value&quot;)
+## 
+## The data had  1043  observations taken over  41  time intervals for  3 items.
+## 
+##  Alternative estimates of reliabilty based upon Generalizability theory
+## 
+## RkF  =  0.99 Reliability of average of all ratings across all items and  times (Fixed time effects)
+## R1R  =  0.38 Generalizability of a single time point across all items (Random time effects)
+## RkR  =  0.96 Generalizability of average time points across all items (Random time effects)
+## Rc   =  0.82 Generalizability of change (fixed time points, fixed items) 
+## RkRn =  0.96 Generalizability of between person differences averaged over time (time nested within people)
+## Rcn  =  0.75 Generalizability of within person variations averaged over items  (time nested within people)
+## 
+##  These reliabilities are derived from the components of variance estimated by lmer 
+##              variance Percent
+## ID               0.68    0.21
+## Time             0.00    0.00
+## Items            0.09    0.03
+## ID x time        0.98    0.30
+## ID x items       0.17    0.05
+## time x items     0.68    0.21
+## Residual         0.62    0.19
+## Total            3.22    1.00
+## 
+##  The nested components of variance estimated from lmer are:
+##          variance Percent
+## id           0.73    0.29
+## id(time)     0.89    0.36
+## residual     0.88    0.35
+## total        2.51    1.00
+## 
+## To see the ANOVA and alpha by subject, use the short = FALSE option.
+##  To see the summaries of the ICCs by subject and time, use all=TRUE
+##  To see specific objects select from the following list:
+##  ANOVA s.lmer s.lme alpha summary.by.person summary.by.time ICC.by.person ICC.by.time lmer long Call</code></pre>
+</div>
+<div id="self-perceived-desirability" class="section level3">
+<h3>Self-perceived desirability</h3>
+<pre class="r"><code>diary %&gt;% 
+  select(person, day_number, desirability_1) %&gt;%
+  multi_rel(lme = T, lmer = F)</code></pre>
+<pre><code>## 
+## Multilevel Generalizability analysis   
+## Call: multilevel.reliability(x = ., grp = &quot;person&quot;, Time = &quot;day_number&quot;, 
+##     items = &quot;variable&quot;, aov = F, lmer = lmer, lme = lme, long = T, 
+##     values = &quot;value&quot;)
+## 
+## The data had  1043  observations taken over  41  time intervals for  1 items.
+## 
+##  Alternative estimates of reliabilty based upon Generalizability theory
+## 
+## RkRn =  0.96 Generalizability of between person differences averaged over time (time nested within people)
+## Rcn  =  0.86 Generalizability of within person variations averaged over items  (time nested within people)
+##  The nested components of variance estimated from lme are:
+##          Variance Percent
+## id           0.71   0.359
+## id(time)     1.09   0.551
+## residual     0.18   0.091
+## total        1.98   1.000
+## 
+## To see the ANOVA and alpha by subject, use the short = FALSE option.
+##  To see the summaries of the ICCs by subject and time, use all=TRUE
+##  To see specific objects select from the following list:
+##  ANOVA s.lmer s.lme alpha summary.by.person summary.by.time ICC.by.person ICC.by.time lmer long Call</code></pre>
+</div>
+<div id="sexy-clothing-choices" class="section level3">
+<h3>Sexy clothing choices</h3>
+<pre class="r"><code>diary %&gt;% 
+  select(person, day_number, matches(&quot;choice_of_clothing_(4|6|7)&quot;)) %&gt;%
+  multi_rel(lmer = T)</code></pre>
+<pre><code>## Warning: attributes are not identical across measure variables; they will be dropped</code></pre>
+<pre><code>## 
+## Multilevel Generalizability analysis   
+## Call: multilevel.reliability(x = ., grp = &quot;person&quot;, Time = &quot;day_number&quot;, 
+##     items = &quot;variable&quot;, aov = F, lmer = lmer, lme = lme, long = T, 
+##     values = &quot;value&quot;)
+## 
+## The data had  1043  observations taken over  41  time intervals for  3 items.
+## 
+##  Alternative estimates of reliabilty based upon Generalizability theory
+## 
+## RkF  =  0.99 Reliability of average of all ratings across all items and  times (Fixed time effects)
+## R1R  =  0.39 Generalizability of a single time point across all items (Random time effects)
+## RkR  =  0.96 Generalizability of average time points across all items (Random time effects)
+## Rc   =  0.81 Generalizability of change (fixed time points, fixed items) 
+## RkRn =  0.96 Generalizability of between person differences averaged over time (time nested within people)
+## Rcn  =  0.6 Generalizability of within person variations averaged over items  (time nested within people)
+## 
+##  These reliabilities are derived from the components of variance estimated by lmer 
+##              variance Percent
+## ID               0.51    0.18
+## Time             0.00    0.00
+## Items            0.38    0.13
+## ID x time        0.73    0.26
+## ID x items       0.18    0.07
+## time x items     0.51    0.18
+## Residual         0.52    0.18
+## Total            2.84    1.00
+## 
+##  The nested components of variance estimated from lmer are:
+##          variance Percent
+## id           0.58    0.26
+## id(time)     0.54    0.24
+## residual     1.09    0.49
+## total        2.21    1.00
+## 
+## To see the ANOVA and alpha by subject, use the short = FALSE option.
+##  To see the summaries of the ICCs by subject and time, use all=TRUE
+##  To see specific objects select from the following list:
+##  ANOVA s.lmer s.lme alpha summary.by.person summary.by.time ICC.by.person ICC.by.time lmer long Call</code></pre>
+</div>
+<div id="partner-mate-retention" class="section level3">
+<h3>Partner mate retention</h3>
+<pre class="r"><code>diary %&gt;% 
+  select(person, day_number, male_jealousy_2, male_mate_retention_1, male_mate_retention_2, male_attention_1) %&gt;%
+  multi_rel(lme = F, lmer = T)</code></pre>
+<pre><code>## Warning: attributes are not identical across measure variables; they will be dropped</code></pre>
+<pre><code>## Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl = control$checkConv, : Model failed to converge with
+## max|grad| = 0.00498573 (tol = 0.002, component 1)</code></pre>
+<pre><code>## 
+## Multilevel Generalizability analysis   
+## Call: multilevel.reliability(x = ., grp = &quot;person&quot;, Time = &quot;day_number&quot;, 
+##     items = &quot;variable&quot;, aov = F, lmer = lmer, lme = lme, long = T, 
+##     values = &quot;value&quot;)
+## 
+## The data had  1043  observations taken over  41  time intervals for  4 items.
+## 
+##  Alternative estimates of reliabilty based upon Generalizability theory
+## 
+## RkF  =  0.98 Reliability of average of all ratings across all items and  times (Fixed time effects)
+## R1R  =  0.46 Generalizability of a single time point across all items (Random time effects)
+## RkR  =  0.97 Generalizability of average time points across all items (Random time effects)
+## Rc   =  0.43 Generalizability of change (fixed time points, fixed items) 
+## RkRn =  0.96 Generalizability of between person differences averaged over time (time nested within people)
+## Rcn  =  0 Generalizability of within person variations averaged over items  (time nested within people)
+## 
+##  These reliabilities are derived from the components of variance estimated by lmer 
+##              variance Percent
+## ID               0.30    0.07
+## Time             0.00    0.00
+## Items            1.37    0.29
+## ID x time        0.27    0.06
+## ID x items       0.96    0.21
+## time x items     0.30    0.07
+## Residual         1.44    0.31
+## Total            4.66    1.00
+## 
+##  The nested components of variance estimated from lmer are:
+##          variance Percent
+## id           0.53    0.13
+## id(time)     0.00    0.00
+## residual     3.51    0.87
+## total        4.04    1.00
+## 
+## To see the ANOVA and alpha by subject, use the short = FALSE option.
+##  To see the summaries of the ICCs by subject and time, use all=TRUE
+##  To see specific objects select from the following list:
+##  ANOVA s.lmer s.lme alpha summary.by.person summary.by.time ICC.by.person ICC.by.time lmer long Call</code></pre>
+</div>
+<div id="female-mate-retention" class="section level3">
+<h3>Female mate retention</h3>
+<pre class="r"><code>diary %&gt;% 
+  select(person, day_number, mate_retention_3, mate_retention_4, mate_retention_5, mate_retention_6, attention_1) %&gt;%
+  multi_rel(lme = F, lmer = T)</code></pre>
+<pre><code>## Warning: attributes are not identical across measure variables; they will be dropped</code></pre>
+<pre><code>## Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl = control$checkConv, : Model failed to converge with
+## max|grad| = 0.00584763 (tol = 0.002, component 1)</code></pre>
+<pre><code>## 
+## Multilevel Generalizability analysis   
+## Call: multilevel.reliability(x = ., grp = &quot;person&quot;, Time = &quot;day_number&quot;, 
+##     items = &quot;variable&quot;, aov = F, lmer = lmer, lme = lme, long = T, 
+##     values = &quot;value&quot;)
+## 
+## The data had  1043  observations taken over  41  time intervals for  5 items.
+## 
+##  Alternative estimates of reliabilty based upon Generalizability theory
+## 
+## RkF  =  0.99 Reliability of average of all ratings across all items and  times (Fixed time effects)
+## R1R  =  0.44 Generalizability of a single time point across all items (Random time effects)
+## RkR  =  0.97 Generalizability of average time points across all items (Random time effects)
+## Rc   =  0.68 Generalizability of change (fixed time points, fixed items) 
+## RkRn =  0.97 Generalizability of between person differences averaged over time (time nested within people)
+## Rcn  =  0.17 Generalizability of within person variations averaged over items  (time nested within people)
+## 
+##  These reliabilities are derived from the components of variance estimated by lmer 
+##              variance Percent
+## ID               0.41    0.10
+## Time             0.00    0.00
+## Items            1.08    0.26
+## ID x time        0.48    0.11
+## ID x items       0.67    0.16
+## time x items     0.41    0.10
+## Residual         1.13    0.27
+## Total            4.18    1.00
+## 
+##  The nested components of variance estimated from lmer are:
+##          variance Percent
+## id           0.55   0.152
+## id(time)     0.12   0.034
+## residual     2.93   0.815
+## total        3.59   1.000
+## 
+## To see the ANOVA and alpha by subject, use the short = FALSE option.
+##  To see the summaries of the ICCs by subject and time, use all=TRUE
+##  To see specific objects select from the following list:
+##  ANOVA s.lmer s.lme alpha summary.by.person summary.by.time ICC.by.person ICC.by.time lmer long Call</code></pre>
+</div>
+<div id="female-jealousy" class="section level3">
+<h3>Female jealousy</h3>
+<pre class="r"><code>diary %&gt;% 
+  select(person, day_number, jealousy_1, male_jealousy_1, male_jealousy_3) %&gt;%
+  multi_rel(lme = F, lmer = T)</code></pre>
+<pre><code>## Warning: attributes are not identical across measure variables; they will be dropped</code></pre>
+<pre><code>## Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl = control$checkConv, : Model failed to converge with
+## max|grad| = 0.00350017 (tol = 0.002, component 1)</code></pre>
+<pre><code>## 
+## Multilevel Generalizability analysis   
+## Call: multilevel.reliability(x = ., grp = &quot;person&quot;, Time = &quot;day_number&quot;, 
+##     items = &quot;variable&quot;, aov = F, lmer = lmer, lme = lme, long = T, 
+##     values = &quot;value&quot;)
+## 
+## The data had  1043  observations taken over  41  time intervals for  3 items.
+## 
+##  Alternative estimates of reliabilty based upon Generalizability theory
+## 
+## RkF  =  0.98 Reliability of average of all ratings across all items and  times (Fixed time effects)
+## R1R  =  0.42 Generalizability of a single time point across all items (Random time effects)
+## RkR  =  0.97 Generalizability of average time points across all items (Random time effects)
+## Rc   =  0.29 Generalizability of change (fixed time points, fixed items) 
+## RkRn =  0.96 Generalizability of between person differences averaged over time (time nested within people)
+## Rcn  =  0 Generalizability of within person variations averaged over items  (time nested within people)
+## 
+##  These reliabilities are derived from the components of variance estimated by lmer 
+##              variance Percent
+## ID               0.13    0.06
+## Time             0.00    0.00
+## Items            0.45    0.21
+## ID x time        0.12    0.05
+## ID x items       0.49    0.23
+## time x items     0.13    0.06
+## Residual         0.86    0.40
+## Total            2.16    1.00
+## 
+##  The nested components of variance estimated from lmer are:
+##          variance Percent
+## id           0.28    0.15
+## id(time)     0.00    0.00
+## residual     1.62    0.85
+## total        1.90    1.00
+## 
+## To see the ANOVA and alpha by subject, use the short = FALSE option.
+##  To see the summaries of the ICCs by subject and time, use all=TRUE
+##  To see specific objects select from the following list:
+##  ANOVA s.lmer s.lme alpha summary.by.person summary.by.time ICC.by.person ICC.by.time lmer long Call</code></pre>
+</div>
+<div id="narcissistic-admiration" class="section level3">
+<h3>Narcissistic admiration</h3>
+<pre class="r"><code>diary %&gt;% 
+  select(person, day_number, NARQ_admiration_1, NARQ_admiration_2, NARQ_admiration_3) %&gt;%
+  multi_rel(lmer = T, lme = F)</code></pre>
+<pre><code>## Warning: attributes are not identical across measure variables; they will be dropped</code></pre>
+<pre><code>## 
+## Multilevel Generalizability analysis   
+## Call: multilevel.reliability(x = ., grp = &quot;person&quot;, Time = &quot;day_number&quot;, 
+##     items = &quot;variable&quot;, aov = F, lmer = lmer, lme = lme, long = T, 
+##     values = &quot;value&quot;)
+## 
+## The data had  1043  observations taken over  41  time intervals for  3 items.
+## 
+##  Alternative estimates of reliabilty based upon Generalizability theory
+## 
+## RkF  =  1 Reliability of average of all ratings across all items and  times (Fixed time effects)
+## R1R  =  0.68 Generalizability of a single time point across all items (Random time effects)
+## RkR  =  0.99 Generalizability of average time points across all items (Random time effects)
+## Rc   =  0.71 Generalizability of change (fixed time points, fixed items) 
+## RkRn =  0.99 Generalizability of between person differences averaged over time (time nested within people)
+## Rcn  =  0.57 Generalizability of within person variations averaged over items  (time nested within people)
+## 
+##  These reliabilities are derived from the components of variance estimated by lmer 
+##              variance Percent
+## ID               1.04    0.33
+## Time             0.00    0.00
+## Items            0.00    0.00
+## ID x time        0.38    0.12
+## ID x items       0.24    0.08
+## time x items     1.04    0.33
+## Residual         0.45    0.14
+## Total            3.16    1.00
+## 
+##  The nested components of variance estimated from lmer are:
+##          variance Percent
+## id           1.12    0.53
+## id(time)     0.30    0.14
+## residual     0.69    0.33
+## total        2.12    1.00
+## 
+## To see the ANOVA and alpha by subject, use the short = FALSE option.
+##  To see the summaries of the ICCs by subject and time, use all=TRUE
+##  To see specific objects select from the following list:
+##  ANOVA s.lmer s.lme alpha summary.by.person summary.by.time ICC.by.person ICC.by.time lmer long Call</code></pre>
+</div>
+<div id="narcissistic-rivalry" class="section level3">
+<h3>Narcissistic rivalry</h3>
+<pre class="r"><code>diary %&gt;% 
+  select(person, day_number, NARQ_rivalry_1, NARQ_rivalry_2, NARQ_rivalry_3) %&gt;%
+  multi_rel(lmer = T)</code></pre>
+<pre><code>## Warning: attributes are not identical across measure variables; they will be dropped</code></pre>
+<pre><code>## 
+## Multilevel Generalizability analysis   
+## Call: multilevel.reliability(x = ., grp = &quot;person&quot;, Time = &quot;day_number&quot;, 
+##     items = &quot;variable&quot;, aov = F, lmer = lmer, lme = lme, long = T, 
+##     values = &quot;value&quot;)
+## 
+## The data had  1043  observations taken over  41  time intervals for  3 items.
+## 
+##  Alternative estimates of reliabilty based upon Generalizability theory
+## 
+## RkF  =  0.99 Reliability of average of all ratings across all items and  times (Fixed time effects)
+## R1R  =  0.49 Generalizability of a single time point across all items (Random time effects)
+## RkR  =  0.98 Generalizability of average time points across all items (Random time effects)
+## Rc   =  0.65 Generalizability of change (fixed time points, fixed items) 
+## RkRn =  0.97 Generalizability of between person differences averaged over time (time nested within people)
+## Rcn  =  0.55 Generalizability of within person variations averaged over items  (time nested within people)
+## 
+##  These reliabilities are derived from the components of variance estimated by lmer 
+##              variance Percent
+## ID               0.21    0.23
+## Time             0.00    0.00
+## Items            0.00    0.00
+## ID x time        0.16    0.17
+## ID x items       0.08    0.09
+## time x items     0.21    0.23
+## Residual         0.26    0.28
+## Total            0.94    1.00
+## 
+##  The nested components of variance estimated from lmer are:
+##          variance Percent
+## id           0.24    0.33
+## id(time)     0.14    0.19
+## residual     0.35    0.48
+## total        0.73    1.00
+## 
+## To see the ANOVA and alpha by subject, use the short = FALSE option.
+##  To see the summaries of the ICCs by subject and time, use all=TRUE
+##  To see specific objects select from the following list:
+##  ANOVA s.lmer s.lme alpha summary.by.person summary.by.time ICC.by.person ICC.by.time lmer long Call</code></pre>
+</div>
+<div id="self-esteem" class="section level3">
+<h3>Self esteem</h3>
+<pre class="r"><code>diary %&gt;% 
+  select(person, day_number,self_esteem_1) %&gt;%
+  multi_rel(lmer = F)</code></pre>
+<pre><code>## 
+## Multilevel Generalizability analysis   
+## Call: multilevel.reliability(x = ., grp = &quot;person&quot;, Time = &quot;day_number&quot;, 
+##     items = &quot;variable&quot;, aov = F, lmer = lmer, lme = lme, long = T, 
+##     values = &quot;value&quot;)
+## 
+## The data had  1043  observations taken over  41  time intervals for  1 items.
+## 
+##  Alternative estimates of reliabilty based upon Generalizability theory
+## 
+## RkRn =  0.97 Generalizability of between person differences averaged over time (time nested within people)
+## Rcn  =  0.86 Generalizability of within person variations averaged over items  (time nested within people)
+##  The nested components of variance estimated from lme are:
+##          Variance Percent
+## id           0.58   0.426
+## id(time)     0.67   0.493
+## residual     0.11   0.081
+## total        1.36   1.000
+## 
+## To see the ANOVA and alpha by subject, use the short = FALSE option.
+##  To see the summaries of the ICCs by subject and time, use all=TRUE
+##  To see specific objects select from the following list:
+##  ANOVA s.lmer s.lme alpha summary.by.person summary.by.time ICC.by.person ICC.by.time lmer long Call</code></pre>
+</div>
+<div id="satisfaction-with-sexual-intercourse" class="section level3">
+<h3>Satisfaction with sexual intercourse</h3>
+<pre class="r"><code>diary %&gt;% 
+  select(person, day_number, desirability_partner) %&gt;%
+  multi_rel(lmer = F)</code></pre>
+<pre><code>## 
+## Multilevel Generalizability analysis   
+## Call: multilevel.reliability(x = ., grp = &quot;person&quot;, Time = &quot;day_number&quot;, 
+##     items = &quot;variable&quot;, aov = F, lmer = lmer, lme = lme, long = T, 
+##     values = &quot;value&quot;)
+## 
+## The data had  1043  observations taken over  41  time intervals for  1 items.
+## 
+##  Alternative estimates of reliabilty based upon Generalizability theory
+## 
+## RkRn =  0.96 Generalizability of between person differences averaged over time (time nested within people)
+## Rcn  =  0.86 Generalizability of within person variations averaged over items  (time nested within people)
+##  The nested components of variance estimated from lme are:
+##          Variance Percent
+## id           0.84   0.400
+## id(time)     1.08   0.514
+## residual     0.18   0.086
+## total        2.10   1.000
+## 
+## To see the ANOVA and alpha by subject, use the short = FALSE option.
+##  To see the summaries of the ICCs by subject and time, use all=TRUE
+##  To see specific objects select from the following list:
+##  ANOVA s.lmer s.lme alpha summary.by.person summary.by.time ICC.by.person ICC.by.time lmer long Call</code></pre>
+</div>
+<div id="relationship-satisfaction-1" class="section level3">
+<h3>Relationship satisfaction</h3>
+<pre class="r"><code>diary %&gt;% 
+  select(person, day_number, relationship_satisfaction_1) %&gt;%
+  multi_rel(lmer = F)</code></pre>
+<pre><code>## 
+## Multilevel Generalizability analysis   
+## Call: multilevel.reliability(x = ., grp = &quot;person&quot;, Time = &quot;day_number&quot;, 
+##     items = &quot;variable&quot;, aov = F, lmer = lmer, lme = lme, long = T, 
+##     values = &quot;value&quot;)
+## 
+## The data had  1043  observations taken over  41  time intervals for  1 items.
+## 
+##  Alternative estimates of reliabilty based upon Generalizability theory
+## 
+## RkRn =  0.97 Generalizability of between person differences averaged over time (time nested within people)
+## Rcn  =  0.86 Generalizability of within person variations averaged over items  (time nested within people)
+##  The nested components of variance estimated from lme are:
+##          Variance Percent
+## id           0.65    0.43
+## id(time)     0.73    0.49
+## residual     0.12    0.08
+## total        1.50    1.00
+## 
+## To see the ANOVA and alpha by subject, use the short = FALSE option.
+##  To see the summaries of the ICCs by subject and time, use all=TRUE
+##  To see specific objects select from the following list:
+##  ANOVA s.lmer s.lme alpha summary.by.person summary.by.time ICC.by.person ICC.by.time lmer long Call</code></pre>
+</div>
+<div id="partner-initiated-sex" class="section level3">
+<h3>Partner initiated sex</h3>
+<pre class="r"><code>diary %&gt;% 
+  select(person, day_number, partner_initiated_sexual_intercourse) %&gt;%
+  multi_rel(lmer = F)</code></pre>
+<pre><code>## 
+## Multilevel Generalizability analysis   
+## Call: multilevel.reliability(x = ., grp = &quot;person&quot;, Time = &quot;day_number&quot;, 
+##     items = &quot;variable&quot;, aov = F, lmer = lmer, lme = lme, long = T, 
+##     values = &quot;value&quot;)
+## 
+## The data had  1043  observations taken over  41  time intervals for  1 items.
+## 
+##  Alternative estimates of reliabilty based upon Generalizability theory
+## 
+## RkRn =  0.72 Generalizability of between person differences averaged over time (time nested within people)
+## Rcn  =  0.89 Generalizability of within person variations averaged over items  (time nested within people)
+##  The nested components of variance estimated from lme are:
+##          Variance Percent
+## id          0.014   0.059
+## id(time)    0.200   0.837
+## residual    0.025   0.105
+## total       0.239   1.000
+## 
+## To see the ANOVA and alpha by subject, use the short = FALSE option.
+##  To see the summaries of the ICCs by subject and time, use all=TRUE
+##  To see specific objects select from the following list:
+##  ANOVA s.lmer s.lme alpha summary.by.person summary.by.time ICC.by.person ICC.by.time lmer long Call</code></pre>
+</div>
+<div id="extra-pair-sex-frequency" class="section level3">
+<h3>Extra-pair sex frequency</h3>
+<pre class="r"><code>sex_summary = diary %&gt;% 
+  group_by(hormonal_contraception,person) %&gt;% 
+  summarise(n_days = n(), 
+            n_extra_pair_sex = sum(extra_pair_sex,na.rm = T),
+            n_extra_pair_intimacy = sum(extra_pair_intimacy,na.rm = T),
+            n_sex = sum(had_sexual_intercourse,na.rm = T),
+            n_petting = sum(had_petting,na.rm = T))
+
+table(diary$extra_pair_sex) %&gt;% pander()</code></pre>
+<table style="width:12%;">
+<colgroup>
+<col width="8%" />
+<col width="4%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">0</th>
+<th align="center">1</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">28366</td>
+<td align="center">127</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>prop.table(table(diary$extra_pair_sex)) %&gt;% pander()</code></pre>
+<table style="width:21%;">
+<colgroup>
+<col width="9%" />
+<col width="11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">0</th>
+<th align="center">1</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">0.9955</td>
+<td align="center">0.004457</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>ggplot(sex_summary, aes(n_extra_pair_sex)) + geom_bar() + scale_y_log10(breaks = c(1,5,10,100,1000))</code></pre>
+<p><img src="2_descriptives_files/figure-html/unnamed-chunk-56-1.png" width="672" /></p>
+<pre class="r"><code>xtabs(~ hormonal_contraception + n_extra_pair_sex, data = sex_summary) %&gt;% pander()</code></pre>
+<table style="width:61%;">
+<colgroup>
+<col width="11%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"> </th>
+<th align="center">0</th>
+<th align="center">1</th>
+<th align="center">2</th>
+<th align="center">3</th>
+<th align="center">4</th>
+<th align="center">5</th>
+<th align="center">7</th>
+<th align="center">8</th>
+<th align="center">11</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><strong>0</strong></td>
+<td align="center">394</td>
+<td align="center">9</td>
+<td align="center">7</td>
+<td align="center">2</td>
+<td align="center">3</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">1</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>1</strong></td>
+<td align="center">601</td>
+<td align="center">11</td>
+<td align="center">3</td>
+<td align="center">3</td>
+<td align="center">3</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>xtabs(~ hormonal_contraception + I(n_extra_pair_sex&gt;0), data = sex_summary) %&gt;% pander()</code></pre>
+<table style="width:33%;">
+<colgroup>
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"> </th>
+<th align="center">FALSE</th>
+<th align="center">TRUE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><strong>0</strong></td>
+<td align="center">394</td>
+<td align="center">27</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>1</strong></td>
+<td align="center">601</td>
+<td align="center">21</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="extra-pair-intimacy-frequency" class="section level3">
+<h3>Extra-pair intimacy frequency</h3>
+<pre class="r"><code>table(diary$extra_pair_intimacy) %&gt;% pander()</code></pre>
+<table style="width:12%;">
+<colgroup>
+<col width="8%" />
+<col width="4%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">0</th>
+<th align="center">1</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">27211</td>
+<td align="center">383</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>prop.table(table(diary$extra_pair_intimacy)) %&gt;% pander()</code></pre>
+<table style="width:19%;">
+<colgroup>
+<col width="9%" />
+<col width="9%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">0</th>
+<th align="center">1</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">0.9861</td>
+<td align="center">0.01388</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>ggplot(sex_summary, aes(n_extra_pair_intimacy)) + geom_bar() + scale_y_log10(breaks = c(1,5,10,100,1000))</code></pre>
+<p><img src="2_descriptives_files/figure-html/unnamed-chunk-57-1.png" width="672" /></p>
+<pre class="r"><code>xtabs(~ hormonal_contraception + n_extra_pair_intimacy, data = sex_summary) %&gt;% pander()</code></pre>
+<table style="width:100%;">
+<colgroup>
+<col width="9%" />
+<col width="4%" />
+<col width="4%" />
+<col width="4%" />
+<col width="4%" />
+<col width="4%" />
+<col width="4%" />
+<col width="4%" />
+<col width="4%" />
+<col width="4%" />
+<col width="4%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+<col width="5%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"> </th>
+<th align="center">0</th>
+<th align="center">1</th>
+<th align="center">2</th>
+<th align="center">3</th>
+<th align="center">4</th>
+<th align="center">5</th>
+<th align="center">6</th>
+<th align="center">7</th>
+<th align="center">8</th>
+<th align="center">9</th>
+<th align="center">10</th>
+<th align="center">11</th>
+<th align="center">12</th>
+<th align="center">13</th>
+<th align="center">18</th>
+<th align="center">19</th>
+<th align="center">20</th>
+<th align="center">30</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><strong>0</strong></td>
+<td align="center">358</td>
+<td align="center">29</td>
+<td align="center">10</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">2</td>
+<td align="center">3</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">2</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">2</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>1</strong></td>
+<td align="center">573</td>
+<td align="center">27</td>
+<td align="center">9</td>
+<td align="center">4</td>
+<td align="center">6</td>
+<td align="center">0</td>
+<td align="center">2</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>xtabs(~ hormonal_contraception + I(n_extra_pair_intimacy&gt;0), data = sex_summary) %&gt;% pander()</code></pre>
+<table style="width:33%;">
+<colgroup>
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"> </th>
+<th align="center">FALSE</th>
+<th align="center">TRUE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><strong>0</strong></td>
+<td align="center">358</td>
+<td align="center">63</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>1</strong></td>
+<td align="center">573</td>
+<td align="center">49</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="sexual-intercourse-frequency" class="section level3">
+<h3>Sexual intercourse frequency</h3>
+<pre class="r"><code>table(diary$had_sexual_intercourse) %&gt;% pander()</code></pre>
+<table style="width:17%;">
+<colgroup>
+<col width="8%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">0</th>
+<th align="center">1</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">21557</td>
+<td align="center">6038</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>prop.table(table(diary$had_sexual_intercourse)) %&gt;% pander()</code></pre>
+<table style="width:19%;">
+<colgroup>
+<col width="9%" />
+<col width="9%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">0</th>
+<th align="center">1</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">0.7812</td>
+<td align="center">0.2188</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>ggplot(sex_summary, aes(n_sex)) + geom_bar() + scale_y_log10(breaks = c(1,5,10,100,1000))</code></pre>
+<p><img src="2_descriptives_files/figure-html/unnamed-chunk-58-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(sex_summary, aes(n_sex/n_days)) + geom_histogram(binwidth = 0.01) + scale_y_log10(breaks = c(1,5,10,100,1000))</code></pre>
+<pre><code>## Warning: Transformation introduced infinite values in continuous y-axis</code></pre>
+<pre><code>## Warning: Removed 25 rows containing missing values (geom_bar).</code></pre>
+<p><img src="2_descriptives_files/figure-html/unnamed-chunk-58-2.png" width="672" /></p>
+<pre class="r"><code>ggplot(sex_summary, aes(n_sex, n_days)) + geom_jitter(alpha = 0.1) + geom_abline(slope = 1, intercept = 0)</code></pre>
+<p><img src="2_descriptives_files/figure-html/unnamed-chunk-58-3.png" width="672" /></p>
+<pre class="r"><code>xtabs(~ hormonal_contraception + n_sex, data = sex_summary) %&gt;% pander()</code></pre>
+<table style="width:100%;">
+<colgroup>
+<col width="5%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"> </th>
+<th align="center">0</th>
+<th align="center">1</th>
+<th align="center">2</th>
+<th align="center">3</th>
+<th align="center">4</th>
+<th align="center">5</th>
+<th align="center">6</th>
+<th align="center">7</th>
+<th align="center">8</th>
+<th align="center">9</th>
+<th align="center">10</th>
+<th align="center">11</th>
+<th align="center">12</th>
+<th align="center">13</th>
+<th align="center">14</th>
+<th align="center">15</th>
+<th align="center">16</th>
+<th align="center">17</th>
+<th align="center">18</th>
+<th align="center">19</th>
+<th align="center">20</th>
+<th align="center">21</th>
+<th align="center">22</th>
+<th align="center">23</th>
+<th align="center">24</th>
+<th align="center">25</th>
+<th align="center">26</th>
+<th align="center">28</th>
+<th align="center">32</th>
+<th align="center">34</th>
+<th align="center">35</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><strong>0</strong></td>
+<td align="center">99</td>
+<td align="center">48</td>
+<td align="center">32</td>
+<td align="center">28</td>
+<td align="center">40</td>
+<td align="center">19</td>
+<td align="center">24</td>
+<td align="center">21</td>
+<td align="center">10</td>
+<td align="center">23</td>
+<td align="center">19</td>
+<td align="center">15</td>
+<td align="center">8</td>
+<td align="center">10</td>
+<td align="center">7</td>
+<td align="center">5</td>
+<td align="center">2</td>
+<td align="center">1</td>
+<td align="center">2</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>1</strong></td>
+<td align="center">76</td>
+<td align="center">45</td>
+<td align="center">43</td>
+<td align="center">48</td>
+<td align="center">43</td>
+<td align="center">40</td>
+<td align="center">53</td>
+<td align="center">53</td>
+<td align="center">33</td>
+<td align="center">31</td>
+<td align="center">36</td>
+<td align="center">29</td>
+<td align="center">20</td>
+<td align="center">17</td>
+<td align="center">11</td>
+<td align="center">13</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">4</td>
+<td align="center">2</td>
+<td align="center">3</td>
+<td align="center">3</td>
+<td align="center">2</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">0</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>xtabs(~ hormonal_contraception + I(n_sex&gt;0), data = sex_summary) %&gt;% pander()</code></pre>
+<table style="width:33%;">
+<colgroup>
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"> </th>
+<th align="center">FALSE</th>
+<th align="center">TRUE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><strong>0</strong></td>
+<td align="center">99</td>
+<td align="center">322</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>1</strong></td>
+<td align="center">76</td>
+<td align="center">546</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>sex_summary %&gt;% filter(n_days &gt; 25) %&gt;% group_by(hormonal_contraception) %&gt;% summarise(sex = sum(n_sex&gt;0), no_sex = sum(n_sex==0)) %&gt;% pander()</code></pre>
+<table style="width:54%;">
+<colgroup>
+<col width="34%" />
+<col width="8%" />
+<col width="11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">hormonal_contraception</th>
+<th align="center">sex</th>
+<th align="center">no_sex</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">0</td>
+<td align="center">245</td>
+<td align="center">36</td>
+</tr>
+<tr class="even">
+<td align="center">1</td>
+<td align="center">432</td>
+<td align="center">31</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="petting-frequency" class="section level3">
+<h3>Petting frequency</h3>
+<pre class="r"><code>table(diary$had_petting) %&gt;% pander()</code></pre>
+<table style="width:17%;">
+<colgroup>
+<col width="8%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">0</th>
+<th align="center">1</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">22170</td>
+<td align="center">5424</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>prop.table(table(diary$had_petting)) %&gt;% pander()</code></pre>
+<table style="width:19%;">
+<colgroup>
+<col width="9%" />
+<col width="9%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">0</th>
+<th align="center">1</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">0.8034</td>
+<td align="center">0.1966</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>ggplot(sex_summary, aes(n_petting)) + geom_bar() + scale_y_log10(breaks = c(1,5,10,100,1000))</code></pre>
+<p><img src="2_descriptives_files/figure-html/unnamed-chunk-59-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(sex_summary, aes(n_petting/n_days)) + geom_histogram(binwidth = 0.01) + scale_y_log10(breaks = c(1,5,10,100,1000))</code></pre>
+<pre><code>## Warning: Transformation introduced infinite values in continuous y-axis</code></pre>
+<pre><code>## Warning: Removed 26 rows containing missing values (geom_bar).</code></pre>
+<p><img src="2_descriptives_files/figure-html/unnamed-chunk-59-2.png" width="672" /></p>
+<pre class="r"><code>xtabs(~ hormonal_contraception + n_petting, data = sex_summary) %&gt;% pander()</code></pre>
+<table style="width:100%;">
+<colgroup>
+<col width="5%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"> </th>
+<th align="center">0</th>
+<th align="center">1</th>
+<th align="center">2</th>
+<th align="center">3</th>
+<th align="center">4</th>
+<th align="center">5</th>
+<th align="center">6</th>
+<th align="center">7</th>
+<th align="center">8</th>
+<th align="center">9</th>
+<th align="center">10</th>
+<th align="center">11</th>
+<th align="center">12</th>
+<th align="center">13</th>
+<th align="center">14</th>
+<th align="center">15</th>
+<th align="center">16</th>
+<th align="center">17</th>
+<th align="center">18</th>
+<th align="center">19</th>
+<th align="center">20</th>
+<th align="center">21</th>
+<th align="center">22</th>
+<th align="center">23</th>
+<th align="center">24</th>
+<th align="center">25</th>
+<th align="center">26</th>
+<th align="center">27</th>
+<th align="center">29</th>
+<th align="center">32</th>
+<th align="center">34</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><strong>0</strong></td>
+<td align="center">109</td>
+<td align="center">54</td>
+<td align="center">40</td>
+<td align="center">27</td>
+<td align="center">28</td>
+<td align="center">29</td>
+<td align="center">20</td>
+<td align="center">22</td>
+<td align="center">14</td>
+<td align="center">12</td>
+<td align="center">12</td>
+<td align="center">14</td>
+<td align="center">5</td>
+<td align="center">6</td>
+<td align="center">4</td>
+<td align="center">6</td>
+<td align="center">4</td>
+<td align="center">2</td>
+<td align="center">1</td>
+<td align="center">4</td>
+<td align="center">0</td>
+<td align="center">2</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>1</strong></td>
+<td align="center">100</td>
+<td align="center">59</td>
+<td align="center">44</td>
+<td align="center">54</td>
+<td align="center">49</td>
+<td align="center">59</td>
+<td align="center">39</td>
+<td align="center">42</td>
+<td align="center">28</td>
+<td align="center">18</td>
+<td align="center">33</td>
+<td align="center">23</td>
+<td align="center">17</td>
+<td align="center">9</td>
+<td align="center">10</td>
+<td align="center">7</td>
+<td align="center">5</td>
+<td align="center">3</td>
+<td align="center">4</td>
+<td align="center">3</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">4</td>
+<td align="center">2</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">2</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">0</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>xtabs(~ hormonal_contraception + I(n_petting&gt;0), data = sex_summary) %&gt;% pander()</code></pre>
+<table style="width:33%;">
+<colgroup>
+<col width="11%" />
+<col width="11%" />
+<col width="11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"> </th>
+<th align="center">FALSE</th>
+<th align="center">TRUE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><strong>0</strong></td>
+<td align="center">109</td>
+<td align="center">312</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>1</strong></td>
+<td align="center">100</td>
+<td align="center">522</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="measurement-reactivity" class="section level2">
+<h2>Measurement Reactivity</h2>
+<p>We test whether our analyses are robust to adjustments for measurement reactivity (operationalised as nonlinear time trends over number of days since the beginning of the diary, and over number of days filled out, ). The first approach do this is to test whether our main predictor, probability of being in the fertile window, varies systematically over days. This might happen, if women are more likely to begin our fill out the diary on (non)fertile days.</p>
+<p>Because these analyses show small relationships to the predictor, that differ by hormonal contraception, we think it is worth testing if our results are robust to the inclusion of splines over days (since beginning/filled out).</p>
+<pre class="r"><code>library(gamm4)
+diary %&gt;% mutate(
+    included = included_all,
+    fertile = if_else(is.na(prc_stirn_b_squished), prc_stirn_b_backward_inferred, prc_stirn_b_squished)
+) %&gt;% group_by(person) %&gt;% mutate(days_filled_out = row_number(day_number)) %&gt;% filter(day_number &lt; 40, days_filled_out &lt; 37) %&gt;% 
+gamm4(fertile ~ s(day_number, by = included)+ s(days_filled_out, by = included), ~ (1|person), data = .) -&gt; trend
+summary(trend$mer)</code></pre>
+<pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
+## 
+## REML criterion at convergence: -10857
+## 
+## Scaled residuals: 
+##    Min     1Q Median     3Q    Max 
+## -1.740 -0.743 -0.486  0.702  2.523 
+## 
+## Random effects:
+##  Groups   Name                                   Variance Std.Dev.
+##  person   (Intercept)                            0.00208  0.0456  
+##  Xr.2     s(days_filled_out):includedhorm_contra 0.01983  0.1408  
+##  Xr.1     s(days_filled_out):includedcycling     0.02266  0.1505  
+##  Xr.0     s(day_number):includedhorm_contra      0.00000  0.0000  
+##  Xr       s(day_number):includedcycling          0.00273  0.0522  
+##  Residual                                        0.03643  0.1909  
+## Number of obs: 24814, groups:  person, 1043; Xr.2, 8; Xr.1, 8; Xr.0, 8; Xr, 8
+## 
+## Fixed effects:
+##                                            Estimate Std. Error t value
+## X(Intercept)                                0.17121    0.00197    87.1
+## Xs(day_number):includedcyclingFx1           0.00245    0.02013     0.1
+## Xs(day_number):includedhorm_contraFx1       0.01232    0.00683     1.8
+## Xs(days_filled_out):includedcyclingFx1     -0.00461    0.03111    -0.1
+## Xs(days_filled_out):includedhorm_contraFx1  0.01087    0.02383     0.5
+## 
+## Correlation of Fixed Effects:
+##             X(Int) X(_):F X(_):_ X(__):F
+## Xs(dy_n):F1 -0.035                      
+## Xs(dy_):_F1 -0.033  0.001               
+## Xs(dy__):F1  0.030 -0.441 -0.001        
+## Xs(d__):_F1  0.012  0.000 -0.255  0.000</code></pre>
+<pre class="r"><code>summary(trend$gam)</code></pre>
+<pre><code>## 
+## Family: gaussian 
+## Link function: identity 
+## 
+## Formula:
+## fertile ~ s(day_number, by = included) + s(days_filled_out, by = included)
+## &lt;environment: 0x2a187860&gt;
+## 
+## Parametric coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  0.17121    0.00197    87.1   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Approximate significance of smooth terms:
+##                                         edf Ref.df     F p-value    
+## s(day_number):includedcycling          3.08   3.08  3.98 0.00697 ** 
+## s(day_number):includedhorm_contra      1.00   1.00  3.25 0.07139 .  
+## s(days_filled_out):includedcycling     5.95   5.95  4.33 0.00034 ***
+## s(days_filled_out):includedhorm_contra 6.50   6.50 13.24 6.2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## R-sq.(adj) =  0.00556   
+## lmer.REML = -10857  Scale est. = 0.03643   n = 24814</code></pre>
+<pre class="r"><code>plot(trend$gam, pages = 1)</code></pre>
+<p><img src="2_descriptives_files/figure-html/unnamed-chunk-60-1.png" width="672" /></p>
+</div>
+<div id="contraception" class="section level2">
+<h2>Contraception</h2>
+<pre class="r"><code>#Verhütung
+count(xsection, vars = contraceptive_method) %&gt;% arrange(desc(n)) %&gt;% mutate(percent = round(n/sum(n),2)) %&gt;% filter(n &gt; 2) %&gt;% data.frame() %&gt;% pander()</code></pre>
+<table style="width:49%;">
+<colgroup>
+<col width="30%" />
+<col width="5%" />
+<col width="12%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">vars</th>
+<th align="center">n</th>
+<th align="center">percent</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">hormonal</td>
+<td align="center">622</td>
+<td align="center">0.6</td>
+</tr>
+<tr class="even">
+<td align="center">barrier_or_abstinence</td>
+<td align="center">291</td>
+<td align="center">0.28</td>
+</tr>
+<tr class="odd">
+<td align="center">none</td>
+<td align="center">67</td>
+<td align="center">0.06</td>
+</tr>
+<tr class="even">
+<td align="center">fertility_awareness</td>
+<td align="center">53</td>
+<td align="center">0.05</td>
+</tr>
+<tr class="odd">
+<td align="center">other</td>
+<td align="center">10</td>
+<td align="center">0.01</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>count(xsection, vars = contraceptives_broad_categories) %&gt;% arrange(desc(n)) %&gt;% mutate(percent = round(n/sum(n),2)) %&gt;% filter(n &gt; 2) %&gt;% data.frame() %&gt;% pander()</code></pre>
+<table style="width:68%;">
+<colgroup>
+<col width="50%" />
+<col width="5%" />
+<col width="12%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">vars</th>
+<th align="center">n</th>
+<th align="center">percent</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">contraceptive_pill</td>
+<td align="center">408</td>
+<td align="center">0.39</td>
+</tr>
+<tr class="even">
+<td align="center">condoms</td>
+<td align="center">189</td>
+<td align="center">0.18</td>
+</tr>
+<tr class="odd">
+<td align="center">contraceptive_pill, condoms</td>
+<td align="center">124</td>
+<td align="center">0.12</td>
+</tr>
+<tr class="even">
+<td align="center">other_hormonal</td>
+<td align="center">67</td>
+<td align="center">0.06</td>
+</tr>
+<tr class="odd">
+<td align="center">none</td>
+<td align="center">67</td>
+<td align="center">0.06</td>
+</tr>
+<tr class="even">
+<td align="center">intrauterine_pessar</td>
+<td align="center">47</td>
+<td align="center">0.05</td>
+</tr>
+<tr class="odd">
+<td align="center">occasionally_use_coitus_interruptus</td>
+<td align="center">47</td>
+<td align="center">0.05</td>
+</tr>
+<tr class="even">
+<td align="center">other</td>
+<td align="center">44</td>
+<td align="center">0.04</td>
+</tr>
+<tr class="odd">
+<td align="center">counting_and_or_temperature_methods</td>
+<td align="center">42</td>
+<td align="center">0.04</td>
+</tr>
+<tr class="even">
+<td align="center">partner_sterilised</td>
+<td align="center">8</td>
+<td align="center">0.01</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>count(xsection, vars = contraception) %&gt;% arrange(desc(n)) %&gt;% mutate(percent = round(n/sum(n),2)) %&gt;% filter(n &gt; 2) %&gt;% data.frame() %&gt;% pander()</code></pre>
+<table style="width:60%;">
+<colgroup>
+<col width="41%" />
+<col width="5%" />
+<col width="12%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">vars</th>
+<th align="center">n</th>
+<th align="center">percent</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">contraceptive_pill</td>
+<td align="center">408</td>
+<td align="center">0.39</td>
+</tr>
+<tr class="even">
+<td align="center">condoms</td>
+<td align="center">189</td>
+<td align="center">0.18</td>
+</tr>
+<tr class="odd">
+<td align="center">contraceptive_pill, condoms</td>
+<td align="center">124</td>
+<td align="center">0.12</td>
+</tr>
+<tr class="even">
+<td align="center">other_hormonal</td>
+<td align="center">67</td>
+<td align="center">0.06</td>
+</tr>
+<tr class="odd">
+<td align="center">none</td>
+<td align="center">67</td>
+<td align="center">0.06</td>
+</tr>
+<tr class="even">
+<td align="center">intrauterine_pessar</td>
+<td align="center">47</td>
+<td align="center">0.05</td>
+</tr>
+<tr class="odd">
+<td align="center">condoms, kalendermethode</td>
+<td align="center">12</td>
+<td align="center">0.01</td>
+</tr>
+<tr class="even">
+<td align="center">condoms, coitus_interruptus</td>
+<td align="center">11</td>
+<td align="center">0.01</td>
+</tr>
+<tr class="odd">
+<td align="center">coitus_interruptus</td>
+<td align="center">10</td>
+<td align="center">0.01</td>
+</tr>
+<tr class="even">
+<td align="center">partner_sterilised</td>
+<td align="center">8</td>
+<td align="center">0.01</td>
+</tr>
+<tr class="odd">
+<td align="center">condoms, temperature_billings</td>
+<td align="center">8</td>
+<td align="center">0.01</td>
+</tr>
+<tr class="even">
+<td align="center">other_hormonal, condoms</td>
+<td align="center">7</td>
+<td align="center">0.01</td>
+</tr>
+<tr class="odd">
+<td align="center">none, condoms</td>
+<td align="center">6</td>
+<td align="center">0.01</td>
+</tr>
+<tr class="even">
+<td align="center">andere</td>
+<td align="center">6</td>
+<td align="center">0.01</td>
+</tr>
+<tr class="odd">
+<td align="center">condoms, kalendermethode, coitus_interruptus</td>
+<td align="center">5</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">none, coitus_interruptus</td>
+<td align="center">4</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">kalendermethode, coitus_interruptus</td>
+<td align="center">4</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">kalendermethode</td>
+<td align="center">4</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">none, partner_sterilised</td>
+<td align="center">4</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">condoms, intrauterine_pessar</td>
+<td align="center">3</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">contraceptive_pill, condoms, coitus_interruptus</td>
+<td align="center">3</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">kalendermethode, temperature_billings</td>
+<td align="center">3</td>
+<td align="center">0</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>commoncontra = xsection[contraception %in% head((count(xsection, vars=contraception) %&gt;% arrange(desc(n)))$vars,10), ]
+
+bar_count(commoncontra, contraception)</code></pre>
+<p><img src="2_descriptives_files/figure-html/contraception-1.png" width="672" /></p>
+<pre class="r"><code>#Art der Pille
+count(xsection, vars=pills) %&gt;% filter(!is.na(vars)) %&gt;% arrange(desc(n)) %&gt;% mutate(percent = round(n/sum(n),2)) %&gt;% filter(n &gt; 10) %&gt;% data.frame() %&gt;% pander()</code></pre>
+<table style="width:43%;">
+<colgroup>
+<col width="25%" />
+<col width="5%" />
+<col width="12%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">vars</th>
+<th align="center">n</th>
+<th align="center">percent</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">maxim</td>
+<td align="center">88</td>
+<td align="center">0.16</td>
+</tr>
+<tr class="even">
+<td align="center">other</td>
+<td align="center">48</td>
+<td align="center">0.09</td>
+</tr>
+<tr class="odd">
+<td align="center">velafee</td>
+<td align="center">25</td>
+<td align="center">0.05</td>
+</tr>
+<tr class="even">
+<td align="center">belara</td>
+<td align="center">25</td>
+<td align="center">0.05</td>
+</tr>
+<tr class="odd">
+<td align="center">lamuna_20</td>
+<td align="center">23</td>
+<td align="center">0.04</td>
+</tr>
+<tr class="even">
+<td align="center">valette</td>
+<td align="center">21</td>
+<td align="center">0.04</td>
+</tr>
+<tr class="odd">
+<td align="center">microgynon</td>
+<td align="center">16</td>
+<td align="center">0.03</td>
+</tr>
+<tr class="even">
+<td align="center">evaluna_20</td>
+<td align="center">15</td>
+<td align="center">0.03</td>
+</tr>
+<tr class="odd">
+<td align="center">minisiston_20_fem</td>
+<td align="center">15</td>
+<td align="center">0.03</td>
+</tr>
+<tr class="even">
+<td align="center">chariva</td>
+<td align="center">15</td>
+<td align="center">0.03</td>
+</tr>
+<tr class="odd">
+<td align="center">asumate_20</td>
+<td align="center">15</td>
+<td align="center">0.03</td>
+</tr>
+<tr class="even">
+<td align="center">leonahexal</td>
+<td align="center">12</td>
+<td align="center">0.02</td>
+</tr>
+<tr class="odd">
+<td align="center">bellissima</td>
+<td align="center">11</td>
+<td align="center">0.02</td>
+</tr>
+<tr class="even">
+<td align="center">aida</td>
+<td align="center">11</td>
+<td align="center">0.02</td>
+</tr>
+<tr class="odd">
+<td align="center">minisiston</td>
+<td align="center">11</td>
+<td align="center">0.02</td>
+</tr>
+</tbody>
+</table>
+<div id="contraception-and-cycle-regularity" class="section level3">
+<h3>Contraception and cycle regularity</h3>
+<pre class="r"><code>crosstabs(~ cycle_length_groups + contraceptive_method , data = xsection)  %&gt;% 
+  prop.table(2) %&gt;% 
+  round(2) %&gt;% 
+  pander()</code></pre>
+<table>
+<colgroup>
+<col width="16%" />
+<col width="28%" />
+<col width="25%" />
+<col width="12%" />
+<col width="8%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">barrier_or_abstinence</th>
+<th align="center">fertility_awareness</th>
+<th align="center">hormonal</th>
+<th align="center">none</th>
+<th align="center">other</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>(19,25]</strong></td>
+<td align="center">0.13</td>
+<td align="center">0.08</td>
+<td align="center">0.16</td>
+<td align="center">0.09</td>
+<td align="center">0.1</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>(25,30]</strong></td>
+<td align="center">0.65</td>
+<td align="center">0.74</td>
+<td align="center">0.78</td>
+<td align="center">0.66</td>
+<td align="center">0.8</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>(30,35]</strong></td>
+<td align="center">0.17</td>
+<td align="center">0.19</td>
+<td align="center">0.04</td>
+<td align="center">0.16</td>
+<td align="center">0.1</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>(35,41]</strong></td>
+<td align="center">0.05</td>
+<td align="center">0</td>
+<td align="center">0.02</td>
+<td align="center">0.09</td>
+<td align="center">0</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>xsection  %&gt;% 
+  group_by(contraceptive_method) %&gt;% 
+  summarise(cycle_length = mean(cycle_length, na.rm = T), sd = sd(cycle_length, na.rm = T), n = n()) %&gt;% 
+  pander()</code></pre>
+<table style="width:65%;">
+<colgroup>
+<col width="31%" />
+<col width="20%" />
+<col width="8%" />
+<col width="4%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">contraceptive_method</th>
+<th align="center">cycle_length</th>
+<th align="center">sd</th>
+<th align="center">n</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">barrier_or_abstinence</td>
+<td align="center">29.02</td>
+<td align="center">3.622</td>
+<td align="center">291</td>
+</tr>
+<tr class="even">
+<td align="center">hormonal</td>
+<td align="center">27.92</td>
+<td align="center">2.939</td>
+<td align="center">622</td>
+</tr>
+<tr class="odd">
+<td align="center">none</td>
+<td align="center">29.78</td>
+<td align="center">4.166</td>
+<td align="center">67</td>
+</tr>
+<tr class="even">
+<td align="center">fertility_awareness</td>
+<td align="center">29.04</td>
+<td align="center">2.667</td>
+<td align="center">53</td>
+</tr>
+<tr class="odd">
+<td align="center">other</td>
+<td align="center">28.4</td>
+<td align="center">3.062</td>
+<td align="center">10</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>qplot(cycle_length, data = xsection, binwidth = 1) + facet_wrap(~ contraceptive_method, scales = &quot;free_y&quot;)</code></pre>
+<p><img src="2_descriptives_files/figure-html/unnamed-chunk-61-1.png" width="672" /></p>
+<pre class="r"><code>qplot(cycle_length, data = xsection, binwidth = 1) + facet_wrap(~ contraceptive_method_by_pearl, scales = &quot;free_y&quot;)</code></pre>
+<p><img src="2_descriptives_files/figure-html/unnamed-chunk-61-2.png" width="672" /></p>
+</div>
+</div>
+<div id="origin" class="section level2">
+<h2>Origin</h2>
+<pre class="r"><code>plz_populations = read.csv(&quot;geo/plz_einwohner.csv&quot;)
+plz_populations %&gt;% mutate(plz = str_pad(plz, 5, &quot;left&quot;, &quot;0&quot;),
+                           postal_code = str_sub(plz, 1, 3)) %&gt;% 
+  group_by(postal_code) %&gt;%
+  summarise(einwohner = sum(einwohner, na.rm = T)) %&gt;%
+  tbl_df() -&gt; plz_populations
+
+xsection %&gt;% 
+  select(postal_code) %&gt;% 
+  group_by(postal_code) %&gt;% 
+  summarise(count = n()) %&gt;% 
+  right_join(plz_populations, by = &#39;postal_code&#39;, copy = T) %&gt;% 
+  mutate(count = ifelse(is.na(count), 0, count),
+    percent = count/einwohner) -&gt; origins
+# origins
+# 
+# 
+library(leaflet)
+# library(rgdal)           # required for readOGR and spTransform
+# map &lt;- readOGR(dsn=&quot;geo/plz-3stellig.shp/&quot;, layer=&quot;plz-3stellig&quot;,verbose = F)
+# library(rgeos)
+# # plot(map)
+# map = SpatialPolygonsDataFrame(gSimplify(map, tol = 0.001, topologyPreserve = T), data = data.frame(map))
+# 
+# save(map, file = &quot;geo/map.rdata&quot;)
+load(&quot;geo/map.rdata&quot;)
+origins = data.frame(postal_code = map$plz) %&gt;% left_join(origins, by = &#39;postal_code&#39;)</code></pre>
+<pre><code>## Loading required package: sp</code></pre>
+<pre class="r"><code>map$count = origins$count
+map$einwohner = origins$einwohner
+map$percent = origins$percent
+map$popup1 &lt;- paste0(&quot;Count: &quot;,             
+                      map$count,         #column containing the district names
+                      &quot;&lt;br&gt;Populaton: &quot;, 
+                      map$einwohner)
+palette &lt;- colorNumeric(c(&quot;white&quot;,&quot;red&quot;), c(0, max(log1p(origins$percent * 10000))))
+map$fill = palette(log1p(map$percent * 10000))
+map = map[map$count &gt; 0,]
+mymap &lt;- leaflet() %&gt;%
+  addProviderTiles(&quot;OpenStreetMap.BlackAndWhite&quot;,
+        options = providerTileOptions(minZoom=6, maxZoom=10)) %&gt;%
+  addPolygons(data = map,
+              fillColor = ~fill,
+              stroke = F,
+              fillOpacity = 0.6,
+              popup = ~popup1
+  )  %&gt;% 
+  setView(9.812, 51.56, zoom = 6)
+
+# mymap
+library(htmlwidgets)
+saveWidget(mymap, file = &quot;2_origin_map.html&quot;, selfcontained = F)</code></pre>
+<script type='text/javascript'>
+function fullScreen(element) {
+  if(element.requestFullscreen) {
+    element.requestFullscreen();
+  } else if(element.mozRequestFullScreen) {
+    element.mozRequestFullScreen();
+  } else if(element.webkitRequestFullscreen) {
+    element.webkitRequestFullscreen();
+  } else if(element.msRequestFullscreen) {
+    element.msRequestFullscreen();
+  }
+}
+
+function fullwin(){
+var canvas = document.getElementById('map_iframe');
+fullScreen(canvas);
+}
+</script>
+<button class="btn btn-default" onclick="fullwin();">
+Show map in full screen (<kbd>Esc</kbd> to leave)
+</button>
+<iframe id="map_iframe" src="2_origin_map.html" style="width:100%;height:800px;border:0" allowfullscreen>
+</iframe>
+</div>
+<div id="componentsfactors-in-preregistered-outcomes" class="section level2">
+<h2>Components/factors in preregistered outcomes</h2>
+<pre class="r"><code>diary %&gt;% ungroup() %&gt;%  select(extra_pair, in_pair_desire, desirability_1, had_sexual_intercourse, partner_initiated_sexual_intercourse, partner_mate_retention, sexy_clothes, NARQ_admiration, NARQ_rivalry) %&gt;%
+  psych::fa.parallel(fa=&#39;pc&#39;)</code></pre>
+<p><img src="2_descriptives_files/figure-html/unnamed-chunk-63-1.png" width="672" /></p>
+<pre><code>## Parallel analysis suggests that the number of factors =  NA  and the number of components =  3</code></pre>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

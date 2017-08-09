@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+<title></title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: visible; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+
+<style type = "text/css">
+body {
+  margin-top: 45px;
+}
+.main-container {
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+</style>
+
+
+<script src="library/auto_tab_first_section.js"></script>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+
+</head>
+
+<body>
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Fertility diary</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="1_power_analysis.html">Power analysis</a>
+</li>
+<li>
+  <a href="1_researcher_df_analysis.html">Researcher degree of freedom simulation</a>
+</li>
+<li>
+  <a href="1_wrangle_data.html">Data wrangling</a>
+</li>
+<li>
+  <a href="2_descriptives.html">Descriptives</a>
+</li>
+<li>
+  <a href="3_fertility_as_prereg.html">Preregistered analyses</a>
+</li>
+<li>
+  <a href="3_fertility_robustness.html">Robustness tests</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="container-fluid main-container">
+
+
+<div id="simulation-functions" class="section level1">
+<h1>Simulation functions</h1>
+<p>Load packages</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(plyr); <span class="kw">library</span>(data.table); <span class="kw">library</span>(ggplot2); <span class="kw">library</span>(psych); <span class="kw">library</span>(broom)</code></pre></div>
+<p>Simulate data according to certain parameters</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">simulate_fertility_effect =<span class="st"> </span>function(
+    ### settings
+  <span class="dt">nr_of_people =</span> <span class="dv">70</span>,
+  <span class="dt">nr_days =</span> <span class="dv">35</span>,
+  <span class="dt">dayspan =</span> <span class="dv">1</span>:<span class="dv">38</span>,
+  <span class="dt">miss_window =</span> <span class="dv">4</span>,
+  <span class="dt">effects =</span> <span class="kw">list</span>(
+    <span class="dt">trait =</span> <span class="fl">0.5</span>,
+    <span class="dt">fertility_effect =</span> <span class="dv">0</span>,
+    <span class="dt">noise =</span> <span class="fl">0.5</span>
+  )
+) {
+
+    #### simulate people
+  people =<span class="st"> </span><span class="kw">data.table</span>(
+      <span class="dt">person =</span> <span class="dv">1</span>:nr_of_people,
+      <span class="dt">irrelevant_cov =</span> <span class="kw">rnorm</span>(nr_of_people),
+      <span class="dt">trait =</span> <span class="kw">rnorm</span>(nr_of_people) <span class="co"># a stable component of the outcome</span>
+    )
+
+  ### cycle day reference
+  days =<span class="st"> </span><span class="kw">data.table</span>(
+    <span class="dt">rcd_day =</span> <span class="kw">c</span>(<span class="dv">29</span>:<span class="dv">1</span>, <span class="dv">30</span>:<span class="dv">38</span>),
+    <span class="dt">FCD =</span> <span class="kw">c</span>(<span class="dv">1</span>:<span class="dv">38</span>),
+    <span class="dt">prc_stirn_b =</span> <span class="kw">c</span>(.<span class="dv">01</span>, .<span class="dv">01</span>, .<span class="dv">02</span>, .<span class="dv">03</span>, .<span class="dv">05</span>, .<span class="dv">09</span>, .<span class="dv">16</span>, .<span class="dv">27</span>, .<span class="dv">38</span>, .<span class="dv">48</span>, .<span class="dv">56</span>, .<span class="dv">58</span>, .<span class="dv">55</span>, .<span class="dv">48</span>, .<span class="dv">38</span>, .<span class="dv">28</span>, .<span class="dv">20</span>, .<span class="dv">14</span>, .<span class="dv">10</span>, .<span class="dv">07</span>, .<span class="dv">06</span>, .<span class="dv">04</span>, .<span class="dv">03</span>, .<span class="dv">02</span>, .<span class="dv">01</span>, .<span class="dv">01</span>, .<span class="dv">01</span>, .<span class="dv">01</span>, .<span class="dv">01</span>, <span class="kw">rep</span>(.<span class="dv">01</span>, <span class="dt">times =</span> <span class="dv">9</span>)),
+    <span class="co">#                   rep(.01, times = 70)), # gangestad uses .01 here, but I think such cases are better thrown than kept, since we might simply have missed a mens</span>
+    <span class="dt">prc_wcx_b =</span> <span class="kw">c</span>(.<span class="dv">000</span>, .<span class="dv">000</span>, .<span class="dv">001</span>, .<span class="dv">002</span>, .<span class="dv">004</span>, .<span class="dv">009</span>, .<span class="dv">018</span>, .<span class="dv">032</span>, .<span class="dv">050</span>, .<span class="dv">069</span>, .<span class="dv">085</span>, .<span class="dv">094</span>, .<span class="dv">093</span>, .<span class="dv">085</span>, .<span class="dv">073</span>, .<span class="dv">059</span>, .<span class="dv">047</span>, .<span class="dv">036</span>, .<span class="dv">028</span>, .<span class="dv">021</span>, .<span class="dv">016</span>, .<span class="dv">013</span>, .<span class="dv">010</span>, .<span class="dv">008</span>, .<span class="dv">007</span>, .<span class="dv">006</span>, .<span class="dv">005</span>, .<span class="dv">005</span>, .<span class="dv">005</span>, <span class="kw">rep</span>(.<span class="dv">005</span>, <span class="dt">times =</span> <span class="dv">9</span>))
+  )
+
+  days[, fertile_narrow :<span class="er">=</span><span class="st"> </span><span class="ot">NA_real_</span>] <span class="co"># most days we won&#39;t consider at all, because they are of uncertain fertility status</span>
+  days[ <span class="kw">between</span>(rcd_day,<span class="dv">15</span>,<span class="dv">19</span>) , fertile_narrow :<span class="er">=</span><span class="st"> </span><span class="kw">mean</span>(prc_stirn_b, <span class="dt">na.rm =</span> T)] <span class="co"># these days are likely fertile</span>
+  days[ <span class="kw">between</span>(rcd_day,<span class="dv">4</span>,<span class="dv">12</span>) , fertile_narrow :<span class="er">=</span><span class="st"> </span><span class="kw">mean</span>(prc_stirn_b, <span class="dt">na.rm =</span> T)] <span class="co"># these days are likely infertile</span>
+
+  days[, fertile_broad :<span class="er">=</span><span class="st"> </span><span class="ot">NA_real_</span>] <span class="co"># most days we won&#39;t consider at all, because they are of uncertain fertility status</span>
+  days[ <span class="kw">between</span>(rcd_day,<span class="dv">14</span>,<span class="dv">22</span>), fertile_broad :<span class="er">=</span><span class="st"> </span><span class="kw">mean</span>(prc_stirn_b, <span class="dt">na.rm =</span> T)] <span class="co"># these days are likely fertile</span>
+  days[ <span class="kw">between</span>(rcd_day,<span class="dv">4</span>,<span class="dv">12</span>) , fertile_broad :<span class="er">=</span><span class="st"> </span><span class="kw">mean</span>(prc_stirn_b, <span class="dt">na.rm =</span> T)] <span class="co"># these days are likely infertile</span>
+
+  #### simulate person days
+
+  i_length =<span class="st"> </span><span class="kw">sum</span>(nr_days *<span class="st"> </span>nr_of_people)
+  person_days =<span class="st"> </span><span class="kw">data.table</span>(<span class="dt">row =</span> <span class="dv">1</span>:i_length, <span class="dt">person =</span> <span class="kw">integer</span>(i_length), <span class="dt">days_taken_part =</span> <span class="kw">rep</span>(nr_days, <span class="dt">each =</span> nr_days *<span class="st"> </span>nr_of_people))
+  <span class="kw">setkey</span>(person_days, row) <span class="co"># somehow gets reordered..</span>
+
+  days_per_person =<span class="st"> </span><span class="kw">rep</span>(nr_days, <span class="dt">times =</span> nr_of_people)
+
+  person_days$person =<span class="st"> </span><span class="kw">rep</span>(people$person, <span class="dt">each =</span> nr_days)
+  which_days =<span class="st"> </span>function(day_nr) <span class="kw">sample</span>(dayspan, <span class="dt">size =</span> day_nr, <span class="dt">replace =</span> F)
+  person_days$rcd_day =<span class="st"> </span><span class="kw">unlist</span>(<span class="kw">lapply</span>(days_per_person, <span class="dt">FUN =</span> which_days))
+
+  person_days =<span class="st"> </span><span class="kw">merge</span>(person_days, people, <span class="dt">by =</span> <span class="st">&quot;person&quot;</span>)
+  person_days =<span class="st"> </span><span class="kw">merge</span>(person_days, days, <span class="dt">by =</span> <span class="st">&quot;rcd_day&quot;</span>, <span class="dt">all.x =</span> T)
+  rcd_day_real =<span class="st"> </span>person_days$rcd_day
+  person_days[, rcd_day :<span class="er">=</span><span class="st"> </span>rcd_day_real  +<span class="st"> </span><span class="kw">rep</span>(<span class="kw">round</span>(miss_window *<span class="st"> </span><span class="kw">rnorm</span>(<span class="dt">n =</span> nr_days)), <span class="dt">each =</span> nr_of_people)]
+  person_days[ rcd_day &lt;<span class="st"> </span><span class="dv">1</span>, rcd_day :<span class="er">=</span><span class="st"> </span>38L +<span class="st"> </span>rcd_day]
+  person_days[ rcd_day &gt;<span class="st"> </span>38L, rcd_day :<span class="er">=</span><span class="st"> </span>rcd_day -<span class="st"> </span>38L]
+  person_days =<span class="st"> </span><span class="kw">merge</span>(person_days, days, <span class="dt">by =</span> <span class="st">&quot;rcd_day&quot;</span>, <span class="dt">all.x =</span> T, <span class="dt">suffixes =</span> <span class="kw">c</span>(<span class="st">&quot;&quot;</span>,<span class="st">&quot;_m&quot;</span>))
+  person_days[, rcd_day_m :<span class="er">=</span><span class="st"> </span>rcd_day] <span class="co"># swap in</span>
+  person_days[, rcd_day :<span class="er">=</span><span class="st"> </span>rcd_day_real] <span class="co"># swap back</span>
+
+  <span class="kw">setkey</span>(person_days, row) <span class="co"># somehow gets reordered..</span>
+
+  person_days[, fertile :<span class="er">=</span><span class="st"> </span>prc_stirn_b_m]
+  person_days[, state :<span class="er">=</span>
+<span class="st">                    </span>effects$trait *<span class="st"> </span>trait +<span class="st"> </span><span class="co"># trait</span>
+<span class="st">                    </span>effects$fertility_effect *<span class="st"> </span>prc_stirn_b <span class="co"># fertility effect</span>
+  ]
+  person_days[, state_m :<span class="er">=</span><span class="st"> </span>state +<span class="st"> </span>effects$noise *<span class="st"> </span><span class="kw">rnorm</span>(<span class="kw">nrow</span>(person_days))]
+  person_days[, state_m1 :<span class="er">=</span><span class="st"> </span>state +<span class="st"> </span>effects$noise *<span class="st"> </span><span class="kw">rnorm</span>(<span class="kw">nrow</span>(person_days))]
+  person_days[, state_m2 :<span class="er">=</span><span class="st"> </span>state +<span class="st"> </span>effects$noise *<span class="st"> </span><span class="kw">rnorm</span>(<span class="kw">nrow</span>(person_days))]
+  person_days[, state_m3 :<span class="er">=</span><span class="st"> </span>state +<span class="st"> </span>effects$noise *<span class="st"> </span><span class="kw">rnorm</span>(<span class="kw">nrow</span>(person_days))]
+  person_days[, state_m4 :<span class="er">=</span><span class="st"> </span>state +<span class="st"> </span>effects$noise *<span class="st"> </span><span class="kw">rnorm</span>(<span class="kw">nrow</span>(person_days))]
+  person_days[, state_m5 :<span class="er">=</span><span class="st"> </span>state +<span class="st"> </span>effects$noise *<span class="st"> </span><span class="kw">rnorm</span>(<span class="kw">nrow</span>(person_days))]
+  person_days
+}</code></pre></div>
+<div id="tidy-a-model-for-our-purposes-get-cis-and-p.values" class="section level2">
+<h2>Tidy a model for our purposes (get CIs and p.values)</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tidy_model =<span class="st"> </span>function(fit, data) {
+    <span class="kw">library</span>(broom)
+  tidied =<span class="st"> </span><span class="kw">tidy</span>(fit, <span class="dt">effects =</span> <span class="st">&quot;fixed&quot;</span>, <span class="dt">conf.int =</span> T, <span class="dt">conf.method =</span> <span class="st">&quot;Wald&quot;</span>)
+  tidied$p.value =<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">summary</span>(fit)$coef)[,<span class="st">&#39;Pr(&gt;|t|)&#39;</span>]
+  tidied$p.value_KR =<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">summary</span>(fit)$coef, <span class="dt">ddf =</span> <span class="st">&quot;Kenward-Roger&quot;</span>)[,<span class="st">&#39;Pr(&gt;|t|)&#39;</span>]
+  tidied =<span class="st"> </span>tidied[tidied$term ==<span class="st"> &#39;fertile&#39;</span>, ]
+  tidied$term =<span class="st"> </span><span class="ot">NULL</span>
+  tidied$usable_days =<span class="st"> </span><span class="kw">sum</span>(!<span class="kw">is.na</span>(data$fertile))
+  tidied$usable_days =<span class="st"> </span>dplyr::<span class="kw">n_distinct</span>( data[!<span class="kw">is.na</span>(data$fertile), person] )
+
+  tidied
+}</code></pre></div>
+</div>
+<div id="fit-model" class="section level2">
+<h2>Fit model</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit_model =<span class="st"> </span>function(data, <span class="dt">predictor =</span> <span class="st">&quot;prc_stirn_b_m&quot;</span>, <span class="dt">formula =</span> state_m ~<span class="st"> </span>fertile +<span class="st"> </span>(<span class="dv">1</span> |<span class="st"> </span>person)) {
+    <span class="kw">library</span>(lme4); <span class="kw">library</span>(afex)
+  data$fertile =<span class="st"> </span>data[, predictor, with =<span class="st"> </span>F]
+    res =<span class="st"> </span><span class="kw">suppressMessages</span>(<span class="kw">mixed</span>(formula, <span class="dt">data =</span> data, <span class="dt">progress =</span> <span class="ot">FALSE</span>))
+
+    coefs =<span class="st"> </span><span class="kw">data.frame</span>(res$anova_table, <span class="dt">check.names =</span> <span class="ot">FALSE</span>)
+    fixefs =<span class="st"> </span><span class="kw">data.frame</span>(<span class="kw">summary</span>(res$full.model)$coefficients, <span class="dt">check.names =</span> <span class="ot">FALSE</span>)
+    coefs =<span class="st"> </span>coefs[<span class="kw">rownames</span>(coefs) ==<span class="st"> &quot;fertile&quot;</span>, ]
+    fixefs =<span class="st"> </span>fixefs[<span class="kw">rownames</span>(fixefs) ==<span class="st"> &quot;fertile&quot;</span>, ]
+    <span class="kw">rownames</span>(coefs) =<span class="st"> </span><span class="ot">NULL</span>
+    <span class="kw">rownames</span>(fixefs) =<span class="st"> </span><span class="ot">NULL</span>
+    coefs =<span class="st"> </span>dplyr::<span class="kw">select</span>(dplyr::<span class="kw">rename</span>(<span class="kw">cbind</span>(coefs, fixefs),
+         <span class="dt">p.value =</span> <span class="st">`</span><span class="dt">Pr(&gt;F)</span><span class="st">`</span>,
+         <span class="dt">std.error =</span> <span class="st">`</span><span class="dt">Std. Error</span><span class="st">`</span>,
+         <span class="dt">statistic =</span> <span class="st">`</span><span class="dt">t value</span><span class="st">`</span>,
+         <span class="dt">estimate =</span> Estimate
+         ), p.value, std.error, statistic, estimate)
+    coefs
+}</code></pre></div>
+</div>
+<div id="define-various-researcher-degrees-of-freedom" class="section level2">
+<h2>Define various researcher degrees of freedom</h2>
+<div id="a-stop-early-10-and-20-participants-earlier-if-p.05" class="section level3">
+<h3>A: Stop early (10 and 20 participants earlier) if p&lt;.05</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rdf_optional_stopping =<span class="st"> </span>function(data, <span class="dt">stop_early =</span> <span class="dv">20</span>, <span class="dt">nest =</span> fit_model, ...) {
+  <span class="kw">library</span>(lme4); <span class="kw">library</span>(afex)
+
+  person_n =<span class="st"> </span><span class="kw">max</span>(data$person)
+  if (stop_early &gt;<span class="st"> </span><span class="dv">0</span>) {
+    data_r =<span class="st"> </span>data[person &lt;=<span class="st"> </span>(person_n -<span class="st"> </span>stop_early), ]
+  } else {
+    data_r =<span class="st"> </span>data
+  }
+  tidied =<span class="st"> </span><span class="kw">nest</span>(data_r, ...)
+  tidied$stopping.n =<span class="st"> </span><span class="kw">max</span>(data_r$person)
+
+  if (tidied$p.value &gt;=<span class="st"> </span><span class="fl">0.05</span> &amp;<span class="st"> </span>tidied$stopping.n &lt;<span class="st"> </span>person_n) {
+    <span class="kw">rdf_optional_stopping</span>(data, stop_early -<span class="st"> </span><span class="dv">10</span>, <span class="dt">nest =</span> nest, ...)
+  } else {
+    tidied
+  }
+}</code></pre></div>
+</div>
+<div id="b-try-with-an-irrelevant-covariate-if-p.05" class="section level3">
+<h3>B: Try with an irrelevant covariate if p&gt;.05</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rdf_covariate =<span class="st"> </span>function(data, <span class="dt">cov =</span> <span class="dv">0</span>, <span class="dt">nest =</span> fit_model, ...) {
+  <span class="kw">library</span>(lme4); <span class="kw">library</span>(afex)
+  if (cov ==<span class="st"> </span><span class="dv">0</span>) {
+    tidied =<span class="st"> </span><span class="kw">nest</span>(data, <span class="dt">formula =</span> state_m ~<span class="st"> </span>fertile +<span class="st"> </span>(<span class="dv">1</span> |<span class="st"> </span>person), ...)
+  } else {
+    tidied =<span class="st"> </span><span class="kw">nest</span>(data, <span class="dt">formula =</span> state_m ~<span class="st"> </span>fertile +<span class="st"> </span>irrelevant_cov +<span class="st"> </span>(<span class="dv">1</span> |<span class="st"> </span>person), ...)
+  }
+  tidied$covariate_used =<span class="st"> </span>cov
+
+  if (tidied$p.value &gt;=<span class="st"> </span><span class="fl">0.05</span> &amp;<span class="st"> </span>cov ==<span class="st"> </span><span class="dv">0</span>) {
+    <span class="kw">rdf_covariate</span>(data, <span class="dv">1</span>, <span class="dt">nest =</span> nest, ...)
+  } else {
+    tidied
+  }
+}</code></pre></div>
+</div>
+<div id="c-try-up-to-5-correlated-items-if-p.05" class="section level3">
+<h3>C: Try up to 5 correlated items if p&gt;.05</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rdf_outcome =<span class="st"> </span>function(data, <span class="dt">outcome =</span> <span class="dv">1</span>, <span class="dt">nest =</span> fit_model, ...) {
+  <span class="kw">library</span>(lme4); <span class="kw">library</span>(afex)
+  data$state_m =<span class="st"> </span>data[, <span class="kw">paste0</span>(<span class="st">&quot;state_m&quot;</span>,outcome), with =<span class="st"> </span>F]
+
+  tidied =<span class="st"> </span><span class="kw">nest</span>(data, ...)
+  tidied$outcome =<span class="st"> </span>outcome
+
+  if (tidied$p.value &gt;=<span class="st"> </span><span class="fl">0.05</span> &amp;<span class="st"> </span>outcome &lt;<span class="st"> </span><span class="dv">5</span>) {
+    <span class="kw">rdf_outcome</span>(data, outcome +<span class="st"> </span><span class="dv">1</span>, <span class="dt">nest =</span> nest, ...)
+  } else {
+    tidied
+  }
+}</code></pre></div>
+</div>
+<div id="d-try-continuous-broad-and-narrow-window-as-predictors-if-p.05" class="section level3">
+<h3>D: Try continuous, broad and narrow window as predictors if p&gt;.05</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rdf_predictor =<span class="st"> </span>function(data, <span class="dt">predictor_it =</span> <span class="dv">1</span>, <span class="dt">nest =</span> fit_model, ...) {
+  <span class="kw">library</span>(lme4); <span class="kw">library</span>(afex)
+  predictors =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;prc_stirn_b_m&quot;</span>, <span class="st">&quot;fertile_narrow_m&quot;</span>, <span class="st">&quot;fertile_broad_m&quot;</span>)
+  predictor =<span class="st"> </span>predictors[predictor_it]
+  data$fertile =<span class="st"> </span>data[, predictor, with =<span class="st"> </span>F]
+
+  tidied =<span class="st"> </span><span class="kw">nest</span>(data, ...)
+  tidied$predictor =<span class="st"> </span>predictor
+
+  if (tidied$p.value &gt;=<span class="st"> </span><span class="fl">0.05</span> &amp;<span class="st"> </span>predictor_it &lt;<span class="st"> </span><span class="dv">3</span>) {
+    <span class="kw">rdf_predictor</span>(data, predictor_it +<span class="st"> </span><span class="dv">1</span>, <span class="dt">nest =</span> nest, ...)
+  } else {
+    tidied
+  }
+}</code></pre></div>
+</div>
+<div id="no-researcher-degrees-of-freedom" class="section level3">
+<h3>No researcher degrees of freedom</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rdf_none =<span class="st"> </span>function(data) {
+  <span class="kw">fit_model</span>(data)
+}</code></pre></div>
+</div>
+<div id="ab" class="section level3">
+<h3>AB</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rdf_outcome_covariate =<span class="st"> </span>function(data) {
+  <span class="kw">rdf_outcome</span>(data, <span class="dt">nest =</span> rdf_covariate)
+}</code></pre></div>
+</div>
+<div id="abc" class="section level3">
+<h3>ABC</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rdf_predictor_outcome_covariate =<span class="st"> </span>function(data) {
+  <span class="kw">rdf_predictor</span>(data, <span class="dt">nest =</span> rdf_outcome_covariate)
+}</code></pre></div>
+</div>
+<div id="abcd" class="section level3">
+<h3>ABCD</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rdf_stopping_predictor_outcome_covariate =<span class="st"> </span>function(data) {
+  <span class="kw">rdf_optional_stopping</span>(data, <span class="dt">nest =</span> rdf_predictor_outcome_covariate)
+}</code></pre></div>
+</div>
+<div id="cd" class="section level3">
+<h3>CD</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rdf_stopping_predictor =<span class="st"> </span>function(data) {
+  <span class="kw">rdf_optional_stopping</span>(data, <span class="dt">nest =</span> rdf_predictor)
+}</code></pre></div>
+</div>
+</div>
+</div>
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+</body>
+</html>

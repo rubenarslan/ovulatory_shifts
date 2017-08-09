@@ -1,0 +1,7322 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title></title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-1.1/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+<script src="library/auto_tab_first_section.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="library/custom_styles.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 64px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+
+.section h2 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h3 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h4 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h5 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h6 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Fertility diary</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="1_power_analysis.html">Power analysis</a>
+</li>
+<li>
+  <a href="1_researcher_df_analysis.html">Researcher degree of freedom simulation</a>
+</li>
+<li>
+  <a href="1_wrangle_data.html">Data wrangling</a>
+</li>
+<li>
+  <a href="2_descriptives.html">Descriptives</a>
+</li>
+<li>
+  <a href="3_fertility_as_prereg.html">Preregistered analyses</a>
+</li>
+<li>
+  <a href="3_fertility_robustness.html">Robustness tests</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+
+</div>
+
+
+<div id="anonymising-the-data" class="section level1 tab-content">
+<h1>Anonymising the data</h1>
+<div id="load-data" class="section level2">
+<h2>Load data</h2>
+<pre class="r"><code>library(knitr)
+opts_chunk$set(fig.width = 12, fig.height = 12, cache = F, warning = F, message = F)</code></pre>
+<pre class="r"><code>source(&quot;0_helpers.R&quot;)
+load(&quot;full_data.rdata&quot;)</code></pre>
+</div>
+<div id="set-some-defaults" class="section level2">
+<h2>set some defaults</h2>
+<pre class="r"><code>diary = diary %&gt;% 
+  mutate(
+  included = included_all,
+  fertile = if_else(is.na(prc_stirn_b_squished), prc_stirn_b_backward_inferred, prc_stirn_b_squished),
+  contraceptive_methods = factor(contraceptive_method, levels = 
+  c(&quot;barrier_or_abstinence&quot;, &quot;fertility_awareness&quot;, &quot;none&quot;,  &quot;hormonal&quot;)),
+  relationship_status_clean = factor(relationship_status_clean),
+  cohabitation = factor(cohabitation),
+  certainty_menstruation = as.numeric(as.character(certainty_menstruation))
+)  %&gt;% group_by(person) %&gt;% 
+  mutate(
+      fertile_mean = mean(fertile, na.rm = T)
+  )</code></pre>
+</div>
+<div id="cleaning" class="section level2">
+<h2>cleaning</h2>
+<p>These fields were stored as text, but can be simplified.</p>
+<pre class="r"><code>diary = diary %&gt;% mutate(
+  want_more_info = as.integer(want_more_info),
+  trying_to_get_pregnant = if_else(trying_to_get_pregnant == &#39;yes&#39;, 1, 0),
+  had_sex_with_partner_yet = if_else(had_sex_with_partner_yet == &#39;yes&#39;, 1, 0),
+  breast_feeding_in_last_3_months = if_else(breast_feeding_in_last_3_months == &#39;yes&#39;, 1, 0),
+  hormonal_medication_in_last_3_months = if_else(hormonal_medication_in_last_3_months == &#39;yes&#39;, 1, 0),
+  pill_in_last_3_months = if_else(pill_in_last_3_months == &#39;yes&#39;, 1, 0)
+)</code></pre>
+</div>
+<div id="remove-free-text-fields" class="section level2">
+<h2>remove free-text fields</h2>
+<p>Free text fields often have unique values and can contain things like IDs, addresses, free-text responses to questions, etc.</p>
+<pre class="r"><code># first I look only at character columns (they tend to have most unique values)
+diary %&gt;% select_if(is.character) %&gt;% 
+  gather(variable, value) %&gt;%  # putting this in long format allows me to easily 
+  group_by(variable) %&gt;% 
+  summarise(n = n_nonmissing(value), n_dist = n_distinct(value)) %&gt;% # summarise frequencies of values
+  pander() # and display them</code></pre>
+<table style="width:67%;">
+<colgroup>
+<col width="47%" />
+<col width="8%" />
+<col width="11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">variable</th>
+<th align="center">n</th>
+<th align="center">n_dist</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">change_contraception_2</td>
+<td align="center">1057</td>
+<td align="center">25</td>
+</tr>
+<tr class="even">
+<td align="center">children</td>
+<td align="center">30956</td>
+<td align="center">10</td>
+</tr>
+<tr class="odd">
+<td align="center">children_broad_categories</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+</tr>
+<tr class="even">
+<td align="center">children_narrow_categories</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+</tr>
+<tr class="odd">
+<td align="center">contraception</td>
+<td align="center">30952</td>
+<td align="center">73</td>
+</tr>
+<tr class="even">
+<td align="center">contraceptive_method</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+</tr>
+<tr class="odd">
+<td align="center">contraceptive_method_by_pearl</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+</tr>
+<tr class="even">
+<td align="center">contraceptives_broad_categories</td>
+<td align="center">30952</td>
+<td align="center">11</td>
+</tr>
+<tr class="odd">
+<td align="center">contraceptives_categories_natural</td>
+<td align="center">29911</td>
+<td align="center">6</td>
+</tr>
+<tr class="even">
+<td align="center">feedback_for_us</td>
+<td align="center">6114</td>
+<td align="center">176</td>
+</tr>
+<tr class="odd">
+<td align="center">gestagen_type</td>
+<td align="center">16178</td>
+<td align="center">12</td>
+</tr>
+<tr class="even">
+<td align="center">hormonal_2</td>
+<td align="center">1716</td>
+<td align="center">9</td>
+</tr>
+<tr class="odd">
+<td align="center">hypothesis_guessed</td>
+<td align="center">30956</td>
+<td align="center">6</td>
+</tr>
+<tr class="even">
+<td align="center">illness_2</td>
+<td align="center">9284</td>
+<td align="center">167</td>
+</tr>
+<tr class="odd">
+<td align="center">income_partner</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+</tr>
+<tr class="even">
+<td align="center">living_situation</td>
+<td align="center">30956</td>
+<td align="center">4</td>
+</tr>
+<tr class="odd">
+<td align="center">meaning_study</td>
+<td align="center">14437</td>
+<td align="center">414</td>
+</tr>
+<tr class="even">
+<td align="center">medicament_2</td>
+<td align="center">11349</td>
+<td align="center">278</td>
+</tr>
+<tr class="odd">
+<td align="center">method_meeting</td>
+<td align="center">16257</td>
+<td align="center">10</td>
+</tr>
+<tr class="even">
+<td align="center">method_meeting_clean</td>
+<td align="center">16222</td>
+<td align="center">7</td>
+</tr>
+<tr class="odd">
+<td align="center">name_hormonal</td>
+<td align="center">195</td>
+<td align="center">7</td>
+</tr>
+<tr class="even">
+<td align="center">occupation</td>
+<td align="center">30956</td>
+<td align="center">14</td>
+</tr>
+<tr class="odd">
+<td align="center">occupation_clean</td>
+<td align="center">30850</td>
+<td align="center">7</td>
+</tr>
+<tr class="even">
+<td align="center">other_pill_name</td>
+<td align="center">1531</td>
+<td align="center">43</td>
+</tr>
+<tr class="odd">
+<td align="center">pills</td>
+<td align="center">16212</td>
+<td align="center">72</td>
+</tr>
+<tr class="even">
+<td align="center">postal_code</td>
+<td align="center">30956</td>
+<td align="center">403</td>
+</tr>
+<tr class="odd">
+<td align="center">pregnant_in_last_3_months</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+</tr>
+<tr class="even">
+<td align="center">relationship_status</td>
+<td align="center">30956</td>
+<td align="center">15</td>
+</tr>
+<tr class="odd">
+<td align="center">religion</td>
+<td align="center">30956</td>
+<td align="center">18</td>
+</tr>
+<tr class="even">
+<td align="center">religion_clean</td>
+<td align="center">30881</td>
+<td align="center">6</td>
+</tr>
+<tr class="odd">
+<td align="center">sess_day</td>
+<td align="center">30924</td>
+<td align="center">30925</td>
+</tr>
+<tr class="even">
+<td align="center">session</td>
+<td align="center">30956</td>
+<td align="center">1208</td>
+</tr>
+<tr class="odd">
+<td align="center">session_id</td>
+<td align="center">30924</td>
+<td align="center">30925</td>
+</tr>
+<tr class="even">
+<td align="center">session_id.abschluss</td>
+<td align="center">26913</td>
+<td align="center">785</td>
+</tr>
+<tr class="odd">
+<td align="center">session_id.vorab</td>
+<td align="center">30956</td>
+<td align="center">1208</td>
+</tr>
+<tr class="even">
+<td align="center">sex_orientation</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+</tr>
+<tr class="odd">
+<td align="center">short</td>
+<td align="center">30956</td>
+<td align="center">1208</td>
+</tr>
+<tr class="even">
+<td align="center">short_session</td>
+<td align="center">30924</td>
+<td align="center">1177</td>
+</tr>
+<tr class="odd">
+<td align="center">special_days</td>
+<td align="center">16985</td>
+<td align="center">403</td>
+</tr>
+<tr class="even">
+<td align="center">special_events</td>
+<td align="center">2836</td>
+<td align="center">2010</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code># of course manual inspection (for me, using View() ) is important too
+
+# same thing for factors shows no rare unique values 
+diary %&gt;% select_if(is.factor) %&gt;% 
+  gather(variable, value) %&gt;% 
+  group_by(variable) %&gt;% 
+  summarise(n = n_nonmissing(value), n_dist = n_distinct(value)) %&gt;%
+  arrange(n_dist) %&gt;% 
+  pander()</code></pre>
+<table style="width:65%;">
+<colgroup>
+<col width="45%" />
+<col width="8%" />
+<col width="11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">variable</th>
+<th align="center">n</th>
+<th align="center">n_dist</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">weekend</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+</tr>
+<tr class="even">
+<td align="center">cohabitation</td>
+<td align="center">30956</td>
+<td align="center">3</td>
+</tr>
+<tr class="odd">
+<td align="center">cycle_regularity</td>
+<td align="center">30956</td>
+<td align="center">3</td>
+</tr>
+<tr class="even">
+<td align="center">days_with_partner</td>
+<td align="center">30956</td>
+<td align="center">3</td>
+</tr>
+<tr class="odd">
+<td align="center">fertile_window</td>
+<td align="center">11682</td>
+<td align="center">3</td>
+</tr>
+<tr class="even">
+<td align="center">fertile_window_backward_inferred</td>
+<td align="center">17013</td>
+<td align="center">3</td>
+</tr>
+<tr class="odd">
+<td align="center">fertile_window_forward_counted</td>
+<td align="center">16201</td>
+<td align="center">3</td>
+</tr>
+<tr class="even">
+<td align="center">fertile_window_squished</td>
+<td align="center">11877</td>
+<td align="center">3</td>
+</tr>
+<tr class="odd">
+<td align="center">included</td>
+<td align="center">28493</td>
+<td align="center">3</td>
+</tr>
+<tr class="even">
+<td align="center">included_all</td>
+<td align="center">28493</td>
+<td align="center">3</td>
+</tr>
+<tr class="odd">
+<td align="center">included_conservative</td>
+<td align="center">14147</td>
+<td align="center">3</td>
+</tr>
+<tr class="even">
+<td align="center">included_lax</td>
+<td align="center">17960</td>
+<td align="center">3</td>
+</tr>
+<tr class="odd">
+<td align="center">included_strict</td>
+<td align="center">7682</td>
+<td align="center">3</td>
+</tr>
+<tr class="even">
+<td align="center">menstruation</td>
+<td align="center">30956</td>
+<td align="center">3</td>
+</tr>
+<tr class="odd">
+<td align="center">nights_with_partner</td>
+<td align="center">30956</td>
+<td align="center">3</td>
+</tr>
+<tr class="even">
+<td align="center">relationship_status_clean</td>
+<td align="center">30956</td>
+<td align="center">3</td>
+</tr>
+<tr class="odd">
+<td align="center">cycle_length_groups</td>
+<td align="center">30956</td>
+<td align="center">4</td>
+</tr>
+<tr class="even">
+<td align="center">estrogen_categories</td>
+<td align="center">26785</td>
+<td align="center">4</td>
+</tr>
+<tr class="odd">
+<td align="center">menstruation_strength</td>
+<td align="center">30956</td>
+<td align="center">4</td>
+</tr>
+<tr class="even">
+<td align="center">contraceptive_methods</td>
+<td align="center">30357</td>
+<td align="center">5</td>
+</tr>
+<tr class="odd">
+<td align="center">included_levels</td>
+<td align="center">28493</td>
+<td align="center">5</td>
+</tr>
+<tr class="even">
+<td align="center">age_group</td>
+<td align="center">30956</td>
+<td align="center">6</td>
+</tr>
+<tr class="odd">
+<td align="center">days_with_partner_per_month</td>
+<td align="center">9538</td>
+<td align="center">6</td>
+</tr>
+<tr class="even">
+<td align="center">income</td>
+<td align="center">13229</td>
+<td align="center">6</td>
+</tr>
+<tr class="odd">
+<td align="center">week_number</td>
+<td align="center">30924</td>
+<td align="center">7</td>
+</tr>
+<tr class="even">
+<td align="center">distance_to_partner_hours</td>
+<td align="center">9538</td>
+<td align="center">8</td>
+</tr>
+<tr class="odd">
+<td align="center">weekday</td>
+<td align="center">30924</td>
+<td align="center">8</td>
+</tr>
+<tr class="even">
+<td align="center">gestagens</td>
+<td align="center">1497</td>
+<td align="center">10</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code># diary %&gt;% select_if(is.character) %&gt;% names() %&gt;% cat(sep=&quot;, -&quot;)
+
+# here I remove all columns that have text fields which might betray someone&#39;s identity
+diary = diary %&gt;% select(-session, -session_id, -session_id.vorab, -short, -sess_day, -session_id.abschluss, -short_session, -vpn, -session_id.nachbe_other_hormonal,
+          -pills,-other_pill_name, -religion, -relationship_status, -postal_code, -children, -method_meeting,  -meaning_study, -medicament_2, -special_days, -illness_2, -change_contraception_2, -feedback_for_us, -name_hormonal, -hypothesis_guessed, -children_narrow_categories,  -special_events)</code></pre>
+</div>
+<div id="dates-and-times" class="section level2">
+<h2>Dates and times</h2>
+<pre class="r"><code>diary %&gt;% select_if(is.instant) %&gt;% 
+  gather(variable, value) %&gt;% 
+  group_by(variable) %&gt;% 
+  summarise(n = n_nonmissing(value), n_dist = n_distinct(value)) %&gt;%
+  arrange(n_dist) %&gt;% 
+  pander()</code></pre>
+<table style="width:62%;">
+<colgroup>
+<col width="43%" />
+<col width="8%" />
+<col width="11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">variable</th>
+<th align="center">n</th>
+<th align="center">n_dist</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">ended.nachbe_other_hormonal</td>
+<td align="center">1716</td>
+<td align="center">52</td>
+</tr>
+<tr class="even">
+<td align="center">created.nachbe_other_hormonal</td>
+<td align="center">1804</td>
+<td align="center">55</td>
+</tr>
+<tr class="odd">
+<td align="center">modified.nachbe_other_hormonal</td>
+<td align="center">1804</td>
+<td align="center">55</td>
+</tr>
+<tr class="even">
+<td align="center">first_day</td>
+<td align="center">30924</td>
+<td align="center">209</td>
+</tr>
+<tr class="odd">
+<td align="center">first_diary_date</td>
+<td align="center">30924</td>
+<td align="center">209</td>
+</tr>
+<tr class="even">
+<td align="center">cyklus_1</td>
+<td align="center">30956</td>
+<td align="center">306</td>
+</tr>
+<tr class="odd">
+<td align="center">last_menstruation</td>
+<td align="center">27362</td>
+<td align="center">308</td>
+</tr>
+<tr class="even">
+<td align="center">next_menstrual_onset</td>
+<td align="center">18614</td>
+<td align="center">330</td>
+</tr>
+<tr class="odd">
+<td align="center">menstrual_onset_date_inferred</td>
+<td align="center">4068</td>
+<td align="center">363</td>
+</tr>
+<tr class="even">
+<td align="center">last_diary_date</td>
+<td align="center">30924</td>
+<td align="center">371</td>
+</tr>
+<tr class="odd">
+<td align="center">menstruation_dates</td>
+<td align="center">4805</td>
+<td align="center">437</td>
+</tr>
+<tr class="even">
+<td align="center">next_menstrual_onset_inferred</td>
+<td align="center">30924</td>
+<td align="center">450</td>
+</tr>
+<tr class="odd">
+<td align="center">last_menstrual_onset</td>
+<td align="center">30924</td>
+<td align="center">453</td>
+</tr>
+<tr class="even">
+<td align="center">created_date</td>
+<td align="center">30924</td>
+<td align="center">532</td>
+</tr>
+<tr class="odd">
+<td align="center">ended.abschluss</td>
+<td align="center">26432</td>
+<td align="center">770</td>
+</tr>
+<tr class="even">
+<td align="center">created.abschluss</td>
+<td align="center">26913</td>
+<td align="center">785</td>
+</tr>
+<tr class="odd">
+<td align="center">modified.abschluss</td>
+<td align="center">26913</td>
+<td align="center">785</td>
+</tr>
+<tr class="even">
+<td align="center">created.vorab</td>
+<td align="center">30956</td>
+<td align="center">1206</td>
+</tr>
+<tr class="odd">
+<td align="center">modified.vorab</td>
+<td align="center">30956</td>
+<td align="center">1206</td>
+</tr>
+<tr class="even">
+<td align="center">ended.vorab</td>
+<td align="center">30956</td>
+<td align="center">1207</td>
+</tr>
+<tr class="odd">
+<td align="center">ended</td>
+<td align="center">30924</td>
+<td align="center">30582</td>
+</tr>
+<tr class="even">
+<td align="center">modified</td>
+<td align="center">30924</td>
+<td align="center">30795</td>
+</tr>
+<tr class="odd">
+<td align="center">created</td>
+<td align="center">30924</td>
+<td align="center">30797</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>diary = diary %&gt;% 
+  # remove all datetime we don&#39;t need
+  select(-starts_with(&quot;created&quot;)) %&gt;% 
+  select(-starts_with(&quot;modified&quot;)) %&gt;% 
+  select(-starts_with(&quot;expired&quot;)) %&gt;% 
+  select(-first_day, -first_diary_date, -cyklus_1, -last_menstruation, -next_menstrual_onset, -menstrual_onset_date_inferred, -last_diary_date, -menstruation_dates, -next_menstrual_onset_inferred, -last_menstrual_onset) %&gt;% 
+
+    mutate( # we do want to know whether they finished a survey, but can&#39;t know when
+    ended = !is.na(ended),
+    ended.vorab = !is.na(ended.vorab),
+    ended.abschluss = !is.na(ended.abschluss),
+    ended.nachbe_other_hormonal = !is.na(ended.nachbe_other_hormonal)
+    )</code></pre>
+<p>a similar problem exists for intervals, but we might need these and I can easily round them. Here I unfortunately didn’t store them as type interval, so I have to look through all numeric types</p>
+<pre class="r"><code># diary %&gt;% select_if(is.interval) %&gt;% 
+#   gather(variable, value) %&gt;% 
+#   group_by(variable) %&gt;% 
+#   summarise(n = n_nonmissing(value), n_dist = n_distinct(value)) %&gt;%
+#   arrange(n_dist) %&gt;% 
+#   pander()</code></pre>
+<p>The <code>Hmisc::cut2</code> function allows me to group variables into <code>g</code> groups and try to make no group contain fewer than <code>m</code> values.</p>
+<pre class="r"><code>diary = diary %&gt;% 
+  mutate(
+    time_for_response = Hmisc::cut2(time_for_response, g = 10, m = 30),
+    time_of_response = Hmisc::cut2(time_of_response, g = 10, m = 30),
+    time_since_last_response = Hmisc::cut2(time_since_last_response, cuts = 10, m = 30),
+    biggest_diff = Hmisc::cut2(biggest_diff, g = 10, m = 30),
+    avg_diff = Hmisc::cut2(avg_diff, g = 10, m = 300),
+    days_responded_percentage = Hmisc::cut2(days_responded_percentage, g = 10, m = 300)
+    )</code></pre>
+</div>
+<div id="finding-rare-values" class="section level2">
+<h2>finding rare values</h2>
+<p>Although rare values won’t allow anyone to identify many participants, it is important to protect privacy for all participants. In our case especially, a potential attacker might know that e.g. his girlfriend uses a pill with a rare gestagen and identify her like this.</p>
+<p>To this end, I wrote the function below. It gives (depending on the last argument) the rarest value and how frequent it is. I included the group variable, because a lot of demographic data is duplicated in my diary data.</p>
+<pre class="r"><code>commonness_rarest_value = function(x, group, give_value = FALSE) {
+  df = data.frame(x = x, group = group) %&gt;% unique()
+  counts = table(df$x)
+  ret = counts[which.min(counts)]
+  if (give_value) names(ret) else ret
+}
+
+diary %&gt;% gather(variable, value, -person) %&gt;% 
+  group_by(variable) %&gt;% 
+  summarise(n = n_nonmissing(value), n_dist = n_distinct(value), lc_val = commonness_rarest_value(value, person, T), lc_freq = commonness_rarest_value(value, person, F)) %&gt;% 
+  arrange(desc(lc_freq/(n_dist+lc_freq))) %&gt;% 
+  pander()</code></pre>
+<table>
+<colgroup>
+<col width="40%" />
+<col width="6%" />
+<col width="9%" />
+<col width="33%" />
+<col width="9%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">variable</th>
+<th align="center">n</th>
+<th align="center">n_dist</th>
+<th align="center">lc_val</th>
+<th align="center">lc_freq</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">ended.vorab</td>
+<td align="center">30956</td>
+<td align="center">1</td>
+<td align="center">TRUE</td>
+<td align="center">1208</td>
+</tr>
+<tr class="even">
+<td align="center">gender</td>
+<td align="center">30956</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1208</td>
+</tr>
+<tr class="odd">
+<td align="center">hetero_relationship</td>
+<td align="center">30956</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1208</td>
+</tr>
+<tr class="even">
+<td align="center">weekend</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">TRUE</td>
+<td align="center">1122</td>
+</tr>
+<tr class="odd">
+<td align="center">time_since_last_response</td>
+<td align="center">23275</td>
+<td align="center">2</td>
+<td align="center">[10,31]</td>
+<td align="center">1097</td>
+</tr>
+<tr class="even">
+<td align="center">menstruated_at_all</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">TRUE</td>
+<td align="center">910</td>
+</tr>
+<tr class="odd">
+<td align="center">in_pair_public_intimacy</td>
+<td align="center">29902</td>
+<td align="center">3</td>
+<td align="center">0</td>
+<td align="center">1081</td>
+</tr>
+<tr class="even">
+<td align="center">mate_retention_1</td>
+<td align="center">29902</td>
+<td align="center">3</td>
+<td align="center">2</td>
+<td align="center">960</td>
+</tr>
+<tr class="odd">
+<td align="center">spent_night_with_partner</td>
+<td align="center">29902</td>
+<td align="center">3</td>
+<td align="center">0</td>
+<td align="center">960</td>
+</tr>
+<tr class="even">
+<td align="center">fertile_broad_backward_inferred</td>
+<td align="center">17013</td>
+<td align="center">3</td>
+<td align="center">0.0533333333333333</td>
+<td align="center">959</td>
+</tr>
+<tr class="odd">
+<td align="center">had_sexual_intercourse</td>
+<td align="center">29902</td>
+<td align="center">3</td>
+<td align="center">1</td>
+<td align="center">945</td>
+</tr>
+<tr class="even">
+<td align="center">premenstrual_phase_backward_inferred</td>
+<td align="center">27143</td>
+<td align="center">3</td>
+<td align="center">TRUE</td>
+<td align="center">929</td>
+</tr>
+<tr class="odd">
+<td align="center">premenstrual_phase_fab</td>
+<td align="center">27143</td>
+<td align="center">3</td>
+<td align="center">TRUE</td>
+<td align="center">929</td>
+</tr>
+<tr class="even">
+<td align="center">fertile_broad_forward_counted</td>
+<td align="center">16201</td>
+<td align="center">3</td>
+<td align="center">0.0533333333333333</td>
+<td align="center">928</td>
+</tr>
+<tr class="odd">
+<td align="center">fertile_window_forward_counted</td>
+<td align="center">16201</td>
+<td align="center">3</td>
+<td align="center">broad</td>
+<td align="center">919</td>
+</tr>
+<tr class="even">
+<td align="center">fertile_window_backward_inferred</td>
+<td align="center">17013</td>
+<td align="center">3</td>
+<td align="center">broad</td>
+<td align="center">915</td>
+</tr>
+<tr class="odd">
+<td align="center">menstruation_1</td>
+<td align="center">29901</td>
+<td align="center">3</td>
+<td align="center">1</td>
+<td align="center">910</td>
+</tr>
+<tr class="even">
+<td align="center">fertile_narrow_forward_counted</td>
+<td align="center">12407</td>
+<td align="center">3</td>
+<td align="center">0.51</td>
+<td align="center">908</td>
+</tr>
+<tr class="odd">
+<td align="center">fertile_narrow_backward_inferred</td>
+<td align="center">13345</td>
+<td align="center">3</td>
+<td align="center">0.51</td>
+<td align="center">905</td>
+</tr>
+<tr class="even">
+<td align="center">had_petting</td>
+<td align="center">29901</td>
+<td align="center">3</td>
+<td align="center">1</td>
+<td align="center">904</td>
+</tr>
+<tr class="odd">
+<td align="center">pill_contraception</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">0</td>
+<td align="center">598</td>
+</tr>
+<tr class="even">
+<td align="center">premenstrual_phase_forward_counted</td>
+<td align="center">27380</td>
+<td align="center">3</td>
+<td align="center">TRUE</td>
+<td align="center">873</td>
+</tr>
+<tr class="odd">
+<td align="center">contraception_meeting_partner</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">581</td>
+</tr>
+<tr class="even">
+<td align="center">pill_in_last_3_months</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">0</td>
+<td align="center">566</td>
+</tr>
+<tr class="odd">
+<td align="center">pille_control</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">566</td>
+</tr>
+<tr class="even">
+<td align="center">menstruation</td>
+<td align="center">30956</td>
+<td align="center">3</td>
+<td align="center">pre</td>
+<td align="center">819</td>
+</tr>
+<tr class="odd">
+<td align="center">premenstrual_phase</td>
+<td align="center">17887</td>
+<td align="center">3</td>
+<td align="center">TRUE</td>
+<td align="center">819</td>
+</tr>
+<tr class="even">
+<td align="center">premenstrual_phase_squished</td>
+<td align="center">17944</td>
+<td align="center">3</td>
+<td align="center">TRUE</td>
+<td align="center">807</td>
+</tr>
+<tr class="odd">
+<td align="center">sufficient_diary_coverage</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">FALSE</td>
+<td align="center">518</td>
+</tr>
+<tr class="even">
+<td align="center">partner_initiated_sexual_intercourse</td>
+<td align="center">6512</td>
+<td align="center">3</td>
+<td align="center">0</td>
+<td align="center">772</td>
+</tr>
+<tr class="odd">
+<td align="center">sexual_intercourse_3</td>
+<td align="center">6512</td>
+<td align="center">3</td>
+<td align="center">1</td>
+<td align="center">772</td>
+</tr>
+<tr class="even">
+<td align="center">hormonal_contraception</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">0</td>
+<td align="center">514</td>
+</tr>
+<tr class="odd">
+<td align="center">menstrual_onset</td>
+<td align="center">18614</td>
+<td align="center">3</td>
+<td align="center">TRUE</td>
+<td align="center">726</td>
+</tr>
+<tr class="even">
+<td align="center">fertile_broad_squished</td>
+<td align="center">11877</td>
+<td align="center">3</td>
+<td align="center">0.44</td>
+<td align="center">697</td>
+</tr>
+<tr class="odd">
+<td align="center">fertile_broad</td>
+<td align="center">11682</td>
+<td align="center">3</td>
+<td align="center">0.44</td>
+<td align="center">694</td>
+</tr>
+<tr class="even">
+<td align="center">fertile_window_squished</td>
+<td align="center">11877</td>
+<td align="center">3</td>
+<td align="center">broad</td>
+<td align="center">683</td>
+</tr>
+<tr class="odd">
+<td align="center">fertile_window</td>
+<td align="center">11682</td>
+<td align="center">3</td>
+<td align="center">broad</td>
+<td align="center">675</td>
+</tr>
+<tr class="even">
+<td align="center">fertile_narrow</td>
+<td align="center">9648</td>
+<td align="center">3</td>
+<td align="center">0.51</td>
+<td align="center">670</td>
+</tr>
+<tr class="odd">
+<td align="center">fertile_narrow_squished</td>
+<td align="center">9702</td>
+<td align="center">3</td>
+<td align="center">0.51</td>
+<td align="center">667</td>
+</tr>
+<tr class="even">
+<td align="center">ended.abschluss</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">FALSE</td>
+<td align="center">439</td>
+</tr>
+<tr class="odd">
+<td align="center">hormonal_contra</td>
+<td align="center">30952</td>
+<td align="center">3</td>
+<td align="center">TRUE</td>
+<td align="center">602</td>
+</tr>
+<tr class="even">
+<td align="center">hormonal_all</td>
+<td align="center">30952</td>
+<td align="center">3</td>
+<td align="center">FALSE</td>
+<td align="center">585</td>
+</tr>
+<tr class="odd">
+<td align="center">mate_retention_2</td>
+<td align="center">29902</td>
+<td align="center">4</td>
+<td align="center">1</td>
+<td align="center">758</td>
+</tr>
+<tr class="even">
+<td align="center">dodgy_data</td>
+<td align="center">30924</td>
+<td align="center">3</td>
+<td align="center">TRUE</td>
+<td align="center">566</td>
+</tr>
+<tr class="odd">
+<td align="center">any_RCD</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">FALSE</td>
+<td align="center">368</td>
+</tr>
+<tr class="even">
+<td align="center">SJS_5</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">357</td>
+</tr>
+<tr class="odd">
+<td align="center">SJS_5R</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">1</td>
+<td align="center">357</td>
+</tr>
+<tr class="even">
+<td align="center">hormonal</td>
+<td align="center">30952</td>
+<td align="center">3</td>
+<td align="center">FALSE</td>
+<td align="center">514</td>
+</tr>
+<tr class="odd">
+<td align="center">SJS_6</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">312</td>
+</tr>
+<tr class="even">
+<td align="center">ever_menstruated</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">FALSE</td>
+<td align="center">298</td>
+</tr>
+<tr class="odd">
+<td align="center">had_any_period</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">FALSE</td>
+<td align="center">298</td>
+</tr>
+<tr class="even">
+<td align="center">sexual_intercourse_2</td>
+<td align="center">29902</td>
+<td align="center">4</td>
+<td align="center">2</td>
+<td align="center">595</td>
+</tr>
+<tr class="odd">
+<td align="center">SJS_4</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">286</td>
+</tr>
+<tr class="even">
+<td align="center">sexual_intercourse_5</td>
+<td align="center">29901</td>
+<td align="center">4</td>
+<td align="center">2</td>
+<td align="center">567</td>
+</tr>
+<tr class="odd">
+<td align="center">include_all</td>
+<td align="center">30952</td>
+<td align="center">3</td>
+<td align="center">TRUE</td>
+<td align="center">421</td>
+</tr>
+<tr class="even">
+<td align="center">included</td>
+<td align="center">28493</td>
+<td align="center">3</td>
+<td align="center">cycling</td>
+<td align="center">421</td>
+</tr>
+<tr class="odd">
+<td align="center">included_all</td>
+<td align="center">28493</td>
+<td align="center">3</td>
+<td align="center">cycling</td>
+<td align="center">421</td>
+</tr>
+<tr class="even">
+<td align="center">antibiotics</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">1</td>
+<td align="center">279</td>
+</tr>
+<tr class="odd">
+<td align="center">hormonal_medication_in_last_3_months</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">1</td>
+<td align="center">279</td>
+</tr>
+<tr class="even">
+<td align="center">weekday</td>
+<td align="center">30924</td>
+<td align="center">8</td>
+<td align="center">Saturday</td>
+<td align="center">1034</td>
+</tr>
+<tr class="odd">
+<td align="center">hormonal_lax</td>
+<td align="center">30952</td>
+<td align="center">3</td>
+<td align="center">TRUE</td>
+<td align="center">374</td>
+</tr>
+<tr class="even">
+<td align="center">week_number</td>
+<td align="center">30924</td>
+<td align="center">7</td>
+<td align="center">(28,35]</td>
+<td align="center">833</td>
+</tr>
+<tr class="odd">
+<td align="center">stress</td>
+<td align="center">26606</td>
+<td align="center">3</td>
+<td align="center">1</td>
+<td align="center">355</td>
+</tr>
+<tr class="even">
+<td align="center">days_with_partner</td>
+<td align="center">30956</td>
+<td align="center">3</td>
+<td align="center">3-5 days</td>
+<td align="center">346</td>
+</tr>
+<tr class="odd">
+<td align="center">cohabitation</td>
+<td align="center">30956</td>
+<td align="center">3</td>
+<td align="center">Live in same city</td>
+<td align="center">334</td>
+</tr>
+<tr class="even">
+<td align="center">long_distance_relationship</td>
+<td align="center">30956</td>
+<td align="center">3</td>
+<td align="center">2</td>
+<td align="center">334</td>
+</tr>
+<tr class="odd">
+<td align="center">sexual_intercourse_1</td>
+<td align="center">29902</td>
+<td align="center">6</td>
+<td align="center">1</td>
+<td align="center">663</td>
+</tr>
+<tr class="even">
+<td align="center">sexual_intercourse_1_6scale</td>
+<td align="center">29902</td>
+<td align="center">6</td>
+<td align="center">1.2</td>
+<td align="center">663</td>
+</tr>
+<tr class="odd">
+<td align="center">medicament_1</td>
+<td align="center">26606</td>
+<td align="center">3</td>
+<td align="center">1</td>
+<td align="center">330</td>
+</tr>
+<tr class="even">
+<td align="center">nights_with_partner</td>
+<td align="center">30956</td>
+<td align="center">3</td>
+<td align="center">3-5 nights</td>
+<td align="center">329</td>
+</tr>
+<tr class="odd">
+<td align="center">attention_2</td>
+<td align="center">29874</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">766</td>
+</tr>
+<tr class="even">
+<td align="center">SJS_3</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">213</td>
+</tr>
+<tr class="odd">
+<td align="center">SJS_3R</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">1</td>
+<td align="center">213</td>
+</tr>
+<tr class="even">
+<td align="center">male_attention_1</td>
+<td align="center">29874</td>
+<td align="center">7</td>
+<td align="center">2</td>
+<td align="center">739</td>
+</tr>
+<tr class="odd">
+<td align="center">situation_of_living</td>
+<td align="center">18107</td>
+<td align="center">3</td>
+<td align="center">1</td>
+<td align="center">294</td>
+</tr>
+<tr class="even">
+<td align="center">hormonal_conservative</td>
+<td align="center">30940</td>
+<td align="center">3</td>
+<td align="center">TRUE</td>
+<td align="center">293</td>
+</tr>
+<tr class="odd">
+<td align="center">menstruation_3</td>
+<td align="center">4794</td>
+<td align="center">4</td>
+<td align="center">3</td>
+<td align="center">390</td>
+</tr>
+<tr class="even">
+<td align="center">menstruation_strength</td>
+<td align="center">30956</td>
+<td align="center">4</td>
+<td align="center">3</td>
+<td align="center">390</td>
+</tr>
+<tr class="odd">
+<td align="center">days_since_menstrual_onset</td>
+<td align="center">4068</td>
+<td align="center">6</td>
+<td align="center">4</td>
+<td align="center">571</td>
+</tr>
+<tr class="even">
+<td align="center">SJS_1</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">188</td>
+</tr>
+<tr class="odd">
+<td align="center">illness_1</td>
+<td align="center">26606</td>
+<td align="center">3</td>
+<td align="center">1</td>
+<td align="center">271</td>
+</tr>
+<tr class="even">
+<td align="center">children_broad_categories</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">children</td>
+<td align="center">180</td>
+</tr>
+<tr class="odd">
+<td align="center">mate_retention_3</td>
+<td align="center">29876</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">594</td>
+</tr>
+<tr class="even">
+<td align="center">desirability_1</td>
+<td align="center">29881</td>
+<td align="center">7</td>
+<td align="center">1</td>
+<td align="center">562</td>
+</tr>
+<tr class="odd">
+<td align="center">choice_of_clothing_3</td>
+<td align="center">29887</td>
+<td align="center">7</td>
+<td align="center">1</td>
+<td align="center">554</td>
+</tr>
+<tr class="even">
+<td align="center">communication_partner_1</td>
+<td align="center">29902</td>
+<td align="center">4</td>
+<td align="center">1</td>
+<td align="center">311</td>
+</tr>
+<tr class="odd">
+<td align="center">choice_of_clothing_6</td>
+<td align="center">29883</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">541</td>
+</tr>
+<tr class="even">
+<td align="center">desirability_partner</td>
+<td align="center">29879</td>
+<td align="center">7</td>
+<td align="center">1</td>
+<td align="center">537</td>
+</tr>
+<tr class="odd">
+<td align="center">time_of_response</td>
+<td align="center">30924</td>
+<td align="center">11</td>
+<td align="center">[17.0,17.3)</td>
+<td align="center">835</td>
+</tr>
+<tr class="even">
+<td align="center">any_fertile_days_known</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">FALSE</td>
+<td align="center">147</td>
+</tr>
+<tr class="odd">
+<td align="center">attention_1</td>
+<td align="center">29874</td>
+<td align="center">7</td>
+<td align="center">2</td>
+<td align="center">510</td>
+</tr>
+<tr class="even">
+<td align="center">jealousy_1</td>
+<td align="center">29877</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">463</td>
+</tr>
+<tr class="odd">
+<td align="center">extra_pair_3</td>
+<td align="center">29873</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">451</td>
+</tr>
+<tr class="even">
+<td align="center">cycle_regularity</td>
+<td align="center">30956</td>
+<td align="center">3</td>
+<td align="center">irregular, more than 5 days off</td>
+<td align="center">192</td>
+</tr>
+<tr class="odd">
+<td align="center">cyklus_5</td>
+<td align="center">30956</td>
+<td align="center">3</td>
+<td align="center">3</td>
+<td align="center">192</td>
+</tr>
+<tr class="even">
+<td align="center">extra_pair_6</td>
+<td align="center">29873</td>
+<td align="center">7</td>
+<td align="center">2</td>
+<td align="center">445</td>
+</tr>
+<tr class="odd">
+<td align="center">male_mate_retention_1</td>
+<td align="center">29876</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">444</td>
+</tr>
+<tr class="even">
+<td align="center">choice_of_clothing_1</td>
+<td align="center">29896</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">431</td>
+</tr>
+<tr class="odd">
+<td align="center">mate_retention_4</td>
+<td align="center">29876</td>
+<td align="center">7</td>
+<td align="center">2</td>
+<td align="center">427</td>
+</tr>
+<tr class="even">
+<td align="center">male_mate_retention_2</td>
+<td align="center">29876</td>
+<td align="center">7</td>
+<td align="center">2</td>
+<td align="center">418</td>
+</tr>
+<tr class="odd">
+<td align="center">mate_retention_6</td>
+<td align="center">29875</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">417</td>
+</tr>
+<tr class="even">
+<td align="center">flat_share</td>
+<td align="center">10737</td>
+<td align="center">3</td>
+<td align="center">1</td>
+<td align="center">173</td>
+</tr>
+<tr class="odd">
+<td align="center">extra_pair_12</td>
+<td align="center">29873</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">389</td>
+</tr>
+<tr class="even">
+<td align="center">hormonal_strict</td>
+<td align="center">30940</td>
+<td align="center">3</td>
+<td align="center">TRUE</td>
+<td align="center">161</td>
+</tr>
+<tr class="odd">
+<td align="center">SJS_2</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">107</td>
+</tr>
+<tr class="even">
+<td align="center">SJS_2R</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">1</td>
+<td align="center">107</td>
+</tr>
+<tr class="odd">
+<td align="center">menstruation_2</td>
+<td align="center">4794</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">368</td>
+</tr>
+<tr class="even">
+<td align="center">extra_pair_5</td>
+<td align="center">29873</td>
+<td align="center">7</td>
+<td align="center">2</td>
+<td align="center">348</td>
+</tr>
+<tr class="odd">
+<td align="center">choice_of_clothing_4</td>
+<td align="center">29884</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">343</td>
+</tr>
+<tr class="even">
+<td align="center">time_for_response</td>
+<td align="center">29143</td>
+<td align="center">11</td>
+<td align="center">[0.10, 2.15)</td>
+<td align="center">531</td>
+</tr>
+<tr class="odd">
+<td align="center">extra_pair_2</td>
+<td align="center">29874</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">336</td>
+</tr>
+<tr class="even">
+<td align="center">we_know_fertile_days</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">FALSE</td>
+<td align="center">96</td>
+</tr>
+<tr class="odd">
+<td align="center">include_lax</td>
+<td align="center">30952</td>
+<td align="center">3</td>
+<td align="center">TRUE</td>
+<td align="center">143</td>
+</tr>
+<tr class="even">
+<td align="center">included_lax</td>
+<td align="center">17960</td>
+<td align="center">3</td>
+<td align="center">cycling</td>
+<td align="center">143</td>
+</tr>
+<tr class="odd">
+<td align="center">self_esteem_1</td>
+<td align="center">29881</td>
+<td align="center">7</td>
+<td align="center">1</td>
+<td align="center">309</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_consc_9</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">3</td>
+<td align="center">219</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_consc_9R</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">3</td>
+<td align="center">219</td>
+</tr>
+<tr class="even">
+<td align="center">living_situation</td>
+<td align="center">30956</td>
+<td align="center">4</td>
+<td align="center">living in all-female flatshare</td>
+<td align="center">173</td>
+</tr>
+<tr class="odd">
+<td align="center">choice_of_clothing_8</td>
+<td align="center">29882</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">291</td>
+</tr>
+<tr class="even">
+<td align="center">showy_clothes</td>
+<td align="center">29882</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">291</td>
+</tr>
+<tr class="odd">
+<td align="center">extra_pair_1</td>
+<td align="center">29867</td>
+<td align="center">3</td>
+<td align="center">1</td>
+<td align="center">124</td>
+</tr>
+<tr class="even">
+<td align="center">extra_pair_intimacy</td>
+<td align="center">29867</td>
+<td align="center">3</td>
+<td align="center">1</td>
+<td align="center">124</td>
+</tr>
+<tr class="odd">
+<td align="center">NARQ_admiration_3</td>
+<td align="center">29877</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">289</td>
+</tr>
+<tr class="even">
+<td align="center">estrogen_categories</td>
+<td align="center">26785</td>
+<td align="center">4</td>
+<td align="center">(300,600]</td>
+<td align="center">153</td>
+</tr>
+<tr class="odd">
+<td align="center">mate_retention_5</td>
+<td align="center">29876</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">265</td>
+</tr>
+<tr class="even">
+<td align="center">include_conservative</td>
+<td align="center">30952</td>
+<td align="center">3</td>
+<td align="center">TRUE</td>
+<td align="center">112</td>
+</tr>
+<tr class="odd">
+<td align="center">included_conservative</td>
+<td align="center">14147</td>
+<td align="center">3</td>
+<td align="center">cycling</td>
+<td align="center">112</td>
+</tr>
+<tr class="even">
+<td align="center">SOI_R_6</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">2</td>
+<td align="center">183</td>
+</tr>
+<tr class="odd">
+<td align="center">SOI_R_6R</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">4</td>
+<td align="center">183</td>
+</tr>
+<tr class="even">
+<td align="center">prc_stirn_b_forward_counted</td>
+<td align="center">27380</td>
+<td align="center">20</td>
+<td align="center">0.14</td>
+<td align="center">687</td>
+</tr>
+<tr class="odd">
+<td align="center">fertile_fab</td>
+<td align="center">27143</td>
+<td align="center">20</td>
+<td align="center">0.05</td>
+<td align="center">679</td>
+</tr>
+<tr class="even">
+<td align="center">fertile_forward_and_backward</td>
+<td align="center">27143</td>
+<td align="center">20</td>
+<td align="center">0.05</td>
+<td align="center">679</td>
+</tr>
+<tr class="odd">
+<td align="center">prc_stirn_b_backward_inferred</td>
+<td align="center">27143</td>
+<td align="center">20</td>
+<td align="center">0.05</td>
+<td align="center">679</td>
+</tr>
+<tr class="even">
+<td align="center">SOI_R_5</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">3</td>
+<td align="center">169</td>
+</tr>
+<tr class="odd">
+<td align="center">extra_pair_13</td>
+<td align="center">29873</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">234</td>
+</tr>
+<tr class="even">
+<td align="center">extra_pair_sexual_fantasies</td>
+<td align="center">29873</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">234</td>
+</tr>
+<tr class="odd">
+<td align="center">choice_of_clothing_2</td>
+<td align="center">29892</td>
+<td align="center">7</td>
+<td align="center">1</td>
+<td align="center">233</td>
+</tr>
+<tr class="even">
+<td align="center">MV_2</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">162</td>
+</tr>
+<tr class="odd">
+<td align="center">attention</td>
+<td align="center">29874</td>
+<td align="center">12</td>
+<td align="center">1.5</td>
+<td align="center">382</td>
+</tr>
+<tr class="even">
+<td align="center">choice_of_clothing_7</td>
+<td align="center">29881</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">222</td>
+</tr>
+<tr class="odd">
+<td align="center">fertile</td>
+<td align="center">27828</td>
+<td align="center">20</td>
+<td align="center">0.16</td>
+<td align="center">619</td>
+</tr>
+<tr class="even">
+<td align="center">attractiveness_finance_2</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">152</td>
+</tr>
+<tr class="odd">
+<td align="center">income_partner</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">&gt; 3000€</td>
+<td align="center">152</td>
+</tr>
+<tr class="even">
+<td align="center">NARQ_admiration_2</td>
+<td align="center">29877</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">211</td>
+</tr>
+<tr class="odd">
+<td align="center">SOI_R_4</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">148</td>
+</tr>
+<tr class="even">
+<td align="center">NARQ_admiration_1</td>
+<td align="center">29877</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">197</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_open_10</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">136</td>
+</tr>
+<tr class="even">
+<td align="center">choice_of_clothing_5</td>
+<td align="center">29885</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">186</td>
+</tr>
+<tr class="odd">
+<td align="center">extra_pair_7</td>
+<td align="center">29873</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">186</td>
+</tr>
+<tr class="even">
+<td align="center">had_sex_with_partner_yet</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">0</td>
+<td align="center">53</td>
+</tr>
+<tr class="odd">
+<td align="center">male_mate_retention</td>
+<td align="center">29876</td>
+<td align="center">12</td>
+<td align="center">6</td>
+<td align="center">314</td>
+</tr>
+<tr class="even">
+<td align="center">relationship_satisfaction_1</td>
+<td align="center">29902</td>
+<td align="center">8</td>
+<td align="center">4.5</td>
+<td align="center">208</td>
+</tr>
+<tr class="odd">
+<td align="center">extra_pair_9</td>
+<td align="center">29873</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">179</td>
+</tr>
+<tr class="even">
+<td align="center">ended.nachbe_other_hormonal</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">TRUE</td>
+<td align="center">51</td>
+</tr>
+<tr class="odd">
+<td align="center">extra_pair_10</td>
+<td align="center">29873</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">178</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_agree_6</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">126</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_agree_6R</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">126</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_extra_7</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">126</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_extra_7R</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">126</td>
+</tr>
+<tr class="even">
+<td align="center">trying_to_get_pregnant</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">1</td>
+<td align="center">50</td>
+</tr>
+<tr class="odd">
+<td align="center">prc_wcx_b_forward_counted</td>
+<td align="center">27380</td>
+<td align="center">26</td>
+<td align="center">0.006</td>
+<td align="center">624</td>
+</tr>
+<tr class="even">
+<td align="center">CJS_6</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">119</td>
+</tr>
+<tr class="odd">
+<td align="center">prc_wcx_b_backward_inferred</td>
+<td align="center">27143</td>
+<td align="center">26</td>
+<td align="center">0.001</td>
+<td align="center">603</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_agree_4</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">113</td>
+</tr>
+<tr class="odd">
+<td align="center">NARQ_1</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">112</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_consc_4</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">111</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_consc_4R</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">111</td>
+</tr>
+<tr class="even">
+<td align="center">included_levels</td>
+<td align="center">28493</td>
+<td align="center">5</td>
+<td align="center">lax</td>
+<td align="center">111</td>
+</tr>
+<tr class="odd">
+<td align="center">SGSE_5</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">111</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_neuro_7</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">108</td>
+</tr>
+<tr class="odd">
+<td align="center">RJS_1</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">108</td>
+</tr>
+<tr class="even">
+<td align="center">CJS_3</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">106</td>
+</tr>
+<tr class="odd">
+<td align="center">MV_P_2</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">105</td>
+</tr>
+<tr class="even">
+<td align="center">SGSE_4</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">104</td>
+</tr>
+<tr class="odd">
+<td align="center">SGSE_4R</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">104</td>
+</tr>
+<tr class="even">
+<td align="center">extra_pair_going_out</td>
+<td align="center">29873</td>
+<td align="center">12</td>
+<td align="center">5.5</td>
+<td align="center">242</td>
+</tr>
+<tr class="odd">
+<td align="center">male_jealousy_1</td>
+<td align="center">29876</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">141</td>
+</tr>
+<tr class="even">
+<td align="center">male_jealousy_2</td>
+<td align="center">29877</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">138</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_neuro_8</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">98</td>
+</tr>
+<tr class="even">
+<td align="center">NARQ_6</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">98</td>
+</tr>
+<tr class="odd">
+<td align="center">SOI_R_3</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">97</td>
+</tr>
+<tr class="even">
+<td align="center">cyklus_4</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">95</td>
+</tr>
+<tr class="odd">
+<td align="center">include_strict</td>
+<td align="center">30952</td>
+<td align="center">3</td>
+<td align="center">TRUE</td>
+<td align="center">57</td>
+</tr>
+<tr class="even">
+<td align="center">included_bool</td>
+<td align="center">7682</td>
+<td align="center">3</td>
+<td align="center">TRUE</td>
+<td align="center">57</td>
+</tr>
+<tr class="odd">
+<td align="center">included_strict</td>
+<td align="center">7682</td>
+<td align="center">3</td>
+<td align="center">cycling</td>
+<td align="center">57</td>
+</tr>
+<tr class="even">
+<td align="center">extra_pair_1b</td>
+<td align="center">399</td>
+<td align="center">3</td>
+<td align="center">1</td>
+<td align="center">54</td>
+</tr>
+<tr class="odd">
+<td align="center">extra_pair_sex</td>
+<td align="center">30924</td>
+<td align="center">3</td>
+<td align="center">1</td>
+<td align="center">54</td>
+</tr>
+<tr class="even">
+<td align="center">fertile_cont</td>
+<td align="center">17887</td>
+<td align="center">20</td>
+<td align="center">0.05</td>
+<td align="center">360</td>
+</tr>
+<tr class="odd">
+<td align="center">prc_stirn_b</td>
+<td align="center">17887</td>
+<td align="center">20</td>
+<td align="center">0.05</td>
+<td align="center">360</td>
+</tr>
+<tr class="even">
+<td align="center">extra_pair_8</td>
+<td align="center">29873</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">125</td>
+</tr>
+<tr class="odd">
+<td align="center">RJS_3</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">89</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_neuro_6</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">87</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_neuro_6R</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">87</td>
+</tr>
+<tr class="even">
+<td align="center">relationship_status_clean</td>
+<td align="center">30956</td>
+<td align="center">3</td>
+<td align="center">Verlobt</td>
+<td align="center">52</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_agree_1</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">86</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_agree_1R</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">86</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_consc_8</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">85</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_consc_8R</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">85</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_neuro_5</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">85</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_neuro_5R</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">85</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_extra_2</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">84</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_extra_2R</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">84</td>
+</tr>
+<tr class="odd">
+<td align="center">MV_P_5</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">84</td>
+</tr>
+<tr class="even">
+<td align="center">MV_P_5R</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">84</td>
+</tr>
+<tr class="odd">
+<td align="center">extra_pair_4</td>
+<td align="center">29873</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">116</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_agree_8</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">82</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_agree_8R</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">82</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_neuro_3</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">81</td>
+</tr>
+<tr class="odd">
+<td align="center">SGSE_1</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">81</td>
+</tr>
+<tr class="even">
+<td align="center">ended</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">FALSE</td>
+<td align="center">32</td>
+</tr>
+<tr class="odd">
+<td align="center">attractiveness_stp_self</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">79</td>
+</tr>
+<tr class="even">
+<td align="center">CJS_2</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">79</td>
+</tr>
+<tr class="odd">
+<td align="center">attractiveness_finance_1</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">78</td>
+</tr>
+<tr class="even">
+<td align="center">extra_pair_compliments</td>
+<td align="center">29873</td>
+<td align="center">12</td>
+<td align="center">6</td>
+<td align="center">187</td>
+</tr>
+<tr class="odd">
+<td align="center">male_jealousy_3</td>
+<td align="center">29876</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">109</td>
+</tr>
+<tr class="even">
+<td align="center">SGSE_3</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">76</td>
+</tr>
+<tr class="odd">
+<td align="center">SGSE_3R</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">76</td>
+</tr>
+<tr class="even">
+<td align="center">attractiveness_stp</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">75</td>
+</tr>
+<tr class="odd">
+<td align="center">NARQ_7</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">75</td>
+</tr>
+<tr class="even">
+<td align="center">extra_pair_11</td>
+<td align="center">29873</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">102</td>
+</tr>
+<tr class="odd">
+<td align="center">NARQ_rivalry_1</td>
+<td align="center">29876</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">100</td>
+</tr>
+<tr class="even">
+<td align="center">MV_5</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">71</td>
+</tr>
+<tr class="odd">
+<td align="center">MV_5R</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">71</td>
+</tr>
+<tr class="even">
+<td align="center">NARQ_3</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">71</td>
+</tr>
+<tr class="odd">
+<td align="center">SOI_R_7</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">70</td>
+</tr>
+<tr class="even">
+<td align="center">NARQ_rivalry_2</td>
+<td align="center">29877</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">97</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_neuro_2</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">69</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_neuro_2R</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">69</td>
+</tr>
+<tr class="odd">
+<td align="center">prc_stirn_b_squished</td>
+<td align="center">17944</td>
+<td align="center">20</td>
+<td align="center">0.16</td>
+<td align="center">271</td>
+</tr>
+<tr class="even">
+<td align="center">has_not_had_sex_yet</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">1</td>
+<td align="center">27</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_neuro_1</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">67</td>
+</tr>
+<tr class="even">
+<td align="center">cyklus_2</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">2</td>
+<td align="center">66</td>
+</tr>
+<tr class="odd">
+<td align="center">pregnant</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">1</td>
+<td align="center">26</td>
+</tr>
+<tr class="even">
+<td align="center">pregnant_in_last_3_months</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">yes</td>
+<td align="center">26</td>
+</tr>
+<tr class="odd">
+<td align="center">NARQ_15</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">64</td>
+</tr>
+<tr class="even">
+<td align="center">NARQ_16</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">62</td>
+</tr>
+<tr class="odd">
+<td align="center">cycle_length_groups</td>
+<td align="center">30956</td>
+<td align="center">4</td>
+<td align="center">(35,41]</td>
+<td align="center">49</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_extra_8</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">61</td>
+</tr>
+<tr class="odd">
+<td align="center">contraceptive_methods</td>
+<td align="center">30357</td>
+<td align="center">5</td>
+<td align="center">fertility_awareness</td>
+<td align="center">61</td>
+</tr>
+<tr class="even">
+<td align="center">SOI_R_2</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">60</td>
+</tr>
+<tr class="odd">
+<td align="center">RJS_5</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">59</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_open_7</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">58</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_open_7R</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">58</td>
+</tr>
+<tr class="even">
+<td align="center">RJS_6</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">58</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_open_5</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">56</td>
+</tr>
+<tr class="even">
+<td align="center">ZIP_7</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">56</td>
+</tr>
+<tr class="odd">
+<td align="center">ZIP_7R</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">56</td>
+</tr>
+<tr class="even">
+<td align="center">NARQ_11</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">55</td>
+</tr>
+<tr class="odd">
+<td align="center">want_more_info</td>
+<td align="center">26606</td>
+<td align="center">3</td>
+<td align="center">0</td>
+<td align="center">33</td>
+</tr>
+<tr class="even">
+<td align="center">prc_wcx_b</td>
+<td align="center">17887</td>
+<td align="center">26</td>
+<td align="center">0</td>
+<td align="center">277</td>
+</tr>
+<tr class="odd">
+<td align="center">prc_wcx_b_squished</td>
+<td align="center">17944</td>
+<td align="center">26</td>
+<td align="center">0.018</td>
+<td align="center">271</td>
+</tr>
+<tr class="even">
+<td align="center">change_contraception_1</td>
+<td align="center">26606</td>
+<td align="center">3</td>
+<td align="center">1</td>
+<td align="center">31</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_open_9</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">51</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_open_9R</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">51</td>
+</tr>
+<tr class="odd">
+<td align="center">CJS_1</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">51</td>
+</tr>
+<tr class="even">
+<td align="center">attractiveness_relativ_1</td>
+<td align="center">30956</td>
+<td align="center">4</td>
+<td align="center">4</td>
+<td align="center">40</td>
+</tr>
+<tr class="odd">
+<td align="center">breast_feeding</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">1</td>
+<td align="center">20</td>
+</tr>
+<tr class="even">
+<td align="center">breast_feeding_in_last_3_months</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">1</td>
+<td align="center">20</td>
+</tr>
+<tr class="odd">
+<td align="center">SGSE_2</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">49</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_open_1</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">47</td>
+</tr>
+<tr class="odd">
+<td align="center">age_group</td>
+<td align="center">30956</td>
+<td align="center">6</td>
+<td align="center">(45,70]</td>
+<td align="center">56</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_extra_6</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">45</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_open_6</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">44</td>
+</tr>
+<tr class="even">
+<td align="center">biggest_diff</td>
+<td align="center">30956</td>
+<td align="center">10</td>
+<td align="center">[ 2.04, 2.13)</td>
+<td align="center">88</td>
+</tr>
+<tr class="odd">
+<td align="center">NARQ_18</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">44</td>
+</tr>
+<tr class="even">
+<td align="center">NARQ_9</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">44</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_consc_2</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">43</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_consc_2R</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">43</td>
+</tr>
+<tr class="odd">
+<td align="center">NARQ_5</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">43</td>
+</tr>
+<tr class="even">
+<td align="center">MV_P_1</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">42</td>
+</tr>
+<tr class="odd">
+<td align="center">attractiveness_finance_self</td>
+<td align="center">13229</td>
+<td align="center">6</td>
+<td align="center">5</td>
+<td align="center">49</td>
+</tr>
+<tr class="even">
+<td align="center">income</td>
+<td align="center">13229</td>
+<td align="center">6</td>
+<td align="center">&gt; 3000€</td>
+<td align="center">49</td>
+</tr>
+<tr class="odd">
+<td align="center">MV_4</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">40</td>
+</tr>
+<tr class="even">
+<td align="center">avg_diff</td>
+<td align="center">30885</td>
+<td align="center">11</td>
+<td align="center">[1.055, 1.09)</td>
+<td align="center">84</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_extra_5</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">38</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_extra_5R</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">38</td>
+</tr>
+<tr class="odd">
+<td align="center">sexy_clothes</td>
+<td align="center">30924</td>
+<td align="center">18</td>
+<td align="center">6</td>
+<td align="center">133</td>
+</tr>
+<tr class="even">
+<td align="center">breakup</td>
+<td align="center">26606</td>
+<td align="center">3</td>
+<td align="center">1</td>
+<td align="center">22</td>
+</tr>
+<tr class="odd">
+<td align="center">communication_partner_2</td>
+<td align="center">28857</td>
+<td align="center">8</td>
+<td align="center">6</td>
+<td align="center">58</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_extra_4</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">36</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_extra_3</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">34</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_neuro_4</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">34</td>
+</tr>
+<tr class="odd">
+<td align="center">NARQ_rivalry_3</td>
+<td align="center">29876</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">46</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_agree_5</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">32</td>
+</tr>
+<tr class="odd">
+<td align="center">SOI_R_8</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">32</td>
+</tr>
+<tr class="even">
+<td align="center">religiosity</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">31</td>
+</tr>
+<tr class="odd">
+<td align="center">RJS_4</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">31</td>
+</tr>
+<tr class="even">
+<td align="center">days_responded_percentage</td>
+<td align="center">30885</td>
+<td align="center">11</td>
+<td align="center">[0.95122,0.976)</td>
+<td align="center">67</td>
+</tr>
+<tr class="odd">
+<td align="center">CJS_5</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">30</td>
+</tr>
+<tr class="even">
+<td align="center">NARQ_8</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">30</td>
+</tr>
+<tr class="odd">
+<td align="center">RJS_2</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">30</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_consc_5</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">29</td>
+</tr>
+<tr class="odd">
+<td align="center">certainty_menstruation</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">29</td>
+</tr>
+<tr class="even">
+<td align="center">cyklus_6</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">2</td>
+<td align="center">29</td>
+</tr>
+<tr class="odd">
+<td align="center">SOI_R_9</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">29</td>
+</tr>
+<tr class="even">
+<td align="center">attractiveness_occupation</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">28</td>
+</tr>
+<tr class="odd">
+<td align="center">contraceptive_method</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">other</td>
+<td align="center">27</td>
+</tr>
+<tr class="even">
+<td align="center">MV_P_4</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">27</td>
+</tr>
+<tr class="odd">
+<td align="center">NARQ_admiration</td>
+<td align="center">29877</td>
+<td align="center">17</td>
+<td align="center">6</td>
+<td align="center">88</td>
+</tr>
+<tr class="even">
+<td align="center">SOI_uv</td>
+<td align="center">30956</td>
+<td align="center">13</td>
+<td align="center">1.33333333333333</td>
+<td align="center">67</td>
+</tr>
+<tr class="odd">
+<td align="center">SJS</td>
+<td align="center">30956</td>
+<td align="center">7</td>
+<td align="center">2</td>
+<td align="center">36</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_open_8</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">25</td>
+</tr>
+<tr class="odd">
+<td align="center">sexual_intercourse_satisfaction</td>
+<td align="center">6511</td>
+<td align="center">8</td>
+<td align="center">1</td>
+<td align="center">38</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_consc_6</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">23</td>
+</tr>
+<tr class="odd">
+<td align="center">contraceptive_method_by_pearl</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">fertility_awareness</td>
+<td align="center">23</td>
+</tr>
+<tr class="even">
+<td align="center">attractiveness_finance</td>
+<td align="center">30956</td>
+<td align="center">9</td>
+<td align="center">5</td>
+<td align="center">41</td>
+</tr>
+<tr class="odd">
+<td align="center">CJS_4</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">22</td>
+</tr>
+<tr class="even">
+<td align="center">MV_1</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">22</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_extra_1</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">21</td>
+</tr>
+<tr class="even">
+<td align="center">NARQ_4</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">21</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_agree_9</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">20</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_open_4</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">20</td>
+</tr>
+<tr class="odd">
+<td align="center">NARQ_10</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">19</td>
+</tr>
+<tr class="even">
+<td align="center">ZIP_5</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">19</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_agree_3</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">18</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_agree_3R</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">18</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_consc_7</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">18</td>
+</tr>
+<tr class="even">
+<td align="center">no_variation</td>
+<td align="center">29891</td>
+<td align="center">3</td>
+<td align="center">TRUE</td>
+<td align="center">10</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_consc_1</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">16</td>
+</tr>
+<tr class="even">
+<td align="center">MV_3</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">15</td>
+</tr>
+<tr class="odd">
+<td align="center">NARQ_12</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">15</td>
+</tr>
+<tr class="even">
+<td align="center">NARQ_13</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">15</td>
+</tr>
+<tr class="odd">
+<td align="center">ZIP_2</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">15</td>
+</tr>
+<tr class="even">
+<td align="center">ZIP_4</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">14</td>
+</tr>
+<tr class="odd">
+<td align="center">ZIP_4R</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">14</td>
+</tr>
+<tr class="even">
+<td align="center">new_relationship</td>
+<td align="center">26606</td>
+<td align="center">3</td>
+<td align="center">1</td>
+<td align="center">8</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_agree_2</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">13</td>
+</tr>
+<tr class="even">
+<td align="center">MV_P_3</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">13</td>
+</tr>
+<tr class="odd">
+<td align="center">satisfaction_sexual_intercourse</td>
+<td align="center">29562</td>
+<td align="center">6</td>
+<td align="center">1</td>
+<td align="center">15</td>
+</tr>
+<tr class="even">
+<td align="center">days_with_partner_per_month</td>
+<td align="center">9538</td>
+<td align="center">6</td>
+<td align="center">&gt; 14 days</td>
+<td align="center">14</td>
+</tr>
+<tr class="odd">
+<td align="center">duration_pill</td>
+<td align="center">16212</td>
+<td align="center">6</td>
+<td align="center">1</td>
+<td align="center">14</td>
+</tr>
+<tr class="even">
+<td align="center">long_distance_relationship_2</td>
+<td align="center">9538</td>
+<td align="center">6</td>
+<td align="center">5</td>
+<td align="center">14</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_consc_3</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">11</td>
+</tr>
+<tr class="even">
+<td align="center">ZIP_3</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">11</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_agree_7</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">10</td>
+</tr>
+<tr class="even">
+<td align="center">occupation_clean</td>
+<td align="center">30850</td>
+<td align="center">7</td>
+<td align="center">Nicht berufstätig</td>
+<td align="center">13</td>
+</tr>
+<tr class="odd">
+<td align="center">NARQ_2</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">9</td>
+</tr>
+<tr class="even">
+<td align="center">SOI_R_1</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">9</td>
+</tr>
+<tr class="odd">
+<td align="center">sexy</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">8</td>
+</tr>
+<tr class="even">
+<td align="center">attractiveness_face</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">7</td>
+</tr>
+<tr class="odd">
+<td align="center">attractiveness_overall</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">7</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_open_2</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">7</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_open_3</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">7</td>
+</tr>
+<tr class="even">
+<td align="center">NARQ_17</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">7</td>
+</tr>
+<tr class="odd">
+<td align="center">ZIP_1</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">7</td>
+</tr>
+<tr class="even">
+<td align="center">ZIP_6</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">7</td>
+</tr>
+<tr class="odd">
+<td align="center">partner_mate_retention</td>
+<td align="center">29874</td>
+<td align="center">22</td>
+<td align="center">6</td>
+<td align="center">30</td>
+</tr>
+<tr class="even">
+<td align="center">number_of_cycles</td>
+<td align="center">30924</td>
+<td align="center">6</td>
+<td align="center">5</td>
+<td align="center">8</td>
+</tr>
+<tr class="odd">
+<td align="center">RCD_squished</td>
+<td align="center">18018</td>
+<td align="center">31</td>
+<td align="center">0</td>
+<td align="center">41</td>
+</tr>
+<tr class="even">
+<td align="center">attractiveness_ltp</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">6</td>
+</tr>
+<tr class="odd">
+<td align="center">partner_attractiveness_longterm</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">-3.97818492731748</td>
+<td align="center">6</td>
+</tr>
+<tr class="even">
+<td align="center">cycle_nr</td>
+<td align="center">30924</td>
+<td align="center">6</td>
+<td align="center">5</td>
+<td align="center">7</td>
+</tr>
+<tr class="odd">
+<td align="center">duration_relationship_months</td>
+<td align="center">30956</td>
+<td align="center">13</td>
+<td align="center">12</td>
+<td align="center">15</td>
+</tr>
+<tr class="even">
+<td align="center">attractiveness_ltp_self</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">5</td>
+</tr>
+<tr class="odd">
+<td align="center">contraceptives_broad_categories</td>
+<td align="center">30952</td>
+<td align="center">11</td>
+<td align="center">partner_sterilised</td>
+<td align="center">11</td>
+</tr>
+<tr class="even">
+<td align="center">distance_partner</td>
+<td align="center">9538</td>
+<td align="center">8</td>
+<td align="center">6</td>
+<td align="center">8</td>
+</tr>
+<tr class="odd">
+<td align="center">distance_to_partner_hours</td>
+<td align="center">9538</td>
+<td align="center">8</td>
+<td align="center">9-12h</td>
+<td align="center">8</td>
+</tr>
+<tr class="even">
+<td align="center">partner_attractiveness_money</td>
+<td align="center">30956</td>
+<td align="center">13</td>
+<td align="center">1</td>
+<td align="center">12</td>
+</tr>
+<tr class="odd">
+<td align="center">attractiveness_body</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">4</td>
+</tr>
+<tr class="even">
+<td align="center">SOI_im</td>
+<td align="center">30956</td>
+<td align="center">13</td>
+<td align="center">5</td>
+<td align="center">9</td>
+</tr>
+<tr class="odd">
+<td align="center">religion_clean</td>
+<td align="center">30881</td>
+<td align="center">6</td>
+<td align="center">Judentum</td>
+<td align="center">4</td>
+</tr>
+<tr class="even">
+<td align="center">MV_short</td>
+<td align="center">30956</td>
+<td align="center">13</td>
+<td align="center">1</td>
+<td align="center">8</td>
+</tr>
+<tr class="odd">
+<td align="center">NARQ_14</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">3</td>
+</tr>
+<tr class="even">
+<td align="center">gestagen_ug</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">250</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">male_jealousy</td>
+<td align="center">29876</td>
+<td align="center">17</td>
+<td align="center">5.33333333333333</td>
+<td align="center">8</td>
+</tr>
+<tr class="even">
+<td align="center">NARQ_rivalry</td>
+<td align="center">29876</td>
+<td align="center">17</td>
+<td align="center">5.66666666666667</td>
+<td align="center">8</td>
+</tr>
+<tr class="odd">
+<td align="center">method_meeting_clean</td>
+<td align="center">16222</td>
+<td align="center">7</td>
+<td align="center">Depotspritze</td>
+<td align="center">3</td>
+</tr>
+<tr class="even">
+<td align="center">extra_pair_flirting</td>
+<td align="center">29873</td>
+<td align="center">17</td>
+<td align="center">5.66666666666667</td>
+<td align="center">7</td>
+</tr>
+<tr class="odd">
+<td align="center">MV</td>
+<td align="center">30956</td>
+<td align="center">17</td>
+<td align="center">1.8</td>
+<td align="center">7</td>
+</tr>
+<tr class="even">
+<td align="center">SOI_be</td>
+<td align="center">30956</td>
+<td align="center">13</td>
+<td align="center">4.66666666666667</td>
+<td align="center">5</td>
+</tr>
+<tr class="odd">
+<td align="center">SGSE</td>
+<td align="center">30956</td>
+<td align="center">21</td>
+<td align="center">4.8</td>
+<td align="center">8</td>
+</tr>
+<tr class="even">
+<td align="center">contraceptives_categories_natural</td>
+<td align="center">29911</td>
+<td align="center">6</td>
+<td align="center">infertile</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td align="center">estrogen</td>
+<td align="center">195</td>
+<td align="center">3</td>
+<td align="center">30</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">estrogen_ug</td>
+<td align="center">1497</td>
+<td align="center">6</td>
+<td align="center">15</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td align="center">estrogen_ug_merged</td>
+<td align="center">2157</td>
+<td align="center">6</td>
+<td align="center">15</td>
+<td align="center">2</td>
+</tr>
+<tr class="even">
+<td align="center">female_jealousy</td>
+<td align="center">30924</td>
+<td align="center">18</td>
+<td align="center">5.66666666666667</td>
+<td align="center">6</td>
+</tr>
+<tr class="odd">
+<td align="center">gestagen</td>
+<td align="center">195</td>
+<td align="center">3</td>
+<td align="center">13</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">hormonal_1</td>
+<td align="center">1716</td>
+<td align="center">6</td>
+<td align="center">4</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td align="center">extra_pair_desire</td>
+<td align="center">29873</td>
+<td align="center">27</td>
+<td align="center">5.8</td>
+<td align="center">7</td>
+</tr>
+<tr class="even">
+<td align="center">estrogen_ug_other</td>
+<td align="center">1315</td>
+<td align="center">4</td>
+<td align="center">420</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">partner_attractiveness_shortterm</td>
+<td align="center">30956</td>
+<td align="center">16</td>
+<td align="center">-3.34512824374663</td>
+<td align="center">4</td>
+</tr>
+<tr class="even">
+<td align="center">MV_P_short</td>
+<td align="center">30956</td>
+<td align="center">13</td>
+<td align="center">1</td>
+<td align="center">3</td>
+</tr>
+<tr class="odd">
+<td align="center">partner_attractiveness_physical</td>
+<td align="center">30956</td>
+<td align="center">9</td>
+<td align="center">2</td>
+<td align="center">2</td>
+</tr>
+<tr class="even">
+<td align="center">sex_orientation</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">pansexuell</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">RJS</td>
+<td align="center">30956</td>
+<td align="center">25</td>
+<td align="center">4.83333333333333</td>
+<td align="center">4</td>
+</tr>
+<tr class="even">
+<td align="center">hormonal_2</td>
+<td align="center">1716</td>
+<td align="center">9</td>
+<td align="center">circlet</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">gestagens</td>
+<td align="center">1497</td>
+<td align="center">10</td>
+<td align="center">NGT</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">gestagens_ug</td>
+<td align="center">1497</td>
+<td align="center">10</td>
+<td align="center">125</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">estrogen_ug_all</td>
+<td align="center">26785</td>
+<td align="center">11</td>
+<td align="center">360</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">estrogen_ug_cycle</td>
+<td align="center">17120</td>
+<td align="center">12</td>
+<td align="center">360</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">gestagen_type</td>
+<td align="center">16178</td>
+<td align="center">12</td>
+<td align="center">NES</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">gestagen_ug_merged</td>
+<td align="center">15610</td>
+<td align="center">12</td>
+<td align="center">1500</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">menarche</td>
+<td align="center">13225</td>
+<td align="center">12</td>
+<td align="center">19</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">in_pair_desire</td>
+<td align="center">29874</td>
+<td align="center">56</td>
+<td align="center">4.4</td>
+<td align="center">4</td>
+</tr>
+<tr class="odd">
+<td align="center">occupation</td>
+<td align="center">30956</td>
+<td align="center">14</td>
+<td align="center">Beamtin</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_neuro</td>
+<td align="center">30956</td>
+<td align="center">32</td>
+<td align="center">1.125</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td align="center">gestagen_cycle</td>
+<td align="center">14567</td>
+<td align="center">16</td>
+<td align="center">1.44</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">intensive_sports</td>
+<td align="center">26606</td>
+<td align="center">16</td>
+<td align="center">14</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">SOI_R</td>
+<td align="center">30956</td>
+<td align="center">35</td>
+<td align="center">4.22222222222222</td>
+<td align="center">2</td>
+</tr>
+<tr class="even">
+<td align="center">MV_P</td>
+<td align="center">30956</td>
+<td align="center">18</td>
+<td align="center">4.8</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">cigarettes</td>
+<td align="center">26606</td>
+<td align="center">19</td>
+<td align="center">11</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">choice_of_clothing</td>
+<td align="center">29881</td>
+<td align="center">41</td>
+<td align="center">5.5</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td align="center">cycle_length</td>
+<td align="center">30956</td>
+<td align="center">21</td>
+<td align="center">39</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">cyklus_3</td>
+<td align="center">30956</td>
+<td align="center">21</td>
+<td align="center">39</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">day_count</td>
+<td align="center">30956</td>
+<td align="center">42</td>
+<td align="center">42</td>
+<td align="center">2</td>
+</tr>
+<tr class="even">
+<td align="center">days</td>
+<td align="center">30956</td>
+<td align="center">42</td>
+<td align="center">25</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td align="center">fertile_days_known_backward</td>
+<td align="center">30956</td>
+<td align="center">42</td>
+<td align="center">41</td>
+<td align="center">2</td>
+</tr>
+<tr class="even">
+<td align="center">first_time</td>
+<td align="center">29943</td>
+<td align="center">21</td>
+<td align="center">10</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">MV_diff</td>
+<td align="center">30956</td>
+<td align="center">24</td>
+<td align="center">-3.66666666666667</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">CJS</td>
+<td align="center">30956</td>
+<td align="center">25</td>
+<td align="center">5</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">ZIP</td>
+<td align="center">30956</td>
+<td align="center">27</td>
+<td align="center">1.28571428571429</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">partner_attractiveness_global</td>
+<td align="center">30956</td>
+<td align="center">29</td>
+<td align="center">-2.95278253338198</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">female_mate_retention</td>
+<td align="center">30924</td>
+<td align="center">30</td>
+<td align="center">3.33333333333333</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_extra</td>
+<td align="center">30956</td>
+<td align="center">31</td>
+<td align="center">1.125</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_agree</td>
+<td align="center">30956</td>
+<td align="center">32</td>
+<td align="center">1.33333333333333</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">NARQ_K_total</td>
+<td align="center">29876</td>
+<td align="center">32</td>
+<td align="center">5.83333333333333</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_open</td>
+<td align="center">30956</td>
+<td align="center">33</td>
+<td align="center">1.5</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_consc</td>
+<td align="center">30956</td>
+<td align="center">34</td>
+<td align="center">1.22222222222222</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">age</td>
+<td align="center">30956</td>
+<td align="center">42</td>
+<td align="center">54</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">fertile_days_known_backward_inferred</td>
+<td align="center">30956</td>
+<td align="center">43</td>
+<td align="center">42</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">fertile_days_known_forward</td>
+<td align="center">30956</td>
+<td align="center">43</td>
+<td align="center">42</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">n_days</td>
+<td align="center">30956</td>
+<td align="center">43</td>
+<td align="center">42</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">height</td>
+<td align="center">30956</td>
+<td align="center">46</td>
+<td align="center">116</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">number_sexual_partner</td>
+<td align="center">30956</td>
+<td align="center">47</td>
+<td align="center">100</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">NARQ</td>
+<td align="center">30956</td>
+<td align="center">56</td>
+<td align="center">1</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">extra_pair</td>
+<td align="center">29873</td>
+<td align="center">62</td>
+<td align="center">5.75</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">partner_attractiveness_rel_to_self</td>
+<td align="center">30956</td>
+<td align="center">65</td>
+<td align="center">-0.162454954632523</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">weight_post</td>
+<td align="center">26606</td>
+<td align="center">68</td>
+<td align="center">102</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">contraception</td>
+<td align="center">30952</td>
+<td align="center">73</td>
+<td align="center">coitus_interruptus, temperature_billings</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">weight</td>
+<td align="center">30956</td>
+<td align="center">79</td>
+<td align="center">101</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">last_lag</td>
+<td align="center">27362</td>
+<td align="center">95</td>
+<td align="center">107</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">cycle_length_diary</td>
+<td align="center">18018</td>
+<td align="center">111</td>
+<td align="center">101</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">median_cycle_length_diary</td>
+<td align="center">26728</td>
+<td align="center">127</td>
+<td align="center">10</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">estrogen_ug_per_kg</td>
+<td align="center">17120</td>
+<td align="center">143</td>
+<td align="center">10.2083333333333</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">attractiveness_income_age_corrected</td>
+<td align="center">30956</td>
+<td align="center">148</td>
+<td align="center">-0.049531448419045</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">mean_cycle_length_diary</td>
+<td align="center">30924</td>
+<td align="center">155</td>
+<td align="center">10</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">timespan</td>
+<td align="center">30924</td>
+<td align="center">181</td>
+<td align="center">101</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">took_days</td>
+<td align="center">30924</td>
+<td align="center">181</td>
+<td align="center">101</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">minimum_cycle_length_diary</td>
+<td align="center">30924</td>
+<td align="center">197</td>
+<td align="center">109</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">duration_relationship_total</td>
+<td align="center">30820</td>
+<td align="center">206</td>
+<td align="center">110</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">duration_relationship_years</td>
+<td align="center">30820</td>
+<td align="center">206</td>
+<td align="center">10.25</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">menstrual_onset_days_until</td>
+<td align="center">18614</td>
+<td align="center">219</td>
+<td align="center">-105</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">RCD</td>
+<td align="center">18614</td>
+<td align="center">219</td>
+<td align="center">-105</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">RCD_for_merge</td>
+<td align="center">18614</td>
+<td align="center">219</td>
+<td align="center">106</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">RCD_rel_to_ovulation</td>
+<td align="center">18614</td>
+<td align="center">219</td>
+<td align="center">-101</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">FCD</td>
+<td align="center">30924</td>
+<td align="center">270</td>
+<td align="center">123</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">menstrual_onset_days_since</td>
+<td align="center">30924</td>
+<td align="center">270</td>
+<td align="center">122</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">day_number</td>
+<td align="center">30924</td>
+<td align="center">314</td>
+<td align="center">159</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">RCD_inferred</td>
+<td align="center">30924</td>
+<td align="center">446</td>
+<td align="center">-106</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">BMI</td>
+<td align="center">26606</td>
+<td align="center">568</td>
+<td align="center">10.8108108108108</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">fertile_mean</td>
+<td align="center">30956</td>
+<td align="center">888</td>
+<td align="center">0.0111111111111111</td>
+<td align="center">1</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code># drop
+diary = diary %&gt;% 
+  # durations redundant with total duration, use age group, sex orientation has overly rare categories
+  select(-duration_relationship_months,-duration_relationship_years, -age, -sex_orientation
+)
+
+## round/group
+diary = diary %&gt;% mutate(
+  # height = round_any(height, 5), # rounding would be nice but leaves extreme values out there
+  # weight = round_any(weight, 5),
+  # BMI = round_any(BMI, 2),
+  duration_relationship_total = round_any(duration_relationship_total/12, 0.3)
+  # first_time = round_any(first_time, 3)
+) %&gt;% 
+  select(
+    -estrogen_ug_per_kg # derived factors from weight can allow people to recompute weight
+    )
+
+## cap
+na_if_lt = function(x, lt) {
+  x = as.numeric(x)
+  if_else(x &lt; lt, NA_real_, x)
+}
+na_if_gt = function(x, gt) {
+  x = as.numeric(x)
+  if_else(x &gt; gt, NA_real_, x)
+}
+diary = diary %&gt;% mutate(
+  RCD = na_if_lt(RCD, -40),
+  RCD_rel_to_ovulation = na_if_lt(RCD_rel_to_ovulation, -20),
+  RCD_inferred = na_if_gt(na_if_lt(RCD_inferred, -40), 30),
+  RCD_for_merge = na_if_gt(RCD_for_merge, 50),
+  FCD = na_if_gt(FCD, 40),
+  day_number = na_if_gt(day_number, 40),
+  menstrual_onset_days_since = na_if_gt(menstrual_onset_days_since, 40),
+  menstrual_onset_days_until = na_if_lt(menstrual_onset_days_until, -40),
+  minimum_cycle_length_diary = na_if_gt(minimum_cycle_length_diary, 40),
+  took_days = na_if_gt(took_days, 40),
+  timespan = na_if_gt(timespan, 40),
+  mean_cycle_length_diary = na_if_gt(mean_cycle_length_diary, 40),
+  median_cycle_length_diary = na_if_gt(mean_cycle_length_diary, 40),
+  cycle_length_diary = na_if_gt(mean_cycle_length_diary, 40),
+  last_lag = na_if_gt(last_lag, 40),
+  number_sexual_partner = na_if_gt(number_sexual_partner, 30)
+)</code></pre>
+</div>
+<div id="check-if-we-did-a-good-job" class="section level2">
+<h2>check if we did a good job</h2>
+<pre class="r"><code>diary %&gt;% gather(variable, value, -person) %&gt;% 
+  group_by(variable) %&gt;% 
+  summarise(n = n_nonmissing(value), n_dist = n_distinct(value), lc_val = commonness_rarest_value(value, person, T), lc_freq = commonness_rarest_value(value, person, F)) %&gt;% 
+  arrange(desc(lc_freq/(n_dist+lc_freq))) %&gt;% 
+  pander()</code></pre>
+<table>
+<colgroup>
+<col width="40%" />
+<col width="6%" />
+<col width="9%" />
+<col width="33%" />
+<col width="9%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">variable</th>
+<th align="center">n</th>
+<th align="center">n_dist</th>
+<th align="center">lc_val</th>
+<th align="center">lc_freq</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">ended.vorab</td>
+<td align="center">30956</td>
+<td align="center">1</td>
+<td align="center">TRUE</td>
+<td align="center">1208</td>
+</tr>
+<tr class="even">
+<td align="center">gender</td>
+<td align="center">30956</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1208</td>
+</tr>
+<tr class="odd">
+<td align="center">hetero_relationship</td>
+<td align="center">30956</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1208</td>
+</tr>
+<tr class="even">
+<td align="center">weekend</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">TRUE</td>
+<td align="center">1122</td>
+</tr>
+<tr class="odd">
+<td align="center">time_since_last_response</td>
+<td align="center">23275</td>
+<td align="center">2</td>
+<td align="center">[10,31]</td>
+<td align="center">1097</td>
+</tr>
+<tr class="even">
+<td align="center">menstruated_at_all</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">TRUE</td>
+<td align="center">910</td>
+</tr>
+<tr class="odd">
+<td align="center">in_pair_public_intimacy</td>
+<td align="center">29902</td>
+<td align="center">3</td>
+<td align="center">0</td>
+<td align="center">1081</td>
+</tr>
+<tr class="even">
+<td align="center">mate_retention_1</td>
+<td align="center">29902</td>
+<td align="center">3</td>
+<td align="center">2</td>
+<td align="center">960</td>
+</tr>
+<tr class="odd">
+<td align="center">spent_night_with_partner</td>
+<td align="center">29902</td>
+<td align="center">3</td>
+<td align="center">0</td>
+<td align="center">960</td>
+</tr>
+<tr class="even">
+<td align="center">fertile_broad_backward_inferred</td>
+<td align="center">17013</td>
+<td align="center">3</td>
+<td align="center">0.0533333333333333</td>
+<td align="center">959</td>
+</tr>
+<tr class="odd">
+<td align="center">had_sexual_intercourse</td>
+<td align="center">29902</td>
+<td align="center">3</td>
+<td align="center">1</td>
+<td align="center">945</td>
+</tr>
+<tr class="even">
+<td align="center">premenstrual_phase_backward_inferred</td>
+<td align="center">27143</td>
+<td align="center">3</td>
+<td align="center">TRUE</td>
+<td align="center">929</td>
+</tr>
+<tr class="odd">
+<td align="center">premenstrual_phase_fab</td>
+<td align="center">27143</td>
+<td align="center">3</td>
+<td align="center">TRUE</td>
+<td align="center">929</td>
+</tr>
+<tr class="even">
+<td align="center">fertile_broad_forward_counted</td>
+<td align="center">16201</td>
+<td align="center">3</td>
+<td align="center">0.0533333333333333</td>
+<td align="center">928</td>
+</tr>
+<tr class="odd">
+<td align="center">fertile_window_forward_counted</td>
+<td align="center">16201</td>
+<td align="center">3</td>
+<td align="center">broad</td>
+<td align="center">919</td>
+</tr>
+<tr class="even">
+<td align="center">fertile_window_backward_inferred</td>
+<td align="center">17013</td>
+<td align="center">3</td>
+<td align="center">broad</td>
+<td align="center">915</td>
+</tr>
+<tr class="odd">
+<td align="center">menstruation_1</td>
+<td align="center">29901</td>
+<td align="center">3</td>
+<td align="center">1</td>
+<td align="center">910</td>
+</tr>
+<tr class="even">
+<td align="center">fertile_narrow_forward_counted</td>
+<td align="center">12407</td>
+<td align="center">3</td>
+<td align="center">0.51</td>
+<td align="center">908</td>
+</tr>
+<tr class="odd">
+<td align="center">fertile_narrow_backward_inferred</td>
+<td align="center">13345</td>
+<td align="center">3</td>
+<td align="center">0.51</td>
+<td align="center">905</td>
+</tr>
+<tr class="even">
+<td align="center">had_petting</td>
+<td align="center">29901</td>
+<td align="center">3</td>
+<td align="center">1</td>
+<td align="center">904</td>
+</tr>
+<tr class="odd">
+<td align="center">pill_contraception</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">0</td>
+<td align="center">598</td>
+</tr>
+<tr class="even">
+<td align="center">premenstrual_phase_forward_counted</td>
+<td align="center">27380</td>
+<td align="center">3</td>
+<td align="center">TRUE</td>
+<td align="center">873</td>
+</tr>
+<tr class="odd">
+<td align="center">contraception_meeting_partner</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">581</td>
+</tr>
+<tr class="even">
+<td align="center">pill_in_last_3_months</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">0</td>
+<td align="center">566</td>
+</tr>
+<tr class="odd">
+<td align="center">pille_control</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">566</td>
+</tr>
+<tr class="even">
+<td align="center">menstruation</td>
+<td align="center">30956</td>
+<td align="center">3</td>
+<td align="center">pre</td>
+<td align="center">819</td>
+</tr>
+<tr class="odd">
+<td align="center">premenstrual_phase</td>
+<td align="center">17887</td>
+<td align="center">3</td>
+<td align="center">TRUE</td>
+<td align="center">819</td>
+</tr>
+<tr class="even">
+<td align="center">premenstrual_phase_squished</td>
+<td align="center">17944</td>
+<td align="center">3</td>
+<td align="center">TRUE</td>
+<td align="center">807</td>
+</tr>
+<tr class="odd">
+<td align="center">sufficient_diary_coverage</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">FALSE</td>
+<td align="center">518</td>
+</tr>
+<tr class="even">
+<td align="center">partner_initiated_sexual_intercourse</td>
+<td align="center">6512</td>
+<td align="center">3</td>
+<td align="center">0</td>
+<td align="center">772</td>
+</tr>
+<tr class="odd">
+<td align="center">sexual_intercourse_3</td>
+<td align="center">6512</td>
+<td align="center">3</td>
+<td align="center">1</td>
+<td align="center">772</td>
+</tr>
+<tr class="even">
+<td align="center">hormonal_contraception</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">0</td>
+<td align="center">514</td>
+</tr>
+<tr class="odd">
+<td align="center">menstrual_onset</td>
+<td align="center">18614</td>
+<td align="center">3</td>
+<td align="center">TRUE</td>
+<td align="center">726</td>
+</tr>
+<tr class="even">
+<td align="center">fertile_broad_squished</td>
+<td align="center">11877</td>
+<td align="center">3</td>
+<td align="center">0.44</td>
+<td align="center">697</td>
+</tr>
+<tr class="odd">
+<td align="center">fertile_broad</td>
+<td align="center">11682</td>
+<td align="center">3</td>
+<td align="center">0.44</td>
+<td align="center">694</td>
+</tr>
+<tr class="even">
+<td align="center">fertile_window_squished</td>
+<td align="center">11877</td>
+<td align="center">3</td>
+<td align="center">broad</td>
+<td align="center">683</td>
+</tr>
+<tr class="odd">
+<td align="center">fertile_window</td>
+<td align="center">11682</td>
+<td align="center">3</td>
+<td align="center">broad</td>
+<td align="center">675</td>
+</tr>
+<tr class="even">
+<td align="center">fertile_narrow</td>
+<td align="center">9648</td>
+<td align="center">3</td>
+<td align="center">0.51</td>
+<td align="center">670</td>
+</tr>
+<tr class="odd">
+<td align="center">fertile_narrow_squished</td>
+<td align="center">9702</td>
+<td align="center">3</td>
+<td align="center">0.51</td>
+<td align="center">667</td>
+</tr>
+<tr class="even">
+<td align="center">ended.abschluss</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">FALSE</td>
+<td align="center">439</td>
+</tr>
+<tr class="odd">
+<td align="center">hormonal_contra</td>
+<td align="center">30952</td>
+<td align="center">3</td>
+<td align="center">TRUE</td>
+<td align="center">602</td>
+</tr>
+<tr class="even">
+<td align="center">hormonal_all</td>
+<td align="center">30952</td>
+<td align="center">3</td>
+<td align="center">FALSE</td>
+<td align="center">585</td>
+</tr>
+<tr class="odd">
+<td align="center">mate_retention_2</td>
+<td align="center">29902</td>
+<td align="center">4</td>
+<td align="center">1</td>
+<td align="center">758</td>
+</tr>
+<tr class="even">
+<td align="center">dodgy_data</td>
+<td align="center">30924</td>
+<td align="center">3</td>
+<td align="center">TRUE</td>
+<td align="center">566</td>
+</tr>
+<tr class="odd">
+<td align="center">any_RCD</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">FALSE</td>
+<td align="center">368</td>
+</tr>
+<tr class="even">
+<td align="center">SJS_5</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">357</td>
+</tr>
+<tr class="odd">
+<td align="center">SJS_5R</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">1</td>
+<td align="center">357</td>
+</tr>
+<tr class="even">
+<td align="center">hormonal</td>
+<td align="center">30952</td>
+<td align="center">3</td>
+<td align="center">FALSE</td>
+<td align="center">514</td>
+</tr>
+<tr class="odd">
+<td align="center">SJS_6</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">312</td>
+</tr>
+<tr class="even">
+<td align="center">ever_menstruated</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">FALSE</td>
+<td align="center">298</td>
+</tr>
+<tr class="odd">
+<td align="center">had_any_period</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">FALSE</td>
+<td align="center">298</td>
+</tr>
+<tr class="even">
+<td align="center">sexual_intercourse_2</td>
+<td align="center">29902</td>
+<td align="center">4</td>
+<td align="center">2</td>
+<td align="center">595</td>
+</tr>
+<tr class="odd">
+<td align="center">SJS_4</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">286</td>
+</tr>
+<tr class="even">
+<td align="center">sexual_intercourse_5</td>
+<td align="center">29901</td>
+<td align="center">4</td>
+<td align="center">2</td>
+<td align="center">567</td>
+</tr>
+<tr class="odd">
+<td align="center">include_all</td>
+<td align="center">30952</td>
+<td align="center">3</td>
+<td align="center">TRUE</td>
+<td align="center">421</td>
+</tr>
+<tr class="even">
+<td align="center">included</td>
+<td align="center">28493</td>
+<td align="center">3</td>
+<td align="center">cycling</td>
+<td align="center">421</td>
+</tr>
+<tr class="odd">
+<td align="center">included_all</td>
+<td align="center">28493</td>
+<td align="center">3</td>
+<td align="center">cycling</td>
+<td align="center">421</td>
+</tr>
+<tr class="even">
+<td align="center">antibiotics</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">1</td>
+<td align="center">279</td>
+</tr>
+<tr class="odd">
+<td align="center">hormonal_medication_in_last_3_months</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">1</td>
+<td align="center">279</td>
+</tr>
+<tr class="even">
+<td align="center">weekday</td>
+<td align="center">30924</td>
+<td align="center">8</td>
+<td align="center">Saturday</td>
+<td align="center">1034</td>
+</tr>
+<tr class="odd">
+<td align="center">hormonal_lax</td>
+<td align="center">30952</td>
+<td align="center">3</td>
+<td align="center">TRUE</td>
+<td align="center">374</td>
+</tr>
+<tr class="even">
+<td align="center">week_number</td>
+<td align="center">30924</td>
+<td align="center">7</td>
+<td align="center">(28,35]</td>
+<td align="center">833</td>
+</tr>
+<tr class="odd">
+<td align="center">stress</td>
+<td align="center">26606</td>
+<td align="center">3</td>
+<td align="center">1</td>
+<td align="center">355</td>
+</tr>
+<tr class="even">
+<td align="center">days_with_partner</td>
+<td align="center">30956</td>
+<td align="center">3</td>
+<td align="center">3-5 days</td>
+<td align="center">346</td>
+</tr>
+<tr class="odd">
+<td align="center">cohabitation</td>
+<td align="center">30956</td>
+<td align="center">3</td>
+<td align="center">Live in same city</td>
+<td align="center">334</td>
+</tr>
+<tr class="even">
+<td align="center">long_distance_relationship</td>
+<td align="center">30956</td>
+<td align="center">3</td>
+<td align="center">2</td>
+<td align="center">334</td>
+</tr>
+<tr class="odd">
+<td align="center">sexual_intercourse_1</td>
+<td align="center">29902</td>
+<td align="center">6</td>
+<td align="center">1</td>
+<td align="center">663</td>
+</tr>
+<tr class="even">
+<td align="center">sexual_intercourse_1_6scale</td>
+<td align="center">29902</td>
+<td align="center">6</td>
+<td align="center">1.2</td>
+<td align="center">663</td>
+</tr>
+<tr class="odd">
+<td align="center">medicament_1</td>
+<td align="center">26606</td>
+<td align="center">3</td>
+<td align="center">1</td>
+<td align="center">330</td>
+</tr>
+<tr class="even">
+<td align="center">nights_with_partner</td>
+<td align="center">30956</td>
+<td align="center">3</td>
+<td align="center">3-5 nights</td>
+<td align="center">329</td>
+</tr>
+<tr class="odd">
+<td align="center">attention_2</td>
+<td align="center">29874</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">766</td>
+</tr>
+<tr class="even">
+<td align="center">SJS_3</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">213</td>
+</tr>
+<tr class="odd">
+<td align="center">SJS_3R</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">1</td>
+<td align="center">213</td>
+</tr>
+<tr class="even">
+<td align="center">male_attention_1</td>
+<td align="center">29874</td>
+<td align="center">7</td>
+<td align="center">2</td>
+<td align="center">739</td>
+</tr>
+<tr class="odd">
+<td align="center">situation_of_living</td>
+<td align="center">18107</td>
+<td align="center">3</td>
+<td align="center">1</td>
+<td align="center">294</td>
+</tr>
+<tr class="even">
+<td align="center">hormonal_conservative</td>
+<td align="center">30940</td>
+<td align="center">3</td>
+<td align="center">TRUE</td>
+<td align="center">293</td>
+</tr>
+<tr class="odd">
+<td align="center">menstruation_3</td>
+<td align="center">4794</td>
+<td align="center">4</td>
+<td align="center">3</td>
+<td align="center">390</td>
+</tr>
+<tr class="even">
+<td align="center">menstruation_strength</td>
+<td align="center">30956</td>
+<td align="center">4</td>
+<td align="center">3</td>
+<td align="center">390</td>
+</tr>
+<tr class="odd">
+<td align="center">days_since_menstrual_onset</td>
+<td align="center">4068</td>
+<td align="center">6</td>
+<td align="center">4</td>
+<td align="center">571</td>
+</tr>
+<tr class="even">
+<td align="center">SJS_1</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">188</td>
+</tr>
+<tr class="odd">
+<td align="center">illness_1</td>
+<td align="center">26606</td>
+<td align="center">3</td>
+<td align="center">1</td>
+<td align="center">271</td>
+</tr>
+<tr class="even">
+<td align="center">children_broad_categories</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">children</td>
+<td align="center">180</td>
+</tr>
+<tr class="odd">
+<td align="center">mate_retention_3</td>
+<td align="center">29876</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">594</td>
+</tr>
+<tr class="even">
+<td align="center">desirability_1</td>
+<td align="center">29881</td>
+<td align="center">7</td>
+<td align="center">1</td>
+<td align="center">562</td>
+</tr>
+<tr class="odd">
+<td align="center">choice_of_clothing_3</td>
+<td align="center">29887</td>
+<td align="center">7</td>
+<td align="center">1</td>
+<td align="center">554</td>
+</tr>
+<tr class="even">
+<td align="center">communication_partner_1</td>
+<td align="center">29902</td>
+<td align="center">4</td>
+<td align="center">1</td>
+<td align="center">311</td>
+</tr>
+<tr class="odd">
+<td align="center">choice_of_clothing_6</td>
+<td align="center">29883</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">541</td>
+</tr>
+<tr class="even">
+<td align="center">desirability_partner</td>
+<td align="center">29879</td>
+<td align="center">7</td>
+<td align="center">1</td>
+<td align="center">537</td>
+</tr>
+<tr class="odd">
+<td align="center">time_of_response</td>
+<td align="center">30924</td>
+<td align="center">11</td>
+<td align="center">[17.0,17.3)</td>
+<td align="center">835</td>
+</tr>
+<tr class="even">
+<td align="center">any_fertile_days_known</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">FALSE</td>
+<td align="center">147</td>
+</tr>
+<tr class="odd">
+<td align="center">attention_1</td>
+<td align="center">29874</td>
+<td align="center">7</td>
+<td align="center">2</td>
+<td align="center">510</td>
+</tr>
+<tr class="even">
+<td align="center">jealousy_1</td>
+<td align="center">29877</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">463</td>
+</tr>
+<tr class="odd">
+<td align="center">extra_pair_3</td>
+<td align="center">29873</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">451</td>
+</tr>
+<tr class="even">
+<td align="center">cycle_regularity</td>
+<td align="center">30956</td>
+<td align="center">3</td>
+<td align="center">irregular, more than 5 days off</td>
+<td align="center">192</td>
+</tr>
+<tr class="odd">
+<td align="center">cyklus_5</td>
+<td align="center">30956</td>
+<td align="center">3</td>
+<td align="center">3</td>
+<td align="center">192</td>
+</tr>
+<tr class="even">
+<td align="center">extra_pair_6</td>
+<td align="center">29873</td>
+<td align="center">7</td>
+<td align="center">2</td>
+<td align="center">445</td>
+</tr>
+<tr class="odd">
+<td align="center">male_mate_retention_1</td>
+<td align="center">29876</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">444</td>
+</tr>
+<tr class="even">
+<td align="center">choice_of_clothing_1</td>
+<td align="center">29896</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">431</td>
+</tr>
+<tr class="odd">
+<td align="center">mate_retention_4</td>
+<td align="center">29876</td>
+<td align="center">7</td>
+<td align="center">2</td>
+<td align="center">427</td>
+</tr>
+<tr class="even">
+<td align="center">male_mate_retention_2</td>
+<td align="center">29876</td>
+<td align="center">7</td>
+<td align="center">2</td>
+<td align="center">418</td>
+</tr>
+<tr class="odd">
+<td align="center">mate_retention_6</td>
+<td align="center">29875</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">417</td>
+</tr>
+<tr class="even">
+<td align="center">flat_share</td>
+<td align="center">10737</td>
+<td align="center">3</td>
+<td align="center">1</td>
+<td align="center">173</td>
+</tr>
+<tr class="odd">
+<td align="center">extra_pair_12</td>
+<td align="center">29873</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">389</td>
+</tr>
+<tr class="even">
+<td align="center">hormonal_strict</td>
+<td align="center">30940</td>
+<td align="center">3</td>
+<td align="center">TRUE</td>
+<td align="center">161</td>
+</tr>
+<tr class="odd">
+<td align="center">SJS_2</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">107</td>
+</tr>
+<tr class="even">
+<td align="center">SJS_2R</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">1</td>
+<td align="center">107</td>
+</tr>
+<tr class="odd">
+<td align="center">menstruation_2</td>
+<td align="center">4794</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">368</td>
+</tr>
+<tr class="even">
+<td align="center">extra_pair_5</td>
+<td align="center">29873</td>
+<td align="center">7</td>
+<td align="center">2</td>
+<td align="center">348</td>
+</tr>
+<tr class="odd">
+<td align="center">choice_of_clothing_4</td>
+<td align="center">29884</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">343</td>
+</tr>
+<tr class="even">
+<td align="center">time_for_response</td>
+<td align="center">29143</td>
+<td align="center">11</td>
+<td align="center">[0.10, 2.15)</td>
+<td align="center">531</td>
+</tr>
+<tr class="odd">
+<td align="center">extra_pair_2</td>
+<td align="center">29874</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">336</td>
+</tr>
+<tr class="even">
+<td align="center">we_know_fertile_days</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">FALSE</td>
+<td align="center">96</td>
+</tr>
+<tr class="odd">
+<td align="center">include_lax</td>
+<td align="center">30952</td>
+<td align="center">3</td>
+<td align="center">TRUE</td>
+<td align="center">143</td>
+</tr>
+<tr class="even">
+<td align="center">included_lax</td>
+<td align="center">17960</td>
+<td align="center">3</td>
+<td align="center">cycling</td>
+<td align="center">143</td>
+</tr>
+<tr class="odd">
+<td align="center">self_esteem_1</td>
+<td align="center">29881</td>
+<td align="center">7</td>
+<td align="center">1</td>
+<td align="center">309</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_consc_9</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">3</td>
+<td align="center">219</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_consc_9R</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">3</td>
+<td align="center">219</td>
+</tr>
+<tr class="even">
+<td align="center">living_situation</td>
+<td align="center">30956</td>
+<td align="center">4</td>
+<td align="center">living in all-female flatshare</td>
+<td align="center">173</td>
+</tr>
+<tr class="odd">
+<td align="center">choice_of_clothing_8</td>
+<td align="center">29882</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">291</td>
+</tr>
+<tr class="even">
+<td align="center">showy_clothes</td>
+<td align="center">29882</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">291</td>
+</tr>
+<tr class="odd">
+<td align="center">extra_pair_1</td>
+<td align="center">29867</td>
+<td align="center">3</td>
+<td align="center">1</td>
+<td align="center">124</td>
+</tr>
+<tr class="even">
+<td align="center">extra_pair_intimacy</td>
+<td align="center">29867</td>
+<td align="center">3</td>
+<td align="center">1</td>
+<td align="center">124</td>
+</tr>
+<tr class="odd">
+<td align="center">NARQ_admiration_3</td>
+<td align="center">29877</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">289</td>
+</tr>
+<tr class="even">
+<td align="center">estrogen_categories</td>
+<td align="center">26785</td>
+<td align="center">4</td>
+<td align="center">(300,600]</td>
+<td align="center">153</td>
+</tr>
+<tr class="odd">
+<td align="center">mate_retention_5</td>
+<td align="center">29876</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">265</td>
+</tr>
+<tr class="even">
+<td align="center">include_conservative</td>
+<td align="center">30952</td>
+<td align="center">3</td>
+<td align="center">TRUE</td>
+<td align="center">112</td>
+</tr>
+<tr class="odd">
+<td align="center">included_conservative</td>
+<td align="center">14147</td>
+<td align="center">3</td>
+<td align="center">cycling</td>
+<td align="center">112</td>
+</tr>
+<tr class="even">
+<td align="center">SOI_R_6</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">2</td>
+<td align="center">183</td>
+</tr>
+<tr class="odd">
+<td align="center">SOI_R_6R</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">4</td>
+<td align="center">183</td>
+</tr>
+<tr class="even">
+<td align="center">prc_stirn_b_forward_counted</td>
+<td align="center">27380</td>
+<td align="center">20</td>
+<td align="center">0.14</td>
+<td align="center">687</td>
+</tr>
+<tr class="odd">
+<td align="center">fertile_fab</td>
+<td align="center">27143</td>
+<td align="center">20</td>
+<td align="center">0.05</td>
+<td align="center">679</td>
+</tr>
+<tr class="even">
+<td align="center">fertile_forward_and_backward</td>
+<td align="center">27143</td>
+<td align="center">20</td>
+<td align="center">0.05</td>
+<td align="center">679</td>
+</tr>
+<tr class="odd">
+<td align="center">prc_stirn_b_backward_inferred</td>
+<td align="center">27143</td>
+<td align="center">20</td>
+<td align="center">0.05</td>
+<td align="center">679</td>
+</tr>
+<tr class="even">
+<td align="center">SOI_R_5</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">3</td>
+<td align="center">169</td>
+</tr>
+<tr class="odd">
+<td align="center">extra_pair_13</td>
+<td align="center">29873</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">234</td>
+</tr>
+<tr class="even">
+<td align="center">extra_pair_sexual_fantasies</td>
+<td align="center">29873</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">234</td>
+</tr>
+<tr class="odd">
+<td align="center">choice_of_clothing_2</td>
+<td align="center">29892</td>
+<td align="center">7</td>
+<td align="center">1</td>
+<td align="center">233</td>
+</tr>
+<tr class="even">
+<td align="center">MV_2</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">162</td>
+</tr>
+<tr class="odd">
+<td align="center">attention</td>
+<td align="center">29874</td>
+<td align="center">12</td>
+<td align="center">1.5</td>
+<td align="center">382</td>
+</tr>
+<tr class="even">
+<td align="center">choice_of_clothing_7</td>
+<td align="center">29881</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">222</td>
+</tr>
+<tr class="odd">
+<td align="center">fertile</td>
+<td align="center">27828</td>
+<td align="center">20</td>
+<td align="center">0.16</td>
+<td align="center">619</td>
+</tr>
+<tr class="even">
+<td align="center">attractiveness_finance_2</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">152</td>
+</tr>
+<tr class="odd">
+<td align="center">income_partner</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">&gt; 3000€</td>
+<td align="center">152</td>
+</tr>
+<tr class="even">
+<td align="center">NARQ_admiration_2</td>
+<td align="center">29877</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">211</td>
+</tr>
+<tr class="odd">
+<td align="center">SOI_R_4</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">148</td>
+</tr>
+<tr class="even">
+<td align="center">NARQ_admiration_1</td>
+<td align="center">29877</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">197</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_open_10</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">136</td>
+</tr>
+<tr class="even">
+<td align="center">choice_of_clothing_5</td>
+<td align="center">29885</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">186</td>
+</tr>
+<tr class="odd">
+<td align="center">extra_pair_7</td>
+<td align="center">29873</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">186</td>
+</tr>
+<tr class="even">
+<td align="center">had_sex_with_partner_yet</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">0</td>
+<td align="center">53</td>
+</tr>
+<tr class="odd">
+<td align="center">male_mate_retention</td>
+<td align="center">29876</td>
+<td align="center">12</td>
+<td align="center">6</td>
+<td align="center">314</td>
+</tr>
+<tr class="even">
+<td align="center">relationship_satisfaction_1</td>
+<td align="center">29902</td>
+<td align="center">8</td>
+<td align="center">4.5</td>
+<td align="center">208</td>
+</tr>
+<tr class="odd">
+<td align="center">extra_pair_9</td>
+<td align="center">29873</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">179</td>
+</tr>
+<tr class="even">
+<td align="center">ended.nachbe_other_hormonal</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">TRUE</td>
+<td align="center">51</td>
+</tr>
+<tr class="odd">
+<td align="center">extra_pair_10</td>
+<td align="center">29873</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">178</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_agree_6</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">126</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_agree_6R</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">126</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_extra_7</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">126</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_extra_7R</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">126</td>
+</tr>
+<tr class="even">
+<td align="center">trying_to_get_pregnant</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">1</td>
+<td align="center">50</td>
+</tr>
+<tr class="odd">
+<td align="center">prc_wcx_b_forward_counted</td>
+<td align="center">27380</td>
+<td align="center">26</td>
+<td align="center">0.006</td>
+<td align="center">624</td>
+</tr>
+<tr class="even">
+<td align="center">CJS_6</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">119</td>
+</tr>
+<tr class="odd">
+<td align="center">prc_wcx_b_backward_inferred</td>
+<td align="center">27143</td>
+<td align="center">26</td>
+<td align="center">0.001</td>
+<td align="center">603</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_agree_4</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">113</td>
+</tr>
+<tr class="odd">
+<td align="center">NARQ_1</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">112</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_consc_4</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">111</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_consc_4R</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">111</td>
+</tr>
+<tr class="even">
+<td align="center">included_levels</td>
+<td align="center">28493</td>
+<td align="center">5</td>
+<td align="center">lax</td>
+<td align="center">111</td>
+</tr>
+<tr class="odd">
+<td align="center">SGSE_5</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">111</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_neuro_7</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">108</td>
+</tr>
+<tr class="odd">
+<td align="center">RJS_1</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">108</td>
+</tr>
+<tr class="even">
+<td align="center">CJS_3</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">106</td>
+</tr>
+<tr class="odd">
+<td align="center">MV_P_2</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">105</td>
+</tr>
+<tr class="even">
+<td align="center">SGSE_4</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">104</td>
+</tr>
+<tr class="odd">
+<td align="center">SGSE_4R</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">104</td>
+</tr>
+<tr class="even">
+<td align="center">extra_pair_going_out</td>
+<td align="center">29873</td>
+<td align="center">12</td>
+<td align="center">5.5</td>
+<td align="center">242</td>
+</tr>
+<tr class="odd">
+<td align="center">male_jealousy_1</td>
+<td align="center">29876</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">141</td>
+</tr>
+<tr class="even">
+<td align="center">male_jealousy_2</td>
+<td align="center">29877</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">138</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_neuro_8</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">98</td>
+</tr>
+<tr class="even">
+<td align="center">NARQ_6</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">98</td>
+</tr>
+<tr class="odd">
+<td align="center">SOI_R_3</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">97</td>
+</tr>
+<tr class="even">
+<td align="center">cyklus_4</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">95</td>
+</tr>
+<tr class="odd">
+<td align="center">include_strict</td>
+<td align="center">30952</td>
+<td align="center">3</td>
+<td align="center">TRUE</td>
+<td align="center">57</td>
+</tr>
+<tr class="even">
+<td align="center">included_bool</td>
+<td align="center">7682</td>
+<td align="center">3</td>
+<td align="center">TRUE</td>
+<td align="center">57</td>
+</tr>
+<tr class="odd">
+<td align="center">included_strict</td>
+<td align="center">7682</td>
+<td align="center">3</td>
+<td align="center">cycling</td>
+<td align="center">57</td>
+</tr>
+<tr class="even">
+<td align="center">extra_pair_1b</td>
+<td align="center">399</td>
+<td align="center">3</td>
+<td align="center">1</td>
+<td align="center">54</td>
+</tr>
+<tr class="odd">
+<td align="center">extra_pair_sex</td>
+<td align="center">30924</td>
+<td align="center">3</td>
+<td align="center">1</td>
+<td align="center">54</td>
+</tr>
+<tr class="even">
+<td align="center">fertile_cont</td>
+<td align="center">17887</td>
+<td align="center">20</td>
+<td align="center">0.05</td>
+<td align="center">360</td>
+</tr>
+<tr class="odd">
+<td align="center">prc_stirn_b</td>
+<td align="center">17887</td>
+<td align="center">20</td>
+<td align="center">0.05</td>
+<td align="center">360</td>
+</tr>
+<tr class="even">
+<td align="center">extra_pair_8</td>
+<td align="center">29873</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">125</td>
+</tr>
+<tr class="odd">
+<td align="center">RJS_3</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">89</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_neuro_6</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">87</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_neuro_6R</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">87</td>
+</tr>
+<tr class="even">
+<td align="center">relationship_status_clean</td>
+<td align="center">30956</td>
+<td align="center">3</td>
+<td align="center">Verlobt</td>
+<td align="center">52</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_agree_1</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">86</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_agree_1R</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">86</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_consc_8</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">85</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_consc_8R</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">85</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_neuro_5</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">85</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_neuro_5R</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">85</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_extra_2</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">84</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_extra_2R</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">84</td>
+</tr>
+<tr class="odd">
+<td align="center">MV_P_5</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">84</td>
+</tr>
+<tr class="even">
+<td align="center">MV_P_5R</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">84</td>
+</tr>
+<tr class="odd">
+<td align="center">extra_pair_4</td>
+<td align="center">29873</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">116</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_agree_8</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">82</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_agree_8R</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">82</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_neuro_3</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">81</td>
+</tr>
+<tr class="odd">
+<td align="center">SGSE_1</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">81</td>
+</tr>
+<tr class="even">
+<td align="center">ended</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">FALSE</td>
+<td align="center">32</td>
+</tr>
+<tr class="odd">
+<td align="center">attractiveness_stp_self</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">79</td>
+</tr>
+<tr class="even">
+<td align="center">CJS_2</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">79</td>
+</tr>
+<tr class="odd">
+<td align="center">attractiveness_finance_1</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">78</td>
+</tr>
+<tr class="even">
+<td align="center">extra_pair_compliments</td>
+<td align="center">29873</td>
+<td align="center">12</td>
+<td align="center">6</td>
+<td align="center">187</td>
+</tr>
+<tr class="odd">
+<td align="center">male_jealousy_3</td>
+<td align="center">29876</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">109</td>
+</tr>
+<tr class="even">
+<td align="center">SGSE_3</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">76</td>
+</tr>
+<tr class="odd">
+<td align="center">SGSE_3R</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">76</td>
+</tr>
+<tr class="even">
+<td align="center">attractiveness_stp</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">75</td>
+</tr>
+<tr class="odd">
+<td align="center">NARQ_7</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">75</td>
+</tr>
+<tr class="even">
+<td align="center">extra_pair_11</td>
+<td align="center">29873</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">102</td>
+</tr>
+<tr class="odd">
+<td align="center">NARQ_rivalry_1</td>
+<td align="center">29876</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">100</td>
+</tr>
+<tr class="even">
+<td align="center">MV_5</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">71</td>
+</tr>
+<tr class="odd">
+<td align="center">MV_5R</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">71</td>
+</tr>
+<tr class="even">
+<td align="center">NARQ_3</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">71</td>
+</tr>
+<tr class="odd">
+<td align="center">SOI_R_7</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">70</td>
+</tr>
+<tr class="even">
+<td align="center">NARQ_rivalry_2</td>
+<td align="center">29877</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">97</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_neuro_2</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">69</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_neuro_2R</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">69</td>
+</tr>
+<tr class="odd">
+<td align="center">prc_stirn_b_squished</td>
+<td align="center">17944</td>
+<td align="center">20</td>
+<td align="center">0.16</td>
+<td align="center">271</td>
+</tr>
+<tr class="even">
+<td align="center">has_not_had_sex_yet</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">1</td>
+<td align="center">27</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_neuro_1</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">67</td>
+</tr>
+<tr class="even">
+<td align="center">cyklus_2</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">2</td>
+<td align="center">66</td>
+</tr>
+<tr class="odd">
+<td align="center">pregnant</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">1</td>
+<td align="center">26</td>
+</tr>
+<tr class="even">
+<td align="center">pregnant_in_last_3_months</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">yes</td>
+<td align="center">26</td>
+</tr>
+<tr class="odd">
+<td align="center">NARQ_15</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">64</td>
+</tr>
+<tr class="even">
+<td align="center">day_number</td>
+<td align="center">28729</td>
+<td align="center">42</td>
+<td align="center">35</td>
+<td align="center">534</td>
+</tr>
+<tr class="odd">
+<td align="center">NARQ_16</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">62</td>
+</tr>
+<tr class="even">
+<td align="center">cycle_length_groups</td>
+<td align="center">30956</td>
+<td align="center">4</td>
+<td align="center">(35,41]</td>
+<td align="center">49</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_extra_8</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">61</td>
+</tr>
+<tr class="even">
+<td align="center">contraceptive_methods</td>
+<td align="center">30357</td>
+<td align="center">5</td>
+<td align="center">fertility_awareness</td>
+<td align="center">61</td>
+</tr>
+<tr class="odd">
+<td align="center">SOI_R_2</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">60</td>
+</tr>
+<tr class="even">
+<td align="center">RJS_5</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">59</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_open_7</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">58</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_open_7R</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">58</td>
+</tr>
+<tr class="odd">
+<td align="center">RJS_6</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">58</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_open_5</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">56</td>
+</tr>
+<tr class="odd">
+<td align="center">ZIP_7</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">56</td>
+</tr>
+<tr class="even">
+<td align="center">ZIP_7R</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">56</td>
+</tr>
+<tr class="odd">
+<td align="center">NARQ_11</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">55</td>
+</tr>
+<tr class="even">
+<td align="center">want_more_info</td>
+<td align="center">26606</td>
+<td align="center">3</td>
+<td align="center">0</td>
+<td align="center">33</td>
+</tr>
+<tr class="odd">
+<td align="center">prc_wcx_b</td>
+<td align="center">17887</td>
+<td align="center">26</td>
+<td align="center">0</td>
+<td align="center">277</td>
+</tr>
+<tr class="even">
+<td align="center">prc_wcx_b_squished</td>
+<td align="center">17944</td>
+<td align="center">26</td>
+<td align="center">0.018</td>
+<td align="center">271</td>
+</tr>
+<tr class="odd">
+<td align="center">change_contraception_1</td>
+<td align="center">26606</td>
+<td align="center">3</td>
+<td align="center">1</td>
+<td align="center">31</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_open_9</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">51</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_open_9R</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">51</td>
+</tr>
+<tr class="even">
+<td align="center">CJS_1</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">51</td>
+</tr>
+<tr class="odd">
+<td align="center">attractiveness_relativ_1</td>
+<td align="center">30956</td>
+<td align="center">4</td>
+<td align="center">4</td>
+<td align="center">40</td>
+</tr>
+<tr class="even">
+<td align="center">breast_feeding</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">1</td>
+<td align="center">20</td>
+</tr>
+<tr class="odd">
+<td align="center">breast_feeding_in_last_3_months</td>
+<td align="center">30956</td>
+<td align="center">2</td>
+<td align="center">1</td>
+<td align="center">20</td>
+</tr>
+<tr class="even">
+<td align="center">SGSE_2</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">49</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_open_1</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">47</td>
+</tr>
+<tr class="even">
+<td align="center">age_group</td>
+<td align="center">30956</td>
+<td align="center">6</td>
+<td align="center">(45,70]</td>
+<td align="center">56</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_extra_6</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">45</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_open_6</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">44</td>
+</tr>
+<tr class="odd">
+<td align="center">biggest_diff</td>
+<td align="center">30956</td>
+<td align="center">10</td>
+<td align="center">[ 2.04, 2.13)</td>
+<td align="center">88</td>
+</tr>
+<tr class="even">
+<td align="center">NARQ_18</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">44</td>
+</tr>
+<tr class="odd">
+<td align="center">NARQ_9</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">44</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_consc_2</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">43</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_consc_2R</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">43</td>
+</tr>
+<tr class="even">
+<td align="center">NARQ_5</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">43</td>
+</tr>
+<tr class="odd">
+<td align="center">MV_P_1</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">42</td>
+</tr>
+<tr class="even">
+<td align="center">attractiveness_finance_self</td>
+<td align="center">13229</td>
+<td align="center">6</td>
+<td align="center">5</td>
+<td align="center">49</td>
+</tr>
+<tr class="odd">
+<td align="center">income</td>
+<td align="center">13229</td>
+<td align="center">6</td>
+<td align="center">&gt; 3000€</td>
+<td align="center">49</td>
+</tr>
+<tr class="even">
+<td align="center">MV_4</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">40</td>
+</tr>
+<tr class="odd">
+<td align="center">avg_diff</td>
+<td align="center">30885</td>
+<td align="center">11</td>
+<td align="center">[1.055, 1.09)</td>
+<td align="center">84</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_extra_5</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">38</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_extra_5R</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">38</td>
+</tr>
+<tr class="even">
+<td align="center">sexy_clothes</td>
+<td align="center">30924</td>
+<td align="center">18</td>
+<td align="center">6</td>
+<td align="center">133</td>
+</tr>
+<tr class="odd">
+<td align="center">breakup</td>
+<td align="center">26606</td>
+<td align="center">3</td>
+<td align="center">1</td>
+<td align="center">22</td>
+</tr>
+<tr class="even">
+<td align="center">communication_partner_2</td>
+<td align="center">28857</td>
+<td align="center">8</td>
+<td align="center">6</td>
+<td align="center">58</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_extra_4</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">36</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_extra_3</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">34</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_neuro_4</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">34</td>
+</tr>
+<tr class="even">
+<td align="center">NARQ_rivalry_3</td>
+<td align="center">29876</td>
+<td align="center">7</td>
+<td align="center">6</td>
+<td align="center">46</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_agree_5</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">32</td>
+</tr>
+<tr class="even">
+<td align="center">SOI_R_8</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">32</td>
+</tr>
+<tr class="odd">
+<td align="center">religiosity</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">31</td>
+</tr>
+<tr class="even">
+<td align="center">RJS_4</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">31</td>
+</tr>
+<tr class="odd">
+<td align="center">days_responded_percentage</td>
+<td align="center">30885</td>
+<td align="center">11</td>
+<td align="center">[0.95122,0.976)</td>
+<td align="center">67</td>
+</tr>
+<tr class="even">
+<td align="center">CJS_5</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">30</td>
+</tr>
+<tr class="odd">
+<td align="center">NARQ_8</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">30</td>
+</tr>
+<tr class="even">
+<td align="center">RJS_2</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">30</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_consc_5</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">29</td>
+</tr>
+<tr class="even">
+<td align="center">certainty_menstruation</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">29</td>
+</tr>
+<tr class="odd">
+<td align="center">cyklus_6</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">2</td>
+<td align="center">29</td>
+</tr>
+<tr class="even">
+<td align="center">SOI_R_9</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">29</td>
+</tr>
+<tr class="odd">
+<td align="center">attractiveness_occupation</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">28</td>
+</tr>
+<tr class="even">
+<td align="center">contraceptive_method</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">other</td>
+<td align="center">27</td>
+</tr>
+<tr class="odd">
+<td align="center">MV_P_4</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">27</td>
+</tr>
+<tr class="even">
+<td align="center">NARQ_admiration</td>
+<td align="center">29877</td>
+<td align="center">17</td>
+<td align="center">6</td>
+<td align="center">88</td>
+</tr>
+<tr class="odd">
+<td align="center">SOI_uv</td>
+<td align="center">30956</td>
+<td align="center">13</td>
+<td align="center">1.33333333333333</td>
+<td align="center">67</td>
+</tr>
+<tr class="even">
+<td align="center">SJS</td>
+<td align="center">30956</td>
+<td align="center">7</td>
+<td align="center">2</td>
+<td align="center">36</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_open_8</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">25</td>
+</tr>
+<tr class="even">
+<td align="center">sexual_intercourse_satisfaction</td>
+<td align="center">6511</td>
+<td align="center">8</td>
+<td align="center">1</td>
+<td align="center">38</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_consc_6</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">23</td>
+</tr>
+<tr class="even">
+<td align="center">contraceptive_method_by_pearl</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">fertility_awareness</td>
+<td align="center">23</td>
+</tr>
+<tr class="odd">
+<td align="center">attractiveness_finance</td>
+<td align="center">30956</td>
+<td align="center">9</td>
+<td align="center">5</td>
+<td align="center">41</td>
+</tr>
+<tr class="even">
+<td align="center">CJS_4</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">22</td>
+</tr>
+<tr class="odd">
+<td align="center">MV_1</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">22</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_extra_1</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">21</td>
+</tr>
+<tr class="odd">
+<td align="center">NARQ_4</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">21</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_agree_9</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">20</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_open_4</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">20</td>
+</tr>
+<tr class="even">
+<td align="center">NARQ_10</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">19</td>
+</tr>
+<tr class="odd">
+<td align="center">ZIP_5</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">19</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_agree_3</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">18</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_agree_3R</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">18</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_consc_7</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">18</td>
+</tr>
+<tr class="odd">
+<td align="center">no_variation</td>
+<td align="center">29891</td>
+<td align="center">3</td>
+<td align="center">TRUE</td>
+<td align="center">10</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_consc_1</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">16</td>
+</tr>
+<tr class="odd">
+<td align="center">MV_3</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">15</td>
+</tr>
+<tr class="even">
+<td align="center">NARQ_12</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">15</td>
+</tr>
+<tr class="odd">
+<td align="center">NARQ_13</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">15</td>
+</tr>
+<tr class="even">
+<td align="center">ZIP_2</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">15</td>
+</tr>
+<tr class="odd">
+<td align="center">ZIP_4</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">14</td>
+</tr>
+<tr class="even">
+<td align="center">ZIP_4R</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">14</td>
+</tr>
+<tr class="odd">
+<td align="center">new_relationship</td>
+<td align="center">26606</td>
+<td align="center">3</td>
+<td align="center">1</td>
+<td align="center">8</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_agree_2</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">13</td>
+</tr>
+<tr class="odd">
+<td align="center">MV_P_3</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">13</td>
+</tr>
+<tr class="even">
+<td align="center">satisfaction_sexual_intercourse</td>
+<td align="center">29562</td>
+<td align="center">6</td>
+<td align="center">1</td>
+<td align="center">15</td>
+</tr>
+<tr class="odd">
+<td align="center">days_with_partner_per_month</td>
+<td align="center">9538</td>
+<td align="center">6</td>
+<td align="center">&gt; 14 days</td>
+<td align="center">14</td>
+</tr>
+<tr class="even">
+<td align="center">duration_pill</td>
+<td align="center">16212</td>
+<td align="center">6</td>
+<td align="center">1</td>
+<td align="center">14</td>
+</tr>
+<tr class="odd">
+<td align="center">long_distance_relationship_2</td>
+<td align="center">9538</td>
+<td align="center">6</td>
+<td align="center">5</td>
+<td align="center">14</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_consc_3</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">11</td>
+</tr>
+<tr class="odd">
+<td align="center">ZIP_3</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">11</td>
+</tr>
+<tr class="even">
+<td align="center">FCD</td>
+<td align="center">27288</td>
+<td align="center">41</td>
+<td align="center">40</td>
+<td align="center">89</td>
+</tr>
+<tr class="odd">
+<td align="center">menstrual_onset_days_since</td>
+<td align="center">27380</td>
+<td align="center">42</td>
+<td align="center">39</td>
+<td align="center">89</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_agree_7</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">10</td>
+</tr>
+<tr class="odd">
+<td align="center">occupation_clean</td>
+<td align="center">30850</td>
+<td align="center">7</td>
+<td align="center">Nicht berufstätig</td>
+<td align="center">13</td>
+</tr>
+<tr class="even">
+<td align="center">NARQ_2</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">9</td>
+</tr>
+<tr class="odd">
+<td align="center">SOI_R_1</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">9</td>
+</tr>
+<tr class="even">
+<td align="center">sexy</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">8</td>
+</tr>
+<tr class="odd">
+<td align="center">attractiveness_face</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">7</td>
+</tr>
+<tr class="even">
+<td align="center">attractiveness_overall</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">7</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_open_2</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">7</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_open_3</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">7</td>
+</tr>
+<tr class="odd">
+<td align="center">NARQ_17</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">7</td>
+</tr>
+<tr class="even">
+<td align="center">ZIP_1</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">7</td>
+</tr>
+<tr class="odd">
+<td align="center">ZIP_6</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">7</td>
+</tr>
+<tr class="even">
+<td align="center">partner_mate_retention</td>
+<td align="center">29874</td>
+<td align="center">22</td>
+<td align="center">6</td>
+<td align="center">30</td>
+</tr>
+<tr class="odd">
+<td align="center">number_of_cycles</td>
+<td align="center">30924</td>
+<td align="center">6</td>
+<td align="center">5</td>
+<td align="center">8</td>
+</tr>
+<tr class="even">
+<td align="center">RCD_squished</td>
+<td align="center">18018</td>
+<td align="center">31</td>
+<td align="center">0</td>
+<td align="center">41</td>
+</tr>
+<tr class="odd">
+<td align="center">attractiveness_ltp</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">6</td>
+</tr>
+<tr class="even">
+<td align="center">partner_attractiveness_longterm</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">-3.97818492731748</td>
+<td align="center">6</td>
+</tr>
+<tr class="odd">
+<td align="center">RCD_rel_to_ovulation</td>
+<td align="center">17731</td>
+<td align="center">37</td>
+<td align="center">-20</td>
+<td align="center">44</td>
+</tr>
+<tr class="even">
+<td align="center">cycle_nr</td>
+<td align="center">30924</td>
+<td align="center">6</td>
+<td align="center">5</td>
+<td align="center">7</td>
+</tr>
+<tr class="odd">
+<td align="center">attractiveness_ltp_self</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">5</td>
+</tr>
+<tr class="even">
+<td align="center">contraceptives_broad_categories</td>
+<td align="center">30952</td>
+<td align="center">11</td>
+<td align="center">partner_sterilised</td>
+<td align="center">11</td>
+</tr>
+<tr class="odd">
+<td align="center">distance_partner</td>
+<td align="center">9538</td>
+<td align="center">8</td>
+<td align="center">6</td>
+<td align="center">8</td>
+</tr>
+<tr class="even">
+<td align="center">distance_to_partner_hours</td>
+<td align="center">9538</td>
+<td align="center">8</td>
+<td align="center">9-12h</td>
+<td align="center">8</td>
+</tr>
+<tr class="odd">
+<td align="center">partner_attractiveness_money</td>
+<td align="center">30956</td>
+<td align="center">13</td>
+<td align="center">1</td>
+<td align="center">12</td>
+</tr>
+<tr class="even">
+<td align="center">attractiveness_body</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">1</td>
+<td align="center">4</td>
+</tr>
+<tr class="odd">
+<td align="center">SOI_im</td>
+<td align="center">30956</td>
+<td align="center">13</td>
+<td align="center">5</td>
+<td align="center">9</td>
+</tr>
+<tr class="even">
+<td align="center">religion_clean</td>
+<td align="center">30881</td>
+<td align="center">6</td>
+<td align="center">Judentum</td>
+<td align="center">4</td>
+</tr>
+<tr class="odd">
+<td align="center">MV_short</td>
+<td align="center">30956</td>
+<td align="center">13</td>
+<td align="center">1</td>
+<td align="center">8</td>
+</tr>
+<tr class="even">
+<td align="center">NARQ_14</td>
+<td align="center">30956</td>
+<td align="center">5</td>
+<td align="center">5</td>
+<td align="center">3</td>
+</tr>
+<tr class="odd">
+<td align="center">menstrual_onset_days_until</td>
+<td align="center">17887</td>
+<td align="center">42</td>
+<td align="center">-38</td>
+<td align="center">24</td>
+</tr>
+<tr class="even">
+<td align="center">RCD</td>
+<td align="center">17887</td>
+<td align="center">42</td>
+<td align="center">-38</td>
+<td align="center">24</td>
+</tr>
+<tr class="odd">
+<td align="center">gestagen_ug</td>
+<td align="center">2</td>
+<td align="center">2</td>
+<td align="center">250</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">male_jealousy</td>
+<td align="center">29876</td>
+<td align="center">17</td>
+<td align="center">5.33333333333333</td>
+<td align="center">8</td>
+</tr>
+<tr class="odd">
+<td align="center">NARQ_rivalry</td>
+<td align="center">29876</td>
+<td align="center">17</td>
+<td align="center">5.66666666666667</td>
+<td align="center">8</td>
+</tr>
+<tr class="even">
+<td align="center">method_meeting_clean</td>
+<td align="center">16222</td>
+<td align="center">7</td>
+<td align="center">Depotspritze</td>
+<td align="center">3</td>
+</tr>
+<tr class="odd">
+<td align="center">extra_pair_flirting</td>
+<td align="center">29873</td>
+<td align="center">17</td>
+<td align="center">5.66666666666667</td>
+<td align="center">7</td>
+</tr>
+<tr class="even">
+<td align="center">MV</td>
+<td align="center">30956</td>
+<td align="center">17</td>
+<td align="center">1.8</td>
+<td align="center">7</td>
+</tr>
+<tr class="odd">
+<td align="center">SOI_be</td>
+<td align="center">30956</td>
+<td align="center">13</td>
+<td align="center">4.66666666666667</td>
+<td align="center">5</td>
+</tr>
+<tr class="even">
+<td align="center">SGSE</td>
+<td align="center">30956</td>
+<td align="center">21</td>
+<td align="center">4.8</td>
+<td align="center">8</td>
+</tr>
+<tr class="odd">
+<td align="center">contraceptives_categories_natural</td>
+<td align="center">29911</td>
+<td align="center">6</td>
+<td align="center">infertile</td>
+<td align="center">2</td>
+</tr>
+<tr class="even">
+<td align="center">estrogen</td>
+<td align="center">195</td>
+<td align="center">3</td>
+<td align="center">30</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">estrogen_ug</td>
+<td align="center">1497</td>
+<td align="center">6</td>
+<td align="center">15</td>
+<td align="center">2</td>
+</tr>
+<tr class="even">
+<td align="center">estrogen_ug_merged</td>
+<td align="center">2157</td>
+<td align="center">6</td>
+<td align="center">15</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td align="center">female_jealousy</td>
+<td align="center">30924</td>
+<td align="center">18</td>
+<td align="center">5.66666666666667</td>
+<td align="center">6</td>
+</tr>
+<tr class="even">
+<td align="center">gestagen</td>
+<td align="center">195</td>
+<td align="center">3</td>
+<td align="center">13</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">hormonal_1</td>
+<td align="center">1716</td>
+<td align="center">6</td>
+<td align="center">4</td>
+<td align="center">2</td>
+</tr>
+<tr class="even">
+<td align="center">RCD_inferred</td>
+<td align="center">28104</td>
+<td align="center">72</td>
+<td align="center">-27</td>
+<td align="center">22</td>
+</tr>
+<tr class="odd">
+<td align="center">RCD_for_merge</td>
+<td align="center">18097</td>
+<td align="center">51</td>
+<td align="center">49</td>
+<td align="center">14</td>
+</tr>
+<tr class="even">
+<td align="center">extra_pair_desire</td>
+<td align="center">29873</td>
+<td align="center">27</td>
+<td align="center">5.8</td>
+<td align="center">7</td>
+</tr>
+<tr class="odd">
+<td align="center">estrogen_ug_other</td>
+<td align="center">1315</td>
+<td align="center">4</td>
+<td align="center">420</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">partner_attractiveness_shortterm</td>
+<td align="center">30956</td>
+<td align="center">16</td>
+<td align="center">-3.34512824374663</td>
+<td align="center">4</td>
+</tr>
+<tr class="odd">
+<td align="center">MV_P_short</td>
+<td align="center">30956</td>
+<td align="center">13</td>
+<td align="center">1</td>
+<td align="center">3</td>
+</tr>
+<tr class="even">
+<td align="center">partner_attractiveness_physical</td>
+<td align="center">30956</td>
+<td align="center">9</td>
+<td align="center">2</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td align="center">minimum_cycle_length_diary</td>
+<td align="center">23767</td>
+<td align="center">41</td>
+<td align="center">40</td>
+<td align="center">8</td>
+</tr>
+<tr class="even">
+<td align="center">RJS</td>
+<td align="center">30956</td>
+<td align="center">25</td>
+<td align="center">4.83333333333333</td>
+<td align="center">4</td>
+</tr>
+<tr class="odd">
+<td align="center">hormonal_2</td>
+<td align="center">1716</td>
+<td align="center">9</td>
+<td align="center">circlet</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">gestagens</td>
+<td align="center">1497</td>
+<td align="center">10</td>
+<td align="center">NGT</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">gestagens_ug</td>
+<td align="center">1497</td>
+<td align="center">10</td>
+<td align="center">125</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">estrogen_ug_all</td>
+<td align="center">26785</td>
+<td align="center">11</td>
+<td align="center">360</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">estrogen_ug_cycle</td>
+<td align="center">17120</td>
+<td align="center">12</td>
+<td align="center">360</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">gestagen_type</td>
+<td align="center">16178</td>
+<td align="center">12</td>
+<td align="center">NES</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">gestagen_ug_merged</td>
+<td align="center">15610</td>
+<td align="center">12</td>
+<td align="center">1500</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">menarche</td>
+<td align="center">13225</td>
+<td align="center">12</td>
+<td align="center">19</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">in_pair_desire</td>
+<td align="center">29874</td>
+<td align="center">56</td>
+<td align="center">4.4</td>
+<td align="center">4</td>
+</tr>
+<tr class="even">
+<td align="center">occupation</td>
+<td align="center">30956</td>
+<td align="center">14</td>
+<td align="center">Beamtin</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_neuro</td>
+<td align="center">30956</td>
+<td align="center">32</td>
+<td align="center">1.125</td>
+<td align="center">2</td>
+</tr>
+<tr class="even">
+<td align="center">gestagen_cycle</td>
+<td align="center">14567</td>
+<td align="center">16</td>
+<td align="center">1.44</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">intensive_sports</td>
+<td align="center">26606</td>
+<td align="center">16</td>
+<td align="center">14</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">SOI_R</td>
+<td align="center">30956</td>
+<td align="center">35</td>
+<td align="center">4.22222222222222</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td align="center">MV_P</td>
+<td align="center">30956</td>
+<td align="center">18</td>
+<td align="center">4.8</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">cigarettes</td>
+<td align="center">26606</td>
+<td align="center">19</td>
+<td align="center">11</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">choice_of_clothing</td>
+<td align="center">29881</td>
+<td align="center">41</td>
+<td align="center">5.5</td>
+<td align="center">2</td>
+</tr>
+<tr class="even">
+<td align="center">cycle_length</td>
+<td align="center">30956</td>
+<td align="center">21</td>
+<td align="center">39</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">cyklus_3</td>
+<td align="center">30956</td>
+<td align="center">21</td>
+<td align="center">39</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">day_count</td>
+<td align="center">30956</td>
+<td align="center">42</td>
+<td align="center">42</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td align="center">days</td>
+<td align="center">30956</td>
+<td align="center">42</td>
+<td align="center">25</td>
+<td align="center">2</td>
+</tr>
+<tr class="even">
+<td align="center">fertile_days_known_backward</td>
+<td align="center">30956</td>
+<td align="center">42</td>
+<td align="center">41</td>
+<td align="center">2</td>
+</tr>
+<tr class="odd">
+<td align="center">first_time</td>
+<td align="center">29943</td>
+<td align="center">21</td>
+<td align="center">10</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">MV_diff</td>
+<td align="center">30956</td>
+<td align="center">24</td>
+<td align="center">-3.66666666666667</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">CJS</td>
+<td align="center">30956</td>
+<td align="center">25</td>
+<td align="center">5</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">ZIP</td>
+<td align="center">30956</td>
+<td align="center">27</td>
+<td align="center">1.28571428571429</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">number_sexual_partner</td>
+<td align="center">30232</td>
+<td align="center">28</td>
+<td align="center">26</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">partner_attractiveness_global</td>
+<td align="center">30956</td>
+<td align="center">29</td>
+<td align="center">-2.95278253338198</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">female_mate_retention</td>
+<td align="center">30924</td>
+<td align="center">30</td>
+<td align="center">3.33333333333333</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_extra</td>
+<td align="center">30956</td>
+<td align="center">31</td>
+<td align="center">1.125</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_agree</td>
+<td align="center">30956</td>
+<td align="center">32</td>
+<td align="center">1.33333333333333</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">NARQ_K_total</td>
+<td align="center">29876</td>
+<td align="center">32</td>
+<td align="center">5.83333333333333</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">BFI_open</td>
+<td align="center">30956</td>
+<td align="center">33</td>
+<td align="center">1.5</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">BFI_consc</td>
+<td align="center">30956</td>
+<td align="center">34</td>
+<td align="center">1.22222222222222</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">last_lag</td>
+<td align="center">25783</td>
+<td align="center">42</td>
+<td align="center">27</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">timespan</td>
+<td align="center">18527</td>
+<td align="center">42</td>
+<td align="center">26</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">took_days</td>
+<td align="center">18602</td>
+<td align="center">42</td>
+<td align="center">26</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">fertile_days_known_backward_inferred</td>
+<td align="center">30956</td>
+<td align="center">43</td>
+<td align="center">42</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">fertile_days_known_forward</td>
+<td align="center">30956</td>
+<td align="center">43</td>
+<td align="center">42</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">n_days</td>
+<td align="center">30956</td>
+<td align="center">43</td>
+<td align="center">42</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">height</td>
+<td align="center">30956</td>
+<td align="center">46</td>
+<td align="center">116</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">NARQ</td>
+<td align="center">30956</td>
+<td align="center">56</td>
+<td align="center">1</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">extra_pair</td>
+<td align="center">29873</td>
+<td align="center">62</td>
+<td align="center">5.75</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">partner_attractiveness_rel_to_self</td>
+<td align="center">30956</td>
+<td align="center">65</td>
+<td align="center">-0.162454954632523</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">weight_post</td>
+<td align="center">26606</td>
+<td align="center">68</td>
+<td align="center">102</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">cycle_length_diary</td>
+<td align="center">22767</td>
+<td align="center">69</td>
+<td align="center">10</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">mean_cycle_length_diary</td>
+<td align="center">22767</td>
+<td align="center">69</td>
+<td align="center">10</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">median_cycle_length_diary</td>
+<td align="center">22767</td>
+<td align="center">69</td>
+<td align="center">10</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">contraception</td>
+<td align="center">30952</td>
+<td align="center">73</td>
+<td align="center">coitus_interruptus, temperature_billings</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">weight</td>
+<td align="center">30956</td>
+<td align="center">79</td>
+<td align="center">101</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">duration_relationship_total</td>
+<td align="center">30820</td>
+<td align="center">85</td>
+<td align="center">11.1</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">attractiveness_income_age_corrected</td>
+<td align="center">30956</td>
+<td align="center">148</td>
+<td align="center">-0.049531448419045</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">BMI</td>
+<td align="center">26606</td>
+<td align="center">568</td>
+<td align="center">10.8108108108108</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">fertile_mean</td>
+<td align="center">30956</td>
+<td align="center">888</td>
+<td align="center">0.0111111111111111</td>
+<td align="center">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="finding-rare-combinations" class="section level2">
+<h2>finding rare combinations</h2>
+<p>Ideally, no participant should be uniquely identified, but this is not realistic. Instead, I look for unique combinations of demographic variables.</p>
+<pre class="r"><code>cut_to_number = function(x, group = NULL, m = 40) { 
+  if(!is.null(group)) {
+    df = data.frame(x = x, group = group) %&gt;% unique()
+  } else {
+    df = data.frame(x = x)
+  }
+    cuts = Hmisc::cut2(df$x, m = m, onlycuts = T) # cut on person level
+    as.numeric(as.character(Hmisc::cut2(x, cuts = cuts, levels.mean = T)))
+  }
+
+unique_combos = diary %&gt;% 
+  group_by(age_group, height, weight, religion_clean, duration_relationship_total) %&gt;% 
+  summarise(n = n()) %&gt;% 
+  ungroup() %&gt;% 
+  arrange(desc(n)) %&gt;% 
+  filter(n &lt; 7)
+
+nrow(unique_combos)</code></pre>
+<pre><code>## [1] 198</code></pre>
+<pre class="r"><code>diary = diary %&gt;% 
+  mutate(
+    religion_clean = recode(religion_clean, &quot;Judentum&quot; = &quot;other&quot;, &quot;Islam&quot; = &quot;other&quot;, &quot;Buddhismus&quot; = &quot;other&quot;, .missing = &quot;other&quot;),
+    weight = cut_to_number(weight,person, m = 50),
+    height = cut_to_number(height,person, m = 50),
+    first_time = cut_to_number(first_time, person),
+    duration_relationship_total = cut_to_number(duration_relationship_total, person, m = 50)
+  )
+
+unique_combos = diary %&gt;% 
+  group_by(age_group, height, weight, religion_clean, duration_relationship_total) %&gt;% 
+  summarise(n = n()) %&gt;% 
+  ungroup() %&gt;% 
+  arrange(desc(n)) %&gt;% 
+  filter(n &lt; 7)
+
+nrow(unique_combos)</code></pre>
+<pre><code>## [1] 186</code></pre>
+<pre class="r"><code># unique_combos %&gt;%
+#   pander()
+
+
+diary = diary %&gt;% left_join(unique_combos %&gt;% select(-n) %&gt;% mutate(too_unique = T))
+
+diary = diary %&gt;% mutate(
+  too_unique = if_else(is.na(too_unique), F, too_unique),
+  age_group = if_else(!too_unique, age_group, NA_integer_),
+  height = if_else(too_unique, NA_real_, height),
+  weight = if_else(too_unique, NA_real_, weight),
+  religion_clean = if_else(!too_unique, religion_clean, NA_character_),
+  duration_relationship_total = if_else(too_unique, NA_real_, duration_relationship_total)
+)</code></pre>
+</div>
+<div id="make-one-version-with-the-less-sensitive-data" class="section level2">
+<h2>Make one version with the less sensitive data</h2>
+<pre class="r"><code>diary_noep = diary %&gt;% select(-starts_with(&quot;SOI&quot;)) %&gt;% select(-starts_with(&quot;extra_pair&quot;)) %&gt;% select(-number_sexual_partner, -trying_to_get_pregnant, -has_not_had_sex_yet, -had_sex_with_partner_yet, -first_time)</code></pre>
+</div>
+<div id="save" class="section level2">
+<h2>Save</h2>
+<pre class="r"><code>save(diary_noep, file = &quot;diary_restricted_anonymised.rdata&quot;)
+haven::write_sav(diary_noep, path = &quot;diary_restricted_anonymised.sav&quot;)</code></pre>
+<pre><code>## Error in if (any(bad_lengths)) {: missing value where TRUE/FALSE needed</code></pre>
+<pre class="r"><code>save(diary, file = &quot;diary_anonymised.rdata&quot;)
+haven::write_sav(diary, path = &quot;diary_anonymised.sav&quot;)</code></pre>
+<pre><code>## Error in if (any(bad_lengths)) {: missing value where TRUE/FALSE needed</code></pre>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

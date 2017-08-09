@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title></title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-1.1/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+<script src="library/auto_tab_first_section.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="library/custom_styles.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 64px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+
+.section h2 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h3 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h4 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h5 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h6 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Fertility diary</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="1_power_analysis.html">Power analysis</a>
+</li>
+<li>
+  <a href="1_researcher_df_analysis.html">Researcher degree of freedom simulation</a>
+</li>
+<li>
+  <a href="1_wrangle_data.html">Data wrangling</a>
+</li>
+<li>
+  <a href="2_descriptives.html">Descriptives</a>
+</li>
+<li>
+  <a href="3_fertility_as_prereg.html">Preregistered analyses</a>
+</li>
+<li>
+  <a href="3_fertility_robustness.html">Robustness tests</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+
+</div>
+
+
+<div id="power-analysis" class="section level1 tab-content">
+<h1>Power analysis</h1>
+<div id="summary" class="section level2">
+<h2>Summary</h2>
+<p>The <a href="1_power_simulation.html">annotated simulation script</a> and the annotated <a href="0_simulation_functions.html">helper functions</a> provide the detail that this summary leaves out.</p>
+</div>
+<div id="load-data" class="section level2">
+<h2>Load data</h2>
+<pre class="r"><code>library(knitr)
+opts_chunk$set(fig.width = 12, fig.height = 12, cache = T, warning = F, message = F, cache = F)</code></pre>
+<pre class="r"><code>source(&quot;0_helpers.R&quot;)
+loadRDS(&quot;cycle_sims.rds&quot;)</code></pre>
+</div>
+<div id="analyse" class="section level2">
+<h2>Analyse</h2>
+<pre class="r"><code>format_digits = function(x) { format(round(x, 2), nsmall = 2)}
+sims = cycle_sims
+table(round(sims$p.value - sims$p.value_KR, 10)) # exactly the same, always</code></pre>
+<pre><code>## 
+##       0 
+## 7836798</code></pre>
+<pre class="r"><code>sims %&gt;% 
+  select(-p.value_KR) -&gt;
+sims
+
+print_unique = function(x) {
+  print(unique(x))
+  1
+}
+sims %&gt;% 
+  select(fertility_effect, nr_of_people, nr_days, dayspan, miss_window, trait_effect, predictor) %&gt;% 
+  summarise_each(funs(print_unique)) -&gt; x</code></pre>
+<pre><code>## [1] 0.00 0.05 0.10 0.20 0.30 0.50 0.80
+## [1]  25  50  70 100 150 250 500
+## [1]  2 10 30
+## [1] 1:38      17-19,4-6
+## Levels: 1:38 17-19,4-6
+## [1] 0 1 2 3 4 6 8
+## [1] 0.0 0.3
+## [1] prc_stirn_b_m    fertile_broad_m  fertile_narrow_m
+## Levels: prc_stirn_b_m fertile_broad_m fertile_narrow_m</code></pre>
+<pre class="r"><code>sims %&gt;% 
+  group_by(fertility_effect, nr_of_people, nr_days, dayspan, miss_window, trait_effect, predictor) %&gt;%  # ,covariate_used, outcome, predictor, stopping.n
+  summarise(
+    usable_days = mean(usable_days, na.rm = T),
+    not_converged = sum(is.na(p.value)),
+    converged = sum(!is.na(p.value)),
+    power_001 = sum(p.value &lt;= 0.001, na.rm = T)/converged,
+    power_01 = sum(p.value &lt;= 0.01, na.rm = T)/converged,
+    power_05 = sum(p.value &lt;= 0.05, na.rm = T)/converged,
+    power_10 = sum(p.value &lt;= 0.10, na.rm = T)/converged,
+    capture_95CI = sum(fertility_effect &gt; conf.low &amp; fertility_effect &lt; conf.high, na.rm = T)/converged,
+    misestimation = mean(estimate / fertility_effect, na.rm = T),
+    misestimation_lo = quantile(estimate / fertility_effect, probs = 0.025, na.rm = T),
+    misestimation_hi = quantile(estimate / fertility_effect, probs = 0.975, na.rm = T),
+    abs_misestimation = mean(abs(estimate - fertility_effect), na.rm = T),
+    misestimation_over_se = mean((estimate - fertility_effect) / std.error, na.rm = T)
+    ) -&gt;
+  power</code></pre>
+</div>
+<div id="power-analysis-1" class="section level2 active">
+<h2>Power analysis</h2>
+<div id="fertile-window-effect-.2" class="section level3">
+<h3>Fertile window effect .2</h3>
+<pre class="r"><code>power %&gt;% filter(miss_window == 0, nr_days == 30, nr_of_people %in% c(150,500), fertility_effect == 0.20, fertility_effect &lt; 0.80, dayspan == &quot;1:38&quot;, trait_effect == 0.3) %&gt;% 
+  ungroup() %&gt;% 
+  select(predictor, fertility_effect, nr_of_people,nr_days, power_01, power_05) %&gt;% arrange(fertility_effect, predictor, nr_of_people, nr_days) %&gt;% pander()</code></pre>
+<table>
+<colgroup>
+<col width="20%" />
+<col width="22%" />
+<col width="18%" />
+<col width="12%" />
+<col width="13%" />
+<col width="13%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">predictor</th>
+<th align="center">fertility_effect</th>
+<th align="center">nr_of_people</th>
+<th align="center">nr_days</th>
+<th align="center">power_01</th>
+<th align="center">power_05</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">prc_stirn_b_m</td>
+<td align="center">0.2</td>
+<td align="center">150</td>
+<td align="center">30</td>
+<td align="center">0.993</td>
+<td align="center">0.999</td>
+</tr>
+<tr class="even">
+<td align="center">prc_stirn_b_m</td>
+<td align="center">0.2</td>
+<td align="center">500</td>
+<td align="center">30</td>
+<td align="center">1</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">fertile_broad_m</td>
+<td align="center">0.2</td>
+<td align="center">150</td>
+<td align="center">30</td>
+<td align="center">0.843</td>
+<td align="center">0.949</td>
+</tr>
+<tr class="even">
+<td align="center">fertile_broad_m</td>
+<td align="center">0.2</td>
+<td align="center">500</td>
+<td align="center">30</td>
+<td align="center">1</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">fertile_narrow_m</td>
+<td align="center">0.2</td>
+<td align="center">150</td>
+<td align="center">30</td>
+<td align="center">0.839</td>
+<td align="center">0.94</td>
+</tr>
+<tr class="even">
+<td align="center">fertile_narrow_m</td>
+<td align="center">0.2</td>
+<td align="center">500</td>
+<td align="center">30</td>
+<td align="center">1</td>
+<td align="center">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="fertile-window-effect-.1" class="section level3">
+<h3>Fertile window effect .1</h3>
+<pre class="r"><code>power %&gt;% filter(miss_window == 0, nr_days == 30, nr_of_people %in% c(150,500), fertility_effect == 0.10, fertility_effect &lt; 0.80, dayspan == &quot;1:38&quot;, trait_effect == 0.3) %&gt;% 
+  ungroup() %&gt;% 
+  select(predictor, fertility_effect, nr_of_people,nr_days, power_01, power_05) %&gt;% arrange(fertility_effect, predictor, nr_of_people, nr_days) %&gt;% pander()</code></pre>
+<table>
+<colgroup>
+<col width="20%" />
+<col width="22%" />
+<col width="18%" />
+<col width="12%" />
+<col width="13%" />
+<col width="13%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">predictor</th>
+<th align="center">fertility_effect</th>
+<th align="center">nr_of_people</th>
+<th align="center">nr_days</th>
+<th align="center">power_01</th>
+<th align="center">power_05</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">prc_stirn_b_m</td>
+<td align="center">0.1</td>
+<td align="center">150</td>
+<td align="center">30</td>
+<td align="center">0.445</td>
+<td align="center">0.689</td>
+</tr>
+<tr class="even">
+<td align="center">prc_stirn_b_m</td>
+<td align="center">0.1</td>
+<td align="center">500</td>
+<td align="center">30</td>
+<td align="center">0.972</td>
+<td align="center">0.994</td>
+</tr>
+<tr class="odd">
+<td align="center">fertile_broad_m</td>
+<td align="center">0.1</td>
+<td align="center">150</td>
+<td align="center">30</td>
+<td align="center">0.199</td>
+<td align="center">0.414</td>
+</tr>
+<tr class="even">
+<td align="center">fertile_broad_m</td>
+<td align="center">0.1</td>
+<td align="center">500</td>
+<td align="center">30</td>
+<td align="center">0.746</td>
+<td align="center">0.895</td>
+</tr>
+<tr class="odd">
+<td align="center">fertile_narrow_m</td>
+<td align="center">0.1</td>
+<td align="center">150</td>
+<td align="center">30</td>
+<td align="center">0.205</td>
+<td align="center">0.435</td>
+</tr>
+<tr class="even">
+<td align="center">fertile_narrow_m</td>
+<td align="center">0.1</td>
+<td align="center">500</td>
+<td align="center">30</td>
+<td align="center">0.741</td>
+<td align="center">0.895</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="fertile-window-effect-.05" class="section level3">
+<h3>Fertile window effect .05</h3>
+<pre class="r"><code>power %&gt;% filter(miss_window == 0, nr_days == 30, nr_of_people %in% c(150,500), fertility_effect == 0.05, fertility_effect &lt; 0.80, dayspan == &quot;1:38&quot;, trait_effect == 0.3) %&gt;% 
+  ungroup() %&gt;% 
+  select(predictor, fertility_effect, nr_of_people,nr_days, power_01, power_05) %&gt;% arrange(fertility_effect, predictor, nr_of_people, nr_days) %&gt;% pander()</code></pre>
+<table>
+<colgroup>
+<col width="20%" />
+<col width="22%" />
+<col width="18%" />
+<col width="12%" />
+<col width="13%" />
+<col width="13%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">predictor</th>
+<th align="center">fertility_effect</th>
+<th align="center">nr_of_people</th>
+<th align="center">nr_days</th>
+<th align="center">power_01</th>
+<th align="center">power_05</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">prc_stirn_b_m</td>
+<td align="center">0.05</td>
+<td align="center">150</td>
+<td align="center">30</td>
+<td align="center">0.095</td>
+<td align="center">0.248</td>
+</tr>
+<tr class="even">
+<td align="center">prc_stirn_b_m</td>
+<td align="center">0.05</td>
+<td align="center">500</td>
+<td align="center">30</td>
+<td align="center">0.365</td>
+<td align="center">0.594</td>
+</tr>
+<tr class="odd">
+<td align="center">fertile_broad_m</td>
+<td align="center">0.05</td>
+<td align="center">150</td>
+<td align="center">30</td>
+<td align="center">0.041</td>
+<td align="center">0.137</td>
+</tr>
+<tr class="even">
+<td align="center">fertile_broad_m</td>
+<td align="center">0.05</td>
+<td align="center">500</td>
+<td align="center">30</td>
+<td align="center">0.183</td>
+<td align="center">0.387</td>
+</tr>
+<tr class="odd">
+<td align="center">fertile_narrow_m</td>
+<td align="center">0.05</td>
+<td align="center">150</td>
+<td align="center">30</td>
+<td align="center">0.046</td>
+<td align="center">0.141</td>
+</tr>
+<tr class="even">
+<td align="center">fertile_narrow_m</td>
+<td align="center">0.05</td>
+<td align="center">500</td>
+<td align="center">30</td>
+<td align="center">0.195</td>
+<td align="center">0.392</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="number-of-participants-versus-number-of-days" class="section level2">
+<h2>Number of participants versus number of days</h2>
+<p>What matters for power seems to be number of days in total, no matter whether this was achieved by sampling more people or more days per person. High sample sizes should be aimed for to show generalizability and if interindividual moderators are to be tested. However, to show a main effect, it is probably considerably cheaper to ask the same people more than twice. Costs are saved on time spent on interindividual questionnaires, screening, overhead per person etc.</p>
+<pre class="r"><code>power$n_days = power$nr_of_people * power$nr_days
+power %&gt;% 
+  filter(fertility_effect == 0.10, dayspan == &quot;1:38&quot;,  miss_window == 2, trait_effect == 0.3, predictor == &quot;prc_stirn_b_m&quot;) %&gt;%   
+ggplot(aes(x = n_days, y = power_01, color = factor(nr_of_people))) + 
+  geom_text(aes( label = paste0(nr_of_people, &quot;*&quot;, nr_days))) + 
+  scale_x_sqrt()</code></pre>
+<p><img src="1_power_analysis_files/figure-html/unnamed-chunk-7-1.png" width="1152" /></p>
+<pre class="r"><code>power$n_days = power$nr_of_people * power$nr_days
+power %&gt;% 
+  filter(fertility_effect == 0.10, dayspan == &quot;1:38&quot;,  miss_window == 2, predictor == &quot;prc_stirn_b_m&quot;) %&gt;%   
+ggplot(aes(x = n_days, y = power_05, color = factor(nr_of_people))) + 
+  geom_text(aes( label = paste0(nr_of_people, &quot;*&quot;, nr_days))) + 
+  facet_wrap(~ trait_effect) + 
+  scale_x_log10()</code></pre>
+<p><img src="1_power_analysis_files/figure-html/unnamed-chunk-8-1.png" width="1152" /></p>
+<pre class="r"><code>power %&gt;% 
+    filter(fertility_effect == 0.10, dayspan == &quot;1:38&quot;,  miss_window == 2, predictor == &quot;prc_stirn_b_m&quot;, trait_effect == 0.3) %&gt;%   
+    ggplot(aes(x = n_days, y = abs_misestimation, color = factor(nr_of_people))) + 
+    geom_text(aes( label = paste0(nr_of_people, &quot;*&quot;, nr_days))) + 
+    scale_x_log10() + scale_y_log10()</code></pre>
+<p><img src="1_power_analysis_files/figure-html/unnamed-chunk-9-1.png" width="1152" /></p>
+</div>
+<div id="capture-percentage" class="section level2">
+<h2>Capture percentage</h2>
+<p>I.e. when do we systematically under/overestimate. The main simulated contributor to underestimation is the number of days by which the day of ovulation is missed on average. Not simulated, but likely having a similar effect are</p>
+<ol style="list-style-type: decimal">
+<li>anovulatory cycles (due to e.g. stress) that are not excluded</li>
+<li>infertile women in the sample</li>
+<li>women with average cycle lengths other than those documented by e.g. Stirnemann</li>
+<li>mis-estimation in studies that have looked at conception risk by cycle day</li>
+</ol>
+<pre class="r"><code>power %&gt;% 
+  filter(fertility_effect == 0.30, dayspan == &quot;1:38&quot;, nr_of_people == 100, trait_effect == 0.3) %&gt;%   ggplot(aes(x = predictor, y = capture_95CI)) + 
+  geom_text(aes( label = format_digits(capture_95CI))) +
+  facet_grid(miss_window ~ nr_days) + theme_bw()</code></pre>
+<p><img src="1_power_analysis_files/figure-html/unnamed-chunk-10-1.png" width="1152" /></p>
+<div id="over-or-under" class="section level3">
+<h3>Over or under?</h3>
+<pre class="r"><code>power %&gt;% 
+  filter(fertility_effect == 0.30, dayspan == &quot;1:38&quot;, nr_of_people == 100, trait_effect == 0.3) %&gt;%   ggplot(aes(x = predictor, y = misestimation)) + 
+  geom_text(aes( label = format_digits(round(misestimation,2)))) +
+  facet_grid(miss_window ~ nr_days) + theme_bw() +
+  ylab(&quot;% of true effect size&quot;) +
+  ggtitle(&quot;Underestimation&quot;, subtitle = &quot;left-to-right: nr. of days, top-to-bottom: avg. distance to true window&quot;)</code></pre>
+<p><img src="1_power_analysis_files/figure-html/unnamed-chunk-11-1.png" width="1152" /></p>
+<p>for 30 days, 500 participants, missing the fertile window on average by four days</p>
+<pre class="r"><code>power %&gt;% 
+  filter(miss_window == 4, nr_days == 30, dayspan == &quot;1:38&quot;, nr_of_people == 500, trait_effect == 0.3) %&gt;%   ggplot(aes(x = predictor, y = misestimation)) + 
+  geom_text(aes( label = paste0(form(misestimation), &quot; [&quot;, form(misestimation_lo), &quot;;&quot;, form(misestimation_hi),&quot;]&quot;))) +
+  facet_grid(fertility_effect ~ .) + theme_bw() +
+  ylab(&quot;% of true effect size&quot;) +
+  ggtitle(&quot;Underestimation&quot;, subtitle = &quot;top-to-bottom: true fertility effect&quot;)</code></pre>
+<p><img src="1_power_analysis_files/figure-html/unnamed-chunk-12-1.png" width="1152" /></p>
+<pre class="r"><code>power %&gt;% 
+  filter(miss_window == 4, nr_days == 30, dayspan == &quot;1:38&quot;, nr_of_people == 500, trait_effect == 0.3) %&gt;%   ggplot(aes(x = predictor, y = abs_misestimation)) + 
+  geom_text(aes( label = format_digits(round(abs_misestimation,2)))) +
+  facet_grid(fertility_effect ~ .) + theme_bw() +
+  ylab(&quot;distance to true effect size&quot;) +
+  ggtitle(&quot;Underestimation&quot;, subtitle = &quot;top-to-bottom: true fertility effect&quot;)</code></pre>
+<p><img src="1_power_analysis_files/figure-html/unnamed-chunk-12-2.png" width="1152" /></p>
+<pre class="r"><code>sims %&gt;% 
+  filter(fertility_effect != 0, nr_of_people == 500, dayspan == &quot;1:38&quot;, nr_days == 30, trait_effect == 0.3, predictor == &#39;prc_stirn_b_m&#39;) %&gt;% 
+  group_by( nr_days, dayspan, miss_window, trait_effect, predictor) %&gt;%  # ,covariate_used, outcome, predictor, stopping.n
+  summarise(
+    misestimation = form(mean(estimate / fertility_effect, na.rm = T)),
+    misestimation_lo = form(quantile(estimate / fertility_effect, probs = 0.1, na.rm = T)),
+    misestimation_hi = form(quantile(estimate / fertility_effect, probs = 0.9, na.rm = T))
+    ) -&gt;
+  misest
+
+
+pander(misest %&gt;% ungroup() %&gt;% select(miss_window, starts_with(&quot;misestimation&quot;)))</code></pre>
+<table style="width:94%;">
+<colgroup>
+<col width="19%" />
+<col width="22%" />
+<col width="26%" />
+<col width="26%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">miss_window</th>
+<th align="center">misestimation</th>
+<th align="center">misestimation_lo</th>
+<th align="center">misestimation_hi</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">0</td>
+<td align="center">1.00</td>
+<td align="center">0.81</td>
+<td align="center">1.18</td>
+</tr>
+<tr class="even">
+<td align="center">1</td>
+<td align="center">0.98</td>
+<td align="center">0.79</td>
+<td align="center">1.18</td>
+</tr>
+<tr class="odd">
+<td align="center">2</td>
+<td align="center">0.90</td>
+<td align="center">0.68</td>
+<td align="center">1.14</td>
+</tr>
+<tr class="even">
+<td align="center">3</td>
+<td align="center">0.79</td>
+<td align="center">0.54</td>
+<td align="center">1.06</td>
+</tr>
+<tr class="odd">
+<td align="center">4</td>
+<td align="center">0.67</td>
+<td align="center">0.40</td>
+<td align="center">0.95</td>
+</tr>
+<tr class="even">
+<td align="center">6</td>
+<td align="center">0.46</td>
+<td align="center">0.14</td>
+<td align="center">0.79</td>
+</tr>
+<tr class="odd">
+<td align="center">8</td>
+<td align="center">0.30</td>
+<td align="center">-0.03</td>
+<td align="center">0.64</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

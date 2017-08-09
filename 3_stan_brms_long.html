@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title></title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-1.1/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+<script src="library/auto_tab_first_section.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="library/custom_styles.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 64px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+
+.section h2 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h3 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h4 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h5 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h6 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Fertility diary</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="1_power_analysis.html">Power analysis</a>
+</li>
+<li>
+  <a href="1_researcher_df_analysis.html">Researcher degree of freedom simulation</a>
+</li>
+<li>
+  <a href="1_wrangle_data.html">Data wrangling</a>
+</li>
+<li>
+  <a href="2_descriptives.html">Descriptives</a>
+</li>
+<li>
+  <a href="3_fertility_as_prereg.html">Preregistered analyses</a>
+</li>
+<li>
+  <a href="3_fertility_robustness.html">Robustness tests</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+
+</div>
+
+
+<div id="item-level-model-for-extra-pair-items" class="section level1 tab-content">
+<h1>Item-level model for extra-pair items</h1>
+<p><span style="background:red;width:20px;height:20px;display:inline-block;"></span> Cycling women (not on hormonal birth control)</p>
+<p><span style="background:black;width:20px;height:20px;display:inline-block;"></span> Women on hormonal birth control</p>
+<div id="load-data" class="section level2">
+<h2>Load data</h2>
+<pre class="r"><code>library(knitr)
+opts_chunk$set(fig.width = 12, fig.height = 12, cache = F, warning = F, message = F)</code></pre>
+<pre class="r"><code>library(formr); library(data.table); library(stringr); library(ggplot2); library(plyr); library(dplyr);library(car); library(psych);
+source(&quot;0_helpers.R&quot;)
+library(brms)
+load(&quot;full_data.rdata&quot;)
+diary$included = diary$included_all
+
+diary_long = diary %&gt;% group_by(person) %&gt;%
+  filter(!is.na(included_all), !is.na(fertile_fab)) %&gt;%
+  mutate(included = included_all,
+         fertile = fertile_fab,
+         fertile_mean = mean(fertile_fab, na.rm = T)) %&gt;%
+  select(person, menstruation, RCD_inferred, fertile_mean, fertile, fertile_fab, included, extra_pair_2, extra_pair_3, extra_pair_4, extra_pair_5, extra_pair_6, extra_pair_7, extra_pair_8, extra_pair_9, extra_pair_10, extra_pair_11, extra_pair_12, extra_pair_13) %&gt;%
+  tidyr::gather(variable, value, -person, -menstruation, -fertile_mean,-fertile, -fertile_fab, -included, -RCD_inferred)
+items = xlsx::read.xlsx(&quot;item_tables/Daily_items_bearbeitetAM.xlsx&quot;, 1)
+diary_long = diary_long %&gt;% left_join(items %&gt;% select(Item.name, Item), by = c(&quot;variable&quot; = &quot;Item.name&quot;))</code></pre>
+</div>
+<div id="splines-bc-adjusted" class="section level2 tab-content">
+<h2>Splines BC, adjusted</h2>
+<p>Splines over backward-counted cycle days, adjusting for menstruation and average fertility, allowing the menstruation and hormonal contraception dummy effects to vary by item.</p>
+<div id="model-summary" class="section level3">
+<h3>Model summary</h3>
+<pre class="r"><code>long_rcd = readRDS(&quot;3_brms_extra_pair_long_rcd.rds&quot;)
+summary(long_rcd)</code></pre>
+<pre><code>##  Family: cumulative(logit) 
+## Formula: value ~ included * menstruation + s(RCD_inferred, by = included) + fertile_mean + (1 | person) + (1 + included * menstruation | variable) 
+##          disc = 1
+##    Data: diary_long (Number of observations: 169380) 
+## Samples: 9 chains, each with iter = 2000; warmup = 1000; thin = 1; 
+##          total post-warmup samples = 9000
+##     ICs: LOO = 285281.18; WAIC = 285279.91
+##  
+## Smooth Terms: 
+##                                         Estimate Est.Error l-95% CI u-95% CI Eff.Sample Rhat
+## sds(sRCD_inferredincludedcycling_1)         0.82      0.39     0.34     1.85       2758    1
+## sds(sRCD_inferredincludedhorm_contra_1)     1.45      0.74     0.48     3.33       1916    1
+## 
+## Group-Level Effects: 
+## ~person (Number of levels: 723) 
+##               Estimate Est.Error l-95% CI u-95% CI Eff.Sample Rhat
+## sd(Intercept)     1.28      0.04     1.21     1.36        379 1.03
+## 
+## ~variable (Number of levels: 12) 
+##                                                                              Estimate Est.Error l-95% CI
+## sd(Intercept)                                                                    1.06      0.27     0.68
+## sd(includedhorm_contra)                                                          0.39      0.09     0.26
+## sd(menstruationpre)                                                              0.10      0.04     0.04
+## sd(menstruationyes)                                                              0.06      0.04     0.00
+## sd(includedhorm_contra:menstruationpre)                                          0.06      0.04     0.00
+## sd(includedhorm_contra:menstruationyes)                                          0.05      0.04     0.00
+## cor(Intercept,includedhorm_contra)                                               0.14      0.24    -0.34
+## cor(Intercept,menstruationpre)                                                   0.17      0.27    -0.37
+## cor(includedhorm_contra,menstruationpre)                                         0.41      0.26    -0.16
+## cor(Intercept,menstruationyes)                                                  -0.14      0.33    -0.72
+## cor(includedhorm_contra,menstruationyes)                                         0.33      0.32    -0.40
+## cor(menstruationpre,menstruationyes)                                             0.11      0.34    -0.58
+## cor(Intercept,includedhorm_contra:menstruationpre)                              -0.07      0.34    -0.70
+## cor(includedhorm_contra,includedhorm_contra:menstruationpre)                    -0.38      0.34    -0.88
+## cor(menstruationpre,includedhorm_contra:menstruationpre)                        -0.26      0.35    -0.83
+## cor(menstruationyes,includedhorm_contra:menstruationpre)                        -0.19      0.36    -0.80
+## cor(Intercept,includedhorm_contra:menstruationyes)                               0.00      0.36    -0.67
+## cor(includedhorm_contra,includedhorm_contra:menstruationyes)                     0.20      0.37    -0.56
+## cor(menstruationpre,includedhorm_contra:menstruationyes)                         0.02      0.37    -0.68
+## cor(menstruationyes,includedhorm_contra:menstruationyes)                         0.02      0.38    -0.69
+## cor(includedhorm_contra:menstruationpre,includedhorm_contra:menstruationyes)    -0.08      0.37    -0.74
+##                                                                              u-95% CI Eff.Sample Rhat
+## sd(Intercept)                                                                    1.70       1719 1.00
+## sd(includedhorm_contra)                                                          0.60       2374 1.00
+## sd(menstruationpre)                                                              0.19       2718 1.00
+## sd(menstruationyes)                                                              0.14       3226 1.00
+## sd(includedhorm_contra:menstruationpre)                                          0.14       3323 1.00
+## sd(includedhorm_contra:menstruationyes)                                          0.15       3908 1.00
+## cor(Intercept,includedhorm_contra)                                               0.59       2010 1.01
+## cor(Intercept,menstruationpre)                                                   0.66       4942 1.00
+## cor(includedhorm_contra,menstruationpre)                                         0.83       3670 1.00
+## cor(Intercept,menstruationyes)                                                   0.53       7701 1.00
+## cor(includedhorm_contra,menstruationyes)                                         0.83       6156 1.00
+## cor(menstruationpre,menstruationyes)                                             0.72       6871 1.00
+## cor(Intercept,includedhorm_contra:menstruationpre)                               0.60       9000 1.00
+## cor(includedhorm_contra,includedhorm_contra:menstruationpre)                     0.41       4495 1.00
+## cor(menstruationpre,includedhorm_contra:menstruationpre)                         0.49       5841 1.00
+## cor(menstruationyes,includedhorm_contra:menstruationpre)                         0.56       4930 1.00
+## cor(Intercept,includedhorm_contra:menstruationyes)                               0.68       9000 1.00
+## cor(includedhorm_contra,includedhorm_contra:menstruationyes)                     0.79       6421 1.00
+## cor(menstruationpre,includedhorm_contra:menstruationyes)                         0.71       9000 1.00
+## cor(menstruationyes,includedhorm_contra:menstruationyes)                         0.72       6973 1.00
+## cor(includedhorm_contra:menstruationpre,includedhorm_contra:menstruationyes)     0.64       6408 1.00
+## 
+## Population-Level Effects: 
+##                                     Estimate Est.Error l-95% CI u-95% CI Eff.Sample Rhat
+## Intercept[1]                            1.33      0.34     0.66     2.00        865 1.01
+## Intercept[2]                            1.79      0.34     1.13     2.47        865 1.01
+## Intercept[3]                            2.27      0.34     1.60     2.95        865 1.01
+## Intercept[4]                            3.18      0.34     2.51     3.86        864 1.01
+## Intercept[5]                            4.03      0.34     3.35     4.71        864 1.01
+## includedhorm_contra                    -0.20      0.16    -0.50     0.12        258 1.04
+## menstruationpre                        -0.07      0.06    -0.18     0.05       3409 1.00
+## menstruationyes                        -0.15      0.04    -0.24    -0.07       4173 1.00
+## fertile_mean                           -0.21      0.75    -1.75     1.24        389 1.04
+## includedhorm_contra:menstruationpre     0.09      0.07    -0.05     0.23       4126 1.00
+## includedhorm_contra:menstruationyes     0.09      0.06    -0.03     0.21       5662 1.00
+## sRCD_inferred:includedcycling_1        -0.04      0.17    -0.36     0.30       3264 1.00
+## sRCD_inferred:includedhorm_contra_1     0.16      0.30    -0.31     0.88       2096 1.00
+## 
+## Samples were drawn using sampling(NUTS). For each parameter, Eff.Sample 
+## is a crude measure of effective sample size, and Rhat is the potential 
+## scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
+</div>
+<div id="marginal-effect-plots" class="section level3">
+<h3>Marginal effect plots</h3>
+<pre class="r"><code># by_item = items %&gt;% select(Item.name, Item) %&gt;% unique()
+# rownames(by_item) = by_item$Item
+# marge = plot(marginal_effects(long_rcd, re_formula = ~ (1 + included * menstruation | variable), conditions = by_item), plot = F)
+# marge$`RCD_inferred:included` = marge$`RCD_inferred:included` + scale_x_reverse(limits = c(30,0)) + facet_wrap(~ cond__, scales = &quot;free_y&quot;)
+# marge
+
+smo = marginal_smooths(long_rcd)
+smo2 = smo$`mu: s(RCD_inferred,by=included)` %&gt;% mutate(included = as.character(included)) %&gt;% bind_rows(
+  diary %&gt;% mutate(
+    RCD_inferred = -1*RCD, included = &#39;conc&#39;,estimate__ = prc_stirn_b/1.2 - 0.25) %&gt;% 
+    select(included, RCD_inferred, estimate__) %&gt;% 
+    filter(RCD_inferred &lt; 30 ) %&gt;% unique())
+ggplot(smo2, aes(RCD_inferred, estimate__, color = included, fill = included, linetype = included)) + 
+  geom_ribbon(aes(ymin = lower__, ymax = upper__), alpha = 0.2, color = NA) +
+  geom_line(size = 0.8, stat = &quot;identity&quot;) +
+  scale_color_manual(&quot;&quot;, values = c(&quot;horm_contra&quot; = &quot;black&quot;, &quot;cycling&quot; = &quot;red&quot;, &quot;conc&quot; = &quot;#a83fbf&quot;), labels = c(&quot;horm_contra&quot;=&quot;hormonal contraception user&quot;,&quot;1&quot;=&quot;naturally cycling&quot;, &quot;conc&quot; = &quot;superimposed conception risk&quot;))+
+  scale_fill_manual(&quot;&quot;, values = c(&quot;horm_contra&quot; = &quot;black&quot;, &quot;cycling&quot; = &quot;red&quot;, &quot;conc&quot; = &quot;#a83fbf&quot;), labels = c(&quot;horm_contra&quot;=&quot;hormonal contraception user&quot;,&quot;1&quot;=&quot;naturally cycling&quot;, &quot;conc&quot; = &quot;superimposed conception risk&quot;)) +
+  scale_linetype_manual(values = c(&quot;horm_contra&quot; = &quot;solid&quot;, &quot;cycling&quot; = &quot;solid&quot;, &quot;conc&quot; = &quot;dashed&quot;), guide = F) +
+  scale_x_reverse() +
+  coord_cartesian(xlim = c(0,30), ylim = c(-0.25, 0.25))</code></pre>
+<p><img src="3_stan_brms_long_files/figure-html/unnamed-chunk-1-1.png" width="1152" /></p>
+</div>
+<div id="coefficient-plots" class="section level3">
+<h3>Coefficient plots</h3>
+<pre class="r"><code>bayesplot::mcmc_areas(as.matrix(long_rcd$fit), regex_pars = &quot;b_[^I]&quot;)</code></pre>
+<p><img src="3_stan_brms_long_files/figure-html/unnamed-chunk-2-1.png" width="1152" /></p>
+</div>
+<div id="diagnostic-plots" class="section level3">
+<h3>Diagnostic plots</h3>
+<pre class="r"><code>plot(long_rcd, type=&#39;coef&#39;)</code></pre>
+<p><img src="3_stan_brms_long_files/figure-html/unnamed-chunk-3-1.png" width="1152" /><img src="3_stan_brms_long_files/figure-html/unnamed-chunk-3-2.png" width="1152" /><img src="3_stan_brms_long_files/figure-html/unnamed-chunk-3-3.png" width="1152" /><img src="3_stan_brms_long_files/figure-html/unnamed-chunk-3-4.png" width="1152" /><img src="3_stan_brms_long_files/figure-html/unnamed-chunk-3-5.png" width="1152" /><img src="3_stan_brms_long_files/figure-html/unnamed-chunk-3-6.png" width="1152" /><img src="3_stan_brms_long_files/figure-html/unnamed-chunk-3-7.png" width="1152" /><img src="3_stan_brms_long_files/figure-html/unnamed-chunk-3-8.png" width="1152" /></p>
+<pre class="r"><code>brms::pp_check(long_rcd, re_formula = NA, type = &quot;dens_overlay&quot;)</code></pre>
+<p><img src="3_stan_brms_long_files/figure-html/unnamed-chunk-3-9.png" width="1152" /></p>
+</div>
+</div>
+<div id="splines-bc-not-adjusted" class="section level2 tab-content">
+<h2>Splines BC, not adjusted</h2>
+<p>Splines over backward-counted cycle days, not adjusting for menstruation.</p>
+<div id="model-summary-1" class="section level3">
+<h3>Model summary</h3>
+<pre class="r"><code>no_mens = readRDS(&quot;3_brms_extra_pair_long_rcd_no_mens.rds&quot;)
+summary(no_mens)</code></pre>
+<pre><code>##  Family: cumulative(logit) 
+## Formula: value ~ included + s(RCD_inferred, by = included) + fertile_mean + (1 | person) + (1 + included | variable) 
+##          disc = 1
+##    Data: diary_long (Number of observations: 169380) 
+## Samples: 6 chains, each with iter = 1500; warmup = 500; thin = 1; 
+##          total post-warmup samples = 6000
+##     ICs: LOO = 285311.81; WAIC = Not computed
+##  
+## Smooth Terms: 
+##                                         Estimate Est.Error l-95% CI u-95% CI Eff.Sample Rhat
+## sds(sRCD_inferredincludedcycling_1)         0.86      0.39     0.39     1.86       1982 1.00
+## sds(sRCD_inferredincludedhorm_contra_1)     1.26      0.64     0.44     2.85       1243 1.01
+## 
+## Group-Level Effects: 
+## ~person (Number of levels: 723) 
+##               Estimate Est.Error l-95% CI u-95% CI Eff.Sample Rhat
+## sd(Intercept)     1.28      0.04     1.21     1.36        307 1.04
+## 
+## ~variable (Number of levels: 12) 
+##                                    Estimate Est.Error l-95% CI u-95% CI Eff.Sample Rhat
+## sd(Intercept)                          1.00      0.25     0.64     1.61       1198    1
+## sd(includedhorm_contra)                0.41      0.11     0.26     0.66       1389    1
+## cor(Intercept,includedhorm_contra)     0.23      0.27    -0.33     0.70       1247    1
+## 
+## Population-Level Effects: 
+##                                     Estimate Est.Error l-95% CI u-95% CI Eff.Sample Rhat
+## Intercept[1]                            1.32      0.32     0.68     1.98        443 1.01
+## Intercept[2]                            1.79      0.32     1.15     2.44        443 1.01
+## Intercept[3]                            2.26      0.32     1.62     2.92        443 1.01
+## Intercept[4]                            3.17      0.32     2.53     3.83        443 1.01
+## Intercept[5]                            4.02      0.32     3.38     4.68        443 1.01
+## includedhorm_contra                    -0.18      0.15    -0.48     0.12        306 1.01
+## fertile_mean                           -0.23      0.75    -1.78     1.22        343 1.01
+## sRCD_inferred:includedcycling_1        -0.04      0.17    -0.35     0.30       2511 1.00
+## sRCD_inferred:includedhorm_contra_1     0.17      0.29    -0.27     0.87       1252 1.00
+## 
+## Samples were drawn using sampling(NUTS). For each parameter, Eff.Sample 
+## is a crude measure of effective sample size, and Rhat is the potential 
+## scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
+</div>
+<div id="marginal-effect-plots-1" class="section level3">
+<h3>Marginal effect plots</h3>
+<pre class="r"><code># by_item = items %&gt;% select(Item.name, Item) %&gt;% unique()
+# rownames(by_item) = by_item$Item
+# marge = plot(marginal_effects(no_mens, re_formula = ~ (1 + included * menstruation | variable), conditions = by_item), plot = F)
+# marge$`RCD_inferred:included` = marge$`RCD_inferred:included` + scale_x_reverse(limits = c(30,0)) + facet_wrap(~ cond__, scales = &quot;free_y&quot;)
+# marge
+
+smo = marginal_smooths(no_mens)
+smo2 = smo$`mu: s(RCD_inferred,by=included)` %&gt;% mutate(included = as.character(included)) %&gt;% bind_rows(
+  diary %&gt;% mutate(
+    RCD_inferred = -1*RCD, included = &#39;conc&#39;,estimate__ = prc_stirn_b/1.2 - 0.25) %&gt;% 
+    select(included, RCD_inferred, estimate__) %&gt;% 
+    filter(RCD_inferred &lt; 30 ) %&gt;% unique())
+ggplot(smo2, aes(RCD_inferred, estimate__, color = included, fill = included, linetype = included)) + 
+  geom_ribbon(aes(ymin = lower__, ymax = upper__), alpha = 0.2, color = NA) +
+  geom_line(size = 0.8, stat = &quot;identity&quot;) +
+  scale_color_manual(&quot;&quot;, values = c(&quot;horm_contra&quot; = &quot;black&quot;, &quot;cycling&quot; = &quot;red&quot;, &quot;conc&quot; = &quot;#a83fbf&quot;), labels = c(&quot;horm_contra&quot;=&quot;hormonal contraception user&quot;,&quot;1&quot;=&quot;naturally cycling&quot;, &quot;conc&quot; = &quot;superimposed conception risk&quot;))+
+  scale_fill_manual(&quot;&quot;, values = c(&quot;horm_contra&quot; = &quot;black&quot;, &quot;cycling&quot; = &quot;red&quot;, &quot;conc&quot; = &quot;#a83fbf&quot;), labels = c(&quot;horm_contra&quot;=&quot;hormonal contraception user&quot;,&quot;1&quot;=&quot;naturally cycling&quot;, &quot;conc&quot; = &quot;superimposed conception risk&quot;)) +
+  scale_linetype_manual(values = c(&quot;horm_contra&quot; = &quot;solid&quot;, &quot;cycling&quot; = &quot;solid&quot;, &quot;conc&quot; = &quot;dashed&quot;), guide = F) +
+  scale_x_reverse() +
+  coord_cartesian(xlim = c(0,30), ylim = c(-0.25, 0.25))</code></pre>
+<p><img src="3_stan_brms_long_files/figure-html/unnamed-chunk-5-1.png" width="1152" /></p>
+</div>
+<div id="coefficient-plots-1" class="section level3">
+<h3>Coefficient plots</h3>
+<pre class="r"><code>bayesplot::mcmc_areas(as.matrix(no_mens$fit), regex_pars = &quot;b_[^I]&quot;)</code></pre>
+<p><img src="3_stan_brms_long_files/figure-html/unnamed-chunk-6-1.png" width="1152" /></p>
+</div>
+<div id="diagnostic-plots-1" class="section level3">
+<h3>Diagnostic plots</h3>
+<pre class="r"><code>plot(no_mens, type=&#39;coef&#39;)</code></pre>
+<p><img src="3_stan_brms_long_files/figure-html/unnamed-chunk-7-1.png" width="1152" /><img src="3_stan_brms_long_files/figure-html/unnamed-chunk-7-2.png" width="1152" /><img src="3_stan_brms_long_files/figure-html/unnamed-chunk-7-3.png" width="1152" /></p>
+<pre class="r"><code>brms::pp_check(no_mens, re_formula = NA, type = &quot;dens_overlay&quot;)</code></pre>
+<p><img src="3_stan_brms_long_files/figure-html/unnamed-chunk-7-4.png" width="1152" /></p>
+</div>
+</div>
+<div id="model-comparison" class="section level2">
+<h2>Model comparison</h2>
+<pre class="r"><code>LOO(no_mens, long_rcd, compare = T)</code></pre>
+<pre><code>##                        LOOIC     SE
+## no_mens            285311.81 909.84
+## long_rcd           285281.18 909.83
+## no_mens - long_rcd     30.63  13.05</code></pre>
+</div>
+<div id="marginal-effect-plots-by-variable" class="section level2 tab-content">
+<h2>Marginal effect plots by variable</h2>
+<pre class="r"><code>long_by_i_p = readRDS(&quot;3_brms_extra_pair_long_fab_by_item_person.rds&quot;)
+summary(long_by_i_p)</code></pre>
+<pre><code>##  Family: cumulative(logit) 
+## Formula: value ~ included * (menstruation + fertile) + fertile_mean + (1 + menstruation + fertile | person) + (1 + included * (menstruation + fertile) | variable) 
+##          disc = 1
+##    Data: diary_long (Number of observations: 318528) 
+## Samples: 5 chains, each with iter = 1500; warmup = 1000; thin = 1; 
+##          total post-warmup samples = 2500
+##     ICs: LOO = 527142.38; WAIC = Not computed
+##  
+## Group-Level Effects: 
+## ~person (Number of levels: 1043) 
+##                                      Estimate Est.Error l-95% CI u-95% CI Eff.Sample Rhat
+## sd(Intercept)                            1.33      0.03     1.27     1.39        407 1.00
+## sd(menstruationpre)                      0.66      0.03     0.61     0.71       1086 1.00
+## sd(menstruationyes)                      0.72      0.03     0.66     0.77        905 1.01
+## sd(fertile)                              1.49      0.06     1.38     1.60        632 1.01
+## cor(Intercept,menstruationpre)          -0.19      0.05    -0.29    -0.10        977 1.01
+## cor(Intercept,menstruationyes)          -0.19      0.05    -0.28    -0.10        728 1.01
+## cor(menstruationpre,menstruationyes)     0.52      0.04     0.44     0.60        459 1.01
+## cor(Intercept,fertile)                  -0.25      0.04    -0.34    -0.17       1034 1.00
+## cor(menstruationpre,fertile)             0.43      0.04     0.34     0.52        445 1.01
+## cor(menstruationyes,fertile)             0.46      0.04     0.37     0.54        296 1.03
+## 
+## ~variable (Number of levels: 12) 
+##                                                                              Estimate Est.Error l-95% CI
+## sd(Intercept)                                                                    1.02      0.26     0.66
+## sd(includedhorm_contra)                                                          0.33      0.08     0.22
+## sd(menstruationpre)                                                              0.08      0.03     0.03
+## sd(menstruationyes)                                                              0.04      0.02     0.00
+## sd(fertile)                                                                      0.14      0.05     0.05
+## sd(includedhorm_contra:menstruationpre)                                          0.03      0.03     0.00
+## sd(includedhorm_contra:menstruationyes)                                          0.09      0.04     0.02
+## sd(includedhorm_contra:fertile)                                                  0.07      0.05     0.00
+## cor(Intercept,includedhorm_contra)                                               0.21      0.23    -0.26
+## cor(Intercept,menstruationpre)                                                   0.25      0.26    -0.29
+## cor(includedhorm_contra,menstruationpre)                                         0.34      0.24    -0.17
+## cor(Intercept,menstruationyes)                                                   0.05      0.31    -0.57
+## cor(includedhorm_contra,menstruationyes)                                         0.25      0.30    -0.40
+## cor(menstruationpre,menstruationyes)                                             0.20      0.32    -0.47
+## cor(Intercept,fertile)                                                           0.18      0.26    -0.36
+## cor(includedhorm_contra,fertile)                                                -0.39      0.24    -0.79
+## cor(menstruationpre,fertile)                                                    -0.20      0.28    -0.71
+## cor(menstruationyes,fertile)                                                    -0.11      0.31    -0.67
+## cor(Intercept,includedhorm_contra:menstruationpre)                              -0.07      0.34    -0.68
+## cor(includedhorm_contra,includedhorm_contra:menstruationpre)                    -0.13      0.33    -0.71
+## cor(menstruationpre,includedhorm_contra:menstruationpre)                        -0.14      0.34    -0.73
+## cor(menstruationyes,includedhorm_contra:menstruationpre)                        -0.05      0.33    -0.65
+## cor(fertile,includedhorm_contra:menstruationpre)                                 0.03      0.32    -0.60
+## cor(Intercept,includedhorm_contra:menstruationyes)                               0.06      0.28    -0.49
+## cor(includedhorm_contra,includedhorm_contra:menstruationyes)                     0.45      0.25    -0.16
+## cor(menstruationpre,includedhorm_contra:menstruationyes)                         0.08      0.29    -0.49
+## cor(menstruationyes,includedhorm_contra:menstruationyes)                         0.04      0.31    -0.56
+## cor(fertile,includedhorm_contra:menstruationyes)                                -0.11      0.29    -0.63
+## cor(includedhorm_contra:menstruationpre,includedhorm_contra:menstruationyes)    -0.04      0.33    -0.67
+## cor(Intercept,includedhorm_contra:fertile)                                       0.14      0.33    -0.54
+## cor(includedhorm_contra,includedhorm_contra:fertile)                             0.13      0.32    -0.53
+## cor(menstruationpre,includedhorm_contra:fertile)                                 0.18      0.32    -0.49
+## cor(menstruationyes,includedhorm_contra:fertile)                                 0.08      0.33    -0.58
+## cor(fertile,includedhorm_contra:fertile)                                        -0.20      0.33    -0.78
+## cor(includedhorm_contra:menstruationpre,includedhorm_contra:fertile)             0.04      0.32    -0.59
+## cor(includedhorm_contra:menstruationyes,includedhorm_contra:fertile)             0.11      0.33    -0.55
+##                                                                              u-95% CI Eff.Sample Rhat
+## sd(Intercept)                                                                    1.70        656 1.01
+## sd(includedhorm_contra)                                                          0.52       1006 1.01
+## sd(menstruationpre)                                                              0.16       1293 1.00
+## sd(menstruationyes)                                                              0.09       1258 1.00
+## sd(fertile)                                                                      0.26       1788 1.00
+## sd(includedhorm_contra:menstruationpre)                                          0.10       2007 1.00
+## sd(includedhorm_contra:menstruationyes)                                          0.17       1461 1.00
+## sd(includedhorm_contra:fertile)                                                  0.19       1529 1.00
+## cor(Intercept,includedhorm_contra)                                               0.61       1051 1.00
+## cor(Intercept,menstruationpre)                                                   0.70       2500 1.00
+## cor(includedhorm_contra,menstruationpre)                                         0.75       2047 1.00
+## cor(Intercept,menstruationyes)                                                   0.63       2500 1.00
+## cor(includedhorm_contra,menstruationyes)                                         0.76       2500 1.00
+## cor(menstruationpre,menstruationyes)                                             0.75       2500 1.00
+## cor(Intercept,fertile)                                                           0.64       2500 1.00
+## cor(includedhorm_contra,fertile)                                                 0.12       2500 1.00
+## cor(menstruationpre,fertile)                                                     0.37       2500 1.00
+## cor(menstruationyes,fertile)                                                     0.51       1770 1.00
+## cor(Intercept,includedhorm_contra:menstruationpre)                               0.59       2500 1.00
+## cor(includedhorm_contra,includedhorm_contra:menstruationpre)                     0.55       2500 1.00
+## cor(menstruationpre,includedhorm_contra:menstruationpre)                         0.53       2500 1.00
+## cor(menstruationyes,includedhorm_contra:menstruationpre)                         0.58       2500 1.00
+## cor(fertile,includedhorm_contra:menstruationpre)                                 0.64       2500 1.00
+## cor(Intercept,includedhorm_contra:menstruationyes)                               0.58       2500 1.00
+## cor(includedhorm_contra,includedhorm_contra:menstruationyes)                     0.84       2500 1.00
+## cor(menstruationpre,includedhorm_contra:menstruationyes)                         0.63       2500 1.00
+## cor(menstruationyes,includedhorm_contra:menstruationyes)                         0.66       2500 1.00
+## cor(fertile,includedhorm_contra:menstruationyes)                                 0.48       2500 1.00
+## cor(includedhorm_contra:menstruationpre,includedhorm_contra:menstruationyes)     0.58       2030 1.00
+## cor(Intercept,includedhorm_contra:fertile)                                       0.73       2500 1.00
+## cor(includedhorm_contra,includedhorm_contra:fertile)                             0.70       2500 1.00
+## cor(menstruationpre,includedhorm_contra:fertile)                                 0.75       2500 1.00
+## cor(menstruationyes,includedhorm_contra:fertile)                                 0.67       2500 1.00
+## cor(fertile,includedhorm_contra:fertile)                                         0.49       2500 1.00
+## cor(includedhorm_contra:menstruationpre,includedhorm_contra:fertile)             0.65       1587 1.00
+## cor(includedhorm_contra:menstruationyes,includedhorm_contra:fertile)             0.70       2500 1.00
+## 
+## Population-Level Effects: 
+##                                     Estimate Est.Error l-95% CI u-95% CI Eff.Sample Rhat
+## Intercept[1]                            1.33      0.31     0.75     1.96        498 1.01
+## Intercept[2]                            1.78      0.31     1.20     2.41        498 1.01
+## Intercept[3]                            2.25      0.31     1.67     2.88        498 1.01
+## Intercept[4]                            3.17      0.31     2.60     3.81        497 1.01
+## Intercept[5]                            4.00      0.31     3.42     4.64        498 1.01
+## includedhorm_contra                    -0.29      0.14    -0.56    -0.01        246 1.02
+## menstruationpre                        -0.24      0.05    -0.35    -0.14        862 1.00
+## menstruationyes                        -0.20      0.05    -0.29    -0.10        652 1.00
+## fertile                                 0.25      0.11     0.05     0.46        953 1.00
+## fertile_mean                            0.03      0.43    -0.83     0.83        481 1.01
+## includedhorm_contra:menstruationpre     0.15      0.06     0.04     0.27        903 1.00
+## includedhorm_contra:menstruationyes     0.18      0.06     0.06     0.31        806 1.00
+## includedhorm_contra:fertile            -0.28      0.13    -0.54    -0.04        705 1.01
+## 
+## Samples were drawn using sampling(NUTS). For each parameter, Eff.Sample 
+## is a crude measure of effective sample size, and Rhat is the potential 
+## scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
+<pre class="r"><code>newd = diary_long %&gt;% select(included, fertile, variable) %&gt;% unique()
+newd$fertile_mean = 0.1
+newd$menstruation = diary$menstruation[3]
+# newd$value = 1
+# newd$person = 10
+# newd$day_number = 1
+predicted = fitted(long_by_i_p, newdata = newd, re_formula = ~ (1 + fertile | variable), summary = F)
+multiply_by_level = rep(sort(unique(long_by_i_p$data$value)), each = dim(predicted)[1] * dim(predicted)[2])
+dim(multiply_by_level) = dim(predicted)
+predicted = predicted * multiply_by_level
+response = apply(predicted, MARGIN = c(1:2), FUN = sum)
+newd$Estimate = apply(response, MARGIN = 2, FUN = mean)
+intervals = apply(response, MARGIN = 2, FUN = function(x) { quantile(x, probs = c(0.025,0.975)) })
+newd$lower = unlist(intervals[1, ])
+newd$upper = unlist(intervals[2, ])
+
+vartolabel = &quot;&#39;extra_pair_2&#39;=&#39;wichtig, dass mich andere Männer als attraktiv wahrnehmen.&#39;;
+&#39;extra_pair_3&#39;=&#39;Komplimente von anderen Männern erhalten.&#39;;
+&#39;extra_pair_4&#39;=&#39;via Medien mit Freunden, Bekannten oder Kollegen geflirtet.&#39;;
+&#39;extra_pair_5&#39;=&#39;ohne meinen Partner ausgegangen.&#39;;
+&#39;extra_pair_6&#39;=&#39;ohne meinen Partner an einen Ort gegangen, wo man Männer treffen kann.&#39;;
+&#39;extra_pair_7&#39;=&#39;mir Gedanken über einen anderen potentiellen Partner gemacht.&#39;;
+&#39;extra_pair_8&#39;=&#39;mit Männern geflirtet, die ich nicht kannte.&#39;;
+&#39;extra_pair_9&#39;=&#39;mit Freunden, Kollegen oder Bekannten geflirtet.&#39;;
+&#39;extra_pair_10&#39;=&#39;mich zu einem Freund, Bekannten oder Kollegen hingezogen gefühlt&#39;;
+&#39;extra_pair_11&#39;=&#39;mich zu einem Mann hingezogen gefühlt, den ich nicht kannte.&#39;;
+&#39;extra_pair_12&#39;=&#39;sind mir attraktive Männer in meiner Umgebung aufgefallen.&#39;;
+&#39;extra_pair_13&#39;=&#39;sexuelle Fantasien mit anderen Männern als meinem Partner.&#39;;
+&#39;desirability_1&#39;=&#39;habe ich mich sexuell begehrenswert gefühlt.&#39;;
+&#39;desirability_partner&#39;=&#39;fand ich meinen Partner besonders sexuell anziehend.&#39;;
+&#39;sexual_intercourse_1&#39;=&#39;Lust, mit Ihrem Partner Geschlechtsverkehr zu haben&#39;&quot;
+vartolabel = &quot;&#39;extra_pair_2&#39;=&#39;important that other men find me attractive&#39;;
+&#39;extra_pair_3&#39;=&#39;received compliments from other men&#39;;
+&#39;extra_pair_4&#39;=&#39;flirted with friends, acquaintances or colleagues via media&#39;;
+&#39;extra_pair_5&#39;=&#39;went out without my partner&#39;;
+&#39;extra_pair_6&#39;=&#39;went to a place where one can meet men without my partner&#39;;
+&#39;extra_pair_7&#39;=&#39;thought about a different potential partner&#39;;
+&#39;extra_pair_8&#39;=&#39;flirted with men I didn\\&#39;t know&#39;;
+&#39;extra_pair_9&#39;=&#39;flirted with friends, acquaintances or colleagues&#39;;
+&#39;extra_pair_10&#39;=&#39;felt attracted to a friend, acquaintance or colleague&#39;;
+&#39;extra_pair_11&#39;=&#39;felt attracted to a man I didn\\&#39;t know&#39;;
+&#39;extra_pair_12&#39;=&#39;noticed attractive men around me&#39;;
+&#39;extra_pair_13&#39;=&#39;had sexual fantasies about men other than my partner&#39;;
+&#39;desirability_1&#39;=&#39;felt sexually desirable&#39;;
+&#39;desirability_partner&#39;=&#39;found my partner particularly sexually attractive&#39;;
+&#39;sexual_intercourse_1&#39;=&#39;wanted to have sex with my partner&#39;&quot;
+newd$label = car::Recode(newd$variable, vartolabel)
+newd$label = stringr::str_wrap(newd$label, width = 40)</code></pre>
+<div id="flexible-y-axis" class="section level3">
+<h3>Flexible y-axis</h3>
+<pre class="r"><code>ggplot(newd, aes(x = fertile, y = Estimate, colour = included)) + 
+  geom_smooth(aes(ymin = lower, ymax = upper), stat = &quot;identity&quot;,  show.legend = FALSE) +  scale_colour_manual(&quot;&quot;, values = c(&quot;cycling&quot;=&quot;red&quot;,&quot;horm_contra&quot;=&quot;black&quot;)) + 
+  facet_wrap(~ label, scales = &quot;free_y&quot;, ncol = 3)</code></pre>
+<p><img src="3_stan_brms_long_files/figure-html/marg.by.var-1.png" width="1920" /></p>
+</div>
+<div id="fixed-y-axis" class="section level3">
+<h3>Fixed y-axis</h3>
+<pre class="r"><code>ggplot(newd, aes(x = fertile, y = Estimate, colour = included)) + 
+  geom_smooth(aes(ymin = lower, ymax = upper), stat = &quot;identity&quot;,  show.legend = FALSE) +  scale_colour_manual(&quot;&quot;, values = c(&quot;cycling&quot;=&quot;red&quot;,&quot;horm_contra&quot;=&quot;black&quot;)) + 
+  facet_wrap(~ label, ncol = 3)</code></pre>
+<p><img src="3_stan_brms_long_files/figure-html/unnamed-chunk-10-1.png" width="1152" /></p>
+</div>
+<div id="table" class="section level3">
+<h3>Table</h3>
+<pre class="r"><code>fixefs = broom::tidy(long_by_i_p)
+by_var = ranef(long_by_i_p)$variable
+fertile_by_var = by_var[,,&quot;fertile&quot;] %&gt;% data.frame(check.names = F) %&gt;%  tibble::rownames_to_column(&quot;variable&quot;) %&gt;% 
+  mutate(mean = fixefs %&gt;% filter(term==&#39;b_fertile&#39;) %&gt;% .[[&quot;estimate&quot;]])
+hc_fertile_by_var = by_var[,,&quot;includedhorm_contra:fertile&quot;] %&gt;% data.frame(check.names = F) %&gt;%  tibble::rownames_to_column(&quot;variable&quot;) %&gt;% mutate(mean = fixefs %&gt;% filter(term==&#39;b_includedhorm_contra:fertile&#39;) %&gt;% .[[&quot;estimate&quot;]])
+fertile_by_var = bind_rows(cycling = fertile_by_var, `HC user` = hc_fertile_by_var, .id = &quot;included&quot;)
+
+fertile_by_var$label = stringr::str_wrap(car::Recode(fertile_by_var$variable, vartolabel), width = 40)
+ggplot(fertile_by_var, aes(x = label, y = Estimate + mean, ymin = `2.5%ile` + mean, ymax = `97.5%ile` + mean, color = included)) +
+  geom_pointrange(position = position_dodge(width = 0.5)) + 
+  coord_flip() + 
+  scale_color_manual(values = c(&quot;cycling&quot; = &quot;red&quot;, &quot;HC user&quot; = &quot;black&quot;)) +
+  geom_hline(aes(yintercept = mean, group = included, color = included), linetype = &#39;dashed&#39;)</code></pre>
+<p><img src="3_stan_brms_long_files/figure-html/unnamed-chunk-11-1.png" width="1152" /></p>
+</div>
+</div>
+<div id="marginal-effects-by-person" class="section level2">
+<h2>Marginal effects by person</h2>
+<pre class="r"><code>rand500 = sample(unique(long_by_i_p$data$person), size = 200)
+newd = unique(long_by_i_p$data[, c(&quot;included&quot;, &quot;fertile&quot;, &quot;person&quot;)]) %&gt;% filter(person %in% rand500)
+newd$fertile_mean = 0.1
+newd$menstruation = diary$menstruation[3]
+predicted = fitted(long_by_i_p, newdata = newd, re_formula = ~ (1 + fertile  | person), summary = F)
+
+multiply_by_level = rep(1:dim(predicted)[3], each = dim(predicted)[1] * dim(predicted)[2])
+dim(multiply_by_level) = dim(predicted)
+predicted = predicted * multiply_by_level
+response = apply(predicted, MARGIN = c(1:2), FUN = sum)
+newd$Estimate = apply(response, MARGIN = 2, FUN = mean)
+newd$Estimate = apply(response, MARGIN = 2, FUN = mean)
+intervals = apply(response, MARGIN = 2, FUN = function(x) { quantile(x, probs = c(0.025,0.975)) })
+newd$lower = unlist(intervals[1, ])
+newd$upper = unlist(intervals[2, ])
+
+newd %&gt;% arrange(person, fertile) -&gt; newd
+newd$Estimate2 = newd$Estimate - ave(newd$Estimate, newd$person, FUN = function(x) { head(x,1) })
+
+ggplot(newd, aes(x = fertile, y = Estimate2, colour = included)) + 
+  geom_line(aes(group = person), alpha = 0.05, stat = &quot;identity&quot;,  show.legend = FALSE) + 
+  scale_colour_manual(&quot;&quot;, values = c(&quot;cycling&quot;=&quot;red&quot;,&quot;horm_contra&quot;=&quot;black&quot;)) +
+  facet_wrap(~ included) + 
+  geom_line(stat = &#39;smooth&#39;, method = &#39;lm&#39;, size = 1, show.legend = FALSE) +
+  ggtitle(&quot;Individual differences in ovulatory shifts&quot;) +
+  ylab(&quot;Shift (across outcomes)&quot;)</code></pre>
+<p><img src="3_stan_brms_long_files/figure-html/marg.by.person-1.png" width="1920" /></p>
+</div>
+<div id="item-level-raw-means-over-cycle-days" class="section level2">
+<h2>Item-level raw means over cycle days</h2>
+<pre class="r"><code>theme_henrik &lt;- function(grid=TRUE, legend.position=NA) {
+  th &lt;- ggplot2::theme_minimal(base_size = 12)
+  
+  th &lt;- th + theme(text = element_text(color=&#39;#333333&#39;))
+  
+  th &lt;- th + theme(legend.background = element_blank())
+  th &lt;- th + theme(legend.key = element_blank())
+  
+  # Straight out of hrbrthemes
+  if (inherits(grid, &quot;character&quot;) | grid == TRUE) {
+    th &lt;- th + theme(panel.grid=element_line(color=&quot;#cccccc&quot;, size=0.3))
+    th &lt;- th + theme(panel.grid.major=element_line(color=&quot;#cccccc&quot;, size=0.3))
+    th &lt;- th + theme(panel.grid.minor=element_line(color=&quot;#cccccc&quot;, size=0.15))
+    
+    if (inherits(grid, &quot;character&quot;)) {
+      if (regexpr(&quot;X&quot;, grid)[1] &lt; 0) th &lt;- th + theme(panel.grid.major.x=element_blank())
+      if (regexpr(&quot;Y&quot;, grid)[1] &lt; 0) th &lt;- th + theme(panel.grid.major.y=element_blank())
+      if (regexpr(&quot;x&quot;, grid)[1] &lt; 0) th &lt;- th + theme(panel.grid.minor.x=element_blank())
+      if (regexpr(&quot;y&quot;, grid)[1] &lt; 0) th &lt;- th + theme(panel.grid.minor.y=element_blank())
+    }
+    
+  } else {
+    th &lt;- th + theme(panel.grid=element_blank())
+  }
+  
+  th &lt;- th + theme(axis.text = element_text())
+  th &lt;- th + theme(axis.ticks = element_blank())
+  
+  th &lt;- th + theme(axis.text.x=element_text(margin=margin(t=0.5)))
+  th &lt;- th + theme(axis.text.y=element_text(margin=margin(r=0.5)))
+  
+  th &lt;- th + theme(plot.title = element_text(),
+                   plot.subtitle = element_text(margin=margin(b=15)),
+                   plot.caption = element_text(face=&#39;italic&#39;, size=10))
+  
+  if (!is.na(legend.position)) th &lt;- th + theme(legend.position = legend.position)
+  
+  return (th)
+}
+
+diary %&gt;% group_by(person) %&gt;%
+    filter(!is.na(fertile_fab), !is.na(included_all), 
+         RCD &gt; -1 * minimum_cycle_length_diary, RCD &gt; -29) %&gt;% 
+  filter(!is.na(included_all), !is.na(fertile_fab)) %&gt;%
+  mutate(included = included_all,
+         fertile_mean = mean(fertile_fab, na.rm = T)) %&gt;%
+  select(person, n_days, menstruation, RCD_inferred, fertile_mean, fertile_fab, included, extra_pair_2, extra_pair_3, extra_pair_4, extra_pair_5, extra_pair_6, extra_pair_7, extra_pair_8, extra_pair_9, extra_pair_10, extra_pair_11, extra_pair_12, extra_pair_13, desirability_partner, desirability_1, sexual_intercourse_1, attention_2
+         # ,extra_pair, in_pair_desire
+         ) %&gt;%
+  tidyr::gather(variable, value, -person, -menstruation, -fertile_mean, -fertile_fab, -included, -RCD_inferred, -n_days) %&gt;% 
+  left_join(items %&gt;% select(Item.name, Item), by = c(&quot;variable&quot; = &quot;Item.name&quot;)) %&gt;%
+  mutate(RCD_inferred = -1* RCD_inferred + 1, variable = factor(str_wrap(str_sub(Item,4),40))) %&gt;% 
+  filter(!is.na(value), RCD_inferred &gt; -29) %&gt;% 
+  group_by(included, person, variable) %&gt;% 
+  mutate(value = value - min(value),
+         value = value / max(value)) %&gt;% 
+  group_by(included, Item, variable, RCD_inferred) %&gt;% 
+  summarise(value = mean(value, na.rm = T)) %&gt;% 
+  group_by(included, variable) %&gt;% 
+  arrange(RCD_inferred) %&gt;%
+  mutate(
+        value_min = value - min(value),
+        p_peak = value_min / max(value_min), # Normalize as percentage of peak popularity
+         p_smooth = (
+           coalesce(lag(p_peak), p_peak[RCD_inferred==0]) + p_peak + coalesce(lead(p_peak), p_peak[RCD_inferred==-28])) / 3 # Moving average, accounting for cyclical nature
+        ) %&gt;% # When there&#39;s no lag or lead, we get NA. Use the pointwise data
+  group_by(included) %&gt;%
+  mutate(variable = reorder(variable, p_smooth, FUN=which.max)) %&gt;% # order by peak time
+  arrange(variable) %&gt;%
+  mutate(variable.f = reorder(as.character(variable), desc(variable))) -&gt;
+  item_timeseries</code></pre>
+<pre class="r"><code>ts_plot = item_timeseries %&gt;%
+  filter(!is.na(included)) %&gt;% 
+    {
+        items &lt;- levels(.$variable)
+        
+        ggplot(., aes(x = RCD_inferred, group = variable.f, fill = factor(paste0(included,as.integer(variable.f) %% 2)))) +
+            geom_ribbon(aes(ymin = as.integer(variable), ymax = as.integer(variable) + 2 * (p_smooth)), color=&#39;white&#39;, size=0.4) +
+            scale_x_continuous(&quot;Days until next menstruation&quot;, breaks = c(-0,-7,-14,-21,-28), labels = c(&quot;0&quot;,&quot;7&quot;,&quot;14&quot;,&quot;21&quot;,&quot;28&quot;)) +
+            # &quot;Re-add&quot; activities by names as labels in the Y scale
+            scale_y_continuous(breaks = 1:length(items) + 0.4, labels = function(y) {items[y]})+ 
+            # Zebra color for readability; will change colors of labels in Inkscape later
+            scale_fill_manual(values = c(&#39;horm_contra0&#39; = &#39;#444444&#39;, &#39;horm_contra1&#39; = &#39;#222222&#39;, &#39;cycling0&#39; = &#39;#F13B0E&#39;, &#39;cycling1&#39; = &#39;#B7320E&#39;))+
+            ggtitle(&quot;&quot;) +
+            theme_henrik(grid=&#39;&#39;, legend.position=&#39;none&#39;) + 
+            theme(
+                axis.ticks.x = element_line(size=0.3),
+                axis.ticks.y = element_line(size=0.3),
+                axis.text.y = element_text(size = 10))+
+          facet_wrap(~ included, labeller = labeller(included = c(`cycling` = &#39;Naturally cycling&#39;, `horm_contra` = &#39;Hormonal contraceptive user&#39;))) + 
+
+      geom_segment(aes(x = if_else(included==&quot;cycling&quot;,-14,NA_real_), xend = if_else(included==&quot;cycling&quot;,-14,NA_real_)), color = &#39;darkred&#39;, linetype = &#39;dashed&#39;, y = 0.7, yend = 17.7)+
+      geom_text(data = data.frame(included = &#39;cycling&#39;, variable.f = 1, RCD_inferred = -14), label = &#39;est. day of ovulation&#39;, color = &#39;darkred&#39;, y = 0.5)
+    }
+ggsave(ts_plot, file = &quot;item_timeseries.pdf&quot;, width = 10, height = 10)
+ts_plot</code></pre>
+<p><img src="3_stan_brms_long_files/figure-html/unnamed-chunk-13-1.png" width="1152" /></p>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

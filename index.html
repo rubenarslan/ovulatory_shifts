@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Ovulatory shifts and relationship dynamics</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-1.1/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+<script src="library/auto_tab_first_section.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="library/custom_styles.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 64px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+
+.section h2 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h3 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h4 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h5 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h6 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Fertility diary</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="1_power_analysis.html">Power analysis</a>
+</li>
+<li>
+  <a href="1_researcher_df_analysis.html">Researcher degree of freedom simulation</a>
+</li>
+<li>
+  <a href="1_wrangle_data.html">Data wrangling</a>
+</li>
+<li>
+  <a href="2_descriptives.html">Descriptives</a>
+</li>
+<li>
+  <a href="3_fertility_as_prereg.html">Preregistered analyses</a>
+</li>
+<li>
+  <a href="3_fertility_robustness.html">Robustness tests</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+
+</div>
+
+
+<div id="ovulatory-cycle-shifts-and-relationship-dynamics" class="section level1 tab-content">
+<h1>Ovulatory cycle shifts <small>and relationship dynamics</small></h1>
+<p><span style="background:red;width:20px;height:20px;display:inline-block;"></span> Cycling women (not on hormonal birth control)</p>
+<p><span style="background:black;width:20px;height:20px;display:inline-block;"></span> Women on hormonal birth control</p>
+<div id="shifts" class="section level2">
+<h2>Shifts</h2>
+<div class="row">
+<div class="col-md-6">
+<p><a href="3_fertility_robustness.html"><img src="library/curves_paper.png"><br></a></p>
+</div>
+<div class="col-md-6">
+<p><a href='https://en.wikipedia.org/wiki/Ovulation'> <img alt='ovulation curve' src='https://upload.wikimedia.org/wikipedia/commons/2/2a/MenstrualCycle2_en.svg' style="width:100%"> </a></p>
+</div>
+</div>
+</div>
+<div id="table-of-contents" class="section level2">
+<h2>Table of contents</h2>
+<div id="simulation" class="section level3">
+<h3>Simulation</h3>
+<p><a href="1_power_analysis.html">Power analysis</a>, <a href="1_power_simulation.html">cluster script</a></p>
+<p><a href="1_researcher_df_analysis.html">Researcher degrees of freedom analysis</a>, <a href="1_researcher_df.html">cluster script</a></p>
+</div>
+<div id="empirical-data" class="section level3">
+<h3>Empirical data</h3>
+<p><a href="1_blake_data.html">Blake et al. re-analysis</a></p>
+<p><a href="1_wrangle_data.html">Data wrangling</a></p>
+<p><a href="2_descriptives.html">Descriptives</a></p>
+<p><a href="3_fertility_as_prereg.html">Pre-registered analyses</a></p>
+<p><a href="3_fertility_robustness.html">Robustness analyses</a></p>
+<p><a href="3_stan_brms_long.html">Bayesian item-level ordinal models for extra-pair desire and behaviour)</a></p>
+<p><a href="4_stan_brms_by_item.html">Bayesian item-level ordinal models (separate by item)</a></p>
+<p><a href="4_curve_plot.html">Curve plot for paper</a></p>
+<p><a href="4_compare_in_pair_extra_pair_effect_size.html">Compare in- vs. extra-pair desire vs. libido explanations</a></p>
+<p><a href="5_anonymise_data.html">Data anonymisation procedure</a></p>
+</div>
+<div id="helpers" class="section level3">
+<h3>Helpers</h3>
+<p>In this document, all <a href="0_helpers.html">Helper functions</a> that are used throughout, are documented. These are the <a href=".Rprofile.html">.Rprofile settings</a></p>
+<p>The statistical models for each outcome were documented in a standardised fashion using the rmarkdown component files:</p>
+<ul>
+<li><a href="_pre_reg_model.html">Preregistered model summaries</a></li>
+<li><a href="_pre_reg_moderators.html">Preregistered moderators analyses</a></li>
+<li><a href="_robustness_model.html">Robustness checks</a></li>
+<li><a href="_moderators.html">Robustness check moderators analyses</a></li>
+<li><a href="_plot_curve.html">Curve smooths</a></li>
+</ul>
+</div>
+</div>
+<div id="authors-acknowledgements" class="section level2">
+<h2>Authors &amp; Acknowledgements</h2>
+<p>XXX</p>
+<div id="acknowledgements" class="section level3">
+<h3>Acknowledgements</h3>
+<p>XXX thanks <a href="https://www.uni-muenster.de/PsyIFP/AEHolling/personen/buerkner.html">Paul-Christian Bürkner</a>, author of brms, and <a href="http://ms.mcmaster.ca/~bolker/">Ben Bolker</a>, co-author of lme4, for their statistical packages and advice on using them.</p>
+</div>
+<div id="package-bibliography" class="section level3">
+<h3>Package bibliography</h3>
+<div id="session-info-with-package-versions" class="section level4 accordion">
+<h4>Session info (with package versions)</h4>
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>## R version 3.3.2 (2016-10-31)
+## Platform: x86_64-apple-darwin13.4.0 (64-bit)
+## Running under: OS X El Capitan 10.11.6
+## 
+## locale:
+## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## loaded via a namespace (and not attached):
+##  [1] Rcpp_0.12.11     packrat_0.4.8-22 digest_0.6.12    rprojroot_1.2   
+##  [5] plyr_1.8.4       grid_3.3.2       gtable_0.2.0     backports_1.0.5 
+##  [9] formr_0.6.10     magrittr_1.5     scales_0.4.1     evaluate_0.10   
+## [13] ggplot2_2.2.1    rlang_0.1.1      stringi_1.1.5    lazyeval_0.2.0  
+## [17] rmarkdown_1.6    tools_3.3.2      stringr_1.2.0    munsell_0.4.3   
+## [21] yaml_2.1.14      colorspace_1.3-2 htmltools_0.3.5  knitr_1.15.1    
+## [25] tibble_1.3.3</code></pre>
+</div>
+<div id="package-references" class="section level4 unnumbered">
+<h4>Package references</h4>
+<div id="refs" class="references">
+<div id="ref-rmarkdown">
+<p>Allaire, J., Cheng, J., Xie, Y., McPherson, J., Chang, W., Allen, J., … Arslan, R. (2017). <em>rmarkdown: Dynamic documents for R</em>. Retrieved from <a href="https://CRAN.R-project.org/package=rmarkdown" class="uri">https://CRAN.R-project.org/package=rmarkdown</a></p>
+</div>
+<div id="ref-foreach">
+<p>Analytics, R., &amp; Weston, S. (2015). <em>foreach: Provides foreach looping construct for R</em>. Retrieved from <a href="https://CRAN.R-project.org/package=foreach" class="uri">https://CRAN.R-project.org/package=foreach</a></p>
+</div>
+<div id="ref-ggthemes">
+<p>Arnold, J. B. (2016). <em>ggthemes: Extra themes, scales and geoms for ’ggplot2’</em>. Retrieved from <a href="https://CRAN.R-project.org/package=ggthemes" class="uri">https://CRAN.R-project.org/package=ggthemes</a></p>
+</div>
+<div id="ref-formr">
+<p>Arslan, R. (2014). <em>formr: Formr survey framework</em>.</p>
+</div>
+<div id="ref-lme4">
+<p>Bates, D., Mächler, M., Bolker, B., &amp; Walker, S. (2015). Fitting linear mixed-effects models using lme4. <em>Journal of Statistical Software</em>, <em>67</em>, 1–48. doi:<a href="https://doi.org/10.18637/jss.v067.i01">10.18637/jss.v067.i01</a></p>
+</div>
+<div id="ref-GPArotation">
+<p>Bernaards, C. A., &amp; I.Jennrich, R. (2005). Gradient projection algorithms and software for arbitrary rotation criteria in factor analysis. <em>Educational and Psychological Measurement</em>, <em>65</em>, 676–696.</p>
+</div>
+<div id="ref-brms">
+<p>Bürkner, P.-C. (in press). brms: An R package for bayesian multilevel models using stan. <em>Journal of Statistical Software</em>.</p>
+</div>
+<div id="ref-leaflet">
+<p>Cheng, J., &amp; Xie, Y. (2016). <em>leaflet: Create interactive web maps with the javascript ’leaflet’ library</em>. Retrieved from <a href="https://CRAN.R-project.org/package=leaflet" class="uri">https://CRAN.R-project.org/package=leaflet</a></p>
+</div>
+<div id="ref-pander">
+<p>Daróczi, G., &amp; Tsegelskyi, R. (2015). <em>pander: An R pandoc writer</em>. Retrieved from <a href="https://CRAN.R-project.org/package=pander" class="uri">https://CRAN.R-project.org/package=pander</a></p>
+</div>
+<div id="ref-data.table">
+<p>Dowle, M., &amp; Srinivasan, A. (2016). <em>data.table: Extension of ‘data.frame‘</em>. Retrieved from <a href="https://CRAN.R-project.org/package=data.table" class="uri">https://CRAN.R-project.org/package=data.table</a></p>
+</div>
+<div id="ref-xlsx">
+<p>Dragulescu, A. A. (2014). <em>xlsx: Read, write, format excel 2007 and excel 97/2000/xp/2003 files</em>. Retrieved from <a href="https://CRAN.R-project.org/package=xlsx" class="uri">https://CRAN.R-project.org/package=xlsx</a></p>
+</div>
+<div id="ref-effects">
+<p>Fox, J. (2003). Effect displays in R for generalised linear models. <em>Journal of Statistical Software</em>, <em>8</em>, 1–27. Retrieved from <a href="http://www.jstatsoft.org/v08/i15/" class="uri">http://www.jstatsoft.org/v08/i15/</a></p>
+</div>
+<div id="ref-car">
+<p>Fox, J., &amp; Weisberg, S. (2011). <em>An R companion to applied regression</em> (Second.). Thousand Oaks CA: Sage. Retrieved from <a href="http://socserv.socsci.mcmaster.ca/jfox/Books/Companion" class="uri">http://socserv.socsci.mcmaster.ca/jfox/Books/Companion</a></p>
+</div>
+<div id="ref-bayesplot">
+<p>Gabry, J. (2017). bayesplot: Plotting for Bayesian models. Retrieved from <a href="http://mc-stan.org/" class="uri">http://mc-stan.org/</a></p>
+</div>
+<div id="ref-lubridate">
+<p>Grolemund, G., &amp; Wickham, H. (2011). Dates and times made easy with lubridate. <em>Journal of Statistical Software</em>, <em>40</em>, 1–25. Retrieved from <a href="http://www.jstatsoft.org/v40/i03/" class="uri">http://www.jstatsoft.org/v40/i03/</a></p>
+</div>
+<div id="ref-Hmisc">
+<p>Harrell Jr, F. E., Charles Dupont, &amp; others. (2016). <em>Hmisc: Harrell miscellaneous</em>. Retrieved from <a href="https://CRAN.R-project.org/package=Hmisc" class="uri">https://CRAN.R-project.org/package=Hmisc</a></p>
+</div>
+<div id="ref-lmerTest">
+<p>Kuznetsova, A., Bruun Brockhoff, P., &amp; Haubo Bojesen Christensen, R. (2016). <em>lmerTest: Tests in linear mixed effects models</em>. Retrieved from <a href="https://CRAN.R-project.org/package=lmerTest" class="uri">https://CRAN.R-project.org/package=lmerTest</a></p>
+</div>
+<div id="ref-sjPlot">
+<p>Lüdecke, D. (2017). <em>sjPlot: Data visualization for statistics in social science</em>. Retrieved from <a href="https://CRAN.R-project.org/package=sjPlot" class="uri">https://CRAN.R-project.org/package=sjPlot</a></p>
+</div>
+<div id="ref-tibble">
+<p>Müller, K., &amp; Wickham, H. (2017). <em>tibble: Simple data frames</em>. Retrieved from <a href="https://CRAN.R-project.org/package=tibble" class="uri">https://CRAN.R-project.org/package=tibble</a></p>
+</div>
+<div id="ref-jsonlite">
+<p>Ooms, J. (2014). The jsonlite package: A practical and consistent mapping between json data and R objects. <em>arXiv:1403.2805 [stat.CO]</em>. Retrieved from <a href="https://arxiv.org/abs/1403.2805" class="uri">https://arxiv.org/abs/1403.2805</a></p>
+</div>
+<div id="ref-nlme">
+<p>Pinheiro, J., Bates, D., DebRoy, S., Sarkar, D., &amp; R Core Team. (2017). <em>nlme: Linear and nonlinear mixed effects models</em>. Retrieved from <a href="https://CRAN.R-project.org/package=nlme" class="uri">https://CRAN.R-project.org/package=nlme</a></p>
+</div>
+<div id="ref-R">
+<p>R Core Team. (2016). <em>R: A language and environment for statistical computing</em>. Vienna, Austria: R Foundation for Statistical Computing. Retrieved from <a href="https://www.R-project.org/" class="uri">https://www.R-project.org/</a></p>
+</div>
+<div id="ref-compute.es">
+<p>Re, A. C. D. (2013). <em>compute.es: Compute effect sizes</em>. <em>R Package</em>. Retrieved from <a href="http://cran.r-project.org/web/packages/compute.es" class="uri">http://cran.r-project.org/web/packages/compute.es</a></p>
+</div>
+<div id="ref-psych">
+<p>Revelle, W. (2017). <em>psych: Procedures for psychological, psychometric, and personality research</em>. Evanston, Illinois: Northwestern University. Retrieved from <a href="https://CRAN.R-project.org/package=psych" class="uri">https://CRAN.R-project.org/package=psych</a></p>
+</div>
+<div id="ref-broom">
+<p>Robinson, D. (2017). <em>broom: Convert statistical analysis objects into tidy data frames</em>. Retrieved from <a href="https://CRAN.R-project.org/package=broom" class="uri">https://CRAN.R-project.org/package=broom</a></p>
+</div>
+<div id="ref-RSA">
+<p>Schönbrodt, F. D. (2016). <em>RSA: An R package for response surface analysis (version 0.9.10)</em>. Retrieved from <a href="https://cran.r-project.org/package=RSA" class="uri">https://cran.r-project.org/package=RSA</a></p>
+</div>
+<div id="ref-jmv">
+<p>Selker, R., Love, J., &amp; Dropmann, D. (2017). <em>jmv: The ’jamovi’ analyses</em>. Retrieved from <a href="https://CRAN.R-project.org/package=jmv" class="uri">https://CRAN.R-project.org/package=jmv</a></p>
+</div>
+<div id="ref-afex">
+<p>Singmann, H., Bolker, B., Westfall, J., &amp; Aust, F. (2016). <em>afex: Analysis of factorial experiments</em>. Retrieved from <a href="https://CRAN.R-project.org/package=afex" class="uri">https://CRAN.R-project.org/package=afex</a></p>
+</div>
+<div id="ref-DiagrammeR">
+<p>Sveidqvist, K., Bostock, M., Pettitt, C., Daines, M., Kashcha, A., &amp; Iannone, R. (2017). <em>DiagrammeR: Create graph diagrams and flowcharts using R</em>. Retrieved from <a href="https://CRAN.R-project.org/package=DiagrammeR" class="uri">https://CRAN.R-project.org/package=DiagrammeR</a></p>
+</div>
+<div id="ref-effsize">
+<p>Torchiano, M. (2017). <em>effsize: Efficient effect size computation</em>. Retrieved from <a href="https://CRAN.R-project.org/package=effsize" class="uri">https://CRAN.R-project.org/package=effsize</a></p>
+</div>
+<div id="ref-Cairo">
+<p>Urbanek, S., &amp; Horner, J. (2015). <em>Cairo: R graphics device using cairo graphics library for creating high-quality bitmap (png, jpeg, tiff), vector (pdf, svg, postscript) and display (x11 and win32) output</em>. Retrieved from <a href="https://CRAN.R-project.org/package=Cairo" class="uri">https://CRAN.R-project.org/package=Cairo</a></p>
+</div>
+<div id="ref-packrat">
+<p>Ushey, K., McPherson, J., Cheng, J., Atkins, A., &amp; Allaire, J. (2016). <em>packrat: A dependency management system for projects and their R package dependencies</em>. Retrieved from <a href="https://CRAN.R-project.org/package=packrat" class="uri">https://CRAN.R-project.org/package=packrat</a></p>
+</div>
+<div id="ref-htmlwidgets">
+<p>Vaidyanathan, R., Xie, Y., Allaire, J., Cheng, J., &amp; Russell, K. (2016). <em>htmlwidgets: HTML widgets for R</em>. Retrieved from <a href="https://CRAN.R-project.org/package=htmlwidgets" class="uri">https://CRAN.R-project.org/package=htmlwidgets</a></p>
+</div>
+<div id="ref-nnet">
+<p>Venables, W. N., &amp; Ripley, B. D. (2002a). <em>Modern applied statistics with s</em> (Fourth.). New York: Springer. Retrieved from <a href="http://www.stats.ox.ac.uk/pub/MASS4" class="uri">http://www.stats.ox.ac.uk/pub/MASS4</a></p>
+</div>
+<div id="ref-MASS">
+<p>Venables, W. N., &amp; Ripley, B. D. (2002b). <em>Modern applied statistics with s</em> (Fourth.). New York: Springer. Retrieved from <a href="http://www.stats.ox.ac.uk/pub/MASS4" class="uri">http://www.stats.ox.ac.uk/pub/MASS4</a></p>
+</div>
+<div id="ref-metafor">
+<p>Viechtbauer, W. (2010). Conducting meta-analyses in R with the metafor package. <em>Journal of Statistical Software</em>, <em>36</em>, 1–48. Retrieved from <a href="http://www.jstatsoft.org/v36/i03/" class="uri">http://www.jstatsoft.org/v36/i03/</a></p>
+</div>
+<div id="ref-KernSmooth">
+<p>Wand, M. (2015). <em>KernSmooth: Functions for kernel smoothing supporting wand &amp; jones (1995)</em>. Retrieved from <a href="https://CRAN.R-project.org/package=KernSmooth" class="uri">https://CRAN.R-project.org/package=KernSmooth</a></p>
+</div>
+<div id="ref-doMPI">
+<p>Weston, S. (2014). <em>doMPI: Foreach parallel adaptor for the rmpi package</em>. Retrieved from <a href="https://CRAN.R-project.org/package=doMPI" class="uri">https://CRAN.R-project.org/package=doMPI</a></p>
+</div>
+<div id="ref-reshape2">
+<p>Wickham, H. (2007). Reshaping data with the reshape package. <em>Journal of Statistical Software</em>, <em>21</em>, 1–20. Retrieved from <a href="http://www.jstatsoft.org/v21/i12/" class="uri">http://www.jstatsoft.org/v21/i12/</a></p>
+</div>
+<div id="ref-ggplot2">
+<p>Wickham, H. (2009). <em>ggplot2: Elegant graphics for data analysis</em>. Springer-Verlag New York. Retrieved from <a href="http://ggplot2.org" class="uri">http://ggplot2.org</a></p>
+</div>
+<div id="ref-plyr">
+<p>Wickham, H. (2011). The split-apply-combine strategy for data analysis. <em>Journal of Statistical Software</em>, <em>40</em>, 1–29. Retrieved from <a href="http://www.jstatsoft.org/v40/i01/" class="uri">http://www.jstatsoft.org/v40/i01/</a></p>
+</div>
+<div id="ref-dtplyr">
+<p>Wickham, H. (2016a). <em>dtplyr: Data table back-end for ’dplyr’</em>. Retrieved from <a href="https://CRAN.R-project.org/package=dtplyr" class="uri">https://CRAN.R-project.org/package=dtplyr</a></p>
+</div>
+<div id="ref-httr">
+<p>Wickham, H. (2016b). <em>httr: Tools for working with urls and http</em>. Retrieved from <a href="https://CRAN.R-project.org/package=httr" class="uri">https://CRAN.R-project.org/package=httr</a></p>
+</div>
+<div id="ref-scales">
+<p>Wickham, H. (2016c). <em>scales: Scale functions for visualization</em>. Retrieved from <a href="https://CRAN.R-project.org/package=scales" class="uri">https://CRAN.R-project.org/package=scales</a></p>
+</div>
+<div id="ref-lazyeval">
+<p>Wickham, H. (2016d). <em>lazyeval: Lazy (non-standard) evaluation</em>. Retrieved from <a href="https://CRAN.R-project.org/package=lazyeval" class="uri">https://CRAN.R-project.org/package=lazyeval</a></p>
+</div>
+<div id="ref-stringr">
+<p>Wickham, H. (2017a). <em>stringr: Simple, consistent wrappers for common string operations</em>. Retrieved from <a href="https://CRAN.R-project.org/package=stringr" class="uri">https://CRAN.R-project.org/package=stringr</a></p>
+</div>
+<div id="ref-tidyr">
+<p>Wickham, H. (2017b). <em>tidyr: Easily tidy data with ’spread()’ and ’gather()’ functions</em>. Retrieved from <a href="https://CRAN.R-project.org/package=tidyr" class="uri">https://CRAN.R-project.org/package=tidyr</a></p>
+</div>
+<div id="ref-devtools">
+<p>Wickham, H., &amp; Chang, W. (2016). <em>devtools: Tools to make developing R packages easier</em>. Retrieved from <a href="https://CRAN.R-project.org/package=devtools" class="uri">https://CRAN.R-project.org/package=devtools</a></p>
+</div>
+<div id="ref-dplyr">
+<p>Wickham, H., &amp; Francois, R. (2016). <em>dplyr: A grammar of data manipulation</em>. Retrieved from <a href="https://CRAN.R-project.org/package=dplyr" class="uri">https://CRAN.R-project.org/package=dplyr</a></p>
+</div>
+<div id="ref-haven">
+<p>Wickham, H., &amp; Miller, E. (2016). <em>haven: Import and export ’spss’, ’stata’ and ’sas’ files</em>. Retrieved from <a href="https://CRAN.R-project.org/package=haven" class="uri">https://CRAN.R-project.org/package=haven</a></p>
+</div>
+<div id="ref-svglite">
+<p>Wickham, H., Henry, L., Luciani, T. J., Decorde, M., &amp; Lise, V. (2016). <em>svglite: An ’svg’ graphics device</em>. Retrieved from <a href="https://CRAN.R-project.org/package=svglite" class="uri">https://CRAN.R-project.org/package=svglite</a></p>
+</div>
+<div id="ref-readr">
+<p>Wickham, H., Hester, J., &amp; Francois, R. (2016). <em>readr: Read tabular data</em>. Retrieved from <a href="https://CRAN.R-project.org/package=readr" class="uri">https://CRAN.R-project.org/package=readr</a></p>
+</div>
+<div id="ref-extrafont">
+<p>Winston Chang. (2014). <em>extrafont: Tools for using fonts</em>. Retrieved from <a href="https://CRAN.R-project.org/package=extrafont" class="uri">https://CRAN.R-project.org/package=extrafont</a></p>
+</div>
+<div id="ref-mgcv">
+<p>Wood, S. N. (2011). Fast stable restricted maximum likelihood and marginal likelihood estimation of semiparametric generalized linear models. <em>Journal of the Royal Statistical Society (B)</em>, <em>73</em>, 3–36.</p>
+</div>
+<div id="ref-knitr">
+<p>Xie, Y. (2016a). <em>knitr: A general-purpose package for dynamic report generation in R</em>. Retrieved from <a href="http://yihui.name/knitr/" class="uri">http://yihui.name/knitr/</a></p>
+</div>
+<div id="ref-formatR">
+<p>Xie, Y. (2016b). <em>formatR: Format R code automatically</em>. Retrieved from <a href="https://CRAN.R-project.org/package=formatR" class="uri">https://CRAN.R-project.org/package=formatR</a></p>
+</div>
+<div id="ref-DT">
+<p>Xie, Y. (2016c). <em>DT: A wrapper of the javascript library ’datatables’</em>. Retrieved from <a href="https://CRAN.R-project.org/package=DT" class="uri">https://CRAN.R-project.org/package=DT</a></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

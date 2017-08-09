@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+<title></title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: visible; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+
+<style type = "text/css">
+body {
+  margin-top: 45px;
+}
+.main-container {
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+</style>
+
+
+<script src="library/auto_tab_first_section.js"></script>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+
+</head>
+
+<body>
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Fertility diary</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="1_power_analysis.html">Power analysis</a>
+</li>
+<li>
+  <a href="1_researcher_df_analysis.html">Researcher degree of freedom simulation</a>
+</li>
+<li>
+  <a href="1_wrangle_data.html">Data wrangling</a>
+</li>
+<li>
+  <a href="2_descriptives.html">Descriptives</a>
+</li>
+<li>
+  <a href="3_fertility_as_prereg.html">Preregistered analyses</a>
+</li>
+<li>
+  <a href="3_fertility_robustness.html">Robustness tests</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="container-fluid main-container">
+
+
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">outcome =<span class="st"> </span><span class="kw">names</span>(model@frame)[<span class="dv">1</span>]
+outcome_label =<span class="st"> </span><span class="kw">recode</span>(<span class="kw">str_replace_all</span>(<span class="kw">str_replace_all</span>(<span class="kw">str_replace_all</span>(outcome, <span class="st">&quot;_&quot;</span>, <span class="st">&quot; &quot;</span>), <span class="st">&quot; pair&quot;</span>, <span class="st">&quot;-pair&quot;</span>), <span class="st">&quot; 1&quot;</span>, <span class="st">&quot;&quot;</span>), 
+                       <span class="st">&quot;desirability 1&quot;</span> =<span class="st"> &quot;self-perceived desirability&quot;</span>,
+                       <span class="st">&quot;NARQ admiration&quot;</span> =<span class="st"> &quot;narcissistic admiration&quot;</span>,
+                       <span class="st">&quot;NARQ rivalry&quot;</span> =<span class="st"> &quot;narcissistic rivalry&quot;</span>,
+                       <span class="st">&quot;extra-pair&quot;</span> =<span class="st"> &quot;extra-pair desire &amp; behaviour&quot;</span>,
+                       <span class="st">&quot;had sexual intercourse&quot;</span> =<span class="st"> &quot;sexual intercourse&quot;</span>)
+
+<span class="kw">library</span>(ggplot2)
+
+<span class="co"># form a subset and run the model without the hormonal contraception and the fertility predictors</span>
+tmp =<span class="st"> </span>diary %&gt;%
+<span class="st">  </span><span class="kw">filter</span>(!<span class="kw">is.na</span>(fertile), !<span class="kw">is.na</span>(included),
+         RCD &gt;<span class="st"> </span>-<span class="dv">1</span> *<span class="st"> </span>minimum_cycle_length_diary, RCD &gt;<span class="st"> </span>-<span class="dv">40</span>)
+
+new_form =<span class="st"> </span><span class="kw">update.formula</span>(<span class="kw">formula</span>(model), <span class="dt">new =</span> . ~<span class="st"> </span>. -<span class="st"> </span>fertile *<span class="st"> </span>included)
+tmp$residuals =<span class="st"> </span><span class="kw">residuals</span>(<span class="kw">update</span>(model, new_form, <span class="dt">data =</span> tmp , <span class="dt">na.action =</span> na.exclude))
+
+tmp =<span class="st"> </span>tmp %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">filter</span>(!<span class="kw">is.na</span>(RCD), !<span class="kw">is.na</span>(residuals))
+rcd_min =<span class="st"> </span><span class="kw">min</span>(tmp$RCD)
+
+tmp$real =<span class="st"> </span><span class="ot">FALSE</span>
+tmp_before =<span class="st"> </span>tmp
+tmp_before$RCD =<span class="st"> </span>tmp_before$RCD +<span class="st"> </span><span class="kw">min</span>(tmp$RCD) -<span class="st"> </span><span class="dv">1</span>
+tmp_after =<span class="st"> </span>tmp
+tmp_after$RCD =<span class="st"> </span>tmp_after$RCD -<span class="st"> </span><span class="kw">min</span>(tmp$RCD) +<span class="st"> </span><span class="dv">1</span>
+tmp$real =<span class="st"> </span><span class="ot">TRUE</span>
+tmp =<span class="st"> </span><span class="kw">bind_rows</span>(tmp_before %&gt;%<span class="st"> </span><span class="kw">filter</span>(RCD &gt;<span class="st"> </span>rcd_min -<span class="st"> </span><span class="dv">11</span>), tmp, tmp_after %&gt;%<span class="st"> </span><span class="kw">filter</span>(RCD &lt;<span class="st"> </span><span class="dv">11</span>))</code></pre></div>
+<div id="gam-smooth-on-residuals" class="section level6">
+<h6>GAM smooth on residuals</h6>
+<p>Here, we partialled out menstruation and individual random effects, then superimposed estimated conception risk scaled to the range of the estimated means. To address the periodicity of the cycle, we prepended and appended ten days of the timeseries to the end and the beginning of the timeseries. We then estimated the GAM and cut off the appended subsets before plotting.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tryCatch</span>({
+  trend_plot =<span class="st"> </span><span class="kw">ggplot</span>(tmp,<span class="kw">aes</span>(<span class="dt">x =</span> RCD, <span class="dt">y =</span> residuals, <span class="dt">colour =</span> included)) +
+<span class="st">    </span><span class="kw">stat_smooth</span>(<span class="dt">geom =</span> <span class="st">&#39;smooth&#39;</span>,<span class="dt">size =</span> <span class="fl">0.8</span>, <span class="dt">fill =</span> <span class="st">&quot;#9ECAE1&quot;</span>, <span class="dt">method =</span> <span class="st">&#39;gam&#39;</span>, <span class="dt">formula =</span> y ~<span class="st"> </span><span class="kw">s</span>(x))
+}, <span class="dt">error =</span> function(e){<span class="kw">cat_message</span>(e, <span class="st">&quot;danger&quot;</span>)})
+
+<span class="kw">tryCatch</span>({
+  trend_data =<span class="st"> </span><span class="kw">ggplot_build</span>(trend_plot)$data[[<span class="dv">1</span>]]
+}, <span class="dt">error =</span> function(e){<span class="kw">cat_message</span>(e, <span class="st">&quot;danger&quot;</span>)})
+
+trend_data$RCD =<span class="st"> </span><span class="kw">round</span>(trend_data$x)
+trend_data =<span class="st"> </span><span class="kw">left_join</span>(trend_data, tmp %&gt;%<span class="st"> </span><span class="kw">select</span>(real, RCD,fertile) %&gt;%<span class="st"> </span><span class="kw">unique</span>(), <span class="dt">by =</span> <span class="st">&quot;RCD&quot;</span>)
+trend_data %&gt;%
+<span class="st">  </span><span class="kw">filter</span>(real ==<span class="st"> </span><span class="ot">TRUE</span>) %&gt;%
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">superimposed =</span> ( ( (fertile -<span class="st"> </span><span class="fl">0.01</span>)/<span class="fl">0.58</span>) *<span class="st"> </span>(<span class="kw">max</span>(y)-<span class="kw">min</span>(y) ) ) +<span class="st"> </span><span class="kw">min</span>(y) ) -&gt;
+<span class="st">  </span>trend_data
+
+
+
+<span class="kw">ggplot</span>(trend_data) +
+<span class="st">  </span><span class="kw">geom_ribbon</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">ymin =</span> ymin, <span class="dt">ymax =</span> ymax,  <span class="dt">fill =</span> <span class="kw">factor</span>(group)), <span class="dt">alpha =</span> <span class="fl">0.2</span>) +
+<span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">colour =</span> <span class="kw">factor</span>(group)), <span class="dt">size =</span> <span class="fl">0.8</span>, <span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>) +
+<span class="st">  </span><span class="kw">scale_x_continuous</span>(caption_x) +
+<span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> superimposed), <span class="dt">color =</span> <span class="st">&quot;#a83fbf&quot;</span>, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">linetype =</span> <span class="st">&#39;dashed&#39;</span>) +
+<span class="st">  </span><span class="kw">annotate</span>(<span class="st">&quot;text&quot;</span>,<span class="dt">x =</span> <span class="kw">mean</span>(trend_data$x),  <span class="dt">y =</span> <span class="kw">max</span>(trend_data$superimposed,<span class="dt">na.rm=</span>T) +<span class="st"> </span><span class="fl">0.1</span>, <span class="dt">label =</span> <span class="st">&#39;superimposed fertility peak&#39;</span>, <span class="dt">color =</span> <span class="st">&quot;#a83fbf&quot;</span>) +
+<span class="st">  </span><span class="kw">scale_y_continuous</span>(outcome_label) +
+<span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;GAM smooth, residuals&quot;</span>) +
+<span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="st">&quot;Contraception status&quot;</span>,<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;2&quot;</span>=<span class="st">&quot;black&quot;</span>,<span class="st">&quot;1&quot;</span>=<span class="st"> &quot;red&quot;</span>), <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;2&quot;</span>=<span class="st">&quot;hormonally</span><span class="ch">\n</span><span class="st">contracepting&quot;</span>,<span class="st">&quot;1&quot;</span>=<span class="st">&quot;cycling&quot;</span>), <span class="dt">guide =</span> F) +
+<span class="st">  </span><span class="kw">scale_fill_manual</span>(<span class="st">&quot;Contraception status&quot;</span>,<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;2&quot;</span>=<span class="st">&quot;black&quot;</span>,<span class="st">&quot;1&quot;</span>=<span class="st"> &quot;red&quot;</span>), <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;2&quot;</span>=<span class="st">&quot;hormonally</span><span class="ch">\n</span><span class="st">contracepting&quot;</span>,<span class="st">&quot;1&quot;</span>=<span class="st">&quot;cycling&quot;</span>), <span class="dt">guide =</span> F)</code></pre></div>
+</div>
+<div id="gam-smooth-on-raw-data" class="section level6">
+<h6>GAM smooth on raw data</h6>
+<p>As before, but without partialling anything out.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tryCatch</span>({
+  trend_plot =<span class="st"> </span><span class="kw">ggplot</span>(tmp,<span class="kw">aes_string</span>(<span class="dt">x =</span> <span class="st">&quot;RCD&quot;</span>, <span class="dt">y =</span> outcome, <span class="dt">colour =</span> <span class="st">&quot;included&quot;</span>)) +
+<span class="st">    </span><span class="kw">stat_smooth</span>(<span class="dt">geom =</span> <span class="st">&#39;smooth&#39;</span>,<span class="dt">size =</span> <span class="fl">0.8</span>, <span class="dt">fill =</span> <span class="st">&quot;#9ECAE1&quot;</span>, <span class="dt">method =</span> <span class="st">&#39;gam&#39;</span>, <span class="dt">formula =</span> y ~<span class="st"> </span><span class="kw">s</span>(x))
+}, <span class="dt">error =</span> function(e){<span class="kw">cat_message</span>(e, <span class="st">&quot;danger&quot;</span>)})
+
+<span class="kw">tryCatch</span>({
+  trend_data =<span class="st"> </span><span class="kw">ggplot_build</span>(trend_plot)$data[[<span class="dv">1</span>]]
+}, <span class="dt">error =</span> function(e){<span class="kw">cat_message</span>(e, <span class="st">&quot;danger&quot;</span>)})
+
+trend_data$RCD =<span class="st"> </span><span class="kw">round</span>(trend_data$x)
+trend_data =<span class="st"> </span><span class="kw">left_join</span>(trend_data, tmp %&gt;%<span class="st"> </span><span class="kw">select</span>(real, RCD,fertile) %&gt;%<span class="st"> </span><span class="kw">unique</span>(), <span class="dt">by =</span> <span class="st">&quot;RCD&quot;</span>)
+trend_data %&gt;%
+<span class="st">  </span><span class="kw">filter</span>(real ==<span class="st"> </span><span class="ot">TRUE</span>) %&gt;%
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">superimposed =</span> ( ( (fertile -<span class="st"> </span><span class="fl">0.01</span>)/<span class="fl">0.58</span>) *<span class="st"> </span>(<span class="kw">max</span>(y)-<span class="kw">min</span>(y) ) ) +<span class="st"> </span><span class="kw">min</span>(y) ) -&gt;
+<span class="st">  </span>trend_data
+
+plot1b =<span class="st"> </span><span class="kw">ggplot</span>(trend_data) +
+<span class="st">  </span><span class="kw">geom_ribbon</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">ymin =</span> ymin, <span class="dt">ymax =</span> ymax,  <span class="dt">fill =</span> <span class="kw">factor</span>(group)), <span class="dt">alpha =</span> <span class="fl">0.2</span>) +
+<span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">colour =</span> <span class="kw">factor</span>(group)), <span class="dt">size =</span> <span class="fl">0.8</span>, <span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>) +
+<span class="st">  </span><span class="kw">scale_x_continuous</span>(caption_x) +
+<span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> superimposed), <span class="dt">color =</span> <span class="st">&quot;#a83fbf&quot;</span>, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">linetype =</span> <span class="st">&#39;dashed&#39;</span>) +
+<span class="st">  </span><span class="kw">annotate</span>(<span class="st">&quot;text&quot;</span>,<span class="dt">x =</span> <span class="kw">mean</span>(trend_data$x),  <span class="dt">y =</span> <span class="kw">max</span>(trend_data$superimposed,<span class="dt">na.rm=</span>T) +<span class="st"> </span><span class="fl">0.1</span>, <span class="dt">label =</span> <span class="st">&#39;superimposed fertility peak&#39;</span>, <span class="dt">color =</span> <span class="st">&quot;#a83fbf&quot;</span>) +
+<span class="st">  </span><span class="kw">scale_y_continuous</span>(outcome_label) +
+<span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;GAM smooth, raw data&quot;</span>) +
+<span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="st">&quot;Contraception status&quot;</span>,<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;2&quot;</span>=<span class="st">&quot;black&quot;</span>,<span class="st">&quot;1&quot;</span>=<span class="st"> &quot;red&quot;</span>), <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;2&quot;</span>=<span class="st">&quot;hormonally</span><span class="ch">\n</span><span class="st">contracepting&quot;</span>,<span class="st">&quot;1&quot;</span>=<span class="st">&quot;cycling&quot;</span>), <span class="dt">guide =</span> F) +
+<span class="st">  </span><span class="kw">scale_fill_manual</span>(<span class="st">&quot;Contraception status&quot;</span>,<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;2&quot;</span>=<span class="st">&quot;black&quot;</span>,<span class="st">&quot;1&quot;</span>=<span class="st"> &quot;red&quot;</span>), <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;2&quot;</span>=<span class="st">&quot;hormonally</span><span class="ch">\n</span><span class="st">contracepting&quot;</span>,<span class="st">&quot;1&quot;</span>=<span class="st">&quot;cycling&quot;</span>), <span class="dt">guide =</span> F)
+
+<span class="kw">suppressWarnings</span>(<span class="kw">print</span>(plot1b))</code></pre></div>
+</div>
+<div id="means-and-standard-errors-over-raw-data" class="section level6">
+<h6>Means and standard errors over raw data</h6>
+<p>Nothing partialled out, just straight means with bootstrapped confidence intervals.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tryCatch</span>({
+  trend_plot =<span class="st"> </span><span class="kw">ggplot</span>(tmp,<span class="kw">aes_string</span>(<span class="dt">x =</span> <span class="st">&quot;RCD&quot;</span>, <span class="dt">y =</span> outcome, <span class="dt">colour =</span> <span class="st">&quot;included&quot;</span>)) +
+<span class="st">    </span><span class="kw">geom_pointrange</span>(<span class="dt">size =</span> <span class="fl">0.8</span>, <span class="dt">stat =</span> <span class="st">&#39;summary&#39;</span>, <span class="dt">fun.data =</span> <span class="st">&quot;mean_cl_boot&quot;</span>)
+}, <span class="dt">error =</span> function(e){<span class="kw">cat_message</span>(e, <span class="st">&quot;danger&quot;</span>)})
+<span class="kw">tryCatch</span>({
+  trend_data =<span class="st"> </span><span class="kw">ggplot_build</span>(trend_plot)$data[[<span class="dv">1</span>]]
+}, <span class="dt">error =</span> function(e){<span class="kw">cat_message</span>(e, <span class="st">&quot;danger&quot;</span>)})
+
+trend_data$RCD =<span class="st"> </span><span class="kw">round</span>(trend_data$x)
+trend_data =<span class="st"> </span><span class="kw">left_join</span>(trend_data, tmp %&gt;%<span class="st"> </span><span class="kw">select</span>(real, RCD,fertile) %&gt;%<span class="st"> </span><span class="kw">unique</span>(), <span class="dt">by =</span> <span class="st">&quot;RCD&quot;</span>)
+trend_data %&gt;%
+<span class="st">  </span><span class="kw">filter</span>(real ==<span class="st"> </span><span class="ot">TRUE</span>) %&gt;%
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">superimposed =</span> ( ( (fertile -<span class="st"> </span><span class="fl">0.01</span>)/<span class="fl">0.58</span>) *<span class="st"> </span>(<span class="kw">max</span>(y)-<span class="kw">min</span>(y) ) ) +<span class="st"> </span><span class="kw">min</span>(y) ) -&gt;
+<span class="st">  </span>trend_data
+
+plot3 =<span class="st"> </span><span class="kw">ggplot</span>(trend_data) +
+<span class="st">  </span><span class="kw">geom_pointrange</span>(<span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">ymin =</span> ymin,<span class="dt">ymax =</span> ymax, <span class="dt">colour =</span> <span class="kw">factor</span>(group)), <span class="dt">size =</span> <span class="fl">0.8</span>, <span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.6</span>, <span class="dt">position =</span> <span class="kw">position_dodge</span>(<span class="dt">width =</span> .<span class="dv">5</span>)) +
+<span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="st">&quot;Days until next menstruation&quot;</span>) +
+<span class="st">  </span><span class="kw">geom_line</span>(<span class="kw">aes</span>(<span class="dt">x=</span> x, <span class="dt">y =</span> superimposed), <span class="dt">color =</span> <span class="st">&quot;#a83fbf&quot;</span>, <span class="dt">size =</span> <span class="dv">1</span>, <span class="dt">linetype =</span> <span class="st">&#39;dashed&#39;</span>) +
+<span class="st">  </span><span class="kw">annotate</span>(<span class="st">&quot;text&quot;</span>,<span class="dt">x =</span> <span class="kw">mean</span>(trend_data$x),  <span class="dt">y =</span> <span class="kw">max</span>(trend_data$superimposed,<span class="dt">na.rm=</span>T) +<span class="st"> </span><span class="fl">0.1</span>, <span class="dt">label =</span> <span class="st">&#39;superimposed fertility peak&#39;</span>, <span class="dt">color =</span> <span class="st">&quot;#a83fbf&quot;</span>) +
+<span class="st">  </span><span class="kw">scale_y_continuous</span>(outcome_label) +
+<span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Means with standard errors, raw data&quot;</span>) +
+<span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="st">&quot;Contraception status&quot;</span>,<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;2&quot;</span>=<span class="st">&quot;black&quot;</span>,<span class="st">&quot;1&quot;</span>=<span class="st"> &quot;red&quot;</span>), <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;2&quot;</span>=<span class="st">&quot;hormonally</span><span class="ch">\n</span><span class="st">contracepting&quot;</span>,<span class="st">&quot;1&quot;</span>=<span class="st">&quot;cycling&quot;</span>), <span class="dt">guide =</span> F) +
+<span class="st">  </span><span class="kw">scale_fill_manual</span>(<span class="st">&quot;Contraception status&quot;</span>,<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;2&quot;</span>=<span class="st">&quot;black&quot;</span>,<span class="st">&quot;1&quot;</span>=<span class="st"> &quot;red&quot;</span>), <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;2&quot;</span>=<span class="st">&quot;hormonally</span><span class="ch">\n</span><span class="st">contracepting&quot;</span>,<span class="st">&quot;1&quot;</span>=<span class="st">&quot;cycling&quot;</span>), <span class="dt">guide =</span> F)
+<span class="kw">suppressWarnings</span>(<span class="kw">print</span>(plot3))</code></pre></div>
+</div>
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+</body>
+</html>

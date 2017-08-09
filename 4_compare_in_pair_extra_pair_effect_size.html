@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Compare effect sizes</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-1.1/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+<script src="library/auto_tab_first_section.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="library/custom_styles.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 64px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+
+.section h2 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h3 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h4 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h5 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h6 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Fertility diary</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="1_power_analysis.html">Power analysis</a>
+</li>
+<li>
+  <a href="1_researcher_df_analysis.html">Researcher degree of freedom simulation</a>
+</li>
+<li>
+  <a href="1_wrangle_data.html">Data wrangling</a>
+</li>
+<li>
+  <a href="2_descriptives.html">Descriptives</a>
+</li>
+<li>
+  <a href="3_fertility_as_prereg.html">Preregistered analyses</a>
+</li>
+<li>
+  <a href="3_fertility_robustness.html">Robustness tests</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+
+</div>
+
+
+<div id="compare-effect-sizes-of-ovulatory-shifts-in-in--vs-extra-pair-desire" class="section level1 tab-content">
+<h1>Compare effect sizes <small>of ovulatory shifts in in- vs extra-pair desire</small></h1>
+<p><span style="background:red;width:20px;height:20px;display:inline-block;"></span> Cycling women (not on hormonal birth control)</p>
+<p><span style="background:black;width:20px;height:20px;display:inline-block;"></span> Women on hormonal birth control</p>
+<div id="load-data" class="section level2">
+<h2>Load data</h2>
+<pre class="r"><code># cd /usr/users/rarslan/relationship_dynamics/ &amp;&amp; bsub -q mpi -W 48:00 -n 20 -R span[hosts=1] R -e &quot;filebase = &#39;3_fertility_robustness&#39;; x = rmarkdown::render(paste0(&#39;3_fertility_robustness&#39;,&#39;.Rmd&#39;), run_pandoc = FALSE, clean = FALSE); save(x, file = &#39;rob.rda&#39;); cat(readLines(paste0(filebase,&#39;.utf8.md&#39;)), sep = &#39;\n&#39;)&quot;
+library(knitr)
+opts_chunk$set(fig.width = 8, fig.height = 8, cache = T, warning = T, message = F, cache = F)</code></pre>
+<pre class="r"><code>source(&quot;0_helpers.R&quot;)
+load(&quot;full_data.rdata&quot;)
+diary = diary %&gt;% 
+  mutate(
+  included = included_all,
+  fertile = prc_stirn_b_squished
+)  %&gt;% group_by(person) %&gt;% 
+  mutate(
+      fertile_mean = mean(fertile, na.rm = T)
+  )
+opts_chunk$set(warning = F)
+library(Cairo)
+opts_chunk$set(dev = &quot;CairoPNG&quot;)
+
+diary$age_group = cut(diary$age,c(18,20,25,30,35,70), include.lowest = T)</code></pre>
+<pre class="r"><code>models = list()
+models$extra_pair_desire = lmer(extra_pair_desire ~ included * (menstruation + fertile) + fertile_mean + ( 1 | person), data = diary)
+models$in_pair_desire = lmer(in_pair_desire ~ included * (menstruation + fertile) + fertile_mean + ( 1 | person), data = diary)
+models$desirability_1 = lmer(desirability_1 ~ included * (menstruation + fertile) + fertile_mean + ( 1 | person), data = diary)</code></pre>
+</div>
+<div id="extra-pair-desire" class="section level2">
+<h2>Extra-pair desire</h2>
+<pre class="r"><code>summary(models$extra_pair_desire)</code></pre>
+<pre><code>## Linear mixed model fit by REML 
+## t-tests use  Satterthwaite approximations to degrees of freedom [&#39;lmerMod&#39;]
+## Formula: extra_pair_desire ~ included * (menstruation + fertile) + fertile_mean +      (1 | person)
+##    Data: diary
+## 
+## REML criterion at convergence: 34219
+## 
+## Scaled residuals: 
+##    Min     1Q Median     3Q    Max 
+## -4.631 -0.489 -0.138  0.334  7.240 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  person   (Intercept) 0.379    0.616   
+##  Residual             0.369    0.607   
+## Number of obs: 17251, groups:  person, 817
+## 
+## Fixed effects:
+##                                       Estimate Std. Error         df t value     Pr(&gt;|t|)    
+## (Intercept)                             1.8669     0.0601   969.0000   31.08      &lt; 2e-16 ***
+## includedhorm_contra                    -0.2018     0.0485  1030.0000   -4.16 0.0000342677 ***
+## menstruationpre                        -0.1191     0.0202 16593.0000   -5.89 0.0000000039 ***
+## menstruationyes                        -0.0821     0.0238 16567.0000   -3.45      0.00056 ***
+## fertile                                 0.2592     0.0461 16522.0000    5.62 0.0000000195 ***
+## fertile_mean                           -0.7633     0.3151   895.0000   -2.42      0.01563 *  
+## includedhorm_contra:menstruationpre     0.0901     0.0264 16601.0000    3.41      0.00065 ***
+## includedhorm_contra:menstruationyes     0.0903     0.0333 16564.0000    2.71      0.00672 ** 
+## includedhorm_contra:fertile            -0.1912     0.0609 16556.0000   -3.14      0.00170 ** 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##                         (Intr) incld_ mnstrtnp mnstrtny fertil frtl_m inclddhrm_cntr:mnstrtnp
+## inclddhrm_c             -0.473                                                               
+## menstrutnpr             -0.194  0.220                                                        
+## menstrutnys             -0.118  0.149  0.362                                                 
+## fertile                 -0.157  0.226  0.515    0.324                                        
+## fertile_men             -0.781 -0.012  0.020   -0.003   -0.032                               
+## inclddhrm_cntr:mnstrtnp  0.135 -0.295 -0.766   -0.277   -0.395  0.002                        
+## inclddhrm_cntr:mnstrtny  0.085 -0.188 -0.259   -0.715   -0.231  0.001  0.351                 
+## inclddhrm_cntr:f         0.140 -0.301 -0.390   -0.245   -0.757 -0.003  0.526                 
+##                         inclddhrm_cntr:mnstrtny
+## inclddhrm_c                                    
+## menstrutnpr                                    
+## menstrutnys                                    
+## fertile                                        
+## fertile_men                                    
+## inclddhrm_cntr:mnstrtnp                        
+## inclddhrm_cntr:mnstrtny                        
+## inclddhrm_cntr:f         0.320</code></pre>
+</div>
+<div id="in-pair-desire" class="section level2">
+<h2>In-pair desire</h2>
+<pre class="r"><code>summary(models$in_pair_desire)</code></pre>
+<pre><code>## Linear mixed model fit by REML 
+## t-tests use  Satterthwaite approximations to degrees of freedom [&#39;lmerMod&#39;]
+## Formula: in_pair_desire ~ included * (menstruation + fertile) + fertile_mean +      (1 | person)
+##    Data: diary
+## 
+## REML criterion at convergence: 54044
+## 
+## Scaled residuals: 
+##    Min     1Q Median     3Q    Max 
+## -3.400 -0.684 -0.032  0.664  3.503 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  person   (Intercept) 0.712    0.844   
+##  Residual             1.192    1.092   
+## Number of obs: 17251, groups:  person, 817
+## 
+## Fixed effects:
+##                                       Estimate Std. Error         df t value Pr(&gt;|t|)    
+## (Intercept)                             3.4707     0.0864  1063.0000   40.19  &lt; 2e-16 ***
+## includedhorm_contra                     0.2450     0.0704  1196.0000    3.48  0.00052 ***
+## menstruationpre                        -0.0671     0.0363 16678.0000   -1.85  0.06458 .  
+## menstruationyes                        -0.1463     0.0427 16664.0000   -3.42  0.00062 ***
+## fertile                                 0.2616     0.0829 16591.0000    3.16  0.00160 ** 
+## fertile_mean                            0.2678     0.4479   944.0000    0.60  0.55004    
+## includedhorm_contra:menstruationpre     0.0358     0.0474 16686.0000    0.76  0.45001    
+## includedhorm_contra:menstruationyes     0.0902     0.0598 16660.0000    1.51  0.13141    
+## includedhorm_contra:fertile            -0.3618     0.1094 16645.0000   -3.31  0.00094 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##                         (Intr) incld_ mnstrtnp mnstrtny fertil frtl_m inclddhrm_cntr:mnstrtnp
+## inclddhrm_c             -0.476                                                               
+## menstrutnpr             -0.240  0.271                                                        
+## menstrutnys             -0.148  0.185  0.362                                                 
+## fertile                 -0.196  0.280  0.515    0.323                                        
+## fertile_men             -0.778 -0.012  0.023   -0.003   -0.041                               
+## inclddhrm_cntr:mnstrtnp  0.168 -0.363 -0.765   -0.277   -0.395  0.002                        
+## inclddhrm_cntr:mnstrtny  0.107 -0.233 -0.259   -0.715   -0.231  0.001  0.351                 
+## inclddhrm_cntr:f         0.176 -0.373 -0.391   -0.245   -0.756 -0.004  0.526                 
+##                         inclddhrm_cntr:mnstrtny
+## inclddhrm_c                                    
+## menstrutnpr                                    
+## menstrutnys                                    
+## fertile                                        
+## fertile_men                                    
+## inclddhrm_cntr:mnstrtnp                        
+## inclddhrm_cntr:mnstrtny                        
+## inclddhrm_cntr:f         0.320</code></pre>
+</div>
+<div id="desirability" class="section level2">
+<h2>Desirability</h2>
+<pre class="r"><code>summary(models$desirability_1)</code></pre>
+<pre><code>## Linear mixed model fit by REML 
+## t-tests use  Satterthwaite approximations to degrees of freedom [&#39;lmerMod&#39;]
+## Formula: desirability_1 ~ included * (menstruation + fertile) + fertile_mean +      (1 | person)
+##    Data: diary
+## 
+## REML criterion at convergence: 55088
+## 
+## Scaled residuals: 
+##    Min     1Q Median     3Q    Max 
+## -4.028 -0.616  0.036  0.664  3.409 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  person   (Intercept) 0.681    0.825   
+##  Residual             1.271    1.127   
+## Number of obs: 17255, groups:  person, 817
+## 
+## Fixed effects:
+##                                       Estimate Std. Error         df t value    Pr(&gt;|t|)    
+## (Intercept)                             3.7419     0.0855  1082.0000   43.79     &lt; 2e-16 ***
+## includedhorm_contra                    -0.0152     0.0698  1236.0000   -0.22      0.8273    
+## menstruationpre                        -0.1126     0.0375 16699.0000   -3.00      0.0027 ** 
+## menstruationyes                        -0.2425     0.0441 16689.0000   -5.50 0.000000039 ***
+## fertile                                 0.1374     0.0855 16609.0000    1.61      0.1082    
+## fertile_mean                            0.0373     0.4420   951.0000    0.08      0.9327    
+## includedhorm_contra:menstruationpre     0.0540     0.0489 16706.0000    1.10      0.2699    
+## includedhorm_contra:menstruationyes     0.1087     0.0617 16685.0000    1.76      0.0781 .  
+## includedhorm_contra:fertile            -0.1950     0.1129 16668.0000   -1.73      0.0841 .  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##                         (Intr) incld_ mnstrtnp mnstrtny fertil frtl_m inclddhrm_cntr:mnstrtnp
+## inclddhrm_c             -0.476                                                               
+## menstrutnpr             -0.249  0.282                                                        
+## menstrutnys             -0.155  0.193  0.362                                                 
+## fertile                 -0.204  0.291  0.515    0.323                                        
+## fertile_men             -0.776 -0.012  0.024   -0.004   -0.043                               
+## inclddhrm_cntr:mnstrtnp  0.175 -0.377 -0.766   -0.277   -0.395  0.002                        
+## inclddhrm_cntr:mnstrtny  0.111 -0.243 -0.259   -0.715   -0.231  0.001  0.351                 
+## inclddhrm_cntr:f         0.183 -0.388 -0.391   -0.245   -0.756 -0.004  0.527                 
+##                         inclddhrm_cntr:mnstrtny
+## inclddhrm_c                                    
+## menstrutnpr                                    
+## menstrutnys                                    
+## fertile                                        
+## fertile_men                                    
+## inclddhrm_cntr:mnstrtnp                        
+## inclddhrm_cntr:mnstrtny                        
+## inclddhrm_cntr:f         0.320</code></pre>
+</div>
+<div id="comparison" class="section level2 active">
+<h2>Comparison</h2>
+<p>Here, we compare both the standardised and unstandardised effect sizes of extra-pair and in-pair desire. As we did not predict a difference, we merely test whether the estimates fall into the 95% confidence intervals of one another. Standardisation is done by dividing by the residual standard deviation.</p>
+<ul>
+<li>Standardised, extra-pair desire: 0.43 [0.28;0.58].</li>
+<li>Unstandardised, extra-pair desire: 0.26 [0.17;0.35].</li>
+<li>Standardised, in-pair desire: 0.24 [0.09;0.39].</li>
+<li>Unstandardised, in-pair desire: 0.26 [0.10;0.42].</li>
+<li>Standardised, desirability: 0.12 [-0.03;0.27].</li>
+<li>Unstandardised, desirability: 0.14 [-0.03;0.31].</li>
+</ul>
+<div id="by-item" class="section level3">
+<h3>By item</h3>
+<pre class="r"><code>items_engl = xlsx::read.xlsx(&quot;item_tables/Daily_items_bearbeitetAM.xlsx&quot;, 1)
+library(brms)
+c(&#39;extra_pair_7&#39;, &#39;extra_pair_10&#39;, &#39;extra_pair_11&#39;, &#39;extra_pair_12&#39;, &#39;extra_pair_13&#39;, &#39;sexual_intercourse_1&#39;, &#39;desirability_partner&#39;, &#39;attention_2&#39;) %&gt;%
+  lapply(FUN = function(x) {
+    paste0(&quot;by_item/&quot;, x , &quot;.rds&quot;) %&gt;% 
+    readRDS() -&gt;
+      fit
+    samples = fit %&gt;% posterior_samples(&quot;^b_fertile$&quot;) %&gt;%  mutate(item = x)
+    newd = data.frame(person = NA, included = &quot;cycling&quot;, fertile_mean = 0.1, menstruation = &quot;no&quot;, fertile = c(0.01,0.51))
+    predicted = fitted(fit, newdata = newd, summary = FALSE, re_formula = NA, allow_new_levels = F)
+    predicted_sum = fitted(fit, newdata = newd, summary = T)
+    #dims: 4000 samples, 2 rows, 6 levels
+    multiply_by_level = rep(sort(unique(fit$data[,1])), each = dim(predicted)[1] * dim(predicted)[2]) # repeat each as many times as the first two dims
+    dim(multiply_by_level) = dim(predicted)
+    predicted = predicted * multiply_by_level
+    response = apply(predicted, MARGIN = c(1:2), FUN = sum)
+    effect = response[,2] - response[,1]
+    samples$effect = effect
+    samples
+}) %&gt;% bind_rows() -&gt; post_samples
+
+post_samples = post_samples %&gt;% 
+  mutate(effect = if_else(item == &quot;sexual_intercourse_1&quot;, effect/5*6, effect)) %&gt;%
+  mutate(in_pair = !item %contains% &quot;extra&quot;) %&gt;%
+  group_by(in_pair) %&gt;%
+  left_join(items_engl %&gt;% select(Item.name, Item), by = c(&quot;item&quot; = &quot;Item.name&quot;))
+
+post_samples %&gt;% 
+  summarise_at(c(&quot;b_fertile&quot;, &quot;effect&quot;),
+               funs(mean = mean(.), ci_lo = quantile(., probs = 0.025), ci_hi = quantile(., probs = 0.975))) %&gt;%
+  pander()</code></pre>
+<table style="width:100%;">
+<colgroup>
+<col width="9%" />
+<col width="16%" />
+<col width="13%" />
+<col width="16%" />
+<col width="14%" />
+<col width="16%" />
+<col width="13%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">in_pair</th>
+<th align="center">b_fertile_mean</th>
+<th align="center">effect_mean</th>
+<th align="center">b_fertile_ci_lo</th>
+<th align="center">effect_ci_lo</th>
+<th align="center">b_fertile_ci_hi</th>
+<th align="center">effect_ci_hi</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">FALSE</td>
+<td align="center">0.511</td>
+<td align="center">0.08452</td>
+<td align="center">0.00772</td>
+<td align="center">0.0007318</td>
+<td align="center">1.027</td>
+<td align="center">0.2622</td>
+</tr>
+<tr class="even">
+<td align="center">TRUE</td>
+<td align="center">0.4162</td>
+<td align="center">0.1446</td>
+<td align="center">0.07387</td>
+<td align="center">0.02708</td>
+<td align="center">0.7917</td>
+<td align="center">0.2664</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>post_samples %&gt;% 
+  mutate(Item = str_wrap(Item, 35)) %&gt;% 
+  ggplot(aes(x = effect, y = Item, fill = in_pair)) +
+  ggjoy::geom_joy(panel_scaling = T, color = &quot;white&quot;) + 
+  scale_fill_brewer()  + ggjoy::theme_joy()</code></pre>
+<p><img src="4_compare_in_pair_extra_pair_effect_size_files/figure-html/unnamed-chunk-4-1.png" width="768" /></p>
+</div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

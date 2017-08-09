@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+<title></title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: visible; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+
+<style type = "text/css">
+body {
+  margin-top: 45px;
+}
+.main-container {
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+</style>
+
+
+<script src="library/auto_tab_first_section.js"></script>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+
+</head>
+
+<body>
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Fertility diary</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="1_power_analysis.html">Power analysis</a>
+</li>
+<li>
+  <a href="1_researcher_df_analysis.html">Researcher degree of freedom simulation</a>
+</li>
+<li>
+  <a href="1_wrangle_data.html">Data wrangling</a>
+</li>
+<li>
+  <a href="2_descriptives.html">Descriptives</a>
+</li>
+<li>
+  <a href="3_fertility_as_prereg.html">Preregistered analyses</a>
+</li>
+<li>
+  <a href="3_fertility_robustness.html">Robustness tests</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="container-fluid main-container">
+
+
+<div id="power-simulation" class="section level1">
+<h1>Power simulation</h1>
+<p><code>bsub -a openmpi -q mpi -W 48:00 -n 80,160 mpirun.lsf  R --slave -f /usr/users/rarslan/relationship_dynamics/1_power_simulation.R</code> thanks to bbolker <a href="http://rpubs.com/bbolker/lme4sims" class="uri">http://rpubs.com/bbolker/lme4sims</a> &amp; <a href="http://cran.r-project.org/web/packages/foreach/vignettes/nested.pdf" class="uri">http://cran.r-project.org/web/packages/foreach/vignettes/nested.pdf</a> set up MPI</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">setwd</span>(<span class="st">&quot;/usr/users/rarslan/relationship_dynamics/&quot;</span>)
+<span class="kw">library</span>(doMPI)
+cl &lt;-<span class="st"> </span><span class="kw">startMPIcluster</span>(<span class="dt">verbose =</span> T)
+<span class="kw">registerDoMPI</span>(cl)
+<span class="kw">source</span>(<span class="st">&quot;0_simulation_functions.R&quot;</span>)</code></pre></div>
+<div id="parameters" class="section level2">
+<h2>Parameters</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sample_people =<span class="st"> </span><span class="kw">c</span>(<span class="dv">25</span>, <span class="dv">50</span>, <span class="dv">70</span>, <span class="dv">100</span>, <span class="dv">150</span>, <span class="dv">250</span>, <span class="dv">500</span>)
+nr_of_days =<span class="st"> </span><span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">10</span>, <span class="dv">30</span>, <span class="dv">60</span>, <span class="dv">90</span>)
+dayspans =<span class="st"> </span><span class="kw">list</span>(<span class="st">&quot;1:38&quot;</span> =<span class="st"> </span><span class="dv">1</span>:<span class="dv">38</span>, <span class="st">&quot;17-19,4-6&quot;</span> =<span class="st"> </span><span class="kw">c</span>(<span class="dv">4</span>:<span class="dv">6</span>, <span class="dv">17</span>:<span class="dv">19</span>))
+fertility_effects =<span class="st"> </span><span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">0.05</span>, <span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>, <span class="fl">0.5</span>, <span class="fl">0.8</span>)
+trait_effects =<span class="st"> </span><span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">0.3</span>)
+miss_windows =<span class="st"> </span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">8</span>)
+nrep &lt;-<span class="st"> </span><span class="dv">1</span>:<span class="dv">1000</span>
+predictors =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;prc_stirn_b_m&quot;</span>, <span class="st">&quot;fertile_broad_m&quot;</span>, <span class="st">&quot;fertile_narrow_m&quot;</span>)
+
+<span class="co"># res0 &lt;- fit_model(simulate_fertility_effect())</span></code></pre></div>
+</div>
+<div id="time-prediction-number-of-nodes" class="section level2">
+<h2>Time prediction, number of nodes</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># time = system.time({ for (i in nrep) { fit_model(simulate_fertility_effect()) }})</span>
+<span class="co"># length(sample_people) *</span>
+<span class="co"># length(nr_of_days) *</span>
+<span class="co"># length(dayspans)</span>
+<span class="co"># </span>
+<span class="co"># length(fertility_effects) * # nodes</span>
+<span class="co"># length(trait_effects) *</span>
+<span class="co"># length(miss_windows) *</span>
+<span class="co"># length(predictors) *</span>
+<span class="co">#   time[3]  / 60 / 60 # hours per node</span></code></pre></div>
+</div>
+<div id="simulation" class="section level2">
+<h2>Simulation</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## prefer to use i,j,k,... for indices
+resdf =<span class="st"> </span><span class="kw">foreach</span>(<span class="dt">i =</span> <span class="kw">seq_along</span>(sample_people), <span class="dt">.combine =</span> <span class="st">&quot;rbind&quot;</span>) %:%
+<span class="st">  </span><span class="kw">foreach</span>(<span class="dt">j =</span> <span class="kw">seq_along</span>(nr_of_days), <span class="dt">.combine =</span> <span class="st">&quot;rbind&quot;</span>) %:%
+<span class="st">    </span><span class="kw">foreach</span>(<span class="dt">k =</span> <span class="kw">seq_along</span>(dayspans), <span class="dt">.combine =</span> <span class="st">&quot;rbind&quot;</span>) %:%
+<span class="st">    </span><span class="kw">foreach</span>(<span class="dt">l =</span> <span class="kw">seq_along</span>(fertility_effects), <span class="dt">.combine =</span> <span class="st">&quot;rbind&quot;</span>) %dopar%<span class="st"> </span>{
+      <span class="kw">source</span>(<span class="st">&quot;0_simulation_functions.R&quot;</span>)
+      
+    <span class="kw">foreach</span>(<span class="dt">m =</span> <span class="kw">seq_along</span>(trait_effects), <span class="dt">.combine =</span> <span class="st">&quot;rbind&quot;</span>) %do%<span class="st"> </span>{
+        <span class="kw">foreach</span>(<span class="dt">n =</span> <span class="kw">seq_along</span>(miss_windows), <span class="dt">.combine =</span> <span class="st">&quot;rbind&quot;</span>, <span class="dt">.errorhandling =</span> <span class="st">&quot;remove&quot;</span>) %do%<span class="st"> </span>{
+         <span class="kw">foreach</span>(<span class="dt">repetition =</span> nrep, <span class="dt">.combine =</span> <span class="st">&quot;rbind&quot;</span>, <span class="dt">.maxcombine =</span> <span class="dv">1000</span>, <span class="dt">.errorhandling =</span> <span class="st">&quot;remove&quot;</span>) %do%<span class="st"> </span>{
+           <span class="kw">cat</span>(i,j,k,l,m,n, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>) 
+           
+           simulated_data =<span class="st"> </span><span class="kw">simulate_fertility_effect</span>(
+             <span class="dt">nr_of_people =</span> sample_people[i],
+             <span class="dt">nr_days =</span> nr_of_days[j],
+             <span class="dt">dayspan =</span> dayspans[[k]],
+             <span class="dt">miss_window =</span> miss_windows[n],
+             <span class="dt">effects =</span> <span class="kw">list</span>(
+               <span class="dt">trait =</span> trait_effects[m],
+               <span class="dt">fertility_effect =</span> fertility_effects[l],
+               <span class="dt">noise =</span> <span class="fl">0.5</span>
+             )
+           )
+           <span class="kw">foreach</span>(<span class="dt">o =</span> <span class="kw">seq_along</span>(predictors), <span class="dt">.combine =</span> <span class="st">&quot;rbind&quot;</span>) %do%<span class="st"> </span>{
+            
+            ## if you want to see progress in the output file 
+            result =<span class="st"> </span><span class="kw">data.frame</span>(
+                <span class="dt">nr_of_people =</span> sample_people[i],
+                <span class="dt">nr_days =</span> nr_of_days[j],
+                <span class="dt">dayspan =</span> <span class="kw">names</span>(dayspans)[k],
+                <span class="dt">miss_window =</span> miss_windows[n],
+                <span class="dt">trait_effect =</span> trait_effects[m],
+                <span class="dt">fertility_effect =</span> fertility_effects[l],
+                <span class="dt">predictor =</span> predictors[o],
+                <span class="dt">estimate =</span> <span class="ot">NA_real_</span>, 
+                <span class="dt">std.error =</span> <span class="ot">NA_real_</span>, 
+                <span class="dt">statistic =</span> <span class="ot">NA_real_</span>, 
+                <span class="dt">conf.low =</span> <span class="ot">NA_real_</span>, 
+                <span class="dt">conf.high =</span> <span class="ot">NA_real_</span>, 
+                <span class="dt">p.value =</span> <span class="ot">NA_real_</span>, 
+                <span class="dt">p.value_KR =</span> <span class="ot">NA_real_</span>, 
+                <span class="dt">usable_days =</span> <span class="ot">NA_real_</span>
+            )
+            <span class="kw">try</span>({
+                result[, <span class="kw">c</span>(<span class="st">&quot;estimate&quot;</span>, <span class="st">&quot;std.error&quot;</span>, <span class="st">&quot;statistic&quot;</span>, <span class="st">&quot;conf.low&quot;</span>, <span class="st">&quot;conf.high&quot;</span>, 
+                     <span class="st">&quot;p.value&quot;</span>, <span class="st">&quot;p.value_KR&quot;</span>, <span class="st">&quot;usable_days&quot;</span>)] =<span class="st"> </span><span class="kw">fit_model</span>(
+                        simulated_data
+                                  , <span class="dt">predictor =</span> predictors[o])
+            }, <span class="dt">silent =</span> T)
+            result
+          }
+        }
+        }
+  }
+}
+<span class="kw">saveRDS</span>(resdf,<span class="dt">file =</span> <span class="st">&quot;cycle_sims.rds&quot;</span>)
+
+
+<span class="kw">closeCluster</span>(cl)
+<span class="kw">mpi.quit</span>()</code></pre></div>
+</div>
+</div>
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+</body>
+</html>

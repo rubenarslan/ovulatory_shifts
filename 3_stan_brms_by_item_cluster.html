@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+<title></title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: visible; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+
+<style type = "text/css">
+body {
+  margin-top: 45px;
+}
+.main-container {
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+</style>
+
+
+<script src="library/auto_tab_first_section.js"></script>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+
+</head>
+
+<body>
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Fertility diary</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="1_power_analysis.html">Power analysis</a>
+</li>
+<li>
+  <a href="1_researcher_df_analysis.html">Researcher degree of freedom simulation</a>
+</li>
+<li>
+  <a href="1_wrangle_data.html">Data wrangling</a>
+</li>
+<li>
+  <a href="2_descriptives.html">Descriptives</a>
+</li>
+<li>
+  <a href="3_fertility_as_prereg.html">Preregistered analyses</a>
+</li>
+<li>
+  <a href="3_fertility_robustness.html">Robustness tests</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="container-fluid main-container">
+
+
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">bsub</span> -a openmpi -q mpi -W 48:00 -n 212,300 -R span[block=4] mpirun.lsf  R --slave -f /usr/users/rarslan/relationship_dynamics/3_stan_brms_by_item_cluster.R</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">suppressPackageStartupMessages</span>(<span class="kw">library</span>(brms))
+<span class="kw">suppressPackageStartupMessages</span>(<span class="kw">library</span>(dplyr))
+
+args =<span class="st"> </span><span class="kw">commandArgs</span>()
+outcome =<span class="st"> </span>args[<span class="dv">6</span>]
+
+outcomes =<span class="st"> </span><span class="kw">list</span>(<span class="st">&quot;communication_partner_1&quot;</span> =<span class="st"> </span><span class="kw">cumulative</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),
+<span class="st">&quot;communication_partner_2&quot;</span> =<span class="st"> </span><span class="kw">categorical</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),
+<span class="st">&quot;mate_retention_1&quot;</span> =<span class="st"> </span><span class="kw">bernoulli</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),
+<span class="st">&quot;relationship_satisfaction_1&quot;</span> =<span class="st"> </span><span class="kw">cumulative</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),
+<span class="st">&quot;mate_retention_2&quot;</span> =<span class="st"> </span><span class="kw">cumulative</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),
+<span class="st">&quot;sexual_intercourse_1&quot;</span> =<span class="st"> </span><span class="kw">cumulative</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),
+<span class="st">&quot;sexual_intercourse_2&quot;</span> =<span class="st"> </span><span class="kw">cumulative</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),
+<span class="st">&quot;sexual_intercourse_3&quot;</span> =<span class="st"> </span><span class="kw">bernoulli</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),
+<span class="st">&quot;sexual_intercourse_satisfaction&quot;</span> =<span class="st"> </span><span class="kw">cumulative</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),
+<span class="st">&quot;sexual_intercourse_5&quot;</span> =<span class="st"> </span><span class="kw">cumulative</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),
+<span class="st">&quot;choice_of_clothing_1&quot;</span> =<span class="st"> </span><span class="kw">cumulative</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),
+<span class="st">&quot;choice_of_clothing_2&quot;</span> =<span class="st"> </span><span class="kw">cumulative</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),
+<span class="st">&quot;choice_of_clothing_3&quot;</span> =<span class="st"> </span><span class="kw">cumulative</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),
+<span class="st">&quot;choice_of_clothing_4&quot;</span> =<span class="st"> </span><span class="kw">cumulative</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),
+<span class="st">&quot;choice_of_clothing_5&quot;</span> =<span class="st"> </span><span class="kw">cumulative</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),
+<span class="st">&quot;choice_of_clothing_6&quot;</span> =<span class="st"> </span><span class="kw">cumulative</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),
+<span class="st">&quot;choice_of_clothing_7&quot;</span> =<span class="st"> </span><span class="kw">cumulative</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),
+<span class="st">&quot;choice_of_clothing_8&quot;</span> =<span class="st"> </span><span class="kw">cumulative</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),
+<span class="st">&quot;self_esteem_1&quot;</span> =<span class="st"> </span><span class="kw">cumulative</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),
+<span class="st">&quot;desirability_1&quot;</span> =<span class="st"> </span><span class="kw">cumulative</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),
+<span class="st">&quot;desirability_partner&quot;</span> =<span class="st"> </span><span class="kw">cumulative</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),
+<span class="st">&quot;NARQ_admiration_1&quot;</span> =<span class="st"> </span><span class="kw">cumulative</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),
+<span class="st">&quot;NARQ_admiration_2&quot;</span> =<span class="st"> </span><span class="kw">cumulative</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),
+<span class="st">&quot;NARQ_admiration_3&quot;</span> =<span class="st"> </span><span class="kw">cumulative</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),
+<span class="st">&quot;NARQ_rivalry_1&quot;</span> =<span class="st"> </span><span class="kw">cumulative</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),
+<span class="st">&quot;NARQ_rivalry_2&quot;</span> =<span class="st"> </span><span class="kw">cumulative</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),
+<span class="st">&quot;NARQ_rivalry_3&quot;</span> =<span class="st"> </span><span class="kw">cumulative</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),
+<span class="st">&quot;jealousy_1&quot;</span> =<span class="st"> </span><span class="kw">cumulative</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),
+<span class="st">&quot;male_jealousy_1&quot;</span> =<span class="st"> </span><span class="kw">cumulative</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),
+<span class="st">&quot;male_jealousy_2&quot;</span> =<span class="st"> </span><span class="kw">cumulative</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),
+<span class="st">&quot;male_jealousy_3&quot;</span> =<span class="st"> </span><span class="kw">cumulative</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),
+<span class="st">&quot;male_mate_retention_1&quot;</span> =<span class="st"> </span><span class="kw">cumulative</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),
+<span class="st">&quot;male_mate_retention_2&quot;</span> =<span class="st"> </span><span class="kw">cumulative</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),
+<span class="st">&quot;mate_retention_3&quot;</span> =<span class="st"> </span><span class="kw">cumulative</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),
+<span class="st">&quot;mate_retention_4&quot;</span> =<span class="st"> </span><span class="kw">cumulative</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),
+<span class="st">&quot;mate_retention_5&quot;</span> =<span class="st"> </span><span class="kw">cumulative</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),
+<span class="st">&quot;mate_retention_6&quot;</span> =<span class="st"> </span><span class="kw">cumulative</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),
+<span class="st">&quot;attention_1&quot;</span> =<span class="st"> </span><span class="kw">cumulative</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),
+<span class="st">&quot;attention_2&quot;</span> =<span class="st"> </span><span class="kw">cumulative</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),
+<span class="st">&quot;male_attention_1&quot;</span> =<span class="st"> </span><span class="kw">cumulative</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),
+<span class="st">&quot;extra_pair_intimacy_sex&quot;</span> =<span class="st"> </span><span class="kw">cumulative</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),
+<span class="st">&quot;extra_pair_2&quot;</span> =<span class="st"> </span><span class="kw">cumulative</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),
+<span class="st">&quot;extra_pair_3&quot;</span> =<span class="st"> </span><span class="kw">cumulative</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),
+<span class="st">&quot;extra_pair_4&quot;</span> =<span class="st"> </span><span class="kw">cumulative</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),
+<span class="st">&quot;extra_pair_5&quot;</span> =<span class="st"> </span><span class="kw">cumulative</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),
+<span class="st">&quot;extra_pair_6&quot;</span> =<span class="st"> </span><span class="kw">cumulative</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),
+<span class="st">&quot;extra_pair_7&quot;</span> =<span class="st"> </span><span class="kw">cumulative</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),
+<span class="st">&quot;extra_pair_8&quot;</span> =<span class="st"> </span><span class="kw">cumulative</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),
+<span class="st">&quot;extra_pair_9&quot;</span> =<span class="st"> </span><span class="kw">cumulative</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),
+<span class="st">&quot;extra_pair_10&quot;</span> =<span class="st"> </span><span class="kw">cumulative</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),
+<span class="st">&quot;extra_pair_11&quot;</span> =<span class="st"> </span><span class="kw">cumulative</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),
+<span class="st">&quot;extra_pair_12&quot;</span> =<span class="st"> </span><span class="kw">cumulative</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>),
+<span class="st">&quot;extra_pair_13&quot;</span> =<span class="st"> </span><span class="kw">cumulative</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>))
+
+
+<span class="co"># cat(paste(&#39;bsub -q mpi -W 24:00 -n 4 -R span[block=4] Rscript &quot;/usr/users/rarslan/relationship_dynamics/3_stan_brms_by_item_cluster.R&quot;&#39;,names(outcomes)), sep = &quot;\n&quot;)</span>
+
+<span class="kw">load</span>(<span class="st">&quot;full_data.rdata&quot;</span>)
+
+diary =<span class="st"> </span>diary_long =<span class="st"> </span>diary %&gt;%
+<span class="st">  </span><span class="kw">mutate</span>(
+    <span class="dt">included =</span> included_all,
+    <span class="dt">fertile =</span> <span class="kw">if_else</span>(<span class="kw">is.na</span>(prc_stirn_b_squished), prc_stirn_b_backward_inferred, prc_stirn_b_squished)
+  )  %&gt;%<span class="st"> </span><span class="kw">group_by</span>(person) %&gt;%
+<span class="st">  </span><span class="kw">mutate</span>(
+    <span class="dt">fertile_mean =</span> <span class="kw">mean</span>(fertile, <span class="dt">na.rm =</span> T)
+  )
+
+diary$extra_pair_intimacy_sex =<span class="st"> </span>diary$extra_pair_sex +<span class="st"> </span>diary$extra_pair_intimacy
+twice =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;1&quot;</span> =<span class="st"> </span><span class="dv">1</span>, <span class="st">&quot;2&quot;</span> =<span class="st"> </span><span class="dv">2</span>, <span class="st">&quot;3&quot;</span> =<span class="st"> </span><span class="dv">0</span>)
+diary$sexual_intercourse_2 =<span class="st"> </span>twice[diary$sexual_intercourse_2]
+diary$sexual_intercourse_5 =<span class="st"> </span>twice[diary$sexual_intercourse_5]
+diary$mate_retention_2 =<span class="st"> </span>twice[diary$mate_retention_2]
+diary$relationship_satisfaction_1 =<span class="st"> </span><span class="kw">as.integer</span>(diary$relationship_satisfaction_1)
+diary$sexual_intercourse_satisfaction =<span class="st"> </span><span class="kw">as.integer</span>(diary$sexual_intercourse_satisfaction)
+
+<span class="kw">message</span>(outcome, <span class="st">&quot; begun&quot;</span>)
+family =<span class="st"> </span>outcomes[[outcome]]
+model =<span class="st"> </span><span class="kw">brm</span>(<span class="kw">as.formula</span>(<span class="kw">paste</span>(outcome,<span class="st">&quot;~ included * (menstruation + fertile) + fertile_mean + (1 + fertile + menstruation | person)&quot;</span>)),
+            <span class="dt">prior =</span> <span class="kw">c</span>(<span class="kw">set_prior</span>(<span class="st">&quot;student_t(3, 0, 1)&quot;</span>, <span class="dt">class =</span> <span class="st">&quot;b&quot;</span>),
+                      <span class="kw">set_prior</span>(<span class="st">&quot;cauchy(0, 2)&quot;</span>, <span class="dt">class =</span> <span class="st">&quot;sd&quot;</span>)),
+              <span class="dt">family =</span> family, <span class="dt">data =</span> diary,
+              <span class="dt">chains =</span> <span class="dv">4</span>, <span class="dt">iter =</span> <span class="dv">2000</span>, <span class="dt">warmup =</span> <span class="dv">1000</span>, <span class="dt">cores =</span> <span class="dv">4</span>)
+model =<span class="st"> </span><span class="kw">add_ic</span>(model, <span class="dt">pointwise =</span> <span class="ot">FALSE</span>)
+
+<span class="kw">saveRDS</span>(model, <span class="dt">file =</span> <span class="kw">paste0</span>(<span class="st">&quot;by_item/&quot;</span>,outcome,<span class="st">&quot;.rds&quot;</span>))
+<span class="kw">message</span>(outcome, <span class="st">&quot; fini&quot;</span>)
+<span class="kw">summary</span>(model)</code></pre></div>
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+</body>
+</html>

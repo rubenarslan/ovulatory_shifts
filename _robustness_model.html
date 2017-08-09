@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+<title></title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: visible; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+
+<style type = "text/css">
+body {
+  margin-top: 45px;
+}
+.main-container {
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+</style>
+
+
+<script src="library/auto_tab_first_section.js"></script>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+
+</head>
+
+<body>
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Fertility diary</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="1_power_analysis.html">Power analysis</a>
+</li>
+<li>
+  <a href="1_researcher_df_analysis.html">Researcher degree of freedom simulation</a>
+</li>
+<li>
+  <a href="1_wrangle_data.html">Data wrangling</a>
+</li>
+<li>
+  <a href="2_descriptives.html">Descriptives</a>
+</li>
+<li>
+  <a href="3_fertility_as_prereg.html">Preregistered analyses</a>
+</li>
+<li>
+  <a href="3_fertility_robustness.html">Robustness tests</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="container-fluid main-container">
+
+
+<div id="model-summary" class="section level3 tab-content">
+<h3>Model summary</h3>
+<div id="model-summary-1" class="section level4">
+<h4>Model summary</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">print_summary</span>()</code></pre></div>
+<p>Effect size standardised by residual variance (<span class="math inline">\(b * 0.57 * 3/2 * SD_{residual}\)</span>): 0.26.</p>
+</div>
+<div id="marginal-effect-plots" class="section level4">
+<h4>Marginal effect plots</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">plot_all_effects</span>()</code></pre></div>
+</div>
+<div id="outcome-distribution" class="section level4">
+<h4>Outcome distribution</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">plot_outcome</span>(diary) +<span class="st"> </span><span class="kw">xlab</span>(outcome_label)</code></pre></div>
+</div>
+<div id="diagnostics" class="section level4">
+<h4>Diagnostics</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">print_diagnostics</span>()</code></pre></div>
+</div>
+</div>
+<div id="curves" class="section level3 tab-content active">
+<h3>Curves</h3>
+<p>Here, we continuously plot the outcome over the course of the cycle. Because cycle lengths vary, we subset the data to cycles in a certain range. If the red curve has the same shape as the pink curve, our predictor accurately maps the relationship between conception risk and the outcome.</p>
+<div id="cycle-lengths-from-21-to-36" class="section level4 tab-content">
+<h4>Cycle lengths from 21 to 36</h4>
+<div id="backward-counted" class="section level5 tab-content active">
+<h5>Backward-counted</h5>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">plot_curve</span>(diary %&gt;%<span class="st"> </span><span class="kw">filter</span>(minimum_cycle_length_diary &lt;=<span class="st"> </span><span class="dv">36</span>, minimum_cycle_length_diary &gt;<span class="st"> </span><span class="dv">20</span>) %&gt;%<span class="st"> </span><span class="kw">mutate</span>(<span class="dt">fertile=</span>prc_stirn_b))</code></pre></div>
+<!-- ##### Backward-counted, inferred {.tab-content} -->
+<!-- ```{r curve21_36_bci,results='asis'} -->
+<!-- model %>%  -->
+<!--   plot_curve(diary %>% filter(minimum_cycle_length_diary <= 36, minimum_cycle_length_diary > 20) %>% mutate(RCD = (RCD_inferred - 1)*-1, fertile=prc_stirn_b_backward_inferred), caption_x = "Days until next menstruation, inferred where unknown") -->
+<!-- ``` -->
+</div>
+<div id="forward-counted" class="section level5 tab-content">
+<h5>Forward-counted</h5>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">plot_curve</span>(diary %&gt;%<span class="st"> </span><span class="kw">filter</span>(minimum_cycle_length_diary &lt;=<span class="st"> </span><span class="dv">36</span>, minimum_cycle_length_diary &gt;<span class="st"> </span><span class="dv">20</span>) %&gt;%<span class="st"> </span><span class="kw">mutate</span>(<span class="dt">RCD =</span> FCD, <span class="dt">fertile =</span> prc_stirn_b_forward_counted), <span class="dt">caption_x =</span> <span class="st">&quot;Days since last menstruation&quot;</span>)</code></pre></div>
+</div>
+</div>
+<div id="cycle-lengths-from-27-to-30" class="section level4 tab-content">
+<h4>Cycle lengths from 27 to 30</h4>
+<div id="backward-counted-1" class="section level5 tab-content">
+<h5>Backward-counted</h5>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">plot_curve</span>(diary %&gt;%<span class="st"> </span><span class="kw">filter</span>(minimum_cycle_length_diary &lt;=<span class="st"> </span><span class="dv">30</span>, minimum_cycle_length_diary &gt;=<span class="st"> </span><span class="dv">27</span>) %&gt;%<span class="st"> </span><span class="kw">mutate</span>(<span class="dt">fertile=</span>prc_stirn_b))</code></pre></div>
+<!-- ##### Backward-counted, inferred {.tab-content} -->
+<!-- ```{r curve27_30_bci,results='asis'} -->
+<!-- model %>%  -->
+<!--   plot_curve(diary %>% filter(minimum_cycle_length_diary <= 30, minimum_cycle_length_diary >= 27) %>% mutate(RCD = (RCD_inferred - 1)*-1, fertile=prc_stirn_b_backward_inferred), caption_x = "Days until next menstruation, inferred where unknown") -->
+<!-- ``` -->
+</div>
+<div id="forward-counted-1" class="section level5 tab-content">
+<h5>Forward-counted</h5>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">plot_curve</span>(diary %&gt;%<span class="st"> </span><span class="kw">filter</span>(minimum_cycle_length_diary &lt;=<span class="st"> </span><span class="dv">30</span>, minimum_cycle_length_diary &gt;=<span class="st"> </span><span class="dv">27</span>) %&gt;%<span class="st"> </span><span class="kw">mutate</span>(<span class="dt">RCD =</span> FCD, <span class="dt">fertile =</span> prc_stirn_b_forward_counted), <span class="dt">caption_x =</span> <span class="st">&quot;Days since last menstruation&quot;</span>)</code></pre></div>
+</div>
+</div>
+</div>
+<div id="robustness-checks" class="section level3 tab-content">
+<h3>Robustness checks</h3>
+<div id="m_r1-random-slopes-for-conception-risk-and-menstruation" class="section level4">
+<h4>M_r1: Random slopes for conception risk and menstruation</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tryCatch</span>({
+<span class="co"># refit model with random effects for fertile and menstruation dummies</span>
+with_ind_diff =<span class="st"> </span><span class="kw">update</span>(model, <span class="dt">formula =</span> . ~<span class="st"> </span>. -<span class="st"> </span>(<span class="dv">1</span>|<span class="st"> </span>person) +<span class="st"> </span>(<span class="dv">1</span> +<span class="st"> </span>fertile +<span class="st"> </span>menstruation |<span class="st"> </span>person))
+
+<span class="co"># pull the random effects, format as tibble</span>
+rand =<span class="st"> </span><span class="kw">coef</span>(with_ind_diff)$person %&gt;%<span class="st"> </span>
+<span class="st">  </span>tibble::<span class="kw">rownames_to_column</span>(<span class="st">&quot;person&quot;</span>) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">person =</span> <span class="kw">as.numeric</span>(person))
+
+<span class="co"># pull the fixed effects</span>
+fixd =<span class="st"> </span><span class="kw">data.frame</span>(<span class="kw">fixef</span>(with_ind_diff)) %&gt;%<span class="st"> </span>
+<span class="st">  </span>tibble::<span class="kw">rownames_to_column</span>(<span class="st">&quot;effect&quot;</span>)
+<span class="kw">names</span>(fixd) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;effect&quot;</span>, <span class="st">&quot;pop_effect_size&quot;</span>)
+
+<span class="co"># pull apart the coefficients so that we can account for the fact that the random effect variation implicitly includes HC explaining the mean population-level effect of fertile/menstruation dummies among HC users</span>
+fixd =<span class="st"> </span>fixd %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">separate</span>(effect, <span class="kw">c</span>(<span class="st">&quot;included&quot;</span>, <span class="st">&quot;effect&quot;</span>), <span class="dt">sep =</span> <span class="st">&quot;:&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;left&quot;</span>) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">included =</span> <span class="kw">if_else</span>(<span class="kw">is.na</span>(included), <span class="st">&quot;cycling&quot;</span>, <span class="kw">str_replace</span>(included, <span class="st">&quot;included&quot;</span>, <span class="st">&quot;&quot;</span>)))
+fixd[<span class="dv">2</span>,<span class="kw">c</span>(<span class="st">&quot;included&quot;</span>, <span class="st">&quot;effect&quot;</span>)] =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;horm_contra&quot;</span>, <span class="st">&quot;(Intercept)&quot;</span>)
+  
+
+rand =<span class="st"> </span>rand %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="co"># merge diary data on the random effects, so that we know who is a HC users and who isn&#39;t</span>
+<span class="st">  </span><span class="kw">inner_join</span>(diary %&gt;%<span class="st"> </span><span class="kw">select</span>(person, included) %&gt;%<span class="st"> </span><span class="kw">unique</span>(), <span class="dt">by =</span> <span class="st">&#39;person&#39;</span>) %&gt;%
+<span class="st">  </span><span class="co"># gather into long format, to have the dataset by predictor</span>
+<span class="st">  </span><span class="kw">gather</span>(effect, value, -person, -included) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">inner_join</span>(fixd, <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&#39;effect&#39;</span>, <span class="st">&#39;included&#39;</span>)) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="co"># pull the fixed effects</span>
+<span class="st">  </span><span class="kw">mutate</span>(
+    <span class="co"># only for those who are HC users, add the moderated population effect size for this effect (the random effects have the reference category mean)</span>
+    <span class="dt">value =</span> <span class="kw">if_else</span>(included ==<span class="st"> &quot;horm_contra&quot;</span>, value +<span class="st"> </span>pop_effect_size, value),
+    <span class="dt">effect =</span> <span class="kw">recode</span>(effect, <span class="st">&quot;includedhorm_contra&quot;</span> =<span class="st"> &quot;HC user&quot;</span>,
+                   <span class="st">&quot;includedhorm_contra:fertile&quot;</span> =<span class="st"> &quot;HC user x fertile&quot;</span>,
+                   <span class="st">&quot;includedhorm_contra:menstruationpre&quot;</span> =<span class="st"> &quot;HC user x premens.&quot;</span>,
+                   <span class="st">&quot;includedhorm_contra:menstruationyes&quot;</span> =<span class="st"> &quot;HC user x mens.&quot;</span>,
+                   <span class="st">&quot;menstruationyes&quot;</span> =<span class="st"> &quot;mens.&quot;</span>, 
+                   <span class="st">&quot;menstruationpre&quot;</span> =<span class="st"> &quot;premens.&quot;</span>)) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(included, effect) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="co"># filter out predictors that aren&#39;t modelled as varying/random</span>
+<span class="st">  </span><span class="kw">filter</span>(<span class="kw">sd</span>(value) &gt;<span class="st"> </span><span class="dv">0</span>)
+
+<span class="co"># plot dot plot of random effects</span>
+<span class="kw">print</span>(
+<span class="kw">ggplot</span>(rand, <span class="kw">aes</span>(<span class="dt">x =</span> included, <span class="dt">y =</span> value, <span class="dt">color =</span> included, <span class="dt">fill =</span> included)) +
+<span class="st">  </span><span class="kw">facet_wrap</span>( ~<span class="st"> </span>effect, <span class="dt">scales =</span> <span class="st">&quot;free&quot;</span>) +<span class="st"> </span>
+<span class="st">  </span><span class="co"># geom_violin(alpha = 0.4, size = 0) + </span>
+<span class="st">  </span><span class="kw">geom_dotplot</span>(<span class="dt">binaxis=</span><span class="st">&#39;y&#39;</span>, <span class="dt">dotsize =</span> <span class="fl">0.1</span>, <span class="dt">method =</span> <span class="st">&quot;histodot&quot;</span>) +
+<span class="co"># geom_jitter(alpha = 0.05) + </span>
+<span class="st">  </span><span class="kw">coord_flip</span>() +<span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_pointrange</span>(<span class="dt">stat =</span> <span class="st">&#39;summary&#39;</span>, <span class="dt">fun.data =</span> <span class="st">&#39;mean_sdl&#39;</span>, <span class="dt">color =</span> <span class="st">&#39;darkred&#39;</span>, <span class="dt">size =</span> <span class="fl">1.2</span>) +
+<span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="st">&quot;Contraception status&quot;</span>, <span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;horm_contra&quot;</span>=<span class="st">&quot;black&quot;</span>,<span class="st">&quot;cycling&quot;</span>=<span class="st"> &quot;red&quot;</span>), <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;horm_contra&quot;</span>=<span class="st">&quot;hormonally</span><span class="ch">\n</span><span class="st">contracepting&quot;</span>,<span class="st">&quot;cycling&quot;</span>=<span class="st">&quot;cycling&quot;</span>), <span class="dt">guide =</span> F) +
+<span class="st">  </span><span class="kw">scale_fill_manual</span>(<span class="st">&quot;Contraception status&quot;</span>, <span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;horm_contra&quot;</span>=<span class="st">&quot;black&quot;</span>,<span class="st">&quot;cycling&quot;</span>=<span class="st"> &quot;red&quot;</span>), <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;horm_contra&quot;</span>=<span class="st">&quot;hormonally</span><span class="ch">\n</span><span class="st">contracepting&quot;</span>,<span class="st">&quot;1&quot;</span>=<span class="st">&quot;cycling&quot;</span>), <span class="dt">guide =</span> F) +<span class="st"> </span>
+<span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;M_r1: allowing participant-varying slopes&quot;</span>, <span class="dt">subtitle =</span> <span class="st">&quot;for the conception risk measure and the menstruation dummies&quot;</span>) +
+<span class="st">  </span><span class="kw">scale_x_discrete</span>(<span class="st">&quot;Hormonal contraception&quot;</span>, <span class="dt">breaks =</span> <span class="kw">c</span>(<span class="st">&quot;horm_contra&quot;</span>, <span class="st">&quot;cycling&quot;</span>), <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;yes&quot;</span>, <span class="st">&quot;no&quot;</span>)) +
+<span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="st">&quot;Random effect size distribution&quot;</span>))
+
+<span class="kw">print_summary</span>(with_ind_diff)
+<span class="kw">cat</span>(<span class="kw">pander</span>(<span class="kw">anova</span>(model, with_ind_diff)))
+}, <span class="dt">error =</span> function(e){
+  with_ind_diff =<span class="st"> </span>model
+  <span class="kw">cat_message</span>(e, <span class="st">&quot;danger&quot;</span>)
+})</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">robustness_check_ovu_shift</span>(model, diary)</code></pre></div>
+</div>
+<div id="m_m2-moderation-by-participant-age" class="section level4">
+<h4><em>M_m2</em>: Moderation by participant age</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">test_moderator</span>(<span class="st">&quot;age_group&quot;</span>, diary, <span class="dt">xlevels =</span> <span class="dv">5</span>)</code></pre></div>
+</div>
+<div id="m_m3-moderation-by-weekend" class="section level4">
+<h4><em>M_m3</em>: Moderation by weekend</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">test_moderator</span>(<span class="st">&quot;weekend&quot;</span>, diary, <span class="dt">xlevels =</span> <span class="dv">2</span>) </code></pre></div>
+</div>
+<div id="m_m4-moderation-by-weekday" class="section level4">
+<h4><em>M_m4</em>: Moderation by weekday</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">test_moderator</span>(<span class="st">&quot;weekday&quot;</span>, diary, <span class="dt">xlevels =</span> <span class="dv">7</span>)</code></pre></div>
+</div>
+<div id="m_m5-moderation-by-exclusion-threshold" class="section level4">
+<h4><em>M_m5</em>: Moderation by exclusion threshold</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">test_moderator</span>(<span class="st">&quot;included_levels&quot;</span>, diary, <span class="dt">xlevels =</span> <span class="dv">4</span>)</code></pre></div>
+</div>
+<div id="m_m6-moderation-by-cycle-length" class="section level4">
+<h4><em>M_m6</em>: Moderation by cycle length</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">test_moderator</span>(<span class="st">&quot;cycle_length_groups&quot;</span>, diary, <span class="dt">xlevels =</span> <span class="dv">4</span>)</code></pre></div>
+</div>
+<div id="m_m7-moderation-by-certainty-about-menstruation-parameters" class="section level4">
+<h4><em>M_m7</em>: Moderation by certainty about menstruation parameters</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">test_moderator</span>(<span class="st">&quot;certainty_menstruation&quot;</span>, diary)</code></pre></div>
+</div>
+<div id="m_m8-moderation-by-cycle-regularity" class="section level4">
+<h4><em>M_m8</em>: Moderation by cycle regularity</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">test_moderator</span>(<span class="st">&quot;cycle_regularity&quot;</span>, diary)</code></pre></div>
+</div>
+<div id="m_m9-moderation-by-cohabitation-status" class="section level4">
+<h4><em>M_m9</em>: Moderation by cohabitation status</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">test_moderator</span>(<span class="st">&quot;cohabitation&quot;</span>, diary)</code></pre></div>
+</div>
+<div id="m_m10-moderation-by-relationship-status" class="section level4">
+<h4><em>M_m10</em>: Moderation by relationship status</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">test_moderator</span>(<span class="st">&quot;relationship_status_clean&quot;</span>, diary)</code></pre></div>
+</div>
+</div>
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+</body>
+</html>
