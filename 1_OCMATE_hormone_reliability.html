@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Jones et al., multilevel reliability calculations by Arslan et al." />
+
+
+<title></title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-1.1/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+<script src="library/auto_tab_first_section.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="library/custom_styles.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 64px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+
+.section h2 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h3 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h4 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h5 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h6 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Fertility diary</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="1_power_analysis.html">Power analysis</a>
+</li>
+<li>
+  <a href="1_researcher_df_analysis.html">Researcher degree of freedom simulation</a>
+</li>
+<li>
+  <a href="1_wrangle_data.html">Data wrangling</a>
+</li>
+<li>
+  <a href="2_descriptives.html">Descriptives</a>
+</li>
+<li>
+  <a href="3_fertility_as_prereg.html">Preregistered analyses</a>
+</li>
+<li>
+  <a href="3_fertility_robustness.html">Robustness tests</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+
+</div>
+
+
+<div id="re-analysis-of-ocmate-data-to-get-reliability-of-change" class="section level1 tab-content">
+<h1>Re-analysis of OCMATE data to get reliability of change</h1>
+<div id="pre-process-data" class="section level2">
+<h2>Pre-process data</h2>
+<pre class="r"><code># Load packages
+library(tidyr)
+library(dplyr)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;dplyr&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     filter, lag</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     intersect, setdiff, setequal, union</code></pre>
+<pre class="r"><code>library(ggplot2)
+library(lme4)</code></pre>
+<pre><code>## Loading required package: Matrix</code></pre>
+<pre><code>## 
+## Attaching package: &#39;Matrix&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:tidyr&#39;:
+## 
+##     expand</code></pre>
+<pre class="r"><code>library(lmerTest)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;lmerTest&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:lme4&#39;:
+## 
+##     lmer</code></pre>
+<pre><code>## The following object is masked from &#39;package:stats&#39;:
+## 
+##     step</code></pre>
+<pre class="r"><code>library(knitr)
+
+options(scipen=999)
+knitr::opts_chunk$set(cache=TRUE)</code></pre>
+<pre class="r"><code># calculate standard errors
+se &lt;- function(x, na.rm = FALSE) {
+  if (na.rm) {
+    the.SE &lt;- sqrt(var(x,na.rm=TRUE)/length(na.omit(x)))
+  } else {
+    the.SE &lt;- sqrt(var(x,na.rm=FALSE)/length(x))
+  }
+  
+  return(the.SE)
+}
+
+
+# short summaries for lmerTest
+mySummary&lt;-function(lmer_summary) {
+  
+  coefTable &lt;- lmer_summary$coefficients %&gt;% 
+    round(3) %&gt;%
+    as.data.frame() %&gt;% 
+    rownames_to_column()
+  
+  if (ncol(coefTable)&gt;5) {
+    coefTable &lt;- coefTable %&gt;%
+      mutate(
+        sig = ifelse(.[6]&lt;.001, &quot; * * * &quot;,
+              ifelse(.[6]&lt;.01,   &quot; *  * &quot;,
+              ifelse(.[6]&lt;.05,   &quot; * &quot;,
+              ifelse(.[6]&lt;.10,   &quot;+&quot;, &quot;&quot;)))))
+  }
+  
+  return(list(lmer_summary$ngrps, kable(coefTable)))
+}</code></pre>
+<div id="load-data" class="section level3">
+<h3>Load data</h3>
+<p>Data entered from all white, heterosexual women not using any form of hormonal contraceptives Each row is all data from a single session (i.e. oc_id:date)</p>
+<ul>
+<li>“oc_id” = ID of the subject<br />
+</li>
+<li>“block” = testing block (1, 2 or 3)</li>
+<li>“block_N” = how many testing sessions completed in that block</li>
+<li>“age” = age (in years) of subject on day of testing<br />
+</li>
+<li>“ethnicity” = ethnic group of subject (all white)</li>
+<li>“sexpref” = sexual preference of subject (all heterosexual)</li>
+<li>“date” = date of testing session</li>
+<li>“partner” = does subject currently have a romantic partner? (0 = no partner, 1 = yes partner)</li>
+<li>“block_partner” = all unique partner column values in the block (0 if never had partner, 1 if always had partner, otherwised mixed: e.g., 1,0)</li>
+<li>“behavior_soi” = behavior subscale of SOI-R</li>
+<li>“attitude_soi” = attitude subscale of SOI-R</li>
+<li>“desire_soi” = desire subscale of SOI-R</li>
+<li>“current_sexdrive”= current sex drive score</li>
+<li>“solitary_SDI” = solitary desire subscale of SDI-2</li>
+<li>“dyadic_SDI” = dyadic desire subscale of SDI-2</li>
+<li>“total_SDI” = total score on SDI-2</li>
+<li>“progesterone” = salivary progesterone for that session</li>
+<li>“estradiol” = salivary estradiol for that session</li>
+<li>“testosterone” = salivary testosterone for that session</li>
+<li>“cortisol” = salivary cortisol for that session</li>
+</ul>
+<pre class="r"><code>data_start &lt;- read.csv(&quot;OCMATE_sexdrive_anon.csv&quot;, stringsAsFactors = F) </code></pre>
+<div id="re-code-variables" class="section level4">
+<h4>Re-code variables</h4>
+<ul>
+<li>partner.e = partnership status (no = -0.5, partner = +0.5, mixed = NA)</li>
+</ul>
+<pre class="r"><code># wide to long format
+# effect code partnership status (no = -0.5, partner = 0.5)
+
+data_all &lt;- data_start %&gt;%
+  gather(question, score, behavior_soi:total_SDI) %&gt;%
+  mutate(
+    partner.e = ifelse(block_partner==0, -0.5, ifelse(block_partner==1, 0.5, NA)),
+    prog = progesterone,
+    estr = estradiol,
+    test = testosterone,
+    cort = cortisol
+  )</code></pre>
+</div>
+</div>
+<div id="age" class="section level3">
+<h3>Age</h3>
+<pre class="r"><code># mean age at start of testing
+data_all %&gt;%
+  group_by(oc_id) %&gt;%
+  summarise(
+    min_age = min(age, na.rm = TRUE)
+  ) %&gt;%
+  ungroup() %&gt;%
+  group_by() %&gt;%
+  summarise(
+    n = n(),
+    mean_age = mean(min_age, na.rm = TRUE),
+    sd_age = sd(min_age, na.rm = TRUE)
+  ) %&gt;% t()</code></pre>
+<pre><code>##               [,1]
+## n        375.00000
+## mean_age  21.56176
+## sd_age     3.30910</code></pre>
+</div>
+<div id="descriptive-stats-for-questionaires" class="section level3">
+<h3>Descriptive Stats for Questionaires</h3>
+<pre class="r"><code>data_all %&gt;%
+  group_by(question) %&gt;%
+  summarise(
+    N_valid = sum(!is.na(score)),
+    N_missing = sum(is.na(score)),
+    mean_score = mean(score, na.rm = TRUE),
+    sd_score = sd(score, na.rm = TRUE)
+  )</code></pre>
+<pre><code>## # A tibble: 7 x 5
+##           question N_valid N_missing mean_score  sd_score
+##              &lt;chr&gt;   &lt;int&gt;     &lt;int&gt;      &lt;dbl&gt;     &lt;dbl&gt;
+## 1     attitude_soi    2189        87   9.223847  3.503218
+## 2     behavior_soi    2140       136   5.737850  2.666953
+## 3 current_sexdrive    2145       131   3.768298  1.556664
+## 4       desire_soi    2168       108   8.056734  2.960283
+## 5       dyadic_SDI    2098       178  35.514776 11.949346
+## 6     solitary_SDI    2099       177   8.626012  6.462232
+## 7        total_SDI    2051       225  44.146758 15.660870</code></pre>
+</div>
+<div id="the-number-of-sessions-completed-per-woman" class="section level3">
+<h3>The number of sessions completed per woman</h3>
+<pre class="r"><code>data_all %&gt;%
+  group_by(oc_id) %&gt;%
+  summarise(
+    sessions = n_distinct(date)
+  ) %&gt;%
+  group_by(sessions) %&gt;%
+  summarise(
+    n = n()
+  ) %&gt;%
+  spread(sessions, n) %&gt;% 
+  t()</code></pre>
+<pre><code>##      1
+## 1   15
+## 2    9
+## 3    5
+## 4    9
+## 5  233
+## 6    1
+## 7    1
+## 8    2
+## 9    2
+## 10  98</code></pre>
+</div>
+<div id="exclude-observations-with-missing-estr-prog-and-test" class="section level3">
+<h3>Exclude observations with missing estr, prog and test</h3>
+<pre class="r"><code>## Exclude observations with EPT missing hormone values 
+sub_hormones_no_EPT &lt;- data_all %&gt;%
+  filter(
+    !is.na(prog) | 
+    !is.na(estr) | 
+    !is.na(test)
+  )</code></pre>
+</div>
+<div id="exclude-subjects-with-only-a-single-session-in-a-block" class="section level3">
+<h3>Exclude subjects with only a single session in a block</h3>
+<p>This is necessary because you can’t calculate subject-centered means with only one data point.</p>
+<pre class="r"><code>check_single_session &lt;- sub_hormones_no_EPT %&gt;%
+  group_by(oc_id, block) %&gt;%
+  summarise(sessions = n_distinct(date)) %&gt;%
+  ungroup() %&gt;%
+  filter(sessions == 1)
+
+sub_hormones_multisession &lt;- sub_hormones_no_EPT %&gt;%
+  anti_join(check_single_session, by=c(&#39;oc_id&#39;, &#39;block&#39;))</code></pre>
+</div>
+<div id="remove-outlier-hormone-values" class="section level3">
+<h3>Remove outlier hormone values</h3>
+<p>Remove below bottom sensitivity thresholds for assays (progesterone &lt; 5, estrogen &lt; 0.1), and remove outlier values (+/- 3SD from the mean)</p>
+<pre class="r"><code>sub_hormones_no_outliers &lt;- sub_hormones_multisession %&gt;%
+  mutate(
+    prog = ifelse(prog &gt;= 5, prog, NA),
+    estr = ifelse(estr &gt;= 0.1, estr, NA),
+    prog = if_else(prog&gt;mean(prog, na.rm=TRUE) + 3*sd(prog, na.rm=TRUE) | 
+                  prog&lt;mean(prog, na.rm=TRUE) - 3*sd(prog, na.rm=TRUE), NA_real_, prog),
+    estr = ifelse(estr&gt;mean(estr, na.rm=TRUE) + 3*sd(estr, na.rm=TRUE) | 
+                  estr&lt;mean(estr, na.rm=TRUE) - 3*sd(estr, na.rm=TRUE), NA, estr),
+    test = ifelse(test&gt;mean(test, na.rm=TRUE) + 3*sd(test, na.rm=TRUE) | 
+                  test&lt;mean(test, na.rm=TRUE) - 3*sd(test, na.rm=TRUE), NA, test),
+    cort = ifelse(cort&gt;mean(cort, na.rm=TRUE) + 3*sd(cort, na.rm=TRUE) | 
+                  cort&lt;mean(cort, na.rm=TRUE) - 3*sd(cort, na.rm=TRUE), NA, cort)
+  )
+qplot(sub_hormones_no_outliers$prog)</code></pre>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<pre><code>## Warning: Removed 287 rows containing non-finite values (stat_bin).</code></pre>
+<p><img src="1_OCMATE_hormone_reliability_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<pre class="r"><code># how many included?
+check_hormone_exclusions &lt;- sub_hormones_no_outliers %&gt;%
+  group_by(oc_id, date) %&gt;%
+  summarise(
+    e = is.na(mean(estr)),
+    p = is.na(mean(prog)),
+    t = is.na(mean(test)),
+    c = is.na(mean(cort))
+  ) %&gt;%
+  ungroup() %&gt;%
+  select(e:c) %&gt;%
+  gather(&#39;hormone&#39;,&#39;na&#39;, e:c) %&gt;%
+  group_by(hormone) %&gt;%
+  summarise(
+    &#39;valid&#39; = n() - sum(na),
+    &#39;excluded&#39; = sum(na)
+  ) %&gt;%
+  arrange(hormone)
+  
+  kable(check_hormone_exclusions)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">hormone</th>
+<th align="right">valid</th>
+<th align="right">excluded</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">c</td>
+<td align="right">2155</td>
+<td align="right">11</td>
+</tr>
+<tr class="even">
+<td align="left">e</td>
+<td align="right">2146</td>
+<td align="right">20</td>
+</tr>
+<tr class="odd">
+<td align="left">p</td>
+<td align="right">2125</td>
+<td align="right">41</td>
+</tr>
+<tr class="even">
+<td align="left">t</td>
+<td align="right">2143</td>
+<td align="right">23</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>  check_hormone_exclusions %&gt;%
+    group_by() %&gt;%
+    summarise(
+      total_hormone_samples_valid = sum(valid),
+      total_hormone_samples_excluded = sum(excluded)
+    ) %&gt;% gather(&quot;stat&quot;, &quot;value&quot;, 1:length(.))</code></pre>
+<pre><code>## # A tibble: 2 x 2
+##                             stat value
+##                            &lt;chr&gt; &lt;int&gt;
+## 1    total_hormone_samples_valid  8569
+## 2 total_hormone_samples_excluded    95</code></pre>
+</div>
+<div id="subject-mean-centre-hormones" class="section level3">
+<h3>Subject-mean-centre hormones</h3>
+<p>Divide results by a constant to put all hormones on ~ -0.5 to +0.5 scale</p>
+<pre class="r"><code># subject-mean-centre hormones 
+# and divide by a constant to put all hormones on ~ -0.5 to +0.5 scale
+
+data_hormones &lt;- sub_hormones_no_outliers %&gt;%
+group_by(oc_id) %&gt;%
+  mutate(prog.s = (prog-mean(prog, na.rm=TRUE))/400,
+         estr.s = (estr-mean(estr, na.rm=TRUE))/5,
+         test.s = (test-mean(test, na.rm=TRUE))/100,
+         cort.s = (cort-mean(cort, na.rm=TRUE))/0.5,
+         ep_ratio.s = ((estr/prog)-mean(estr/prog, na.rm=TRUE))/0.075) %&gt;%
+  ungroup() %&gt;%
+  as.data.frame()
+
+data_hormones %&gt;%
+  group_by(oc_id, date, prog.s, estr.s, test.s, cort.s, ep_ratio.s) %&gt;%
+  summarise(n = n()) %&gt;%
+  ungroup() %&gt;%
+  gather(&quot;hormone&quot;, &quot;value&quot;, prog.s:ep_ratio.s) %&gt;%
+  ggplot(aes(value, colour=hormone)) + 
+  geom_density(alpha=.5) + 
+  scale_x_continuous(limits = c(-1,1))</code></pre>
+<pre><code>## Warning: Removed 200 rows containing non-finite values (stat_density).</code></pre>
+<p><img src="1_OCMATE_hormone_reliability_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+</div>
+<div id="mean-hormone-levels" class="section level3">
+<h3>Mean Hormone Levels</h3>
+<pre class="r"><code>data_hormones %&gt;%
+  group_by(oc_id, date, prog, estr, test, cort) %&gt;%
+  summarise(n = n()) %&gt;%
+  ungroup() %&gt;%
+  group_by() %&gt;%
+  summarise(
+      mean_prog = mean(prog, na.rm = TRUE),
+      sd_prog =   sd(prog, na.rm = TRUE),
+      se_prog =   se(prog, na.rm = TRUE),
+      mean_estr = mean(estr, na.rm = TRUE),
+      sd_estr =   sd(estr, na.rm = TRUE),
+      se_estr =   se(estr, na.rm = TRUE),
+      mean_test = mean(test, na.rm = TRUE),
+      sd_test =   sd(test, na.rm = TRUE),
+      se_test =   se(test, na.rm = TRUE),
+      mean_cort = mean(cort, na.rm = TRUE),
+      sd_cort =   sd(cort, na.rm = TRUE),
+      se_cort =   se(cort, na.rm = TRUE)
+  ) %&gt;% gather(&quot;stat&quot;, &quot;value&quot;, 1:length(.)) %&gt;%
+    mutate(value = round(value, 4)) %&gt;%
+    separate(stat, c(&quot;stat&quot;, &quot;hormone&quot;)) %&gt;%
+    spread(stat, value)</code></pre>
+<pre><code>## # A tibble: 4 x 4
+##   hormone     mean      sd     se
+## *   &lt;chr&gt;    &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;
+## 1    cort   0.2290  0.1644 0.0035
+## 2    estr   3.3006  1.2733 0.0275
+## 3    prog 148.5903 96.2178 2.0873
+## 4    test  87.5719 27.1929 0.5874</code></pre>
+</div>
+<div id="partnership" class="section level3">
+<h3>Partnership</h3>
+<p>Exclude blocks with partner inconsistently reported and women who change partnership status between blocks, only for analyses considering partnership status</p>
+<pre class="r"><code>data_hormones_partner &lt;- data_hormones %&gt;%
+  filter(block_partner == &quot;0&quot; | block_partner ==&quot;1&quot;) %&gt;%
+  group_by(oc_id) %&gt;%
+  mutate(pchange = mean(partner.e)) %&gt;%
+  ungroup() %&gt;%
+  filter(pchange %in% c(-.5, .5)) %&gt;%
+  select(-pchange)</code></pre>
+<hr />
+</div>
+</div>
+<div id="multilevel-reliability-generalizability-analyses" class="section level2 tab-content active">
+<h2>Multilevel Reliability / Generalizability Analyses</h2>
+<pre class="r"><code>library(psych)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;psych&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:ggplot2&#39;:
+## 
+##     %+%, alpha</code></pre>
+<pre class="r"><code>data_wide = data_hormones %&gt;% select(oc_id, date, block, estr, prog, test, cort) %&gt;% unique()</code></pre>
+<div id="estradiol" class="section level3">
+<h3>Estradiol</h3>
+<pre class="r"><code>multilevel.reliability(data_wide %&gt;% select(oc_id, date, estr), &quot;oc_id&quot;, &quot;date&quot;, 3, aov = F)</code></pre>
+<pre><code>## Warning in cov2cor(C): diag(.) had 0 or NA entries; non-finite result is
+## doubtful</code></pre>
+<pre><code>## 
+## Multilevel Generalizability analysis   
+## Call: multilevel.reliability(x = data_wide %&gt;% select(oc_id, date, 
+##     estr), grp = &quot;oc_id&quot;, Time = &quot;date&quot;, items = 3, aov = F)
+## 
+## The data had  352  observations taken over  306  time intervals for  1 items.
+## 
+##  Alternative estimates of reliabilty based upon Generalizability theory
+## 
+## RkRn =  1 Generalizability of between person differences averaged over time (time nested within people)
+## Rcn  =  0.83 Generalizability of within person variations averaged over items  (time nested within people)
+##  The nested components of variance estimated from lme are:
+##          Variance Percent
+## id           0.92   0.548
+## id(time)     0.63   0.377
+## residual     0.13   0.075
+## total        1.68   1.000
+## 
+## To see the ANOVA and alpha by subject, use the short = FALSE option.
+##  To see the summaries of the ICCs by subject and time, use all=TRUE
+##  To see specific objects select from the following list:
+##  ANOVA s.lmer s.lme alpha summary.by.person summary.by.time ICC.by.person ICC.by.time lmer long Call</code></pre>
+</div>
+<div id="progesterone" class="section level3">
+<h3>Progesterone</h3>
+<pre class="r"><code>multilevel.reliability(data_wide %&gt;% select(oc_id, date, prog), &quot;oc_id&quot;, &quot;date&quot;, 3, aov = F)</code></pre>
+<pre><code>## 
+## Multilevel Generalizability analysis   
+## Call: multilevel.reliability(x = data_wide %&gt;% select(oc_id, date, 
+##     prog), grp = &quot;oc_id&quot;, Time = &quot;date&quot;, items = 3, aov = F)
+## 
+## The data had  352  observations taken over  306  time intervals for  1 items.
+## 
+##  Alternative estimates of reliabilty based upon Generalizability theory
+## 
+## RkRn =  0.99 Generalizability of between person differences averaged over time (time nested within people)
+## Rcn  =  0.86 Generalizability of within person variations averaged over items  (time nested within people)
+##  The nested components of variance estimated from lme are:
+##          Variance Percent
+## id           3014   0.324
+## id(time)     5392   0.579
+## residual      899   0.097
+## total        9305   1.000
+## 
+## To see the ANOVA and alpha by subject, use the short = FALSE option.
+##  To see the summaries of the ICCs by subject and time, use all=TRUE
+##  To see specific objects select from the following list:
+##  ANOVA s.lmer s.lme alpha summary.by.person summary.by.time ICC.by.person ICC.by.time lmer long Call</code></pre>
+</div>
+<div id="testosterone" class="section level3">
+<h3>Testosterone</h3>
+<pre class="r"><code>multilevel.reliability(data_wide %&gt;% select(oc_id, date, test), &quot;oc_id&quot;, &quot;date&quot;, 3, aov = F)</code></pre>
+<pre><code>## Warning in cov2cor(C): diag(.) had 0 or NA entries; non-finite result is
+## doubtful</code></pre>
+<pre><code>## 
+## Multilevel Generalizability analysis   
+## Call: multilevel.reliability(x = data_wide %&gt;% select(oc_id, date, 
+##     test), grp = &quot;oc_id&quot;, Time = &quot;date&quot;, items = 3, aov = F)
+## 
+## The data had  352  observations taken over  306  time intervals for  1 items.
+## 
+##  Alternative estimates of reliabilty based upon Generalizability theory
+## 
+## RkRn =  1 Generalizability of between person differences averaged over time (time nested within people)
+## Rcn  =  0.83 Generalizability of within person variations averaged over items  (time nested within people)
+##  The nested components of variance estimated from lme are:
+##          Variance Percent
+## id            432   0.573
+## id(time)      268   0.355
+## residual       55   0.072
+## total         755   1.000
+## 
+## To see the ANOVA and alpha by subject, use the short = FALSE option.
+##  To see the summaries of the ICCs by subject and time, use all=TRUE
+##  To see specific objects select from the following list:
+##  ANOVA s.lmer s.lme alpha summary.by.person summary.by.time ICC.by.person ICC.by.time lmer long Call</code></pre>
+</div>
+<div id="cortisol" class="section level3">
+<h3>Cortisol</h3>
+<pre class="r"><code>multilevel.reliability(data_wide %&gt;% select(oc_id, date, cort), &quot;oc_id&quot;, &quot;date&quot;, 3, aov = F)</code></pre>
+<pre><code>## Warning in cov2cor(C): diag(.) had 0 or NA entries; non-finite result is
+## doubtful
+
+## Warning in cov2cor(C): diag(.) had 0 or NA entries; non-finite result is
+## doubtful</code></pre>
+<pre><code>## 
+## Multilevel Generalizability analysis   
+## Call: multilevel.reliability(x = data_wide %&gt;% select(oc_id, date, 
+##     cort), grp = &quot;oc_id&quot;, Time = &quot;date&quot;, items = 3, aov = F)
+## 
+## The data had  352  observations taken over  306  time intervals for  1 items.
+## 
+##  Alternative estimates of reliabilty based upon Generalizability theory
+## 
+## RkRn =  1 Generalizability of between person differences averaged over time (time nested within people)
+## Rcn  =  0.85 Generalizability of within person variations averaged over items  (time nested within people)
+##  The nested components of variance estimated from lme are:
+##          Variance Percent
+## id         0.0123   0.432
+## id(time)   0.0137   0.481
+## residual   0.0025   0.087
+## total      0.0285   1.000
+## 
+## To see the ANOVA and alpha by subject, use the short = FALSE option.
+##  To see the summaries of the ICCs by subject and time, use all=TRUE
+##  To see specific objects select from the following list:
+##  ANOVA s.lmer s.lme alpha summary.by.person summary.by.time ICC.by.person ICC.by.time lmer long Call</code></pre>
+</div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

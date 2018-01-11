@@ -1916,8 +1916,8 @@ table(no_variation$no_variation)</code></pre>
 
 table(tagebuch$dodgy_data, exclude = NULL)</code></pre>
 <pre><code>## 
-## FALSE  TRUE  &lt;NA&gt; 
-## 29660  1264     0</code></pre>
+## FALSE  TRUE 
+## 29660  1264</code></pre>
 <pre class="r"><code>tagebuch = tagebuch %&gt;% tbl_dt()</code></pre>
 </div>
 <div id="correcting-errors-in-our-surveys-that-we-noticed-while-the-study-ran" class="section level3">
@@ -2472,8 +2472,7 @@ alpha(xsection[, list(MV_1, MV_2, MV_3, MV_4, MV_5)])</code></pre>
 <pre class="r"><code>pairs.panels(xsection %&gt;% select(matches(&quot;MV_\\d$&quot;)))</code></pre>
 <p><img src="1_wrangle_data_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 <pre class="r"><code>fa.parallel(xsection %&gt;% select(matches(&quot;MV_\\d$&quot;)))</code></pre>
-<p><img src="1_wrangle_data_files/figure-html/unnamed-chunk-12-2.png" width="672" /></p>
-<pre><code>## Parallel analysis suggests that the number of factors =  2  and the number of components =  2</code></pre>
+<pre><code>## Error in matrix(unlist(templist), ncol = n.iter): &#39;data&#39; must be of a vector type, was &#39;NULL&#39;</code></pre>
 <pre class="r"><code>fa(xsection %&gt;% select(matches(&quot;MV_\\d$&quot;)), 2)</code></pre>
 <pre><code>## Factor Analysis using method =  minres
 ## Call: fa(r = xsection %&gt;% select(matches(&quot;MV_\\d$&quot;)), nfactors = 2)
@@ -2519,10 +2518,9 @@ alpha(xsection[, list(MV_1, MV_2, MV_3, MV_4, MV_5)])</code></pre>
 ## Multiple R square of scores with factors       0.89 0.82
 ## Minimum correlation of possible factor scores  0.78 0.65</code></pre>
 <pre class="r"><code>pairs.panels(xsection %&gt;% select(matches(&quot;MV_P_\\d$&quot;)))</code></pre>
-<p><img src="1_wrangle_data_files/figure-html/unnamed-chunk-12-3.png" width="672" /></p>
+<p><img src="1_wrangle_data_files/figure-html/unnamed-chunk-12-2.png" width="672" /></p>
 <pre class="r"><code>fa.parallel(xsection %&gt;% select(matches(&quot;MV_P_\\d$&quot;)) %&gt;% data.frame())</code></pre>
-<p><img src="1_wrangle_data_files/figure-html/unnamed-chunk-12-4.png" width="672" /></p>
-<pre><code>## Parallel analysis suggests that the number of factors =  2  and the number of components =  2</code></pre>
+<pre><code>## Error in matrix(unlist(templist), ncol = n.iter): &#39;data&#39; must be of a vector type, was &#39;NULL&#39;</code></pre>
 <pre class="r"><code>fa(xsection %&gt;% select(matches(&quot;MV_P_\\d$&quot;)) %&gt;% data.frame(), 2)</code></pre>
 <pre><code>## Factor Analysis using method =  minres
 ## Call: fa(r = xsection %&gt;% select(matches(&quot;MV_P_\\d$&quot;)) %&gt;% data.frame(), 
@@ -2568,37 +2566,19 @@ alpha(xsection[, list(MV_1, MV_2, MV_3, MV_4, MV_5)])</code></pre>
 ## Correlation of scores with factors             0.92 0.96
 ## Multiple R square of scores with factors       0.85 0.93
 ## Minimum correlation of possible factor scores  0.70 0.85</code></pre>
-<pre class="r"><code># in both cases the first two items don&#39;t play well with the rest. the questions are also extremely complex, require counterfactual thinking and tap into at least perception of own attractiveness, perception of partner attractiveness, perception of own/partner mating skills. Hence we just use MV_short, MV_P_short, discard the rest
+<pre class="r"><code># in both cases the first two items don&#39;t play well with the rest. the questions are also extremely complex, require counterfactual thinking and tap into at least perception of own attractiveness, perception of partner attractiveness, perception of own/partner mating skills. Hence we also examine the effect of using MV_short, MV_P_short, without those first two items
 
 
 xsection$MV = rowMeans(xsection[, list(MV_1, MV_2, MV_3, MV_4, MV_5)])
 xsection$MV_P = rowMeans(xsection[, list(MV_P_1, MV_P_2, MV_P_3, MV_P_4, MV_P_5)])
 xsection$MV_short = rowMeans(xsection[, list( MV_3, MV_4, MV_5)])
 xsection$MV_P_short = rowMeans(xsection[, list(MV_P_3, MV_P_4, MV_P_5)])
-cor.test(xsection$MV_P_short, xsection$MV_short)</code></pre>
-<pre><code>## 
-##  Pearson&#39;s product-moment correlation
-## 
-## data:  xsection$MV_P_short and xsection$MV_short
-## t = 8.9, df = 1200, p-value &lt;2e-16
-## alternative hypothesis: true correlation is not equal to 0
-## 95 percent confidence interval:
-##  0.1959 0.3017
-## sample estimates:
-##    cor 
-## 0.2495</code></pre>
-<pre class="r"><code>cor.test(xsection$MV_P, xsection$MV)</code></pre>
-<pre><code>## 
-##  Pearson&#39;s product-moment correlation
-## 
-## data:  xsection$MV_P and xsection$MV
-## t = 4.1, df = 1200, p-value = 0.00005
-## alternative hypothesis: true correlation is not equal to 0
-## 95 percent confidence interval:
-##  0.0606 0.1719
-## sample estimates:
-##    cor 
-## 0.1166</code></pre>
+xsection %&gt;% select(MV_P, MV, MV_short, MV_P_short) %&gt;% cor(use = &#39;na.or.complete&#39;)</code></pre>
+<pre><code>##               MV_P     MV MV_short MV_P_short
+## MV_P       1.00000 0.1166  0.09647     0.8459
+## MV         0.11660 1.0000  0.85188     0.1268
+## MV_short   0.09647 0.8519  1.00000     0.2495
+## MV_P_short 0.84593 0.1268  0.24951     1.0000</code></pre>
 </div>
 <div id="zip-relationship-satisfaction" class="section level4">
 <h4>ZIP (relationship satisfaction)</h4>
@@ -2690,14 +2670,13 @@ pairs.panels(xsection %&gt;% select(one_of(attr_items)))</code></pre>
 ## attractiveness_body 0.00 0.02 0.16 0.37 0.44    0
 ## sexy                0.01 0.06 0.28 0.38 0.27    0</code></pre>
 <pre class="r"><code>fa.parallel(xsection %&gt;% select(one_of(st_attr_items)))</code></pre>
-<p><img src="1_wrangle_data_files/figure-html/unnamed-chunk-14-4.png" width="672" /></p>
-<pre><code>## Parallel analysis suggests that the number of factors =  1  and the number of components =  1</code></pre>
+<pre><code>## Error in matrix(unlist(templist), ncol = n.iter): &#39;data&#39; must be of a vector type, was &#39;NULL&#39;</code></pre>
 <pre class="r"><code>qplot(age, attractiveness_finance_2, data = xsection) + geom_smooth(method = &quot;gam&quot;, formula = y ~ s(x))</code></pre>
-<p><img src="1_wrangle_data_files/figure-html/unnamed-chunk-14-5.png" width="672" /></p>
+<p><img src="1_wrangle_data_files/figure-html/unnamed-chunk-14-4.png" width="672" /></p>
 <pre class="r"><code>xsection$attractiveness_income_age_corrected = residuals(mgcv::gam(attractiveness_finance_2 ~ s(age), data = xsection, na.action = na.exclude)) # we don&#39;t have the partner&#39;s age, so make do with the woman&#39;s age. # adjusting doesn&#39;t do much
 lt_attr_items = c(&quot;attractiveness_occupation&quot;, &quot;attractiveness_ltp&quot;, &quot;attractiveness_finance_1&quot;, &quot;attractiveness_income_age_corrected&quot;, &quot;attractiveness_finance_2&quot;)
 pairs.panels(xsection %&gt;% select(one_of(lt_attr_items)))</code></pre>
-<p><img src="1_wrangle_data_files/figure-html/unnamed-chunk-14-6.png" width="672" /></p>
+<p><img src="1_wrangle_data_files/figure-html/unnamed-chunk-14-5.png" width="672" /></p>
 <pre class="r"><code>psych::alpha(xsection %&gt;% select(one_of(lt_attr_items)) %&gt;% data.frame(), check.keys = F)</code></pre>
 <pre><code>## 
 ## Reliability analysis   
@@ -2723,11 +2702,10 @@ pairs.panels(xsection %&gt;% select(one_of(lt_attr_items)))</code></pre>
 ## attractiveness_occupation           1208  0.58  0.61  0.43   0.36  3.5e+00 0.95
 ## attractiveness_ltp                  1208  0.33  0.40  0.13   0.10  4.3e+00 0.84
 ## attractiveness_finance_1            1208  0.81  0.80  0.74   0.66  3.0e+00 1.07
-## attractiveness_income_age_corrected 1208  0.82  0.79  0.81   0.69 -1.6e-14 1.02
+## attractiveness_income_age_corrected 1208  0.82  0.79  0.81   0.69 -9.7e-15 1.02
 ## attractiveness_finance_2            1208  0.82  0.77  0.78   0.62  2.7e+00 1.26</code></pre>
 <pre class="r"><code>fa.parallel(xsection %&gt;% select(one_of(lt_attr_items)))</code></pre>
-<p><img src="1_wrangle_data_files/figure-html/unnamed-chunk-14-7.png" width="672" /></p>
-<pre><code>## Parallel analysis suggests that the number of factors =  2  and the number of components =  2</code></pre>
+<pre><code>## Error in matrix(unlist(templist), ncol = n.iter): &#39;data&#39; must be of a vector type, was &#39;NULL&#39;</code></pre>
 </div>
 <div id="partners-physical-attractiveness" class="section level4">
 <h4>Partner’s physical attractiveness</h4>
@@ -2802,8 +2780,7 @@ pairs.panels(xsection %&gt;% select(one_of(money_attr_items)))</code></pre>
 ## attractiveness_finance_1  0.08 0.26 0.30 0.29 0.06    0
 ## attractiveness_finance_2  0.18 0.34 0.22 0.14 0.13    0</code></pre>
 <pre class="r"><code>fa.parallel(xsection %&gt;% select(one_of(money_attr_items)))</code></pre>
-<p><img src="1_wrangle_data_files/figure-html/unnamed-chunk-16-2.png" width="672" /></p>
-<pre><code>## Parallel analysis suggests that the number of factors =  2  and the number of components =  1</code></pre>
+<pre><code>## Error in matrix(unlist(templist), ncol = n.iter): &#39;data&#39; must be of a vector type, was &#39;NULL&#39;</code></pre>
 <pre class="r"><code>fa(xsection %&gt;% select(one_of(money_attr_items)), 2)</code></pre>
 <pre><code>## Factor Analysis using method =  minres
 ## Call: fa(r = xsection %&gt;% select(one_of(money_attr_items)), nfactors = 2)
@@ -2846,7 +2823,7 @@ pairs.panels(xsection %&gt;% select(one_of(money_attr_items)))</code></pre>
 ## Minimum correlation of possible factor scores  0.53 0.15</code></pre>
 <pre class="r"><code>xsection$partner_attractiveness_money = rowMeans(xsection %&gt;% select(one_of(money_attr_items)))
 
-xsection$partner_attractiveness_global = scale(rowSums(xsection %&gt;% select(attractiveness_overall, MV_P_short)))</code></pre>
+xsection$partner_attractiveness_global = scale(rowSums(xsection %&gt;% select(attractiveness_overall, MV_P)))</code></pre>
 </div>
 <div id="partners-short-term-attractiveness" class="section level4">
 <h4>Partner’s short-term attractiveness</h4>
@@ -2912,9 +2889,89 @@ xsection$partner_attractiveness_shortterm_v2 = scale(rowSums(xsection %&gt;% sel
 </div>
 <div id="partners-attractiveness-relative-to-own" class="section level4">
 <h4>Partner’s attractiveness relative to own</h4>
-<pre class="r"><code>xsection[, MV_diff := MV_P_short - MV_short]
+<pre class="r"><code>xsection[, MV_diff := MV_P - MV]
+xsection[, MV_diff_short := MV_P_short - MV_short]
 
-attractiveness = RSA(attractiveness_relativ_1 ~ MV_P_short * MV_short, data = xsection, center = T)</code></pre>
+attractiveness = RSA(attractiveness_relativ_1 ~ MV_P * MV, data = xsection, center = T)</code></pre>
+<pre><code>## [1] &quot;Computing additive model (additive) ...&quot;
+## [1] &quot;Computing x + x^2 model (onlyx2) ...&quot;
+## [1] &quot;Computing y + y^2 model (onlyy2) ...&quot;
+## [1] &quot;Computing x model (onlyx) ...&quot;
+## [1] &quot;Computing y model (onlyy) ...&quot;
+## [1] &quot;Computing interaction model (IA)...&quot;
+## [1] &quot;Computing squared difference model (SQD) ...&quot;
+## [1] &quot;Computing shifted squared difference model (SSQD) ...&quot;
+## [1] &quot;Computing rising ridge model (RR) ...&quot;
+## [1] &quot;Computing shifted rising ridge model (SRR) ...&quot;
+## [1] &quot;Computing rotated and shifted rising ridge model (SRRR), up ...&quot;
+## [1] &quot;Computing rotated and shifted rising ridge model (SRRR), down ...&quot;
+## [1] &quot;Direction of SRRR curvature: down&quot;
+## [1] &quot;Computing rotated squared difference model (SRSQD), up ...&quot;
+## [1] &quot;Computing rotated squared difference model (SRSQD), down ...&quot;
+## [1] &quot;Direction of SRSQD curvature: up&quot;
+## [1] &quot;Computing polynomial model (full) ...&quot;</code></pre>
+<pre class="r"><code>summary(attractiveness)</code></pre>
+<pre><code>## RSA output (package version 0.9.10)
+## ===========================================
+## 
+## Are there discrepancies in the predictors (with respect to numerical congruence)?
+## ----------------------------
+## Congruence
+##  MV &lt; MV_P Congruence  MV &gt; MV_P 
+##       29.5       46.7       23.8 
+## 
+## Is the full polynomial model significant?
+## ----------------------------
+## Test on model significance: R^2 = 0.383, p &lt;.001
+## 
+## 
+## Number of observations: n = 1208
+## ----------------------------
+## 
+## 
+## Regression coefficients for model &lt;full&gt;
+## ----------------------------
+##                                  label    est    se ci.lower ci.upper   beta   pvalue sig
+## attractiveness_relativ_1~1          b0  2.271 0.021    2.230    2.311  3.284  p &lt;.001 ***
+## attractiveness_relativ_1~MV_P       b1  0.433 0.023    0.388    0.479  0.431  p &lt;.001 ***
+## attractiveness_relativ_1~MV         b2 -0.453 0.022   -0.497   -0.409 -0.485  p &lt;.001 ***
+## attractiveness_relativ_1~MV_P2      b3 -0.026 0.024   -0.074    0.021 -0.024 p = .276    
+## attractiveness_relativ_1~MV_P_MV    b4 -0.076 0.027   -0.129   -0.022 -0.063 p = .005  **
+## attractiveness_relativ_1~MV2        b5  0.015 0.022   -0.028    0.057  0.016 p = .499    
+## 
+## 
+## 
+## Surface tests (a1 to a4) for model &lt;full&gt;
+## ----------------------------
+##   label    est    se ci.lower ci.upper   pvalue sig
+## 1    a1 -0.020 0.030   -0.078    0.039 p = .513    
+## 2    a2 -0.087 0.039   -0.164   -0.011 p = .024   *
+## 3    a3  0.886 0.034    0.819    0.954  p &lt;.001 ***
+## 4    a4  0.064 0.041   -0.016    0.144 p = .115    
+## 
+## a1: Linear additive effect on line of congruence? NO
+## a2: Is there curvature on the line of congruence? YES
+## a3: Is the ridge shifted away from the LOC? YES
+## a4: Is there a general effect of incongruence? NO
+## 
+## 
+## Location of stationary point for model &lt;full&gt;
+## ----------------------------
+## MV_P = -2.956; MV = 7.786; predicted attractiveness_relativ_1 = -0.133
+## 
+## 
+## Principal axes for model &lt;full&gt;
+## ----------------------------
+##                    label    est    se ci.lower ci.upper   pvalue sig
+## Intercept of 1. PA   p10  2.816 3.376   -3.801    9.433 p = .404    
+## Slope of 1. PA       p11 -1.681 0.774   -3.197   -0.165 p = .030   *
+## Intercept of 2. PA   p20  9.544 5.551   -1.336   20.424 p = .086   †
+## Slope of 2. PA       p21  0.595 0.274    0.058    1.131 p = .030   *
+##   --&gt; Lateral shift of first PA from LOC at point (0; 0): C1 =  4.134 
+##   --&gt; Lateral shift of second PA from LOC at point (0; 0): C2 =  -5.984</code></pre>
+<pre class="r"><code>plot(attractiveness) # nothing funny here, conforms to expected pattern, i.e. the more MV_P &gt; MV then relative attractiveness is higher</code></pre>
+<p><img src="1_wrangle_data_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<pre class="r"><code>attractiveness = RSA(attractiveness_relativ_1 ~ MV_P_short * MV_short, data = xsection, center = T)</code></pre>
 <pre><code>## [1] &quot;Computing additive model (additive) ...&quot;
 ## [1] &quot;Computing x + x^2 model (onlyx2) ...&quot;
 ## [1] &quot;Computing y + y^2 model (onlyy2) ...&quot;
@@ -2992,8 +3049,30 @@ attractiveness = RSA(attractiveness_relativ_1 ~ MV_P_short * MV_short, data = xs
 ##   --&gt; Lateral shift of first PA from LOC at point (0; 0): C1 =  6.258 
 ##   --&gt; Lateral shift of second PA from LOC at point (0; 0): C2 =  -6.053</code></pre>
 <pre class="r"><code>plot(attractiveness) # nothing funny here, conforms to expected pattern, i.e. the more MV_P &gt; MV then relative attractiveness is higher</code></pre>
-<p><img src="1_wrangle_data_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<p><img src="1_wrangle_data_files/figure-html/unnamed-chunk-19-2.png" width="672" /></p>
 <pre class="r"><code>sapply(xsection[, MV_diff, attractiveness_relativ_1], scale) %&gt;% alpha()</code></pre>
+<pre><code>## 
+## Reliability analysis   
+## Call: psych::alpha(x = data.frame(x))
+## 
+##   raw_alpha std.alpha G6(smc) average_r S/N   ase     mean  sd
+##       0.76      0.76    0.61      0.61 3.2 0.014 -5.8e-17 0.9
+## 
+##  lower alpha upper     95% confidence boundaries
+## 0.73 0.76 0.79 
+## 
+##  Reliability if an item is dropped:
+##                          raw_alpha std.alpha G6(smc) average_r  S/N alpha se
+## attractiveness_relativ_1      0.61      0.61    0.38      0.61   NA       NA
+## MV_diff                       0.38      0.61      NA        NA 0.61    0.023
+## 
+##  Item statistics 
+##                             n raw.r std.r r.cor r.drop     mean sd
+## attractiveness_relativ_1 1208   0.9   0.9   0.7   0.61 -1.3e-16  1
+## MV_diff                  1208   0.9   0.9   0.7   0.61  5.4e-18  1</code></pre>
+<pre class="r"><code>sapply(xsection[, MV_diff, attractiveness_relativ_1], scale) %&gt;% spearman_brown()</code></pre>
+<pre><code>## [1] 0.761</code></pre>
+<pre class="r"><code>sapply(xsection[, MV_diff_short, attractiveness_relativ_1], scale) %&gt;% alpha()</code></pre>
 <pre><code>## 
 ## Reliability analysis   
 ## Call: psych::alpha(x = data.frame(x))
@@ -3007,18 +3086,19 @@ attractiveness = RSA(attractiveness_relativ_1 ~ MV_P_short * MV_short, data = xs
 ##  Reliability if an item is dropped:
 ##                          raw_alpha std.alpha G6(smc) average_r  S/N alpha se
 ## attractiveness_relativ_1      0.59      0.59    0.35      0.59   NA       NA
-## MV_diff                       0.35      0.59      NA        NA 0.59    0.022
+## MV_diff_short                 0.35      0.59      NA        NA 0.59    0.022
 ## 
 ##  Item statistics 
 ##                             n raw.r std.r r.cor r.drop     mean sd
 ## attractiveness_relativ_1 1208  0.89  0.89  0.69   0.59 -1.3e-16  1
-## MV_diff                  1208  0.89  0.89  0.69   0.59  7.5e-18  1</code></pre>
-<pre class="r"><code>sapply(xsection[, MV_diff, attractiveness_relativ_1], scale) %&gt;% spearman_brown()</code></pre>
+## MV_diff_short            1208  0.89  0.89  0.69   0.59  7.5e-18  1</code></pre>
+<pre class="r"><code>sapply(xsection[, MV_diff_short, attractiveness_relativ_1], scale) %&gt;% spearman_brown()</code></pre>
 <pre><code>## [1] 0.7445</code></pre>
 <pre class="r"><code>xsection$partner_attractiveness_rel_to_self = scale(rowSums(sapply(xsection[, MV_diff, attractiveness_relativ_1], scale)))
+xsection$partner_attractiveness_rel_to_self_MV_short = scale(rowSums(sapply(xsection[, MV_diff_short, attractiveness_relativ_1], scale)))
 
-pairs.panels(xsection %&gt;% select(partner_attractiveness_rel_to_self, attractiveness_overall, MV_short, MV_P_short, partner_attractiveness_money, partner_attractiveness_physical, partner_attractiveness_shortterm, partner_attractiveness_longterm)) # relative measure is orthogonal to all absolute measures</code></pre>
-<p><img src="1_wrangle_data_files/figure-html/unnamed-chunk-19-2.png" width="672" /></p>
+pairs.panels(xsection %&gt;% select(partner_attractiveness_rel_to_self, attractiveness_overall, MV, MV_P, MV_short, MV_P_short, partner_attractiveness_money, partner_attractiveness_physical, partner_attractiveness_shortterm, partner_attractiveness_longterm)) # relative measure is orthogonal to all absolute measures</code></pre>
+<p><img src="1_wrangle_data_files/figure-html/unnamed-chunk-19-3.png" width="672" /></p>
 </div>
 </div>
 <div id="diary-scales" class="section level3">
@@ -4143,8 +4223,8 @@ diary[, menstruated_at_all := menstruation_1 == 1]
 diary[ is.na(menstruated_at_all), menstruated_at_all := F]
 table(diary$menstruated_at_all, exclude = NULL)</code></pre>
 <pre><code>## 
-## FALSE  TRUE  &lt;NA&gt; 
-## 26151  4805     0</code></pre>
+## FALSE  TRUE 
+## 26151  4805</code></pre>
 <pre class="r"><code>diary[, menstruation := factor(ifelse(menstruated_at_all,&quot;yes&quot;, ifelse(premenstrual_phase, &quot;pre&quot;,&quot;no&quot;)), levels = c(&quot;no&quot;, &quot;pre&quot;, &quot;yes&quot;))]
 diary[is.na(menstruation), menstruation := &quot;no&quot;]
 
@@ -4247,23 +4327,24 @@ crosstabs(~ any_fertile_days_known + had_any_period, diary_summaries)</code></pr
 ## had_any_period FALSE TRUE
 ##          FALSE   229   69
 ##          TRUE    163  747</code></pre>
-<pre class="r"><code>xsection = merge(xsection, diary_summaries, by = &quot;session&quot;, all.x = T) %&gt;% data.table()
+<pre class="r"><code>diary_summaries[any_fertile_days_known == T, had_any_period := T]
+xsection = merge(xsection, diary_summaries, by = &quot;session&quot;, all.x = T) %&gt;% data.table()
 crosstabs(~ age + had_any_period, data = xsection[n_days &gt; 35, ])</code></pre>
 <pre><code>##     had_any_period
 ## age  FALSE TRUE
 ##   18     1   10
 ##   19     0   28
-##   20     3   38
-##   21     1   31
-##   22     3   26
-##   23     3   33
+##   20     0   41
+##   21     0   32
+##   22     2   27
+##   23     2   34
 ##   24     1   14
 ##   25     0   17
-##   26     1   14
+##   26     0   15
 ##   27     0    9
 ##   28     0    7
 ##   29     0    7
-##   30     1    4
+##   30     0    5
 ##   31     0    5
 ##   32     0    7
 ##   33     1    2
@@ -4271,22 +4352,22 @@ crosstabs(~ age + had_any_period, data = xsection[n_days &gt; 35, ])</code></pre
 ##   35     0    3
 ##   36     0    2
 ##   37     0    3
-##   38     1    0
+##   38     0    1
 ##   39     0    3
 ##   40     0    3
 ##   41     0    3
 ##   42     0    2
-##   43     1    0
+##   43     0    1
 ##   45     0    3
-##   46     1    1
-##   47     1    2
+##   46     0    2
+##   47     0    3
 ##   48     0    2
 ##   49     2    2
-##   50     3    1
-##   51     1    0
+##   50     1    3
+##   51     0    1
 ##   53     1    0
-##   55     1    0
-##   58     1    0
+##   55     0    1
+##   58     0    1
 ##   60     1    0</code></pre>
 <pre class="r"><code>crosstabs(~ age + any_fertile_days_known, data = xsection[n_days &gt; 35, ])</code></pre>
 <pre><code>##     any_fertile_days_known
@@ -4439,9 +4520,12 @@ pipeline$infertile = n_excluded(xsection$include_all)</code></pre>
 <pre class="r"><code>xsection[ include_all == T, include_all := ! contraception %contains_word% &quot;sterilised&quot;] # only non-pregnant (in last 3 months)
 pipeline$sterilised = n_excluded(xsection$include_all)</code></pre>
 <pre><code>## 12 excluded</code></pre>
-<pre class="r"><code>xsection[ include_all == T, include_all := any_fertile_days_known] # only those where we could infer fertility on at least one day
+<pre class="r"><code>xsection[ include_all == T, include_all := had_any_period] # only those where we could infer fertility on at least one day
 pipeline$no_period = n_excluded(xsection$include_all)</code></pre>
-<pre><code>## 70 excluded</code></pre>
+<pre><code>## 55 excluded</code></pre>
+<pre class="r"><code>xsection[ include_all == T, include_all := any_fertile_days_known] # only those where we could infer fertility on at least one day
+pipeline$fertility_not_estimable = n_excluded(xsection$include_all)</code></pre>
+<pre><code>## 4 excluded</code></pre>
 <pre class="r"><code># here we allow those who breastfed in last 3 months, because those we excluded those with lactational amenorrhoe already above
 # xsection[ include_all == T, include_all := ! breast_feeding %contains% &quot;1&quot;] # only non-breast_feeding
 # n_excluded(xsection$include_all)
@@ -4464,7 +4548,7 @@ xsection[ hormonal_all == T, hormonal_all :=
 xsection[, included_bool := include_all &amp; !hormonal_all]
 xsection[hormonal_all == F &amp; include_all == F, included_bool := NA]
 xsection[, included_all := factor(ifelse(included_bool, &quot;cycling&quot;,  &quot;horm_contra&quot;))]</code></pre>
-<p><big>421</big> non-hormonally contracepting women and <big>622</big> hormonally contracepting women are included in the sample with only mandatory exclusion criteria.</p>
+<p><big>429</big> non-hormonally contracepting women and <big>625</big> hormonally contracepting women are included in the sample with only mandatory exclusion criteria.</p>
 </div>
 </div>
 <div id="include_lax" class="section level3">
@@ -4487,11 +4571,11 @@ xsection[, included_all := factor(ifelse(included_bool, &quot;cycling&quot;,  &q
 <pre class="r"><code>excluded_old = NULL
 xsection[, include_lax := include_all] # default is to include everybody
 n_excluded(xsection$include_lax)</code></pre>
-<pre><code>## 787 excluded</code></pre>
-<pre><code>## [1] 787</code></pre>
+<pre><code>## 779 excluded</code></pre>
+<pre><code>## [1] 779</code></pre>
 <pre class="r"><code>xsection[ include_lax == T, include_lax := age &lt; 40] # include only those who are younger than 40
 pipeline$older_than_40 = n_excluded(xsection$include_lax)</code></pre>
-<pre><code>## 46 excluded</code></pre>
+<pre><code>## 54 excluded</code></pre>
 <pre class="r"><code>xsection[ include_lax == T, include_lax := ! is.na (ended.abschluss)] # include only those who finished the abschluss survey
 pipeline$finished_post_survey = n_excluded(xsection$include_lax)</code></pre>
 <pre><code>## 137 excluded</code></pre>
@@ -4564,11 +4648,11 @@ pipeline$laggards = n_excluded(xsection$include_lax)</code></pre>
 <pre class="r"><code>excluded_old = NULL
 xsection[, hormonal_lax := hormonal_all] # default is to include everybody
 n_excluded(xsection$hormonal_lax)</code></pre>
-<pre><code>## 586 excluded</code></pre>
-<pre><code>## [1] 586</code></pre>
+<pre><code>## 583 excluded</code></pre>
+<pre><code>## [1] 583</code></pre>
 <pre class="r"><code>xsection[ hormonal_lax == T, hormonal_lax := age &lt; 40] # include only those below 40
 pipeline_hc$older_than_40 = n_excluded(xsection$hormonal_lax)</code></pre>
-<pre><code>## 7 excluded</code></pre>
+<pre><code>## 10 excluded</code></pre>
 <pre class="r"><code>xsection[ hormonal_lax == T, hormonal_lax := ! is.na (ended.abschluss)] # include only those who finished the abschluss survey
 pipeline_hc$finished_post_survey = n_excluded(xsection$hormonal_lax)</code></pre>
 <pre><code>## 168 excluded</code></pre>
@@ -4764,120 +4848,22 @@ xsection[, hormonal := contraception %contains% &quot;contraceptive_pill&quot; |
 crosstabs(~ factor(xsection$included_levels, exclude = NULL))</code></pre>
 <pre><code>## factor(xsection$included_levels, exclude = NULL)
 ##          all          lax conservative       strict         &lt;NA&gt; 
-##          526          111          187          219          165</code></pre>
+##          537          111          187          219          154</code></pre>
 <pre class="r"><code>crosstabs(~ factor(included_levels, exclude = NULL) + hormonal, data = xsection)</code></pre>
 <pre><code>##                                        hormonal
 ## factor(included_levels, exclude = NULL) FALSE TRUE &lt;NA&gt;
-##                            all            278  248    0
+##                            all            286  251    0
 ##                            lax             31   80    0
 ##                            conservative    55  132    0
 ##                            strict          57  162    0
-##                            &lt;NA&gt;            93   71    1</code></pre>
+##                            &lt;NA&gt;            85   68    1</code></pre>
 </div>
 </div>
 <div id="participant-flow" class="section level2">
 <h2>Participant flow</h2>
 <pre class="r"><code>library(DiagrammeR)
 pipeline$hc = pipeline_hc
-save(pipeline, file = &quot;pipeline.rdata&quot;)
-# consort = with(pipeline,
-# paste0(&#39;graph TB
-#   start[&quot;Participants enrolled&lt;br&gt;
-#   N=&#39;,signed_up,&#39;&quot;]
-#   ineligible[&quot;Ineligible&lt;br&gt;
-#   n=&#39;,ineligible,&#39;&quot;]
-#   notfinish[&quot;Did not finish pre-survey&lt;br&gt;
-#   n=&#39;,did_not_complete_pre_survey,&#39;&quot;]
-#   eligible[&quot;Finished pre-survey&lt;br&gt;
-#   n=&#39;,finished_pre_survey,&#39;&quot;]
-# 
-#   horm_ineligible[&quot;Excluded n=&#39;,never_did_diary,&#39; no diary entries,&lt;br&gt;
-#   n=&#39;,pregnant,&#39; pregnant, n=&#39;,infertile,&#39; infertile,&lt;br&gt;
-#   n=&#39;,sterilised,&#39; sterilised,&lt;br&gt;
-#   n=&#39;,no_period,&#39; fertility not estimable&quot;]
-# 
-#   nc[&quot;Naturally cycling&lt;br&gt;
-#   n=&#39;,naturally_cycling,&#39;&quot;]
-# 
-#   hc[&quot;Using hormonal contraception&lt;br&gt;
-#   n=&#39;,hc$HC_users,&#39;&quot;]
-# 
-#   c_lax_ineligible[&quot;Excluded n=&#39;,older_than_40,&#39; older than 40, &lt;br&gt;
-#   n=&#39;,finished_post_survey,&#39; did not finish study, &lt;br&gt;
-#   n=&#39;,hc_users_broad,&#39; used morning-after-pill, &lt;br&gt;
-#   n=&#39;,breast_feeding,&#39; breast-feeding, &lt;br&gt;
-#   n=&#39;,pill_last_3m,&#39; HC used in last 3m, &lt;br&gt;
-#   n=&#39;,hormonal_medicine,&#39; hormonal medication, &lt;br&gt;
-#   n=&#39;,long_or_short_cycle,&#39; cycle length not in 22-37 days&quot;]
-# 
-#   c_lax[&quot;Included (lax)&lt;br&gt;
-#   n=&#39;,criterion_lax,&#39;&quot;]
-# 
-#   c_cons_ineligible[&quot;Excluded n=&#39;,heavy_smokers,&#39; heavy smokers, &lt;br&gt;
-#   n=&#39;,intensive_sports,&#39; did intensive sports, &lt;br&gt;
-#   n=&#39;,changed_contraception,&#39; changed contraception,&lt;br&gt;
-#   n=&#39;,broke_up,&#39; broke up, n=&#39;,lost_more_than_8kg,&#39; lost &gt; 8kg, &lt;br&gt;
-#   n=&#39;,BMI_lt_17,&#39; BMI &lt; 17, n=&#39;,BMI_gt_30,&#39; BMI &gt; 30, &lt;br&gt;
-#   n=&#39;,confident_that_cycle_irregular,&#39; irregular cycle (confident)&quot;]
-# 
-#   c_cons[&quot;Included (conservative)&lt;br&gt;
-#   n=&#39;,criterion_conservative,&#39;&quot;]
-# 
-#   c_strict_ineligible[&quot;Excluded n=&#39;,stressed,&#39; stressed, &lt;br&gt;
-#   n=&#39;,cycle_possibly_irregular,&#39; possibly irregular cycle&quot;]
-# 
-#   c_strict[&quot;Included (strict)&lt;br&gt;
-#   n=&#39;,criterion_strict,&#39;&quot;]
-# 
-#   hc_lax_ineligible[&quot;Excluded n=&#39;,hc$older_than_40,&#39; older than 40,&lt;br&gt;
-#   n=&#39;,hc$finished_post_survey,&#39; did not finish study, &lt;br&gt;
-#   n=&#39;,hc$breast_feeding,&#39; breast-feeding, &lt;br&gt;
-#   n=&#39;,hc$long_or_short_cycle,&#39; cycle length not in 22-37 days&quot;]
-# 
-#   hc_lax[&quot;Included (lax)&lt;br&gt;
-#   n=&#39;,hc$criterion_lax,&#39;&quot;]
-# 
-#   hc_cons_ineligible[&quot;Excluded n=&#39;,hc$heavy_smokers,&#39; heavy smokers, &lt;br&gt;
-#   n=&#39;,hc$intensive_sports,&#39; did intensive sports, &lt;br&gt;
-#   n=&#39;,hc$changed_contraception,&#39; changed contraception,&lt;br&gt;
-#   n=&#39;,hc$broke_up,&#39; broke up, n=&#39;,hc$lost_more_than_8kg,&#39; lost &gt; 8kg, &lt;br&gt;
-#   n=&#39;,hc$BMI_lt_17,&#39; BMI &lt; 17, n=&#39;,hc$BMI_gt_30,&#39; BMI &gt; 30, &lt;br&gt;
-#   n=&#39;,hc$confident_that_cycle_irregular,&#39; irregular cycle (confident)&quot;]
-# 
-#   hc_cons[&quot;Included (conservative)&lt;br&gt;
-#   n=&#39;,hc$criterion_conservative,&#39;&quot;]
-# 
-#   hc_strict_ineligible[&quot;Excluded n=&#39;,hc$stressed,&#39; stressed, &lt;br&gt;
-#   n=&#39;,cycle_possibly_irregular,&#39; possibly irregular cycle&quot;]
-# 
-#   hc_strict[&quot;Included (strict)&lt;br&gt;
-#   n=&#39;,hc$criterion_strict,&#39;&quot;]
-# 
-# 
-# 
-#   start --&gt; ineligible
-#   start --&gt; eligible
-#   start --&gt; notfinish
-#   eligible --&gt; hc
-#   eligible --&gt; horm_ineligible
-#   eligible --&gt; nc
-#   nc --&gt; c_lax
-#   nc --&gt; c_lax_ineligible
-#   hc --&gt; hc_lax_ineligible
-#   hc --&gt; hc_lax
-#   c_lax --&gt; c_cons
-#   c_lax --&gt; c_cons_ineligible
-#   hc_lax --&gt; hc_cons_ineligible
-#   hc_lax --&gt; hc_cons
-#   c_cons --&gt; c_strict
-#   c_cons --&gt; c_strict_ineligible
-#   hc_cons --&gt; hc_strict_ineligible
-#   hc_cons --&gt; hc_strict
-# 
-# classDef default fill:#fff,stroke:#000,stroke-width:1px
-# &#39;)
-# )
-# mermaid(consort, width = 3000, height = 2000)</code></pre>
+save(pipeline, file = &quot;pipeline.rdata&quot;)</code></pre>
 <pre class="r"><code># graphviz
 consort = with(pipeline,
   paste0(&#39;digraph g {
@@ -4893,7 +4879,8 @@ n=&#39;,finished_pre_survey,&#39;&quot;];
 horm_ineligible [shape = box, label = &quot;Excluded n=&#39;,never_did_diary,&#39; no diary entries,
 n=&#39;,pregnant,&#39; pregnant, n=&#39;,infertile,&#39; infertile,
 n=&#39;,sterilised,&#39; sterilised,
-n=&#39;,no_period,&#39; fertility not estimable&quot;];
+n=&#39;,no_period,&#39; no menstruation,
+n=&#39;,fertility_not_estimable,&#39; fertility not estimable&quot;]
 
 nc [shape = box, label = &quot;Naturally cycling
 n=&#39;,naturally_cycling,&#39;&quot;];
@@ -4964,8 +4951,8 @@ hc_cons -&gt; { hc_strict hc_strict_ineligible }
 }&#39;)
 )
 grViz(diagram = consort)</code></pre>
-<div id="htmlwidget-67403951078ed4d0bdf7" style="width:672px;height:480px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-67403951078ed4d0bdf7">{"x":{"diagram":"digraph g {\n  start [shape = box, label = \"Participants enrolled\nN=1720\"];\n  ineligible [shape = box, label = \"Ineligible\nn=259\"];\nnotfinish [shape = box, label = \"Did not finish pre-survey\nn=253\"];\neligible [shape = box, label = \"Finished pre-survey\nn=1208\"];\n\nhorm_ineligible [shape = box, label = \"Excluded n=54 no diary entries,\nn=24 pregnant, n=5 infertile,\nn=12 sterilised,\nn=70 fertility not estimable\"];\n\nnc [shape = box, label = \"Naturally cycling\nn=421\"];\n\nhc [shape = box, label = \"Using hormonal contraception\nn=622\"];\n\nc_lax_ineligible [shape = box, label = \"Excluded n=46 older than 40,\nn=137 did not finish study,\nn=2 used morning-after-pill,\nn=6 breast-feeding, n=14 HC used in last 3m,\nn=25 hormonal medication,\nn=10 cycle length not in 22-37 days\"];\n\nc_lax [shape = box, label = \"Included (lax)\nn=143\"];\n\nc_cons_ineligible [shape = box, label = \"Excluded n=4 heavy smokers,\nn=6 did intensive sports,\nn=3 broke up, n=0 changed contraception,\nn=2 lost > 8kg,\nn=3 BMI < 17, n=8 BMI > 30,\nn=5 irregular cycle (confident)\"];\n\nc_cons [shape = box, label = \"Included (conservative)\nn=112\"];\n\nc_strict_ineligible [shape = box, label = \"Excluded n=43 stressed,\nn=12 possibly irregular cycle\"];\n\nc_strict [shape = box, label = \"Included (strict)\nn=57\"];\n\nhc_lax_ineligible [shape = box, label = \"Excluded n=7 older than 40,\nn=168 did not finish study,\nn=2 breast-feeding,\nn=28 cycle length not in 22-37 days\"];\n\nhc_lax [shape = box, label = \"Included (lax)\nn=374\"];\n\nhc_cons_ineligible [shape = box, label = \"Excluded n=10 heavy smokers,\nn=18 did intensive sports,\nn=10 broke up, n=14 changed contraception,\nn=6 lost > 8kg,\nn=7 BMI < 17, n=10 BMI > 30,\nn=6 irregular cycle (confident)\"];\n\nhc_cons [shape = box, label = \"Included (conservative)\nn=293\"];\n\nhc_strict_ineligible [shape = box, label = \"Excluded n=120 stressed,\nn=12 possibly irregular cycle\"];\n\nhc_strict [shape = box, label = \"Included (strict)\nn=161\"];\n\n\n\nstart -> { ineligible eligible notfinish }\neligible -> { hc horm_ineligible nc};\nnc -> { c_lax c_lax_ineligible }\nhc -> { hc_lax hc_lax_ineligible }\nc_lax -> { c_cons c_cons_ineligible }\nhc_lax -> { hc_cons hc_cons_ineligible }\nc_cons -> { c_strict c_strict_ineligible }\nhc_cons -> { hc_strict hc_strict_ineligible }\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-a024e57efe3bb028af8e" style="width:672px;height:480px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-a024e57efe3bb028af8e">{"x":{"diagram":"digraph g {\n  start [shape = box, label = \"Participants enrolled\nN=1720\"];\n  ineligible [shape = box, label = \"Ineligible\nn=259\"];\nnotfinish [shape = box, label = \"Did not finish pre-survey\nn=253\"];\neligible [shape = box, label = \"Finished pre-survey\nn=1208\"];\n\nhorm_ineligible [shape = box, label = \"Excluded n=54 no diary entries,\nn=24 pregnant, n=5 infertile,\nn=12 sterilised,\nn=55 no menstruation,\nn=4 fertility not estimable\"]\n\nnc [shape = box, label = \"Naturally cycling\nn=429\"];\n\nhc [shape = box, label = \"Using hormonal contraception\nn=625\"];\n\nc_lax_ineligible [shape = box, label = \"Excluded n=54 older than 40,\nn=137 did not finish study,\nn=2 used morning-after-pill,\nn=6 breast-feeding, n=14 HC used in last 3m,\nn=25 hormonal medication,\nn=10 cycle length not in 22-37 days\"];\n\nc_lax [shape = box, label = \"Included (lax)\nn=143\"];\n\nc_cons_ineligible [shape = box, label = \"Excluded n=4 heavy smokers,\nn=6 did intensive sports,\nn=3 broke up, n=0 changed contraception,\nn=2 lost > 8kg,\nn=3 BMI < 17, n=8 BMI > 30,\nn=5 irregular cycle (confident)\"];\n\nc_cons [shape = box, label = \"Included (conservative)\nn=112\"];\n\nc_strict_ineligible [shape = box, label = \"Excluded n=43 stressed,\nn=12 possibly irregular cycle\"];\n\nc_strict [shape = box, label = \"Included (strict)\nn=57\"];\n\nhc_lax_ineligible [shape = box, label = \"Excluded n=10 older than 40,\nn=168 did not finish study,\nn=2 breast-feeding,\nn=28 cycle length not in 22-37 days\"];\n\nhc_lax [shape = box, label = \"Included (lax)\nn=374\"];\n\nhc_cons_ineligible [shape = box, label = \"Excluded n=10 heavy smokers,\nn=18 did intensive sports,\nn=10 broke up, n=14 changed contraception,\nn=6 lost > 8kg,\nn=7 BMI < 17, n=10 BMI > 30,\nn=6 irregular cycle (confident)\"];\n\nhc_cons [shape = box, label = \"Included (conservative)\nn=293\"];\n\nhc_strict_ineligible [shape = box, label = \"Excluded n=120 stressed,\nn=12 possibly irregular cycle\"];\n\nhc_strict [shape = box, label = \"Included (strict)\nn=161\"];\n\n\n\nstart -> { ineligible eligible notfinish }\neligible -> { hc horm_ineligible nc};\nnc -> { c_lax c_lax_ineligible }\nhc -> { hc_lax hc_lax_ineligible }\nc_lax -> { c_cons c_cons_ineligible }\nhc_lax -> { hc_cons hc_cons_ineligible }\nc_cons -> { c_strict c_strict_ineligible }\nhc_cons -> { hc_strict hc_strict_ineligible }\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="final-step" class="section level2">
 <h2>Final step</h2>
