@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Robustness checks table</title>
+
+<script src="site_libs/jquery-1.12.4/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-1.1/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+<script src="site_libs/htmlwidgets-0.8/htmlwidgets.js"></script>
+<script src="site_libs/datatables-binding-0.2/datatables.js"></script>
+<link href="site_libs/dt-core-1.10.12/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="site_libs/dt-core-1.10.12/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="site_libs/dt-core-1.10.12/js/jquery.dataTables.min.js"></script>
+<link href="site_libs/nouislider-7.0.10/jquery.nouislider.min.css" rel="stylesheet" />
+<script src="site_libs/nouislider-7.0.10/jquery.nouislider.min.js"></script>
+<link href="site_libs/selectize-0.12.0/selectize.bootstrap3.css" rel="stylesheet" />
+<script src="site_libs/selectize-0.12.0/selectize.min.js"></script>
+<script src="library/auto_tab_first_section.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="library/custom_styles.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 64px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+
+.section h2 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h3 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h4 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h5 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+.section h6 {
+  padding-top: 69px;
+  margin-top: -69px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Fertility diary</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="1_power_analysis.html">Power analysis</a>
+</li>
+<li>
+  <a href="1_researcher_df_analysis.html">Researcher degree of freedom simulation</a>
+</li>
+<li>
+  <a href="1_wrangle_data.html">Data wrangling</a>
+</li>
+<li>
+  <a href="2_descriptives.html">Descriptives</a>
+</li>
+<li>
+  <a href="3_fertility_as_prereg.html">Preregistered analyses</a>
+</li>
+<li>
+  <a href="3_fertility_robustness.html">Robustness tests</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Robustness checks table</h1>
+
+</div>
+
+
+<div id="table-with-descriptions" class="section level2">
+<h2>Table with descriptions</h2>
+<p>When a cell is empty, this reflects no difference to M_1.</p>
+<div id="htmlwidget-7c0a487cf653c178c124" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-7c0a487cf653c178c124">{"x":{"filter":"top","filterHTML":"<tr>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\">\u003c/span>\n    \u003c/div>\n  \u003c/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\">\u003c/span>\n    \u003c/div>\n  \u003c/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\">\u003c/span>\n    \u003c/div>\n  \u003c/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\">\u003c/span>\n    \u003c/div>\n  \u003c/td>\n\u003c/tr>","data":[["M_1/M_e1","M_r1","M_e2","M_e3","M_e4","M_e5","M_e6","M_p1","M_p2","M_p3","M_p4","M_p5","M_p6","M_p7","M_p8","M_c1","M_c2","M_c3","M_c4","M_c5","M_c6","M_c7","M_c8","M_c9","M_d1","M_d2","M_d3","M_d4","M_d5","M_m1","M_m2","M_m3","M_m4","M_m5","M_m6","M_m7","M_m8","M_m9","M_m10"],["Baseline robustness check model. A random intercept for the participant, fixed effects for hormonal contraception, (pre-)menstruation, fertility (backward-counted from the observed or inferred next menstrual onset), and average fertility (to ensure within-subject estimates).","Test for individual differences in fertility effect. Added a random slope for the fertile window probability, the premenstruation dummy, and the menstruation dummy.","First preregistered set of exclusion criteria (see below).","Amended preregistered set of exclusion criteria except for two criteria.","As above + excluding those who felt stressed and those who said they might have irregular cycles, but were very unsure.","excluded 1251 diary days (4% of all) where participants a) gave the same answer to all Likert items (n=23), b) accessed the diary later or earlier than intended due to technical problems (n=896), or c) took more than 24 hours (n=376) or less than a minute (n=30) to finish filling out the diary","An exclusion criterion we had not preregistered","The fertility predictor was based on *confirmed* next menstrual onsets, without onsets *inferred* from average cycle length.","The fertility predictor was based on last menstrual onsets, i.e. forward-counting.","The fertility predictor was backward-counted from confirmed onsets, and a broad window (i.e. not continuous). Using windowed predictors, modelling menstruation and average fertility become unstable, so was omitted.","The fertility predictor was backward-counted from confirmed onsets, and a narrow window (i.e. not continuous). Using windowed predictors, modelling menstruation and average fertility become unstable, so was omitted.","The fertility predictor was forward-counted from last onsets, and a narrow window (i.e. not continuous). Using windowed predictors, modelling menstruation and average fertility become unstable, so was omitted.","The fertility predictor was forward-counted from last onsets, and a broad window (i.e. not continuous). Using windowed predictors, modelling menstruation and average fertility become unstable, so was omitted.","The fertility predictor was based on *inferred* next onsets based on reported average cycle length.","Excluded women with very long and very short cycles.","Adjusted for self esteem.","No adjustment for average fertile window probability.","No adjustment for menstruation dummies and average fertile window probability","Adjusted for week day and number of weeks since starting the diary.","Adjusted for time of response and time taken for response (log10+1).","Model autocorrelation of order 1 using `nlme::corAR1`","Model autocorrelation using moving averages of order 1 using `nlme::corARMA`","Like M_p3, but with the adjustments for (pre-)menstruation etc. Did not always converge.","Tested whether measurement reactivity might confound our results, by adjusting for splines for the number of days since the diary began (one variable for days filled out and one including missing days), different splines for hormonal contraceptive (non-)users","Between-subject design, forward-counted predictor.","Within-subject design with one high- and one low-fertility day per participant. Narrow window forward-counted predictor.","Within-subject design with two high- and two low-fertility day per participant. Narrow window forward-counted predictor.","No (observed) cycle lengths shorter than 20 days.","Within-subject design with high- and low-fertility averaged separately per participant. Backward-counted broad window predictor.","Instead of letting hormonal contraception status moderate the fertility and menstruation predictors, we differentiated by: hormonal, fertility awareness, barrier/abstinence, none","We let age group (18-20, 20-25, 25-30, 30-35, 35 and older) moderate the strength of the fertility predictor.","We let a week end dummy moderate the strength of the fertility predictor.","We let week day dummies moderate the strength of the fertility predictor.","We let maximal applicable exclusion threshold (all, lax, conservative, strict) moderate the strength of the fertility predictor.","We let cycle length (19-25, 25-30, 30-35, 35-40) moderate the strength of the fertility predictor.","We let self-reported certainty about menstruation regularity/cycle length moderate the strength of the fertility predictor.","We let self-reported menstruation regularity moderate the strength of the fertility predictor.","We let cohabitation status (same apartment, same city, long-distance) moderate the strength of the fertility predictor.","We let relationship status (partnered, engaged, married) moderate the strength of the fertility predictor."],["Minimal (\"all\")","","lax","conservative","strict","Without potentially dodgy data.","No women who were trying to get pregnant.","","","","","","","","No women with cycle lengths outside 20-40","","","","","","","","","Only people with more than 37 days filled out.","Took only the first day of the diary for every participant.","Only one high- and one low-fertility day per participant.","Only two high- and two low-fertility day per participant.","If time between menstrual onsets was lower than 20 days, excluded.","All days used, but averaged (so ignoring varying number of days per participant).","Excluding women who use other methods than these (e.g. partner sterilisation).","","","","","","","","",""],["outcome ~ (fertile_window_probability + premenstrual_phase + menstruation) * hormonal_contraceptive_user + average_fertile_window_probability+ (1 | person)","outcome ~ (fertile_window_probability + premenstrual_phase + menstruation) * hormonal_contraceptive_user + average_fertile_window_probability+ (1 + fertile_window_probability + premenstrual_phase + menstruation | person)","","","","","","","","outcome ~ fertile_window_probability * hormonal_contraceptive_user + (1 | person)","outcome ~ fertile_window_probability * hormonal_contraceptive_user + (1 | person)","outcome ~ fertile_window_probability * hormonal_contraceptive_user + (1 | person)","outcome ~ fertile_window_probability * hormonal_contraceptive_user + (1 | person)","","","outcome ~ self_esteem + (fertile_window_probability + premenstrual_phase + menstruation) * hormonal_contraceptive_user + average_fertile_window_probability+ (1 | person)","outcome ~ (fertile_window_probability + premenstrual_phase + menstruation) * hormonal_contraceptive_user + (1 | person)","outcome ~ fertile_window_probability * hormonal_contraceptive_user + (1 | person)","outcome ~ week_day + week_number + (fertile_window_probability + premenstrual_phase + menstruation) * hormonal_contraceptive_user + average_fertile_window_probability+ (1 | person)","outcome ~ time_of_response + log10(time_for_response+1) + (fertile_window_probability + premenstrual_phase + menstruation) * hormonal_contraceptive_user + average_fertile_window_probability+ (1 | person)","","","outcome ~ (fertile_window_probability + premenstrual_phase + menstruation) * hormonal_contraceptive_user + average_fertile_window_probability+ (1 | person)","outcome ~ s(days_filled_out, by = hormonal_contraceptive_user) + s(day_nr, by = hormonal_contraceptive_user) + (fertile_window_probability + premenstrual_phase + menstruation) * hormonal_contraceptive_user + average_fertile_window_probability+ (1 | person)","outcome ~ fertile_window_probability * hormonal_contraceptive_user","outcome ~ fertile_window_probability * hormonal_contraceptive_user + (1 | person)","outcome ~ fertile_window_probability * hormonal_contraceptive_user + (1 | person)","","outcome ~ fertile_window_probability * hormonal_contraceptive_user + (1 | person)","","outcome ~ fertile_window_probability * age_groups + (fertile_window_probability + premenstrual_phase + menstruation) * hormonal_contraceptive_user + average_fertile_window_probability+ (1 | person)","outcome ~ fertile_window_probability * week_end + (fertile_window_probability + premenstrual_phase + menstruation) * hormonal_contraceptive_user + average_fertile_window_probability+ (1 | person)","outcome ~ fertile_window_probability * week_day + (fertile_window_probability + premenstrual_phase + menstruation) * hormonal_contraceptive_user + average_fertile_window_probability+ (1 | person)","outcome ~ fertile_window_probability * exclusion_threshold + (fertile_window_probability + premenstrual_phase + menstruation) * hormonal_contraceptive_user + average_fertile_window_probability+ (1 | person)","outcome ~ fertile_window_probability * cycle_length + (fertile_window_probability + premenstrual_phase + menstruation) * hormonal_contraceptive_user + average_fertile_window_probability+ (1 | person)","outcome ~ fertile_window_probability * certainty_menstruation + (fertile_window_probability + premenstrual_phase + menstruation) * hormonal_contraceptive_user + average_fertile_window_probability+ (1 | person)","outcome ~ fertile_window_probability * menstruation_regularity + (fertile_window_probability + premenstrual_phase + menstruation) * hormonal_contraceptive_user + average_fertile_window_probability+ (1 | person)","outcome ~ fertile_window_probability * cohabitation + (fertile_window_probability + premenstrual_phase + menstruation) * hormonal_contraceptive_user + average_fertile_window_probability+ (1 | person)","outcome ~ fertile_window_probability * relationship_status + (fertile_window_probability + premenstrual_phase + menstruation) * hormonal_contraceptive_user + average_fertile_window_probability+ (1 | person)"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Model\u003c/th>\n      <th>Description\u003c/th>\n      <th>Exclusion criteria\u003c/th>\n      <th>in Wilkinson notation\u003c/th>\n    \u003c/tr>\n  \u003c/thead>\n\u003c/table>","options":{"pageLength":50,"autoWidth":true,"order":[],"orderClasses":false,"orderCellsTop":true}},"evals":[],"jsHooks":[]}</script>
+<div id="legend-predictors" class="section level3">
+<h3>Legend predictors</h3>
+<p>To see predictor definitions, see this <a href="2_descriptives.html#predictors">table</a> (Table 3 in the manuscript).</p>
+</div>
+<div id="legend-exclusion-criteria" class="section level3">
+<h3>Legend exclusion criteria:</h3>
+<p>Stricter exclusion criteria (further down), subsume the ones above.</p>
+<div id="all" class="section level4">
+<h4>all</h4>
+<ul>
+<li>menopausal (indirectly defined by us still observing periods)</li>
+<li>use hormonal contraception</li>
+<li>pregnant</li>
+</ul>
+</div>
+<div id="lax" class="section level4">
+<h4>lax</h4>
+<ul>
+<li>age &gt;= 40</li>
+<li>use hormonal contraception</li>
+<li>switched to hormonal contraception</li>
+<li>certain medication</li>
+<li>took pill/hormonal antibiotics during the last three months</li>
+<li>certain illnesses</li>
+<li>breastfeeding</li>
+<li>pregnant</li>
+<li>irregular cycle</li>
+<li>guessed the hypothesis</li>
+</ul>
+</div>
+<div id="conservative" class="section level4">
+<h4>conservative</h4>
+<ul>
+<li>BMI</li>
+<li>weight loss</li>
+<li>cigs</li>
+<li>intensive sports</li>
+<li>those with irregular cycle but only if they are fairly sure about regularity</li>
+</ul>
+</div>
+<div id="strict" class="section level4">
+<h4>strict</h4>
+<ul>
+<li>stressed</li>
+<li>those with irregular cycle even if they are basically guessing about regularity</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="code-for-automatically-conducting-robustness-checks-based-on-the-baseline-model" class="section level2">
+<h2>Code for automatically conducting robustness checks based on the baseline model</h2>
+<p>See also <a href="0_helpers.html">0_helpers.R</a></p>
+<pre class="r"><code>robustness_check_ovu_shift = function(obj, diary) {
+  library(lme4); library(lmerTest); library(sjPlot)
+  get_coefs = function(fit, model_name) {
+    library(broom)
+    if (class(fit) == &quot;lme&quot;) {
+      obj_coef = tryCatch({my_tidy.lme(fit, effects = &#39;fixed&#39;) }, error = function(e) { cat_message(e, &quot;danger&quot;) })
+    } else {
+      obj_coef = tryCatch({tidy(fit, conf.int = TRUE, effects = &quot;fixed&quot;)}, error = function(e) { cat_message(e, &quot;danger&quot;) })
+    }
+    obj_coef$model = model_name
+    obj_coef
+  }
+  outcome = as.character(formula(obj)[2])
+  outcome_label = recode(str_replace_all(str_replace_all(str_replace_all(outcome, &quot;_&quot;, &quot; &quot;), &quot; pair&quot;, &quot;-pair&quot;), &quot; 1&quot;, &quot;&quot;),
+                         &quot;desirability&quot; = &quot;self-perceived desirability&quot;,
+                         &quot;NARQ admiration&quot; = &quot;narcissistic admiration&quot;,
+                         &quot;NARQ rivalry&quot; = &quot;narcissistic rivalry&quot;,
+                         &quot;extra-pair&quot; = &quot;extra-pair desire &amp; behaviour&quot;,
+                         &quot;had sexual intercourse&quot; = &quot;sexual intercourse&quot;)
+
+
+  less_ctrl_formula = update.formula(formula(obj), new = . ~ . - included * menstruation - fertile_mean)
+  tryCatch({
+    update(obj, formula = less_ctrl_formula) -&gt; fewer_controls
+  }, error = function(e) { cat_message(e, &quot;danger&quot;) })
+
+  tryCatch({
+    one_ctrl_formula = update.formula(formula(obj), new = . ~ . - fertile_mean)
+    update(obj, formula = one_ctrl_formula) -&gt; dontcontrolavg
+  }, error = function(e) { cat_message(e, &quot;danger&quot;) })
+
+  tryCatch({
+    diary_nododgy = diary %&gt;% filter(dodgy_data == F)
+    update(obj, data = diary_nododgy) -&gt; nododgy
+  }, error = function(e) { cat_message(e, &quot;danger&quot;) })
+
+  tryCatch({
+    diary_nopreg = diary %&gt;% filter(trying_to_get_pregnant == &#39;no&#39;)
+    update(obj, data = diary_nopreg) -&gt; notrypreg
+  }, error = function(e) { cat_message(e, &quot;danger&quot;) })
+
+  tryCatch({
+  diary_broad = diary %&gt;% mutate(fertile = fertile_broad)
+  update(obj, formula = less_ctrl_formula, data = diary_broad) -&gt; broad_window
+}, error = function(e) { cat_message(e, &quot;danger&quot;) })
+
+  tryCatch({
+    diary_broad = diary %&gt;% mutate(fertile = fertile_broad)
+    update(obj, data = diary_broad) -&gt; broad_window_ctrl
+  }, error = function(e) { cat_message(e, &quot;danger&quot;) })
+
+  tryCatch({
+    diary_bci = diary %&gt;% mutate(fertile = prc_stirn_b_backward_inferred)
+    update(obj, formula = less_ctrl_formula, data = diary_bci) -&gt; backward_inferred
+  }, error = function(e) { cat_message(e, &quot;danger&quot;) })
+
+tryCatch({
+  diary_narrow = diary %&gt;% mutate(fertile = fertile_narrow)
+  update(obj, formula = less_ctrl_formula, data = diary_narrow) -&gt; narrow_window
+}, error = function(e) { cat_message(e, &quot;danger&quot;) })
+
+tryCatch({
+    diary_cont_fc = diary %&gt;% mutate(fertile = prc_stirn_b_forward_counted)
+    update(obj, data = diary_cont_fc) -&gt; forward_counting
+}, error = function(e) { cat_message(e, &quot;danger&quot;) })
+
+tryCatch({
+  diary_narrow_fc = diary %&gt;% mutate(fertile = fertile_narrow_forward_counted)
+  update(obj, formula = less_ctrl_formula, data = diary_narrow_fc) -&gt; forward_counting_narrow
+}, error = function(e) { cat_message(e, &quot;danger&quot;) })
+
+  tryCatch({
+    diary_broad_fc = diary %&gt;% mutate(fertile = fertile_broad_forward_counted)
+    update(obj, formula = less_ctrl_formula, data = diary_broad_fc) -&gt; forward_counting_broad
+  }, error = function(e) { cat_message(e, &quot;danger&quot;) })
+
+  tryCatch({
+    diary_cont = diary %&gt;% mutate(fertile = prc_stirn_b)
+    update(obj, data = diary_cont) -&gt; backward
+  }, error = function(e) { cat_message(e, &quot;danger&quot;) })
+
+# tryCatch({
+#   diary %&gt;% mutate(fertile = prc_wcx_b) %&gt;%
+#     update(obj, data = .) -&gt; wilcox
+# }, error = function(e) { cat_message(e, &quot;danger&quot;) })
+
+tryCatch({
+  ilax = diary %&gt;% mutate(included = included_lax)
+  update(obj, data = ilax) -&gt; included_lax
+}, error = function(e) { cat_message(e, &quot;danger&quot;) })
+
+tryCatch({
+  if(outcome != &#39;self_esteem_1&#39;) {
+    update(obj, formula = update.formula(formula(obj), new = . ~ . + self_esteem_1)) -&gt; control_self_esteem
+  }
+}, error = function(e) { cat_message(e, &quot;danger&quot;) })
+
+tryCatch({
+  iconser = diary %&gt;% mutate(included = included_conservative)
+  update(obj, data = iconser) -&gt; included_conservative
+}, error = function(e) { cat_message(e, &quot;danger&quot;) })
+
+
+tryCatch({
+  istrict = diary %&gt;% mutate(included = included_strict)
+  update(obj, data = istrict) -&gt; included_strict
+}, error = function(e) { cat_message(e, &quot;danger&quot;) })
+
+  tryCatch({
+    no_short = diary %&gt;% filter(is.na(cycle_length_diary) | cycle_length_diary &gt;= 20)
+    update(obj, data = no_short) -&gt; no_cycles_shorter_than_20
+  }, error = function(e) { cat_message(e, &quot;danger&quot;) })
+
+  tryCatch({
+    no_long = diary %&gt;% filter(is.na(cycle_length_diary) | (cycle_length_diary &gt;= 20 &amp; cycle_length_diary &lt;= 40))
+    update(obj, data = no_long) -&gt; cycles_between_20_40
+  }, error = function(e) { cat_message(e, &quot;danger&quot;) })
+
+  tryCatch({
+    update(obj, formula = update.formula(formula(obj), new = . ~ . + weekday + week_number)) -&gt; control_week
+  }, error = function(e) { cat_message(e, &quot;danger&quot;) })
+
+  tryCatch({
+    update(obj, formula = update.formula(formula(obj), new = . ~ . + time_of_response + log10(time_for_response+1))) -&gt; control_time_of_response
+  }, error = function(e) { cat_message(e, &quot;danger&quot;) })
+
+
+  tryCatch({
+    diary %&gt;%
+      mutate(fertile = prc_stirn_b_forward_counted) %&gt;%
+      filter(!is.na(fertile) &amp; !is.na(included) &amp; menstruation == &quot;no&quot;) %&gt;%
+      filter_(lazyeval::interp( ~ !is.na(outcome), outcome = as.name(obj@frame %&gt;% names() %&gt;% .[1]))) %&gt;%
+      filter(!duplicated(person)) -&gt; diary_tmp2
+      form = update.formula(formula(obj), new = . ~ . - fertile_mean - menstruation - included:menstruation - (1 | person))
+      environment(form) = environment()
+      lm(formula = form, data = diary_tmp2) -&gt; between_person
+  }, error = function(e) { cat_message(e, &quot;danger&quot;) })
+
+
+  tryCatch({
+    four_occ = diary %&gt;%
+      mutate(fertile = fertile_narrow_forward_counted,
+             person_occasion = paste(person, fertile)) %&gt;%
+      filter(!is.na(fertile) &amp; !is.na(included) &amp; menstruation == &quot;no&quot;) %&gt;%
+      filter_(lazyeval::interp( ~ !is.na(outcome), outcome = as.name(obj@frame %&gt;% names() %&gt;% .[1]))) %&gt;%
+      mutate(row_nr_even = row_number(person) %% 2,
+             person_occasion = paste(person_occasion, row_nr_even)) %&gt;%
+      filter(!duplicated(person_occasion)) %&gt;%
+      group_by(person) %&gt;%
+      mutate(nr_days = n()) %&gt;%
+      filter(nr_days == 4)
+
+    update(obj, formula = update.formula(formula(obj), new = . ~ . - fertile_mean - included:menstruation - menstruation) , data = four_occ) -&gt; within_person_four_occasions
+  }, error = function(e) { cat_message(e, &quot;danger&quot;) })
+
+  tryCatch({
+    avg_twotime = diary %&gt;%
+      mutate(fertile = fertile_broad) %&gt;%
+      filter(!is.na(fertile) &amp; !is.na(included) &amp; menstruation == &quot;no&quot;) %&gt;%
+      select(person, fertile, included, one_of(outcome)) %&gt;%
+      group_by(included, person, fertile) %&gt;%
+      summarise_all(funs(mean(.,na.rm = T)))
+
+    update(obj, formula = less_ctrl_formula , data = avg_twotime) -&gt; within_person_avg_hilow
+  }, error = function(e) { cat_message(e, &quot;danger&quot;) })
+
+
+  tryCatch({
+    two_occ = diary %&gt;%
+      mutate(fertile = fertile_narrow_forward_counted,
+             person_occasion = paste(person, fertile)) %&gt;%
+      filter(!is.na(fertile) &amp; !is.na(included) &amp; menstruation == &quot;no&quot;) %&gt;%
+      filter_(lazyeval::interp( ~ !is.na(outcome), outcome = as.name(obj@frame %&gt;% names() %&gt;% .[1]))) %&gt;%
+      filter(!duplicated(person_occasion)) %&gt;%
+      group_by(person) %&gt;%
+      mutate(nr_days = n()) %&gt;%
+      filter(nr_days == 2)
+
+      update(obj, formula = update.formula(formula(obj), new = . ~ . - fertile_mean - included:menstruation - menstruation) , data = two_occ) -&gt; within_person_two_occasions
+  }, error = function(e) { cat_message(e, &quot;danger&quot;) })
+
+  tryCatch({
+    # findbars(formula(obj))[[1]]
+    reactive = diary %&gt;% group_by(person) %&gt;% mutate(days_filled_out = row_number(day_number)) %&gt;% filter(day_number &lt; 40, days_filled_out &lt; 37)
+    new_form = update.formula(nobars(formula(obj)), . ~ . + s(day_number, by = included) + s(days_filled_out, by = included))
+    gamm4::gamm4(new_form, random = ~ (1 | person), data = reactive, family = family(obj)) -&gt; control_reactivity
+    control_reactivity_mer = control_reactivity$mer
+  }, error = function(e) { cat_message(e, &quot;danger&quot;) })
+
+
+
+  tryCatch({
+    # findbars(formula(obj))[[1]]
+    if (class(obj) != &quot;glmerMod&quot;) {
+      nlme::lme(fixed = nobars(formula(obj)), random = ~ 1 | person, data = diary, na.action = na.exclude, correlation = nlme::corAR1(form = ~ day_number | person), method = &quot;REML&quot;) -&gt; control_autocorrelation
+    control_autocorrelation$call$fixed = control_autocorrelation$terms
+    }
+  }, error = function(e) { cat_message(e, &quot;danger&quot;) })
+
+  tryCatch({
+    if (class(obj) != &quot;glmerMod&quot;) {
+    nlme::lme(fixed = nobars(formula(obj)), random = ~ 1 | person, data = diary, na.action = na.exclude, correlation = nlme::corARMA(form = ~ day_number | person, p = 1, q = 1), method = &quot;REML&quot;) -&gt; autocorrelation_moving_avg
+    autocorrelation_moving_avg$call$fixed = autocorrelation_moving_avg$terms
+    }
+  }, error = function(e) { cat_message(e, &quot;danger&quot;) })
+
+
+  models_in_function = ls_type(c(&#39;lmerMod&#39;,&#39;glmerMod&#39;,&#39;bglmerMod&#39;,&#39;blmerMod&#39;,&#39;merModLmerTest&#39;,&#39;lme&#39;,&#39;lm&#39;))
+  coefs = rbindlist(lapply(models_in_function, FUN = function(x) { get_coefs(get(x), x) }), fill = TRUE)
+  # eff_coefs = rbindlist(lapply(models_in_function, FUN = function(x) { get_eff_coefs(get(x), x) }), fill = TRUE)
+
+  coefs$model  =  dplyr::recode_factor(factor(coefs$model),
+  &#39;obj&#39; = &#39;M_1. Main model (all), BC+BCi&#39;,
+  &#39;included_lax&#39; = &#39;M_e2. Lax exclusion criteria&#39;,
+  &#39;included_conservative&#39; = &#39;M_e3. Conservative exclusion criteria&#39;,
+  &#39;included_strict&#39; = &#39;M_e4. Strict exclusion criteria&#39;,
+  &#39;nododgy&#39; = &#39;M_e5. Exclude potentially dodgy data&#39;,
+  &#39;notrypreg&#39; = &#39;M_e6. Exclude those trying to get pregnant&#39;,
+
+  &#39;backward&#39; = &#39;M_p1. Continuous, BC&#39;,
+  &#39;forward_counting&#39; = &#39;M_p2. Continuous, FC&#39;,
+  &#39;broad_window&#39; = &#39;M_p3. Broad window, BC&#39;,
+  &#39;narrow_window&#39; = &#39;M_p4. Narrow window, BC&#39;,
+  &#39;forward_counting_narrow&#39; = &#39;M_p5. Narrow window, FC&#39;,
+  &#39;forward_counting_broad&#39; = &#39;M_p6. Broad window, FC&#39;,
+  &#39;backward_inferred&#39; = &#39;M_p7. BC from rep. cycle length, when onset unknown&#39;,
+  &#39;cycles_between_20_40&#39; = &#39;M_p8. Only cycles 20-40 days long&#39;,
+
+  &#39;between_person&#39; = &#39;M_d1. Between, FC (first obs. only)&#39;,
+  &#39;within_person_two_occasions&#39; = &#39;M_d2. Within, FC, high/low 2 obs.&#39;,
+  &#39;within_person_four_occasions&#39; = &#39;M_d3. Within, FC, two high/low 4 obs.&#39;,
+  &#39;no_cycles_shorter_than_20&#39; = &#39;M_d4. No cycles shorter than 20 days&#39;,
+  &#39;within_person_avg_hilow&#39; = &#39;M_d5. Within, BC, average high/low all&#39;,
+
+  &#39;control_self_esteem&#39; = &#39;M_c1. Adjust for self esteem&#39;,
+  &#39;dontcontrolavg&#39; = &#39;M_c2. No adjustment for avg. fertility&#39;,
+  &#39;fewer_controls&#39; = &#39;M_c3. No adjustment for menstruation &amp; avg. fertility&#39;,
+  &#39;control_week&#39; = &#39;M_c4. Control week day and number&#39;,
+  &#39;control_time_of_response&#39; = &#39;M_c5. Adjust for time of/for response&#39;,
+  &#39;control_autocorrelation&#39; = &#39;M_c6. Model autocorrelation, lag 1&#39;,
+  &#39;autocorrelation_moving_avg&#39; = &#39;M_c7. Model autocorrelation, moving avg., lag 1&#39;,
+  &#39;broad_window_ctrl&#39; = &#39;M_c8. Broad BC, adj. menstruation&#39;,
+  &#39;control_reactivity_mer&#39; = &#39;M_c9. Adjust for reactivity&#39;, .ordered = T)
+  coefs$model = factor(coefs$model, levels =  rev(levels(coefs$model)))
+  coefs = coefs %&gt;% mutate(term = recode(term, &quot;fertile:includedhorm_contra&quot; = &quot;includedhorm_contra:fertile&quot;, &quot;Xfertile&quot; = &quot;fertile&quot;, &quot;Xincludedhorm_contra:fertile&quot; = &quot;includedhorm_contra:fertile&quot;))
+  # eff_coefs$model = factor( car::Recode(eff_coefs$model, modeltranslate ))
+  coefs_all = coefs
+  coefs = coefs %&gt;% filter(term == &quot;fertile&quot; | term == &quot;includedhorm_contra:fertile&quot;)
+
+  cat(&quot;\n\n\n#### M_e: Exclusion criteria \n\n&quot;)
+
+  plote =  ggplot(coefs %&gt;% filter(model %begins_with% &quot;M_e&quot; | model %begins_with% &quot;M_1. &quot;), aes(x = model, y = estimate, ymax = conf.high, ymin = conf.low, colour = term), group = 1) +
+    geom_hline(yintercept = 0, linetype = &quot;dotted&quot;, color = &quot;gray70&quot;) +
+    geom_text(aes(label = round(estimate,2), y = estimate),  position = position_dodge(width = 0.6), vjust = -0.7) +
+    geom_pointrange( position = position_dodge(width = 0.6), size = 1) +
+    scale_color_manual(&quot;Contraception status&quot;, values = c(&quot;includedhorm_contra:fertile&quot;=&quot;black&quot;,&quot;fertile&quot; = &quot;red&quot;), labels = c(&quot;includedhorm_contra:fertile&quot;=&quot;hormonally\ncontracepting&quot;,&quot;fertile&quot; = &quot;fertile&quot;), guide = F) +
+    xlab(&quot;Model&quot;) +
+    ylab(paste(&quot;Regression slope + 95 CI%&quot;)) +
+    ggtitle(outcome_label) +
+    coord_flip()
+    print(plote)
+
+    # cat(&quot;\n\n\n&quot;)
+    # coefs_all %&gt;%
+    #   filter(model %begins_with% &quot;M_e&quot; | model %begins_with% &quot;M_1. &quot;) %&gt;%
+    #   select(model, term, estimate, conf.low, conf.high) %&gt;%
+    #   pander() %&gt;%
+    #   cat()
+
+    cat(&quot;\n\n\n#### M_p: Predictors \n\n&quot;)
+    plotp =  ggplot( coefs %&gt;% filter(model %begins_with% &quot;M_p&quot; | model %begins_with% &quot;M_1. &quot;), aes(x = model, y = estimate, ymax = conf.high, ymin = conf.low, colour = term), group = 1) +
+      geom_hline(yintercept = 0, linetype = &quot;dotted&quot;, color = &quot;gray70&quot;) +
+      geom_text(aes(label = round(estimate,2), y = estimate),  position = position_dodge(width = 0.6), vjust = -0.7) +
+      geom_pointrange( position = position_dodge(width = 0.6), size = 1) +
+      scale_color_manual(&quot;Contraception status&quot;, values = c(&quot;includedhorm_contra:fertile&quot;=&quot;black&quot;,&quot;fertile&quot;= &quot;red&quot;), labels = c(&quot;includedhorm_contra:fertile&quot;=&quot;hormonally\ncontracepting&quot;,&quot;fertile&quot;=&quot;fertile&quot;), guide = F) +
+      xlab(&quot;Model&quot;) +
+      ylab(paste(&quot;Regression slope + 95 CI%&quot;)) +
+      ggtitle(outcome_label) +
+      coord_flip()
+    print(plotp)
+#
+    cat(&quot;\n\n\n#### M_c: Covariates, controls, autocorrelation \n\n&quot;)
+
+    plotc =  ggplot(coefs %&gt;% filter(model %begins_with% &quot;M_c&quot; | model %begins_with% &quot;M_1. &quot;), aes(x = model, y = estimate, ymax = conf.high, ymin = conf.low, colour = term), group = 1) +
+      geom_hline(yintercept = 0, linetype = &quot;dotted&quot;, color = &quot;gray70&quot;) +
+      geom_text(aes(label = round(estimate,2), y = estimate),  position = position_dodge(width = 0.6), vjust = -0.7) +
+      geom_pointrange( position = position_dodge(width = 0.6), size = 1) +
+      scale_color_manual(&quot;Contraception status&quot;, values = c(&quot;includedhorm_contra:fertile&quot;=&quot;black&quot;,&quot;fertile&quot;= &quot;red&quot;), labels = c(&quot;includedhorm_contra:fertile&quot;=&quot;hormonally\ncontracepting&quot;,&quot;fertile&quot;=&quot;fertile&quot;), guide = F) +
+      xlab(&quot;Model&quot;) +
+      ylab(paste(&quot;Regression slope + 95 CI%&quot;)) +
+      ggtitle(outcome_label) +
+      coord_flip()
+    print(plotc)
+
+    tryCatch({
+      print_summary(control_reactivity$mer)
+      print_summary(control_reactivity$gam)
+      plot(control_reactivity$gam, pages = 1)
+      if (class(obj) != &quot;glmerMod&quot;) {
+        print_summary(control_autocorrelation)
+        print_summary(autocorrelation_moving_avg)
+      } else {
+        cat_message(&quot;No AR1/ARMA autocorrelation models were fitted for binomial outcomes.&quot;, &quot;info&quot;)
+      }
+    }, error = function(e) { cat_message(e, &quot;danger&quot;) })
+
+    cat(&quot;\n\n\n#### M_d: Other designs \n\n&quot;)
+    plotd =  ggplot( coefs %&gt;% filter(model %begins_with% &quot;M_d&quot; | model %begins_with% &quot;M_1. &quot;), aes(x = model, y = estimate, ymax = conf.high, ymin = conf.low, colour = term), group = 1) +
+      geom_hline(yintercept = 0, linetype = &quot;dotted&quot;, color = &quot;gray70&quot;) +
+      geom_text(aes(label = round(estimate,2), y = estimate),  position = position_dodge(width = 0.6), vjust = -0.7) +
+      geom_pointrange( position = position_dodge(width = 0.6), size = 1) +
+      scale_color_manual(&quot;Contraception status&quot;, values = c(&quot;includedhorm_contra:fertile&quot;=&quot;black&quot;,&quot;fertile&quot;= &quot;red&quot;), labels = c(&quot;includedhorm_contra:fertile&quot;=&quot;hormonally\ncontracepting&quot;,&quot;fertile&quot;=&quot;fertile&quot;), guide = F) +
+      xlab(&quot;Model&quot;) +
+      ylab(paste(&quot;Estimate of effect on&quot;, outcome)) +
+      coord_flip()
+    print(plotd)
+
+
+    cat(&quot;\n\n\n#### _M_m1_: Moderation by contraceptive method \n\n
+Based on the sample with lax exclusion criteria. Users who used any hormonal contraception are classified as hormonal, users who use any awareness-based methods (counting, temperature-based) are classified as &#39;fertility-awareness&#39;, women who don&#39;t fall into the before groups and use condoms, pessars, coitus interruptus etc. are classified as &#39;barrie or abstinence&#39;. Women who don&#39;t use contraception or use other methods such as sterilisation are excluded from this analysis.
+        \n\n&quot;)
+
+
+    tryCatch({
+
+      update(obj, formula = . ~ . - included * (menstruation + fertile) + contraceptive_methods + (fertile + menstruation) + included:(fertile + menstruation),
+             data = diary, subset = !is.na(included_lax) &amp; contraceptive_method != &quot;other&quot;) -&gt;  add_main
+
+            update(obj, formula = . ~ . - included * (menstruation + fertile) + contraceptive_methods * (fertile + menstruation),
+             data = diary, subset = !is.na(included_lax) &amp; contraceptive_method != &quot;other&quot;) -&gt; by_method
+
+      method_eff_coefs = sjp.int(by_method, type = &quot;eff&quot;, showCI = F, printPlot = F)$data.list[[1]]
+      rec = c(&quot;hormonal&quot; = &quot;hormonally\ncontracepting&quot;,&quot;barrier_or_abstinence&quot; = &quot;only barrier\n(condoms, ...)\nor abstinence&quot;, &quot;fertility_awareness&quot; = &quot;potentially\nfertility aware&quot;, &quot;none&quot; = &quot;not using contraception&quot;)
+      method_eff_coefs$method = rec[as.character(method_eff_coefs$grp)]
+      eff_plot =  ggplot(method_eff_coefs,
+                         aes(x = x, y = y, ymax = conf.high, ymin = conf.low)) +
+        geom_smooth( size = 1, stat = &quot;identity&quot;, color = &#39;black&#39;) +
+        xlab(&quot;Conception probability&quot;) +
+        facet_wrap(~ method) +
+        ylab(outcome)
+      print(eff_plot)
+
+      coefs = get_coefs(by_method, &quot;by method&quot;)  %&gt;% filter(term != &quot;(Intercept)&quot;)
+      plot = ggplot(coefs, aes(x = term, y = estimate, ymax = conf.high, ymin = conf.low, group = term)) +
+        geom_hline(yintercept = 0, linetype = &quot;dotted&quot;, color = &quot;gray70&quot;) +
+        geom_text(aes(label = round(estimate,2), y = estimate),  position = position_dodge(width = 0.6), vjust = -0.7) +
+        geom_pointrange( position = position_dodge(width = 0.6), size = 1) +
+        xlab(&quot;Model&quot;) +
+        ylab(paste(&quot;Estimate of effect on&quot;, outcome)) +
+        coord_flip()
+      print(plot)
+      print_summary(by_method)
+
+      cat(pander(anova(add_main, by_method)))
+
+    }, error = function(e) { cat_message(e, &quot;danger&quot;) })
+
+    invisible(obj)
+}
+
+#&#39; ## Test a moderator
+
+test_moderator = function (obj, moderator, diary, multiline = F, xlevels = 3) {
+  tryCatch({
+
+    add_main = update.formula(formula(obj), new = as.formula(paste0(&quot;. ~ . + &quot;, moderator, &quot; * included &quot;))) # reorder so that the triptych looks nice
+    add_mod_formula = update.formula(update.formula(formula(obj), new = . ~ . - included * fertile), new = as.formula(paste0(&quot;. ~ . + &quot;, moderator, &quot; * included * fertile&quot;))) # reorder so that the triptych looks nice
+
+    update(obj, formula = add_main) -&gt; with_main
+    update(obj, formula = add_mod_formula) -&gt; with_mod
+    cat(pander(anova(with_main, with_mod)))
+    plot_triptych(with_mod, x.var = &quot;fertile&quot;, multiline = multiline, xlevels = xlevels)
+    print_summary(with_mod)
+  }, error = function(e) { cat_message(e, &quot;danger&quot;) })
+
+  invisible(obj)
+}</code></pre>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
