@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>3_stan_brms_long2.utf8.md</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Fertility diary</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="1_power_analysis.html">Power analysis</a>
+</li>
+<li>
+  <a href="1_researcher_df_analysis.html">Researcher degree of freedom simulation</a>
+</li>
+<li>
+  <a href="1_wrangle_data.html">Data wrangling</a>
+</li>
+<li>
+  <a href="2_descriptives.html">Descriptives</a>
+</li>
+<li>
+  <a href="3_fertility_as_prereg.html">Preregistered analyses</a>
+</li>
+<li>
+  <a href="3_fertility_robustness.html">Robustness tests</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+
+</div>
+
+
+<div id="item-level-model-for-extra-pair-items" class="section level1 tab-content">
+<h1>Item-level model for extra-pair items</h1>
+<p><span style="background:red;width:20px;height:20px;display:inline-block;"></span> Cycling women (not on hormonal birth control)</p>
+<p><span style="background:black;width:20px;height:20px;display:inline-block;"></span> Women on hormonal birth control</p>
+<div id="load-data" class="section level2">
+<h2>Load data</h2>
+<pre class="r"><code>library(knitr)
+opts_chunk$set(fig.width = 12, fig.height = 12, cache = F, warning = F, message = F)</code></pre>
+<pre class="r"><code>library(formr); library(data.table); library(stringr); library(ggplot2); library(plyr); library(dplyr);library(car); library(psych);
+source(&quot;0_helpers.R&quot;)
+library(brms)
+load(&quot;full_data.rdata&quot;)
+diary$included = diary$included_all
+
+diary_long = diary %&gt;% group_by(person) %&gt;%
+  filter(!is.na(included_all), !is.na(fertile_fab)) %&gt;%
+  mutate(included = included_all,
+         fertile = fertile_fab,
+         fertile_mean = mean(fertile_fab, na.rm = T)) %&gt;%
+  select(person, menstruation, RCD_inferred, fertile_mean, fertile, fertile_fab, included, extra_pair_2, extra_pair_3, extra_pair_4, extra_pair_5, extra_pair_6, extra_pair_7, extra_pair_8, extra_pair_9, extra_pair_10, extra_pair_11, extra_pair_12, extra_pair_13) %&gt;%
+  tidyr::gather(variable, value, -person, -menstruation, -fertile_mean,-fertile, -fertile_fab, -included, -RCD_inferred)
+items = readxl::read_xlsx(&quot;item_tables/Daily_items_bearbeitetAM.xlsx&quot;, 1) %&gt;% rename(`Item.name` = `Item name`)
+diary_long = diary_long %&gt;% left_join(items %&gt;% select(Item.name, Item), by = c(&quot;variable&quot; = &quot;Item.name&quot;))</code></pre>
+<p>Dan Engber helpfully pointed out that he inferred from the plot caption in the manuscript, that the curves reflected shapes standardised across hormonal contraceptive users and non-users. In fact, each curve shown was standardised within group, because we wanted to draw the eye to the differences in <em>changes</em>, not in mean levels. This leads to an inconsistency with the other graph by group, where mean levels play a role too. Unfortunately, we did not explain this inconsistency in the text. Here, I show the same graph, but standardised only by item and not within the groups of HC users and non-users. We still see what looks like “post-menstrual catch-up” in in-pair sexual desire for hormonal contraceptive users. Importantly, the pattern we see for non-hormonal contraceptive users may also include some such post-menstrual catch-up (although it’s less visible against the background of ovulatory change). So as not to confuse such non-ovulatory cyclical changes (which may be behaviorally driven rather than hormonally) with those related to ovulation, we used the hormonal contraceptive users as quasi-control group.</p>
+</div>
+<div id="item-level-raw-means-over-cycle-days" class="section level2">
+<h2>Item-level raw means over cycle days</h2>
+<pre class="r"><code>theme_henrik &lt;- function(grid=TRUE, legend.position=NA) {
+  th &lt;- ggplot2::theme_minimal(base_size = 12)
+  
+  th &lt;- th + theme(text = element_text(color=&#39;#333333&#39;))
+  
+  th &lt;- th + theme(legend.background = element_blank())
+  th &lt;- th + theme(legend.key = element_blank())
+  
+  # Straight out of hrbrthemes
+  if (inherits(grid, &quot;character&quot;) | grid == TRUE) {
+    th &lt;- th + theme(panel.grid=element_line(color=&quot;#cccccc&quot;, size=0.3))
+    th &lt;- th + theme(panel.grid.major=element_line(color=&quot;#cccccc&quot;, size=0.3))
+    th &lt;- th + theme(panel.grid.minor=element_line(color=&quot;#cccccc&quot;, size=0.15))
+    
+    if (inherits(grid, &quot;character&quot;)) {
+      if (regexpr(&quot;X&quot;, grid)[1] &lt; 0) th &lt;- th + theme(panel.grid.major.x=element_blank())
+      if (regexpr(&quot;Y&quot;, grid)[1] &lt; 0) th &lt;- th + theme(panel.grid.major.y=element_blank())
+      if (regexpr(&quot;x&quot;, grid)[1] &lt; 0) th &lt;- th + theme(panel.grid.minor.x=element_blank())
+      if (regexpr(&quot;y&quot;, grid)[1] &lt; 0) th &lt;- th + theme(panel.grid.minor.y=element_blank())
+    }
+    
+  } else {
+    th &lt;- th + theme(panel.grid=element_blank())
+  }
+  
+  th &lt;- th + theme(axis.text = element_text())
+  th &lt;- th + theme(axis.ticks = element_blank())
+  
+  th &lt;- th + theme(axis.text.x=element_text(margin=margin(t=0.5)))
+  th &lt;- th + theme(axis.text.y=element_text(margin=margin(r=0.5)))
+  
+  th &lt;- th + theme(plot.title = element_text(),
+                   plot.subtitle = element_text(margin=margin(b=15)),
+                   plot.caption = element_text(face=&#39;italic&#39;, size=10))
+  
+  if (!is.na(legend.position)) th &lt;- th + theme(legend.position = legend.position)
+  
+  return (th)
+}
+
+diary %&gt;% group_by(person) %&gt;%
+    filter(!is.na(fertile_fab), !is.na(included_all), 
+         RCD &gt; -1 * minimum_cycle_length_diary, RCD &gt; -29) %&gt;% 
+  filter(!is.na(included_all), !is.na(fertile_fab)) %&gt;%
+  mutate(included = included_all,
+         fertile_mean = mean(fertile_fab, na.rm = T)) %&gt;%
+  select(person, n_days, menstruation, RCD_inferred, fertile_mean, fertile_fab, included, extra_pair_2, extra_pair_3, extra_pair_4, extra_pair_5, extra_pair_6, extra_pair_7, extra_pair_8, extra_pair_9, extra_pair_10, extra_pair_11, extra_pair_12, extra_pair_13, desirability_partner, desirability_1, sexual_intercourse_1, attention_2
+         # ,extra_pair, in_pair_desire
+         ) %&gt;%
+  tidyr::gather(variable, value, -person, -menstruation, -fertile_mean, -fertile_fab, -included, -RCD_inferred, -n_days) %&gt;% 
+  left_join(items %&gt;% select(Item.name, Item), by = c(&quot;variable&quot; = &quot;Item.name&quot;)) %&gt;%
+  mutate(RCD_inferred = -1* RCD_inferred + 1, variable = factor(str_wrap(str_sub(Item,4),40))) %&gt;% 
+  filter(!is.na(value), RCD_inferred &gt; -29) %&gt;% 
+  group_by(included, person, variable) %&gt;% 
+  mutate(value = value - min(value),
+         value = value / max(value)) %&gt;% 
+  group_by(included, Item, variable, RCD_inferred) %&gt;% 
+  summarise(value = mean(value, na.rm = T)) %&gt;% 
+  group_by(included, variable) %&gt;% 
+  arrange(RCD_inferred) %&gt;%
+  mutate(
+        value_min = value - min(value),
+        p_peak = value_min / max(value_min), # Normalize as percentage of peak popularity
+         p_smooth = (
+           coalesce(lag(p_peak), p_peak[RCD_inferred==0]) + p_peak + coalesce(lead(p_peak), p_peak[RCD_inferred==-28])) / 3 # Moving average, accounting for cyclical nature
+        ) %&gt;% # When there&#39;s no lag or lead, we get NA. Use the pointwise data
+  group_by(included) %&gt;%
+  mutate(variable = reorder(variable, p_smooth, FUN=which.max)) %&gt;% # order by peak time
+  arrange(variable) %&gt;%
+  mutate(variable.f = reorder(as.character(variable), desc(variable))) -&gt;
+  item_timeseries</code></pre>
+<pre class="r"><code>ts_plot = item_timeseries %&gt;%
+  filter(!is.na(included)) %&gt;% 
+    {
+        items &lt;- levels(.$variable)
+        
+        ggplot(., aes(x = RCD_inferred, group = variable.f, fill = factor(paste0(included,as.integer(variable.f) %% 2)))) +
+            geom_ribbon(aes(ymin = as.integer(variable), ymax = as.integer(variable) + 2 * (p_smooth)), color=&#39;white&#39;, size=0.4) +
+            scale_x_continuous(&quot;Days until next menstruation&quot;, breaks = c(-0,-7,-14,-21,-28), labels = c(&quot;0&quot;,&quot;7&quot;,&quot;14&quot;,&quot;21&quot;,&quot;28&quot;)) +
+            # &quot;Re-add&quot; activities by names as labels in the Y scale
+            scale_y_continuous(breaks = 1:length(items) + 0.4, labels = function(y) {items[y]})+ 
+            # Zebra color for readability; will change colors of labels in Inkscape later
+            scale_fill_manual(values = c(&#39;horm_contra0&#39; = &#39;#444444&#39;, &#39;horm_contra1&#39; = &#39;#222222&#39;, &#39;cycling0&#39; = &#39;#F13B0E&#39;, &#39;cycling1&#39; = &#39;#B7320E&#39;))+
+            ggtitle(&quot;&quot;) +
+            theme_henrik(grid=&#39;&#39;, legend.position=&#39;none&#39;) + 
+            theme(
+                axis.ticks.x = element_line(size=0.3),
+                axis.ticks.y = element_line(size=0.3),
+                axis.text.y = element_text(size = 10))+
+          facet_wrap(~ included, labeller = labeller(included = c(`cycling` = &#39;Naturally cycling&#39;, `horm_contra` = &#39;Hormonal contraceptive user&#39;))) + 
+
+      geom_segment(aes(x = if_else(included==&quot;cycling&quot;,-14,NA_real_), xend = if_else(included==&quot;cycling&quot;,-14,NA_real_)), color = &#39;darkred&#39;, linetype = &#39;dashed&#39;, y = 0.7, yend = 17.7)+
+      geom_text(data = data.frame(included = &#39;cycling&#39;, variable.f = 1, RCD_inferred = -14), label = &#39;est. day of ovulation&#39;, color = &#39;darkred&#39;, y = 0.5)
+    }
+ggsave(ts_plot, file = &quot;item_timeseries.pdf&quot;, width = 10, height = 10)
+ts_plot</code></pre>
+<p><img src="3_stan_brms_long2_files/figure-html/unnamed-chunk-2-1.png" width="1152" /></p>
+</div>
+<div id="item-level-raw-means-over-cycle-days-modified" class="section level2">
+<h2>Item-level raw means over cycle days (modified)</h2>
+<pre class="r"><code>diary %&gt;% group_by(person) %&gt;%
+    filter(!is.na(fertile_fab), !is.na(included_all), 
+         RCD &gt; -1 * minimum_cycle_length_diary, RCD &gt; -29) %&gt;% 
+  filter(!is.na(included_all), !is.na(fertile_fab)) %&gt;%
+  mutate(included = included_all,
+         fertile_mean = mean(fertile_fab, na.rm = T)) %&gt;%
+  select(person, n_days, menstruation, RCD_inferred, fertile_mean, fertile_fab, included, extra_pair_2, extra_pair_3, extra_pair_4, extra_pair_5, extra_pair_6, extra_pair_7, extra_pair_8, extra_pair_9, extra_pair_10, extra_pair_11, extra_pair_12, extra_pair_13, desirability_partner, desirability_1, sexual_intercourse_1, attention_2
+         # ,extra_pair, in_pair_desire
+         ) %&gt;%
+  tidyr::gather(variable, value, -person, -menstruation, -fertile_mean, -fertile_fab, -included, -RCD_inferred, -n_days) %&gt;% 
+  left_join(items %&gt;% select(Item.name, Item), by = c(&quot;variable&quot; = &quot;Item.name&quot;)) %&gt;%
+  mutate(RCD_inferred = -1* RCD_inferred + 1, variable = factor(str_wrap(str_sub(Item,4),40))) %&gt;% 
+  filter(!is.na(value), RCD_inferred &gt; -29) %&gt;% 
+  group_by(included, person, variable) %&gt;% 
+  mutate(value = value - min(value),
+         value = value / max(value)) %&gt;% 
+  group_by(included, Item, variable, RCD_inferred) %&gt;% 
+  summarise(value = mean(value, na.rm = T)) %&gt;% 
+  group_by(variable) %&gt;% 
+  arrange(RCD_inferred) %&gt;%
+  mutate(
+        value_min = value - min(value),
+        p_peak = value_min / max(value_min)) %&gt;% 
+  group_by(included, variable) %&gt;%  # Normalize as percentage of peak popularity
+  mutate(
+         p_smooth = (
+           coalesce(lag(p_peak), p_peak[RCD_inferred==0]) + p_peak + coalesce(lead(p_peak), p_peak[RCD_inferred==-28])) / 3 # Moving average, accounting for cyclical nature
+        ) %&gt;% # When there&#39;s no lag or lead, we get NA. Use the pointwise data
+  group_by(included) %&gt;%
+  mutate(variable = reorder(variable, p_smooth, FUN=which.max)) %&gt;% # order by peak time
+  arrange(variable) %&gt;%
+  mutate(variable.f = reorder(as.character(variable), desc(variable))) -&gt;
+  item_timeseries</code></pre>
+<pre class="r"><code>ts_plot = item_timeseries %&gt;%
+  filter(!is.na(included)) %&gt;% 
+    {
+        items &lt;- levels(.$variable)
+        
+        ggplot(., aes(x = RCD_inferred, group = variable.f, fill = factor(paste0(included,as.integer(variable.f) %% 2)))) +
+            geom_ribbon(aes(ymin = as.integer(variable), ymax = as.integer(variable) + 2 * (p_smooth)), color=&#39;white&#39;, size=0.4) +
+            scale_x_continuous(&quot;Days until next menstruation&quot;, breaks = c(-0,-7,-14,-21,-28), labels = c(&quot;0&quot;,&quot;7&quot;,&quot;14&quot;,&quot;21&quot;,&quot;28&quot;)) +
+            # &quot;Re-add&quot; activities by names as labels in the Y scale
+            scale_y_continuous(breaks = 1:length(items) + 0.4, labels = function(y) {items[y]})+ 
+            # Zebra color for readability; will change colors of labels in Inkscape later
+            scale_fill_manual(values = c(&#39;horm_contra0&#39; = &#39;#444444&#39;, &#39;horm_contra1&#39; = &#39;#222222&#39;, &#39;cycling0&#39; = &#39;#F13B0E&#39;, &#39;cycling1&#39; = &#39;#B7320E&#39;))+
+            ggtitle(&quot;&quot;) +
+            theme_henrik(grid=&#39;&#39;, legend.position=&#39;none&#39;) + 
+            theme(
+                axis.ticks.x = element_line(size=0.3),
+                axis.ticks.y = element_line(size=0.3),
+                axis.text.y = element_text(size = 10))+
+          facet_wrap(~ included, labeller = labeller(included = c(`cycling` = &#39;Naturally cycling&#39;, `horm_contra` = &#39;Hormonal contraceptive user&#39;))) + 
+
+      geom_segment(aes(x = if_else(included==&quot;cycling&quot;,-14,NA_real_), xend = if_else(included==&quot;cycling&quot;,-14,NA_real_)), color = &#39;darkred&#39;, linetype = &#39;dashed&#39;, y = 0.7, yend = 17.7)+
+      geom_text(data = data.frame(included = &#39;cycling&#39;, variable.f = 1, RCD_inferred = -14), label = &#39;est. day of ovulation&#39;, color = &#39;darkred&#39;, y = 0.5)
+    }
+ggsave(ts_plot, file = &quot;item_timeseries2.pdf&quot;, width = 10, height = 10)
+ts_plot</code></pre>
+<p><img src="3_stan_brms_long2_files/figure-html/unnamed-chunk-4-1.png" width="1152" /></p>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
