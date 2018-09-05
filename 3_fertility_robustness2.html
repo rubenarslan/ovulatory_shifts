@@ -219,8 +219,6 @@ $(document).ready(function () {
 <p>These were conducted after further communication with Steve Gangestad, after publication.</p>
 <p><span style="background:red;width:20px;height:20px;display:inline-block;"></span> Cycling women (not on hormonal birth control)</p>
 <p><span style="background:black;width:20px;height:20px;display:inline-block;"></span> Women on hormonal birth control</p>
-<div id="load-data" class="section level2">
-<h2>Load data</h2>
 <pre class="r"><code>library(knitr)
 opts_chunk$set(fig.width = 8, fig.height = 8, cache = T, warning = T, message = F, cache = F)</code></pre>
 <pre class="r"><code>source(&quot;0_helpers.R&quot;)
@@ -245,21 +243,26 @@ library(effects)
 opts_chunk$set(dev = &quot;CairoPNG&quot;)
 options(width=8000)
 diary$age_group = cut(diary$age,c(18,20,25,30,35,70), include.lowest = T)</code></pre>
-</div>
-<div id="model-comparisons-extra-pair-desire-and-behaviour" class="section level2">
-<h2>Model comparisons extra-pair desire and behaviour</h2>
-<p>Steve Gangestad complained that when we wrote the following in the paper, we made a mistake.</p>
-<p>In results &gt; Further, none of the predicted moderation patterns turned significant when adding more women, and using slightly different items for the partner attractiveness moderator variables did not change the pattern.</p>
-<p>In discussion &gt; There was insufficient evidence for moderation of male mate retention behavior, extra-pair, or in-pair desire by the partner’s attractiveness (no matter whether it was assessed as relative to self, sexual, or physical), as predicted by the good genes ovulatory shift hypothesis. Although some patterns descriptively pointed in the predicted direction, none of the predicted patterns were significant, and some were opposite to our predictions. Because only 144 naturally cycling women remained for our preregistered analyses, statistical power may have been insufficient to detect plausible moderation effect sizes. However, we found no evidence for moderation effects in the more inclusive sample of our robustness tests either. Although our sample sizes are bigger than many published studies that reported a moderation effect (Haselton &amp; Gangestad, 2006; Pillsworth &amp; Haselton, 2006b), we would ideally prefer to exceed their power by a wider margin owing to winner’s curse, that is, effect sizes being overestimated through selection and publication bias.</p>
+<p>Steve Gangestad claimed (via email) that when we wrote the following in the paper, we made a mistake.</p>
+<p>In results:</p>
+<blockquote>
+<p>Further, none of the predicted moderation patterns turned significant when adding more women, and using slightly different items for the partner attractiveness moderator variables did not change the pattern.</p>
+</blockquote>
+<p>In discussion:</p>
+<blockquote>
+<p>There was insufficient evidence for moderation of male mate retention behavior, extra-pair, or in-pair desire by the partner’s attractiveness (no matter whether it was assessed as relative to self, sexual, or physical), as predicted by the good genes ovulatory shift hypothesis. Although some patterns descriptively pointed in the predicted direction, none of the predicted patterns were significant, and some were opposite to our predictions. Because only 144 naturally cycling women remained for our preregistered analyses, statistical power may have been insufficient to detect plausible moderation effect sizes. However, we found no evidence for moderation effects in the more inclusive sample of our robustness tests either. Although our sample sizes are bigger than many published studies that reported a moderation effect (Haselton &amp; Gangestad, 2006; Pillsworth &amp; Haselton, 2006b), we would ideally prefer to exceed their power by a wider margin owing to winner’s curse, that is, effect sizes being overestimated through selection and publication bias.</p>
+</blockquote>
 <blockquote>
 <p>Although further tests should be conducted, the good genes ovulatory shift hypothesis could be wrong, given that we could not replicate previously reported moderators.</p>
 </blockquote>
 <blockquote>
 <p>In contrast to previous reports, we found no evidence that sexual desire shifted more strongly among women who deemed their partner less sex- ually attractive.</p>
 </blockquote>
-<p>In one model, we allow two moderators of the fertility effect on extra-pair desire, namely partner’s long-term and short-term attractiveness, <a href="https://rubenarslan.github.io/ovulatory_shifts/3_fertility_robustness.html#partners-short-term-vs-long-term-attractiveness">summarised here</a>. In that model summary, we see a t value of -2.7 for the hypothesis-relevant interaction <code>fertile:partner_attractiveness_shortterm</code>. Steve Gangestad argues that this invalidates our statement in the results section, that “none of the predicted moderation patterns turned significant when adding more women” and hence our discussion statement that we found “no evidence for moderation effects in the more inclusive sample of our robustness tests”.</p>
-<p>The confusion here is understandable, but we think we were consistent in how we presented and interpreted the evidence. We did not report a Wald t-test with Satterthwaite’s degrees of freedom method for the moderator analyses (as computed by the <code>lmerTest</code> package) here. Instead, we formulated a baseline model without the focal interaction term and compared the moderation model to that using the <code>anova</code> function, which performs a likelihood ratio test. This likelihood ratio test yielded a reported p value of .026, which was not significant according the threshold we set ourselves (ignoring for the moment issues with interpreting p values in our non-preregistered robustness checks). Why do these two methods yield different conclusions? I don’t think we need to ask which one is “the right p value”, because we’ve left the realm of appropriate application of p values behind long ago. We chose to focus on the LR test because we thought it was better and reported this consistently. But I noticed one real (but ultimately unimportant) mistake in our analysis, and took this discussion with Steve as a prompt to examine this moderation in more detail.</p>
-<p>The baseline model we specified in the publication did not include the interaction between partners’ long-term attractiveness and fertile. If moderation by long-term attractiveness is not the focal test, as I understand Steve Gangestad to argue, it should be omitted.</p>
+<p>In one model, we allow two moderators of the fertility effect on extra-pair desire, namely partner’s long-term and short-term attractiveness, <a href="3_fertility_robustness.html#partners-short-term-vs-long-term-attractiveness">summarised here</a>. In that model summary, for one of the moderator specifications (ST vs. LT attractiveness), Steve Gangestad saw a t value of -2.7 for the hypothesis-relevant interaction <code>fertile:partner_attractiveness_shortterm</code>. He argues that this invalidates our statement in the results section, that “none of the predicted moderation patterns turned significant when adding more women” and hence our discussion statement that we found “no evidence for moderation effects in the more inclusive sample of our robustness tests”.</p>
+<p>The confusion here is understandable, but we think we were consistent in how we presented and interpreted the evidence. We did not report a Wald t-test with Satterthwaite’s degrees of freedom method for the moderator analyses (as computed by the <code>lmerTest</code> package) here. Instead, we formulated a baseline model without the focal interaction term and compared the moderation model to that using the <code>anova</code> function, which performs a likelihood ratio test. This likelihood ratio test yielded a reported p value of .026, which was not significant according to the threshold of .01 we set (ignoring for the moment the issues with interpreting p values in our non-preregistered robustness checks). Why do these two methods yield different conclusions? See <a href="http://thestatsgeek.com/2014/02/08/wald-vs-likelihood-ratio-test/">here</a> and <a href="https://stats.stackexchange.com/questions/193643/likelihood-ratio-vs-wald-test">here</a> for some discussion. I don’t think we need to ask which one is “the right p value”, because we’ve left the realm of appropriate application of p values behind long ago. We chose to focus on the LR test because we thought it was better and we reported this consistently and it’s clearly the only p value we reported for moderator analyses in our supplement. Still, I noticed one real (but ultimately unimportant) mistake in our analysis, and took this discussion with Steve as a prompt to examine this moderation in more detail.</p>
+<p>The baseline model we specified in the publication did not include the interaction between partners’ long-term attractiveness and fertile. If moderation by long-term attractiveness is not the focal test, as I understand Steve Gangestad to argue (and I think I agree), it should be omitted.</p>
+<div id="model-comparisons-extra-pair-desire-and-behaviour" class="section level2">
+<h2>Model comparisons extra-pair desire and behaviour</h2>
 <pre class="r"><code>epd1_m0_old = lmer(extra_pair ~ partner_attractiveness_longterm * included + partner_attractiveness_shortterm * included + partner_attractiveness_longterm * partner_attractiveness_shortterm + included * (menstruation + fertile) + fertile_mean + ( 1 | person), data = diary)</code></pre>
 <p>We can specify this new baseline model here.</p>
 <pre class="r"><code>epd1_m0 = lmer(extra_pair ~ partner_attractiveness_longterm * included + partner_attractiveness_shortterm * included + partner_attractiveness_longterm * partner_attractiveness_shortterm + partner_attractiveness_longterm * included * fertile + included * (menstruation + fertile) + fertile_mean + ( 1 | person), data = diary)</code></pre>
@@ -352,7 +355,7 @@ diary$age_group = cut(diary$age,c(18,20,25,30,35,70), include.lowest = T)</code>
 <p>Let’s plot this to see the shape of the effect. The predictors are z-scored, but especially LT attractiveness is not normally distributed and ranges from -4 to 0.8. For ST attractiveness, the range is -3.3 to 1.6 so we take slightly odd cutpoints that map most of the range of the data.</p>
 <pre class="r"><code>effs = allEffects(epd1_m)
 effs = data.frame(effs$`partner_attractiveness_longterm:included:partner_attractiveness_shortterm:fertile`) %&gt;% 
-  filter(round(partner_attractiveness_longterm,1) %in% c(-3, -0.4,0.8),round(partner_attractiveness_shortterm,1) %in% c(-2,0.4,1.6))
+  filter(round(partner_attractiveness_longterm,1) %in% c(-3, -0.4,0.8),round(partner_attractiveness_shortterm,1) %in% c(-2,0.4,2))
 ggplot(effs, aes(fertile, fit, ymin = lower, ymax = upper, color = included)) + 
   facet_grid(partner_attractiveness_shortterm ~ partner_attractiveness_longterm) +
   geom_smooth(stat=&#39;identity&#39;) +
@@ -361,7 +364,8 @@ ggplot(effs, aes(fertile, fit, ymin = lower, ymax = upper, color = included)) +
   ggtitle(&quot;Moderation&quot;, &quot;top-to-bottom: short-term,\nleft-to-right: long-term attractiveness of the partner&quot;)+
   ylab(&quot;Extra-pair desire and behaviour&quot;)</code></pre>
 <p><img src="3_fertility_robustness2_files/figure-html/unnamed-chunk-7-1.png" width="768" /></p>
-<p>Now, in our robustness checks, we omitted random slopes for menstruation and fertile effects. I believe this leads us to overestimate the certainty in results, but didn’t worry about it, because I was short on computational time (given that we estimated thousands of mixed models) and thought the models already showed sufficiently clearly that estimates were uncertain and evidence did not clearly favour moderators. However, Steve disagreed with this somewhat, thinking the Wald t-test based p value of .006 above is evidence that we disregarded. We focused on the model comparisons, and think this is reasonable, but what happens to the NHST p value when we allow for random slopes?</p>
+<p>Now, in our robustness checks, we omitted random slopes for menstruation and fertile effects.</p>
+<p>I believe this leads us to overestimate the certainty in results, but didn’t worry about it, because I was short on computational time (given that we estimated thousands of mixed models) and thought the models already showed sufficiently clearly that estimates were uncertain and evidence did not favour moderators. However, Steve Gangestad disagreed with this somewhat, thinking the Wald t-test based p value of .006 above is evidence that we disregarded or dismissed. We used the likelihood ratio test, and think this is reasonable, but for the sake of the argument, what happens to the NHST p value when we allow for random slopes?</p>
 <pre class="r"><code>epd1_m0_r = lmer(extra_pair ~ partner_attractiveness_longterm * included + partner_attractiveness_shortterm * included + partner_attractiveness_longterm * partner_attractiveness_shortterm + partner_attractiveness_longterm * included * fertile + included * (menstruation + fertile) + fertile_mean + ( 1 + menstruation + fertile | person), data = diary)
 epd1_m_r = lmer(extra_pair ~ partner_attractiveness_longterm * included + partner_attractiveness_shortterm * included + partner_attractiveness_longterm * partner_attractiveness_shortterm + partner_attractiveness_shortterm * partner_attractiveness_longterm * included * fertile + included * (menstruation + fertile) + fertile_mean + ( 1 + menstruation + fertile | person), data = diary)</code></pre>
 <ol style="list-style-type: lower-alpha">
@@ -538,7 +542,7 @@ summary(epd1_m)</code></pre>
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <pre class="r"><code>effs = allEffects(epd1_m)
 effs = data.frame(effs$`partner_attractiveness_longterm:included:partner_attractiveness_shortterm:fertile`) %&gt;% 
-  filter(round(partner_attractiveness_longterm,1) %in% c(-3, -0.4,0.8),round(partner_attractiveness_shortterm,1) %in% c(-2,0.4,1.6))
+  filter(round(partner_attractiveness_longterm,1) %in% c(-3, -0.4,0.8),round(partner_attractiveness_shortterm,1) %in% c(-2,0.4,2))
 ggplot(effs, aes(fertile, fit, ymin = lower, ymax = upper, color = included)) + 
   facet_grid(partner_attractiveness_shortterm ~ partner_attractiveness_longterm) +
   geom_smooth(stat=&#39;identity&#39;) +
@@ -587,7 +591,7 @@ anova(epd1_m0_r, epd1_m_r)</code></pre>
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <pre class="r"><code>effs = allEffects(epd1_m_r)
 effs = data.frame(effs$`partner_attractiveness_longterm:included:partner_attractiveness_shortterm:fertile`) %&gt;% 
-  filter(round(partner_attractiveness_longterm,1) %in% c(-3, -0.4,0.8),round(partner_attractiveness_shortterm,1) %in% c(-2,0.4,1.6))
+  filter(round(partner_attractiveness_longterm,1) %in% c(-3, -0.4,0.8),round(partner_attractiveness_shortterm,1) %in% c(-2,0.4,2))
 ggplot(effs, aes(fertile, fit, ymin = lower, ymax = upper, color = included)) + 
   facet_grid(partner_attractiveness_shortterm ~ partner_attractiveness_longterm) +
   geom_smooth(stat=&#39;identity&#39;) +
@@ -596,6 +600,7 @@ ggplot(effs, aes(fertile, fit, ymin = lower, ymax = upper, color = included)) +
   ggtitle(&quot;Moderation&quot;, &quot;top-to-bottom: short-term,\nleft-to-right: long-term attractiveness of the partner&quot;)+
   ylab(&quot;Extra-pair desire&quot;)</code></pre>
 <p><img src="3_fertility_robustness2_files/figure-html/rob-12-2.png" width="768" /></p>
+<p>Here, we see that this association might turn significant according to the likelihood ratio test, depending on how you set things up (not with random slopes). But this is now really a post-hoc analysis, so for this reason and others spelled out below, I also used a Bayesian approach with LOO below.</p>
 </div>
 <div id="model-comparison-with-approximative-leave-one-out-cross-validation-in-brms" class="section level2">
 <h2>Model comparison with approximative leave-one-out cross-validation in brms</h2>
@@ -665,7 +670,7 @@ comp</code></pre>
 ## is a crude measure of effective sample size, and Rhat is the potential 
 ## scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
 <p>Finally, what does a plot of the marginal effects show? The default plot doesn’t show it in the same pattern as above, so I make my own.</p>
-<pre class="r"><code>newd &lt;- expand.grid(included = c(&quot;cycling&quot;, &quot;horm_contra&quot;), fertile = unique(diary$fertile), partner_attractiveness_shortterm = c(-2,0.4,1.6),
+<pre class="r"><code>newd &lt;- expand.grid(included = c(&quot;cycling&quot;, &quot;horm_contra&quot;), fertile = unique(diary$fertile), partner_attractiveness_shortterm = c(-2,0.4,2),
             partner_attractiveness_longterm = c(-3, -0.4, 0.8), menstruation = &quot;no&quot;, fertile_mean = 0) %&gt;% na.omit()
 newd[, c(&quot;Estimate&quot;, &quot;Std.Error&quot;, &quot;lower&quot;, &quot;upper&quot;)] &lt;- fitted(epd1_m_r_b, newd, re_formula = NA)
 ggplot(newd, aes(fertile, Estimate, ymin = lower, ymax = upper, color = included)) + 
@@ -681,11 +686,11 @@ ggplot(newd, aes(fertile, Estimate, ymin = lower, ymax = upper, color = included
 </div>
 <div id="summary" class="section level2">
 <h2>Summary</h2>
-<p>In summary, we think we were consistent in saying that our data don’t provide evidence for the predicted moderation effect. However, they also do not rule out moderator effects of a smaller size than were previously reported. If this wasn’t clear, we’re happy to have corrected this misinterpretation. We did write</p>
+<p>In summary, we think we were consistent in saying that our data don’t provide evidence for the predicted moderation effect. However, they also do not rule out moderator effects of a smaller size than were previously reported. If this wasn’t clear, we’re happy to have corrected this misinterpretation. We wrote</p>
 <blockquote>
 <p>Although further tests should be conducted, the good genes ovulatory shift hypothesis could be wrong, given that we could not replicate previously reported moderators.</p>
 </blockquote>
-<p>We’ve collected data for a second study to test this and other theories again, with more data. We’re also involved in a larger project which aims to collect data across multiple labs in a Registered Report framework. These discussions may help us frame the predictions and models in this new project better.</p>
+<p>We really meant this, not just as a paean to uncertainty, but we actually acted on it. We’ve collected data for a second study to test this and other theories again, with more data and better measures. We’re also involved in a larger project which aims to collect data across multiple labs in a Registered Report framework. These discussions may help us frame the predictions and models in this new project better. We may also improve measurement of our moderators, the ones in this study were based on those used in previous studies and maybe suboptimal in some ways.</p>
 </div>
 </div>
 
