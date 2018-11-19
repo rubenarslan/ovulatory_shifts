@@ -12,19 +12,17 @@
 <meta name="author" content="Jones et al., multilevel reliability calculations by Arslan et al." />
 
 
-<title></title>
+<title>1_OCMATE_hormone_reliability.utf8.md</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<script src="site_libs/navigation-1.1/codefolding.js"></script>
-<link href="site_libs/highlightjs-1.1/default.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-1.1/highlight.js"></script>
-<script src="library/auto_tab_first_section.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -33,10 +31,12 @@
   }
 </style>
 <script type="text/javascript">
-if (window.hljs && document.readyState && document.readyState === "complete") {
-   window.setTimeout(function() {
-      hljs.initHighlighting();
-   }, 0);
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
 }
 </script>
 
@@ -69,7 +69,6 @@ h6 {
 }
 </style>
 
-<link rel="stylesheet" href="library/custom_styles.css" type="text/css" />
 
 </head>
 
@@ -92,6 +91,9 @@ img {
 .tabbed-pane {
   padding-top: 12px;
 }
+.html-widget {
+  margin-bottom: 20px;
+}
 button.code-folding-btn:focus {
   outline: none;
 }
@@ -101,34 +103,34 @@ button.code-folding-btn:focus {
 <style type="text/css">
 /* padding for bootstrap navbar */
 body {
-  padding-top: 64px;
+  padding-top: 51px;
   padding-bottom: 40px;
 }
 /* offset scroll position for anchor links (for fixed navbar)  */
 .section h1 {
-  padding-top: 69px;
-  margin-top: -69px;
+  padding-top: 56px;
+  margin-top: -56px;
 }
 
 .section h2 {
-  padding-top: 69px;
-  margin-top: -69px;
+  padding-top: 56px;
+  margin-top: -56px;
 }
 .section h3 {
-  padding-top: 69px;
-  margin-top: -69px;
+  padding-top: 56px;
+  margin-top: -56px;
 }
 .section h4 {
-  padding-top: 69px;
-  margin-top: -69px;
+  padding-top: 56px;
+  margin-top: -56px;
 }
 .section h5 {
-  padding-top: 69px;
-  margin-top: -69px;
+  padding-top: 56px;
+  margin-top: -56px;
 }
 .section h6 {
-  padding-top: 69px;
-  margin-top: -69px;
+  padding-top: 56px;
+  margin-top: -56px;
 }
 </style>
 
@@ -161,14 +163,6 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
-<style type="text/css">
-.code-folding-btn { margin-bottom: 4px; }
-</style>
-<script>
-$(document).ready(function () {
-  window.initializeCodeFolding("hide" === "show");
-});
-</script>
 
 
 
@@ -214,14 +208,6 @@ $(document).ready(function () {
 </div><!--/.navbar -->
 
 <div class="fluid-row" id="header">
-
-<div class="btn-group pull-right">
-<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
-<ul class="dropdown-menu" style="min-width: 50px;">
-<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
-<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
-</ul>
-</div>
 
 
 
@@ -358,10 +344,10 @@ data_all %&gt;%
     mean_age = mean(min_age, na.rm = TRUE),
     sd_age = sd(min_age, na.rm = TRUE)
   ) %&gt;% t()</code></pre>
-<pre><code>##               [,1]
-## n        375.00000
-## mean_age  21.56176
-## sd_age     3.30910</code></pre>
+<pre><code>##          [,1]
+## n         375
+## mean_age  Inf
+## sd_age    Inf</code></pre>
 </div>
 <div id="descriptive-stats-for-questionaires" class="section level3">
 <h3>Descriptive Stats for Questionaires</h3>
@@ -374,15 +360,15 @@ data_all %&gt;%
     sd_score = sd(score, na.rm = TRUE)
   )</code></pre>
 <pre><code>## # A tibble: 7 x 5
-##           question N_valid N_missing mean_score  sd_score
-##              &lt;chr&gt;   &lt;int&gt;     &lt;int&gt;      &lt;dbl&gt;     &lt;dbl&gt;
-## 1     attitude_soi    2189        87   9.223847  3.503218
-## 2     behavior_soi    2140       136   5.737850  2.666953
-## 3 current_sexdrive    2145       131   3.768298  1.556664
-## 4       desire_soi    2168       108   8.056734  2.960283
-## 5       dyadic_SDI    2098       178  35.514776 11.949346
-## 6     solitary_SDI    2099       177   8.626012  6.462232
-## 7        total_SDI    2051       225  44.146758 15.660870</code></pre>
+##   question         N_valid N_missing mean_score sd_score
+##   &lt;chr&gt;              &lt;int&gt;     &lt;int&gt;      &lt;dbl&gt;    &lt;dbl&gt;
+## 1 attitude_soi        2189        87       9.22     3.50
+## 2 behavior_soi        2140       136       5.74     2.67
+## 3 current_sexdrive    2145       131       3.77     1.56
+## 4 desire_soi          2168       108       8.06     2.96
+## 5 dyadic_SDI          2098       178      35.5     11.9 
+## 6 solitary_SDI        2099       177       8.63     6.46
+## 7 total_SDI           2051       225      44.1     15.7</code></pre>
 </div>
 <div id="the-number-of-sessions-completed-per-woman" class="section level3">
 <h3>The number of sessions completed per woman</h3>
@@ -397,17 +383,17 @@ data_all %&gt;%
   ) %&gt;%
   spread(sessions, n) %&gt;% 
   t()</code></pre>
-<pre><code>##      1
-## 1   15
-## 2    9
-## 3    5
-## 4    9
-## 5  233
-## 6    1
-## 7    1
-## 8    2
-## 9    2
-## 10  98</code></pre>
+<pre><code>##    [,1]
+## 1    15
+## 2     9
+## 3     5
+## 4     9
+## 5   233
+## 6     1
+## 7     1
+## 8     2
+## 9     2
+## 10   98</code></pre>
 </div>
 <div id="exclude-observations-with-missing-estr-prog-and-test" class="section level3">
 <h3>Exclude observations with missing estr, prog and test</h3>
@@ -509,9 +495,9 @@ check_hormone_exclusions &lt;- sub_hormones_no_outliers %&gt;%
       total_hormone_samples_excluded = sum(excluded)
     ) %&gt;% gather(&quot;stat&quot;, &quot;value&quot;, 1:length(.))</code></pre>
 <pre><code>## # A tibble: 2 x 2
-##                             stat value
-##                            &lt;chr&gt; &lt;int&gt;
-## 1    total_hormone_samples_valid  8569
+##   stat                           value
+##   &lt;chr&gt;                          &lt;int&gt;
+## 1 total_hormone_samples_valid     8569
 ## 2 total_hormone_samples_excluded    95</code></pre>
 </div>
 <div id="subject-mean-centre-hormones" class="section level3">
@@ -566,12 +552,12 @@ data_hormones %&gt;%
     separate(stat, c(&quot;stat&quot;, &quot;hormone&quot;)) %&gt;%
     spread(stat, value)</code></pre>
 <pre><code>## # A tibble: 4 x 4
-##   hormone     mean      sd     se
-## *   &lt;chr&gt;    &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;
-## 1    cort   0.2290  0.1644 0.0035
-## 2    estr   3.3006  1.2733 0.0275
-## 3    prog 148.5903 96.2178 2.0873
-## 4    test  87.5719 27.1929 0.5874</code></pre>
+##   hormone    mean     sd     se
+##   &lt;chr&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+## 1 cort      0.229  0.164 0.0035
+## 2 estr      3.30   1.27  0.0275
+## 3 prog    149.    96.2   2.09  
+## 4 test     87.6   27.2   0.587</code></pre>
 </div>
 <div id="partnership" class="section level3">
 <h3>Partnership</h3>
@@ -588,13 +574,12 @@ data_hormones %&gt;%
 </div>
 <div id="multilevel-reliability-generalizability-analyses" class="section level2 tab-content active">
 <h2>Multilevel Reliability / Generalizability Analyses</h2>
-<pre class="r"><code>library(psych)</code></pre>
-<pre><code>## 
-## Attaching package: &#39;psych&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:ggplot2&#39;:
-## 
-##     %+%, alpha</code></pre>
-<pre class="r"><code>data_wide = data_hormones %&gt;% select(oc_id, date, block, estr, prog, test, cort) %&gt;% unique()</code></pre>
+<pre class="r"><code>library(psych)
+data_wide = data_hormones %&gt;% select(oc_id, date, block, estr, prog, test, cort) %&gt;% unique()
+data_wide &lt;- data_wide %&gt;% group_by(oc_id) %&gt;% 
+  arrange(oc_id, date) %&gt;% 
+  mutate(timepoint = row_number()) %&gt;% 
+  ungroup() %&gt;%  as.data.frame()</code></pre>
 <div id="estradiol" class="section level3">
 <h3>Estradiol</h3>
 <pre class="r"><code>multilevel.reliability(data_wide %&gt;% select(oc_id, date, estr), &quot;oc_id&quot;, &quot;date&quot;, 3, aov = F)</code></pre>
@@ -607,7 +592,7 @@ data_hormones %&gt;%
 ## 
 ## The data had  352  observations taken over  306  time intervals for  1 items.
 ## 
-##  Alternative estimates of reliabilty based upon Generalizability theory
+##  Alternative estimates of reliability based upon Generalizability theory
 ## 
 ## RkRn =  1 Generalizability of between person differences averaged over time (time nested within people)
 ## Rcn  =  0.83 Generalizability of within person variations averaged over items  (time nested within people)
@@ -622,6 +607,13 @@ data_hormones %&gt;%
 ##  To see the summaries of the ICCs by subject and time, use all=TRUE
 ##  To see specific objects select from the following list:
 ##  ANOVA s.lmer s.lme alpha summary.by.person summary.by.time ICC.by.person ICC.by.time lmer long Call</code></pre>
+<pre class="r"><code>data_wide %&gt;%
+  select(oc_id, timepoint, estr) %&gt;% 
+  spread(timepoint, estr) %&gt;% 
+  select(-oc_id) %&gt;% 
+  cor(use=&#39;na.or.complete&#39;) %&gt;% 
+  corrr::rplot(print_cor = T)</code></pre>
+<p><img src="1_OCMATE_hormone_reliability_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
 </div>
 <div id="progesterone" class="section level3">
 <h3>Progesterone</h3>
@@ -633,7 +625,7 @@ data_hormones %&gt;%
 ## 
 ## The data had  352  observations taken over  306  time intervals for  1 items.
 ## 
-##  Alternative estimates of reliabilty based upon Generalizability theory
+##  Alternative estimates of reliability based upon Generalizability theory
 ## 
 ## RkRn =  0.99 Generalizability of between person differences averaged over time (time nested within people)
 ## Rcn  =  0.86 Generalizability of within person variations averaged over items  (time nested within people)
@@ -648,6 +640,13 @@ data_hormones %&gt;%
 ##  To see the summaries of the ICCs by subject and time, use all=TRUE
 ##  To see specific objects select from the following list:
 ##  ANOVA s.lmer s.lme alpha summary.by.person summary.by.time ICC.by.person ICC.by.time lmer long Call</code></pre>
+<pre class="r"><code>data_wide %&gt;%
+  select(oc_id, timepoint, prog) %&gt;% 
+  spread(timepoint, prog) %&gt;% 
+  select(-oc_id) %&gt;% 
+  cor(use=&#39;na.or.complete&#39;) %&gt;% 
+  corrr::rplot(print_cor = T)</code></pre>
+<p><img src="1_OCMATE_hormone_reliability_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
 </div>
 <div id="testosterone" class="section level3">
 <h3>Testosterone</h3>
@@ -661,7 +660,7 @@ data_hormones %&gt;%
 ## 
 ## The data had  352  observations taken over  306  time intervals for  1 items.
 ## 
-##  Alternative estimates of reliabilty based upon Generalizability theory
+##  Alternative estimates of reliability based upon Generalizability theory
 ## 
 ## RkRn =  1 Generalizability of between person differences averaged over time (time nested within people)
 ## Rcn  =  0.83 Generalizability of within person variations averaged over items  (time nested within people)
@@ -676,6 +675,23 @@ data_hormones %&gt;%
 ##  To see the summaries of the ICCs by subject and time, use all=TRUE
 ##  To see specific objects select from the following list:
 ##  ANOVA s.lmer s.lme alpha summary.by.person summary.by.time ICC.by.person ICC.by.time lmer long Call</code></pre>
+<pre class="r"><code>data_wide %&gt;%
+  select(oc_id, timepoint, test) %&gt;% 
+  spread(timepoint, test) %&gt;% 
+  select(-oc_id) %&gt;% 
+  cor(use=&#39;na.or.complete&#39;) %&gt;% 
+  corrr::rplot(print_cor = T)</code></pre>
+<p><img src="1_OCMATE_hormone_reliability_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<pre class="r"><code># data_wide %&gt;% select(oc_id, date, test) %&gt;% group_by(oc_id) %&gt;% 
+#   arrange(oc_id, date) %&gt;% 
+#   mutate(
+#     date = as.Date(date),
+#     time_since_start = round(as.numeric(date - min(date)))) %&gt;% 
+#   ungroup() %&gt;% 
+#   spread(time_since_start, test) %&gt;% 
+#   select(-oc_id, -date) %&gt;% 
+#   cor(use=&#39;na.or.complete&#39;) %&gt;% 
+#   corrr::rplot(print_cor = T)</code></pre>
 </div>
 <div id="cortisol" class="section level3">
 <h3>Cortisol</h3>
@@ -692,7 +708,7 @@ data_hormones %&gt;%
 ## 
 ## The data had  352  observations taken over  306  time intervals for  1 items.
 ## 
-##  Alternative estimates of reliabilty based upon Generalizability theory
+##  Alternative estimates of reliability based upon Generalizability theory
 ## 
 ## RkRn =  1 Generalizability of between person differences averaged over time (time nested within people)
 ## Rcn  =  0.85 Generalizability of within person variations averaged over items  (time nested within people)
@@ -707,6 +723,13 @@ data_hormones %&gt;%
 ##  To see the summaries of the ICCs by subject and time, use all=TRUE
 ##  To see specific objects select from the following list:
 ##  ANOVA s.lmer s.lme alpha summary.by.person summary.by.time ICC.by.person ICC.by.time lmer long Call</code></pre>
+<pre class="r"><code>data_wide %&gt;%
+  select(oc_id, timepoint, cort) %&gt;% 
+  spread(timepoint, cort) %&gt;% 
+  select(-oc_id) %&gt;% 
+  cor(use=&#39;na.or.complete&#39;) %&gt;% 
+  corrr::rplot(print_cor = T)</code></pre>
+<p><img src="1_OCMATE_hormone_reliability_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
 </div>
 </div>
 </div>
