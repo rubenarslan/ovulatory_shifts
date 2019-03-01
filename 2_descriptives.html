@@ -15,23 +15,21 @@
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<script src="site_libs/navigation-1.1/codefolding.js"></script>
-<link href="site_libs/highlightjs-1.1/default.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-1.1/highlight.js"></script>
-<script src="site_libs/htmlwidgets-0.8/htmlwidgets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/htmlwidgets-1.3/htmlwidgets.js"></script>
 <script src="site_libs/d3-3.3.8/d3.min.js"></script>
 <script src="site_libs/dagre-0.4.0/dagre-d3.min.js"></script>
 <link href="site_libs/mermaid-0.3.0/dist/mermaid.css" rel="stylesheet" />
 <script src="site_libs/mermaid-0.3.0/dist/mermaid.slim.min.js"></script>
 <link href="site_libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
 <script src="site_libs/chromatography-0.1/chromatography.js"></script>
-<script src="site_libs/DiagrammeR-binding-0.9.0/DiagrammeR.js"></script>
-<script src="library/auto_tab_first_section.js"></script>
+<script src="site_libs/DiagrammeR-binding-1.0.0/DiagrammeR.js"></script>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -40,10 +38,12 @@
   }
 </style>
 <script type="text/javascript">
-if (window.hljs && document.readyState && document.readyState === "complete") {
-   window.setTimeout(function() {
-      hljs.initHighlighting();
-   }, 0);
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
 }
 </script>
 
@@ -76,7 +76,6 @@ h6 {
 }
 </style>
 
-<link rel="stylesheet" href="library/custom_styles.css" type="text/css" />
 
 </head>
 
@@ -99,8 +98,14 @@ img {
 .tabbed-pane {
   padding-top: 12px;
 }
+.html-widget {
+  margin-bottom: 20px;
+}
 button.code-folding-btn:focus {
   outline: none;
+}
+summary {
+  display: list-item;
 }
 </style>
 
@@ -108,34 +113,70 @@ button.code-folding-btn:focus {
 <style type="text/css">
 /* padding for bootstrap navbar */
 body {
-  padding-top: 64px;
+  padding-top: 51px;
   padding-bottom: 40px;
 }
 /* offset scroll position for anchor links (for fixed navbar)  */
 .section h1 {
-  padding-top: 69px;
-  margin-top: -69px;
+  padding-top: 56px;
+  margin-top: -56px;
 }
-
 .section h2 {
-  padding-top: 69px;
-  margin-top: -69px;
+  padding-top: 56px;
+  margin-top: -56px;
 }
 .section h3 {
-  padding-top: 69px;
-  margin-top: -69px;
+  padding-top: 56px;
+  margin-top: -56px;
 }
 .section h4 {
-  padding-top: 69px;
-  margin-top: -69px;
+  padding-top: 56px;
+  margin-top: -56px;
 }
 .section h5 {
-  padding-top: 69px;
-  margin-top: -69px;
+  padding-top: 56px;
+  margin-top: -56px;
 }
 .section h6 {
-  padding-top: 69px;
-  margin-top: -69px;
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
 }
 </style>
 
@@ -157,26 +198,77 @@ $(document).ready(function () {
 });
 </script>
 
-
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
 <script>
 $(document).ready(function () {
   window.buildTabsets("TOC");
 });
-</script>
 
-<!-- code folding -->
-<style type="text/css">
-.code-folding-btn { margin-bottom: 4px; }
-</style>
-<script>
 $(document).ready(function () {
-  window.initializeCodeFolding("hide" === "show");
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
 });
 </script>
 
+<!-- code folding -->
 
 
 
@@ -222,14 +314,6 @@ $(document).ready(function () {
 
 <div class="fluid-row" id="header">
 
-<div class="btn-group pull-right">
-<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
-<ul class="dropdown-menu" style="min-width: 50px;">
-<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
-<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
-</ul>
-</div>
-
 
 
 
@@ -241,7 +325,7 @@ $(document).ready(function () {
 <p><span style="background:red;width:20px;height:20px;display:inline-block;"></span> Cycling women (not on hormonal birth control)</p>
 <p><span style="background:black;width:20px;height:20px;display:inline-block;"></span> Women on hormonal birth control</p>
 <pre class="r"><code>library(knitr)
-opts_chunk$set(fig.width = 9, fig.height = 7, cache = T, warning = F, message = F, render = formr::pander_handler)</code></pre>
+opts_chunk$set(fig.width = 9, fig.height = 7, cache = T, warning = F, message = F, render = formr::pander_handler, error = TRUE)</code></pre>
 <pre class="r"><code>source(&quot;0_helpers.R&quot;)
 load(&quot;full_data.rdata&quot;)
 hcfacet = facet_wrap(~ hormonal_contraception, labeller = as_labeller(c(&quot;0&quot; = &quot;Naturally cycling&quot;, &quot;1&quot; = &quot;Hormonal contraception user&quot;)))</code></pre>
@@ -266,7 +350,6 @@ paste0(&#39;graph TB
   horm_ineligible[&quot;Excluded n=&#39;,never_did_diary,&#39; no diary entries,&lt;br&gt;
   n=&#39;,pregnant,&#39; pregnant, n=&#39;,infertile,&#39; infertile,&lt;br&gt;
   n=&#39;,sterilised,&#39; sterilised,&lt;br&gt;
-  n=&#39;,no_period,&#39; no menstruation,&lt;br&gt;
   n=&#39;,fertility_not_estimable,&#39; fertility not estimable&quot;]
 
   nc[&quot;Naturally cycling&lt;br&gt;
@@ -281,7 +364,10 @@ paste0(&#39;graph TB
   n=&#39;,breast_feeding,&#39; breast-feeding, &lt;br&gt;
   n=&#39;,pill_last_3m,&#39; HC used in last 3m, &lt;br&gt;
   n=&#39;,hormonal_medicine,&#39; hormonal medication, &lt;br&gt;
-  n=&#39;,long_or_short_cycle,&#39; cycle length not in 22-37 days&quot;]
+  n=&#39;,long_or_short_cycle,&#39; cycle length not in 22-37 days, &lt;br&gt;
+  n=&#39;,guessed_hypothesis,&#39; guessed a hypothesis, &lt;br&gt;
+  n=&#39;,laggards,&#39; took more &gt;70 days or &lt;br&gt;
+interrupted for &gt;10 days&quot;]
 
   c_lax[&quot;Included (lax)&lt;br&gt;
   n=&#39;,criterion_lax,&#39;&quot;]
@@ -305,7 +391,10 @@ paste0(&#39;graph TB
   hc_lax_ineligible[&quot;Excluded n=&#39;,hc$older_than_40,&#39; older than 40,&lt;br&gt;
   n=&#39;,hc$finished_post_survey,&#39; did not finish study, &lt;br&gt;
   n=&#39;,hc$breast_feeding,&#39; breast-feeding, &lt;br&gt;
-  n=&#39;,hc$long_or_short_cycle,&#39; cycle length not in 22-37 days&quot;]
+  n=&#39;,hc$long_or_short_cycle,&#39; cycle length not in 22-37 days, &lt;br&gt;
+  n=&#39;,hc$guessed_hypothesis,&#39; guessed a hypothesis, &lt;br&gt;
+  n=&#39;,hc$laggards,&#39; took more &gt;70 days or &lt;br&gt;
+interrupted for &gt;10 days&quot;]
 
   hc_lax[&quot;Included (lax)&lt;br&gt;
   n=&#39;,hc$criterion_lax,&#39;&quot;]
@@ -321,7 +410,7 @@ paste0(&#39;graph TB
   n=&#39;,hc$criterion_conservative,&#39;&quot;]
 
   hc_strict_ineligible[&quot;Excluded n=&#39;,hc$stressed,&#39; stressed, &lt;br&gt;
-  n=&#39;,cycle_possibly_irregular,&#39; possibly irregular cycle&quot;]
+  n=&#39;,hc$cycle_possibly_irregular,&#39; possibly irregular cycle&quot;]
 
   hc_strict[&quot;Included (strict)&lt;br&gt;
   n=&#39;,hc$criterion_strict,&#39;&quot;]
@@ -351,8 +440,8 @@ classDef default fill:#fff,stroke:#000,stroke-width:1px
 &#39;)
 )
 mermaid(consort, width = 1400, height = 900)</code></pre>
-<div id="htmlwidget-1da043b41e210e505d2c" style="width:1400px;height:900px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-1da043b41e210e505d2c">{"x":{"diagram":"graph TB\n  start[\"Participants enrolled<br>\n  N=1720\"]\n  ineligible[\"Ineligible<br>\n  n=259\"]\n  notfinish[\"Did not finish pre-survey<br>\n  n=253\"]\n  eligible[\"Finished pre-survey<br>\n  n=1208\"]\n\n  horm_ineligible[\"Excluded n=54 no diary entries,<br>\n  n=24 pregnant, n=5 infertile,<br>\n  n=12 sterilised,<br>\n  n=55 no menstruation,<br>\n  n=4 fertility not estimable\"]\n\n  nc[\"Naturally cycling<br>\n  n=429\"]\n\n  hc[\"Using hormonal contraception<br>\n  n=625\"]\n\n  c_lax_ineligible[\"Excluded n=54 older than 40, <br>\n  n=137 did not finish study, <br>\n  n=2 used morning-after-pill, <br>\n  n=6 breast-feeding, <br>\n  n=14 HC used in last 3m, <br>\n  n=25 hormonal medication, <br>\n  n=10 cycle length not in 22-37 days\"]\n\n  c_lax[\"Included (lax)<br>\n  n=143\"]\n\n  c_cons_ineligible[\"Excluded n=4 heavy smokers, <br>\n  n=6 did intensive sports, <br>\n  n=0 changed contraception,<br>\n  n=3 broke up, n=2 lost > 8kg, <br>\n  n=3 BMI < 17, n=8 BMI > 30, <br>\n  n=5 irregular cycle (confident)\"]\n\n  c_cons[\"Included (conservative)<br>\n  n=112\"]\n\n  c_strict_ineligible[\"Excluded n=43 stressed, <br>\n  n=12 possibly irregular cycle\"]\n\n  c_strict[\"Included (strict)<br>\n  n=57\"]\n\n  hc_lax_ineligible[\"Excluded n=10 older than 40,<br>\n  n=168 did not finish study, <br>\n  n=2 breast-feeding, <br>\n  n=28 cycle length not in 22-37 days\"]\n\n  hc_lax[\"Included (lax)<br>\n  n=374\"]\n\n  hc_cons_ineligible[\"Excluded n=10 heavy smokers, <br>\n  n=18 did intensive sports, <br>\n  n=14 changed contraception,<br>\n  n=10 broke up, n=6 lost > 8kg, <br>\n  n=7 BMI < 17, n=10 BMI > 30, <br>\n  n=6 irregular cycle (confident)\"]\n\n  hc_cons[\"Included (conservative)<br>\n  n=293\"]\n\n  hc_strict_ineligible[\"Excluded n=120 stressed, <br>\n  n=12 possibly irregular cycle\"]\n\n  hc_strict[\"Included (strict)<br>\n  n=161\"]\n\n\n\n  start --> ineligible\n  start --> eligible\n  start --> notfinish\n  eligible --> hc\n  eligible --> horm_ineligible\n  eligible --> nc\n  nc --> c_lax\n  nc --> c_lax_ineligible\n  hc --> hc_lax_ineligible\n  hc --> hc_lax\n  c_lax --> c_cons\n  c_lax --> c_cons_ineligible\n  hc_lax --> hc_cons_ineligible\n  hc_lax --> hc_cons\n  c_cons --> c_strict\n  c_cons --> c_strict_ineligible\n  hc_cons --> hc_strict_ineligible\n  hc_cons --> hc_strict\n\nclassDef default fill:#fff,stroke:#000,stroke-width:1px\n"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-b9f28bf7672e4bd0aa27" style="width:1400px;height:900px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-b9f28bf7672e4bd0aa27">{"x":{"diagram":"graph TB\n  start[\"Participants enrolled<br>\n  N=1720\"]\n  ineligible[\"Ineligible<br>\n  n=259\"]\n  notfinish[\"Did not finish pre-survey<br>\n  n=253\"]\n  eligible[\"Finished pre-survey<br>\n  n=1208\"]\n\n  horm_ineligible[\"Excluded n=54 no diary entries,<br>\n  n=24 pregnant, n=5 infertile,<br>\n  n=12 sterilised,<br>\n  n=59 fertility not estimable\"]\n\n  nc[\"Naturally cycling<br>\n  n=429\"]\n\n  hc[\"Using hormonal contraception<br>\n  n=625\"]\n\n  c_lax_ineligible[\"Excluded n=54 older than 40, <br>\n  n=137 did not finish study, <br>\n  n=2 used morning-after-pill, <br>\n  n=6 breast-feeding, <br>\n  n=14 HC used in last 3m, <br>\n  n=25 hormonal medication, <br>\n  n=10 cycle length not in 22-37 days, <br>\n  n=21 guessed a hypothesis, <br>\n  n=17 took more >70 days or <br>\ninterrupted for >10 days\"]\n\n  c_lax[\"Included (lax)<br>\n  n=143\"]\n\n  c_cons_ineligible[\"Excluded n=4 heavy smokers, <br>\n  n=6 did intensive sports, <br>\n  n=0 changed contraception,<br>\n  n=3 broke up, n=2 lost > 8kg, <br>\n  n=3 BMI < 17, n=8 BMI > 30, <br>\n  n=5 irregular cycle (confident)\"]\n\n  c_cons[\"Included (conservative)<br>\n  n=112\"]\n\n  c_strict_ineligible[\"Excluded n=43 stressed, <br>\n  n=12 possibly irregular cycle\"]\n\n  c_strict[\"Included (strict)<br>\n  n=57\"]\n\n  hc_lax_ineligible[\"Excluded n=10 older than 40,<br>\n  n=168 did not finish study, <br>\n  n=2 breast-feeding, <br>\n  n=28 cycle length not in 22-37 days, <br>\n  n=19 guessed a hypothesis, <br>\n  n=24 took more >70 days or <br>\ninterrupted for >10 days\"]\n\n  hc_lax[\"Included (lax)<br>\n  n=374\"]\n\n  hc_cons_ineligible[\"Excluded n=10 heavy smokers, <br>\n  n=18 did intensive sports, <br>\n  n=14 changed contraception,<br>\n  n=10 broke up, n=6 lost > 8kg, <br>\n  n=7 BMI < 17, n=10 BMI > 30, <br>\n  n=6 irregular cycle (confident)\"]\n\n  hc_cons[\"Included (conservative)<br>\n  n=293\"]\n\n  hc_strict_ineligible[\"Excluded n=120 stressed, <br>\n  n=12 possibly irregular cycle\"]\n\n  hc_strict[\"Included (strict)<br>\n  n=161\"]\n\n\n\n  start --> ineligible\n  start --> eligible\n  start --> notfinish\n  eligible --> hc\n  eligible --> horm_ineligible\n  eligible --> nc\n  nc --> c_lax\n  nc --> c_lax_ineligible\n  hc --> hc_lax_ineligible\n  hc --> hc_lax\n  c_lax --> c_cons\n  c_lax --> c_cons_ineligible\n  hc_lax --> hc_cons_ineligible\n  hc_lax --> hc_cons\n  c_cons --> c_strict\n  c_cons --> c_strict_ineligible\n  hc_cons --> hc_strict_ineligible\n  hc_cons --> hc_strict\n\nclassDef default fill:#fff,stroke:#000,stroke-width:1px\n"},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="exclusion-by-hormonal-contraception" class="section level3">
 <h3>Exclusion by hormonal contraception</h3>
@@ -386,15 +475,16 @@ xsection %&gt;%
             median = median(value),
             min = min(value), max  = max(value)) %&gt;% 
   pander()</code></pre>
-<pre><code>## Warning: attributes are not identical across measure variables; they will be dropped</code></pre>
-<table style="width:85%;">
+<pre><code>## Warning: attributes are not identical across measure variables;
+## they will be dropped</code></pre>
+<table style="width:93%;">
 <colgroup>
-<col width="38%" />
+<col width="41%" />
 <col width="9%" />
-<col width="6%" />
+<col width="9%" />
 <col width="12%" />
 <col width="8%" />
-<col width="8%" />
+<col width="11%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -484,8 +574,10 @@ xsection %&gt;%
                    `Cycling - Mean (SD)` = character(0),
                    hedges_g = character(0),
                    p_value = character(0)
-)
-compare_by_group = function(var, data) {
+)</code></pre>
+<pre><code>## Warning: `data_frame()` is deprecated, use `tibble()`.
+## This warning is displayed once per session.</code></pre>
+<pre class="r"><code>compare_by_group = function(var, data) {
  sd_hc = sd(data[data$hormonal_contraception == 1,][[var]], na.rm = T)
  sd_nc = sd(data[data$hormonal_contraception == 0,][[var]], na.rm = T)
   data$hormonal_contraception = factor(if_else(data$hormonal_contraception == 1, &quot;hormonal contraceptive user&quot;, &quot;naturally cycling&quot;))
@@ -527,10 +619,10 @@ ggplot(data, aes_string(var, colour = &quot;hormonal_contraception&quot;, fill =
 ## 
 ## Hedges&#39;s g
 ## 
-## g estimate: 1.1 (large)
+## g estimate: -0.61 (medium)
 ## 95 percent confidence interval:
-##  inf  sup 
-## 0.96 1.22</code></pre>
+## lower upper 
+## -0.74 -0.49</code></pre>
 <p><img src="2_descriptives_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 </div>
 <div id="religiosity" class="section level3">
@@ -551,10 +643,10 @@ ggplot(data, aes_string(var, colour = &quot;hormonal_contraception&quot;, fill =
 ## 
 ## Hedges&#39;s g
 ## 
-## g estimate: 0.0056 (negligible)
+## g estimate: -0.0053 (negligible)
 ## 95 percent confidence interval:
-##   inf   sup 
-## -0.12  0.13</code></pre>
+## lower upper 
+## -0.13  0.12</code></pre>
 <p><img src="2_descriptives_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 </div>
 <div id="age-at-first-time" class="section level3">
@@ -575,10 +667,10 @@ ggplot(data, aes_string(var, colour = &quot;hormonal_contraception&quot;, fill =
 ## 
 ## Hedges&#39;s g
 ## 
-## g estimate: -0.0019 (negligible)
+## g estimate: 0.0018 (negligible)
 ## 95 percent confidence interval:
-##   inf   sup 
-## -0.13  0.12</code></pre>
+## lower upper 
+## -0.12  0.13</code></pre>
 <pre><code>## Warning: Removed 29 rows containing non-finite values (stat_density).</code></pre>
 <p><img src="2_descriptives_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 </div>
@@ -600,10 +692,10 @@ ggplot(data, aes_string(var, colour = &quot;hormonal_contraception&quot;, fill =
 ## 
 ## Hedges&#39;s g
 ## 
-## g estimate: -0.072 (negligible)
+## g estimate: 0.061 (negligible)
 ## 95 percent confidence interval:
-##   inf   sup 
-## -0.25  0.11</code></pre>
+## lower upper 
+## -0.12  0.24</code></pre>
 <pre><code>## Warning: Removed 586 rows containing non-finite values (stat_density).</code></pre>
 <p><img src="2_descriptives_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 </div>
@@ -625,10 +717,10 @@ ggplot(data, aes_string(var, colour = &quot;hormonal_contraception&quot;, fill =
 ## 
 ## Hedges&#39;s g
 ## 
-## g estimate: 0.75 (medium)
+## g estimate: -0.38 (small)
 ## 95 percent confidence interval:
-##  inf  sup 
-## 0.62 0.88</code></pre>
+## lower upper 
+## -0.51 -0.26</code></pre>
 <pre><code>## Warning: Removed 5 rows containing non-finite values (stat_density).</code></pre>
 <p><img src="2_descriptives_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 </div>
@@ -650,10 +742,10 @@ ggplot(data, aes_string(var, colour = &quot;hormonal_contraception&quot;, fill =
 ## 
 ## Hedges&#39;s g
 ## 
-## g estimate: 0.38 (small)
+## g estimate: -0.31 (small)
 ## 95 percent confidence interval:
-##  inf  sup 
-## 0.25 0.50</code></pre>
+## lower upper 
+## -0.43 -0.19</code></pre>
 <p><img src="2_descriptives_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 </div>
 <div id="reported-cycle-regularity" class="section level3">
@@ -712,10 +804,10 @@ ggplot(data, aes_string(var, colour = &quot;hormonal_contraception&quot;, fill =
 ## 
 ## Hedges&#39;s g
 ## 
-## g estimate: 0.5 (small)
+## g estimate: -0.24 (small)
 ## 95 percent confidence interval:
-##  inf  sup 
-## 0.37 0.62</code></pre>
+## lower upper 
+## -0.36 -0.12</code></pre>
 <p><img src="2_descriptives_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
 </div>
 <div id="extraversion" class="section level3">
@@ -736,10 +828,10 @@ ggplot(data, aes_string(var, colour = &quot;hormonal_contraception&quot;, fill =
 ## 
 ## Hedges&#39;s g
 ## 
-## g estimate: 0.024 (negligible)
+## g estimate: -0.024 (negligible)
 ## 95 percent confidence interval:
-##    inf    sup 
-## -0.099  0.147</code></pre>
+##  lower  upper 
+## -0.147  0.099</code></pre>
 <p><img src="2_descriptives_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
 </div>
 <div id="agreeableness" class="section level3">
@@ -760,10 +852,10 @@ ggplot(data, aes_string(var, colour = &quot;hormonal_contraception&quot;, fill =
 ## 
 ## Hedges&#39;s g
 ## 
-## g estimate: 0.013 (negligible)
+## g estimate: -0.013 (negligible)
 ## 95 percent confidence interval:
-##   inf   sup 
-## -0.11  0.14</code></pre>
+## lower upper 
+## -0.14  0.11</code></pre>
 <p><img src="2_descriptives_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
 </div>
 <div id="neuroticism" class="section level3">
@@ -784,10 +876,10 @@ ggplot(data, aes_string(var, colour = &quot;hormonal_contraception&quot;, fill =
 ## 
 ## Hedges&#39;s g
 ## 
-## g estimate: -0.15 (negligible)
+## g estimate: 0.15 (negligible)
 ## 95 percent confidence interval:
-##   inf   sup 
-## -0.28 -0.03</code></pre>
+## lower upper 
+## 0.022 0.268</code></pre>
 <p><img src="2_descriptives_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
 </div>
 <div id="conscientiousness" class="section level3">
@@ -808,10 +900,10 @@ ggplot(data, aes_string(var, colour = &quot;hormonal_contraception&quot;, fill =
 ## 
 ## Hedges&#39;s g
 ## 
-## g estimate: -0.15 (negligible)
+## g estimate: 0.14 (negligible)
 ## 95 percent confidence interval:
-##    inf    sup 
-## -0.276 -0.029</code></pre>
+## lower upper 
+##  0.02  0.27</code></pre>
 <p><img src="2_descriptives_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
 </div>
 <div id="openness" class="section level3">
@@ -832,10 +924,10 @@ ggplot(data, aes_string(var, colour = &quot;hormonal_contraception&quot;, fill =
 ## 
 ## Hedges&#39;s g
 ## 
-## g estimate: 0.32 (small)
+## g estimate: -0.32 (small)
 ## 95 percent confidence interval:
-##  inf  sup 
-## 0.19 0.44</code></pre>
+## lower upper 
+## -0.45 -0.20</code></pre>
 <p><img src="2_descriptives_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
 </div>
 <div id="relationship-satisfaction" class="section level3">
@@ -856,10 +948,10 @@ ggplot(data, aes_string(var, colour = &quot;hormonal_contraception&quot;, fill =
 ## 
 ## Hedges&#39;s g
 ## 
-## g estimate: -0.2 (small)
+## g estimate: 0.18 (negligible)
 ## 95 percent confidence interval:
-##    inf    sup 
-## -0.325 -0.078</code></pre>
+## lower upper 
+## 0.061 0.307</code></pre>
 <p><img src="2_descriptives_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
 </div>
 <div id="occupation" class="section level3">
@@ -1348,9 +1440,9 @@ jmv::contTables(
 <pre class="r"><code>pander(comps)</code></pre>
 <table>
 <colgroup>
-<col width="29%" />
-<col width="23%" />
-<col width="23%" />
+<col width="31%" />
+<col width="22%" />
+<col width="22%" />
 <col width="11%" />
 <col width="11%" />
 </colgroup>
@@ -1368,14 +1460,14 @@ jmv::contTables(
 <td align="center">age</td>
 <td align="center">23.7 (4.7)</td>
 <td align="center">28.9 (8.4)</td>
-<td align="center">1.09</td>
+<td align="center">-0.61</td>
 <td align="center">&lt; .001</td>
 </tr>
 <tr class="even">
 <td align="center">religiosity</td>
 <td align="center">2.0 (1.1)</td>
 <td align="center">2.0 (1.2)</td>
-<td align="center">0.01</td>
+<td align="center">-0.01</td>
 <td align="center">= .931</td>
 </tr>
 <tr class="odd">
@@ -1389,70 +1481,70 @@ jmv::contTables(
 <td align="center">menarche</td>
 <td align="center">13.1 (1.3)</td>
 <td align="center">13.0 (1.5)</td>
-<td align="center">-0.07</td>
+<td align="center">0.06</td>
 <td align="center">= .476</td>
 </tr>
 <tr class="odd">
 <td align="center">duration_relationship_total</td>
 <td align="center">3.0 (3.0)</td>
 <td align="center">5.3 (5.9)</td>
-<td align="center">0.75</td>
+<td align="center">-0.38</td>
 <td align="center">&lt; .001</td>
 </tr>
 <tr class="even">
 <td align="center">cycle_length</td>
 <td align="center">28.0 (3.0)</td>
 <td align="center">29.1 (3.7)</td>
-<td align="center">0.38</td>
+<td align="center">-0.31</td>
 <td align="center">&lt; .001</td>
 </tr>
 <tr class="odd">
 <td align="center">number_sexual_partner</td>
 <td align="center">5.7 (7.2)</td>
 <td align="center">9.3 (14.9)</td>
-<td align="center">0.50</td>
+<td align="center">-0.24</td>
 <td align="center">&lt; .001</td>
 </tr>
 <tr class="even">
 <td align="center">BFI_extra</td>
 <td align="center">3.5 (0.8)</td>
 <td align="center">3.5 (0.8)</td>
-<td align="center">0.02</td>
+<td align="center">-0.02</td>
 <td align="center">= .703</td>
 </tr>
 <tr class="odd">
 <td align="center">BFI_agree</td>
 <td align="center">3.6 (0.6)</td>
 <td align="center">3.6 (0.6)</td>
-<td align="center">0.01</td>
+<td align="center">-0.01</td>
 <td align="center">= .840</td>
 </tr>
 <tr class="even">
 <td align="center">BFI_neuro</td>
 <td align="center">3.1 (0.7)</td>
 <td align="center">3.0 (0.8)</td>
-<td align="center">-0.15</td>
+<td align="center">0.15</td>
 <td align="center">= .018</td>
 </tr>
 <tr class="odd">
 <td align="center">BFI_consc</td>
 <td align="center">3.6 (0.7)</td>
 <td align="center">3.5 (0.7)</td>
-<td align="center">-0.15</td>
+<td align="center">0.14</td>
 <td align="center">= .019</td>
 </tr>
 <tr class="even">
 <td align="center">BFI_open</td>
 <td align="center">3.6 (0.6)</td>
 <td align="center">3.8 (0.6)</td>
-<td align="center">0.32</td>
+<td align="center">-0.32</td>
 <td align="center">&lt; .001</td>
 </tr>
 <tr class="odd">
 <td align="center">ZIP</td>
 <td align="center">4.2 (0.7)</td>
 <td align="center">4.0 (0.7)</td>
-<td align="center">-0.20</td>
+<td align="center">0.18</td>
 <td align="center">= .002</td>
 </tr>
 </tbody>
@@ -1516,9 +1608,6 @@ summary(altogether)</code></pre>
 ## AIC: 1178
 ## 
 ## Number of Fisher Scoring iterations: 5</code></pre>
-<pre class="r"><code>library(effects)
-plot(allEffects(altogether))</code></pre>
-<p><img src="2_descriptives_files/figure-html/unnamed-chunk-30-1.png" width="1440" /></p>
 </div>
 <div id="categorical-regression-limited-to-lax-subset" class="section level4">
 <h4>Categorical regression limited to lax subset</h4>
@@ -1579,9 +1668,6 @@ summary(altogether)</code></pre>
 ## AIC: 533.3
 ## 
 ## Number of Fisher Scoring iterations: 14</code></pre>
-<pre class="r"><code>library(effects)
-plot(allEffects(altogether))</code></pre>
-<p><img src="2_descriptives_files/figure-html/unnamed-chunk-31-1.png" width="1440" /></p>
 <div id="restricted-to-predictors-significant-in-the-whole-sample" class="section level5">
 <h5>Restricted to predictors significant in the whole sample</h5>
 <pre class="r"><code>fewer_preds = glm(hormonal_contraception ~ age + cohabitation + + ZIP + BFI_consc + BFI_open + relationship_status_clean, data = xsection %&gt;% filter(!is.na(included_lax)), family = binomial(&quot;probit&quot;))
@@ -1617,8 +1703,6 @@ summary(fewer_preds)</code></pre>
 ## AIC: 560
 ## 
 ## Number of Fisher Scoring iterations: 4</code></pre>
-<pre class="r"><code>plot(allEffects(fewer_preds))</code></pre>
-<p><img src="2_descriptives_files/figure-html/unnamed-chunk-32-1.png" width="672" /></p>
 </div>
 </div>
 </div>
@@ -1671,9 +1755,9 @@ summary(fewer_preds)</code></pre>
   pander()</code></pre>
 <table>
 <colgroup>
-<col width="18%" />
+<col width="20%" />
 <col width="38%" />
-<col width="13%" />
+<col width="12%" />
 <col width="14%" />
 <col width="14%" />
 </colgroup>
@@ -1740,11 +1824,11 @@ summary(fewer_preds)</code></pre>
 </table>
 <pre class="r"><code>pander(missingness_patterns(diary %&gt;% ungroup %&gt;% select(prc_stirn_b, prc_stirn_b_forward_counted, prc_stirn_b_backward_inferred)))</code></pre>
 <p>index col missings 1 prc_stirn_b 11078 2 prc_stirn_b_backward_inferred 2027 3 prc_stirn_b_forward_counted 1898</p>
-<table style="width:61%;">
+<table style="width:67%;">
 <colgroup>
 <col width="13%" />
-<col width="9%" />
-<col width="37%" />
+<col width="11%" />
+<col width="41%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -1790,7 +1874,7 @@ cor(use=&#39;pairwise.complete.obs&#39;) %&gt;% form() %&gt;% pander()</code></p
 <colgroup>
 <col width="39%" />
 <col width="26%" />
-<col width="33%" />
+<col width="34%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -1830,54 +1914,49 @@ cor(use=&#39;pairwise.complete.obs&#39;) %&gt;% form() %&gt;% pander()</code></p
 <h5>Cycling</h5>
 <pre class="r"><code>diary %&gt;% filter(included_all == &quot;cycling&quot;,fertile_days_known_backward &gt; 10, sufficient_diary_coverage==T, ever_menstruated == T, any_RCD == T, person &lt; 400) %&gt;%
   ggplot(aes(x = RCD, y = factor(person), fill = prc_stirn_b)) + wall </code></pre>
-<pre><code>## Warning: Removed 641 rows containing missing values (geom_tile).</code></pre>
-<pre><code>## Warning: Removed 641 rows containing missing values (geom_point).</code></pre>
+<pre><code>## Warning: Removed 668 rows containing missing values (geom_tile).</code></pre>
+<pre><code>## Warning: Removed 668 rows containing missing values (geom_point).</code></pre>
 <p><img src="2_descriptives_files/figure-html/unnamed-chunk-36-1.png" width="960" /></p>
 </div>
 <div id="hormonally-contracepting" class="section level5">
 <h5>Hormonally contracepting</h5>
 <pre class="r"><code>diary %&gt;% filter(included_all == &quot;horm_contra&quot;,fertile_days_known_backward &gt; 10, sufficient_diary_coverage==T, ever_menstruated == T, any_RCD == T, person &lt; 400) %&gt;%
   ggplot(aes(x = RCD, y = factor(person), fill = prc_stirn_b)) + wall </code></pre>
-<pre><code>## Warning: Removed 1266 rows containing missing values (geom_tile).</code></pre>
-<pre><code>## Warning: Removed 1266 rows containing missing values (geom_point).</code></pre>
+<pre><code>## Warning: Removed 1411 rows containing missing values (geom_tile).</code></pre>
+<pre><code>## Warning: Removed 1411 rows containing missing values (geom_point).</code></pre>
 <p><img src="2_descriptives_files/figure-html/unnamed-chunk-37-1.png" width="960" /></p>
-</div>
-</div>
-<div id="predictor-forward-counted" class="section level4">
-<h4>Predictor: Forward-counted</h4>
-<div id="cycling-1" class="section level5">
-<h5>Cycling</h5>
+<p>####Predictor: Forward-counted ##### Cycling</p>
 <pre class="r"><code>diary %&gt;% filter(included_all == &quot;cycling&quot;,fertile_days_known_backward &gt; 10, sufficient_diary_coverage==T, ever_menstruated == T, any_RCD == T, person &lt; 400) %&gt;%
   ggplot(aes(x = RCD, y = factor(person), fill = prc_stirn_b_forward_counted)) + wall </code></pre>
-<pre><code>## Warning: Removed 641 rows containing missing values (geom_tile).</code></pre>
-<pre><code>## Warning: Removed 641 rows containing missing values (geom_point).</code></pre>
+<pre><code>## Warning: Removed 668 rows containing missing values (geom_tile).</code></pre>
+<pre><code>## Warning: Removed 668 rows containing missing values (geom_point).</code></pre>
 <p><img src="2_descriptives_files/figure-html/unnamed-chunk-38-1.png" width="960" /></p>
 </div>
 <div id="hormonally-contracepting-1" class="section level5">
 <h5>Hormonally contracepting</h5>
 <pre class="r"><code>diary %&gt;% filter(included_all == &quot;horm_contra&quot;,fertile_days_known_backward &gt; 10, sufficient_diary_coverage==T, ever_menstruated == T, any_RCD == T, person &lt; 400) %&gt;%
   ggplot(aes(x = RCD, y = factor(person), fill = prc_stirn_b_forward_counted)) + wall </code></pre>
-<pre><code>## Warning: Removed 1266 rows containing missing values (geom_tile).</code></pre>
-<pre><code>## Warning: Removed 1266 rows containing missing values (geom_point).</code></pre>
+<pre><code>## Warning: Removed 1411 rows containing missing values (geom_tile).</code></pre>
+<pre><code>## Warning: Removed 1411 rows containing missing values (geom_point).</code></pre>
 <p><img src="2_descriptives_files/figure-html/unnamed-chunk-39-1.png" width="960" /></p>
 </div>
 </div>
 <div id="predictor-forward-and-backward-averaged" class="section level4">
 <h4>Predictor: Forward and backward averaged</h4>
-<div id="cycling-2" class="section level5">
+<div id="cycling-1" class="section level5">
 <h5>Cycling</h5>
 <pre class="r"><code>diary %&gt;% filter(included_all == &quot;cycling&quot;,fertile_days_known_backward &gt; 10, sufficient_diary_coverage==T, ever_menstruated == T, any_RCD == T, person &lt; 400) %&gt;%
   ggplot(aes(x = RCD, y = factor(person), fill = fertile_forward_and_backward)) + wall </code></pre>
-<pre><code>## Warning: Removed 641 rows containing missing values (geom_tile).</code></pre>
-<pre><code>## Warning: Removed 641 rows containing missing values (geom_point).</code></pre>
+<pre><code>## Warning: Removed 668 rows containing missing values (geom_tile).</code></pre>
+<pre><code>## Warning: Removed 668 rows containing missing values (geom_point).</code></pre>
 <p><img src="2_descriptives_files/figure-html/unnamed-chunk-40-1.png" width="960" /></p>
 </div>
 <div id="hormonally-contracepting-2" class="section level5">
 <h5>Hormonally contracepting</h5>
 <pre class="r"><code>diary %&gt;% filter(included_all == &quot;horm_contra&quot;,fertile_days_known_backward &gt; 10, sufficient_diary_coverage==T, ever_menstruated == T, any_RCD == T, person &lt; 400) %&gt;%
   ggplot(aes(x = RCD, y = factor(person), fill = fertile_forward_and_backward)) + wall </code></pre>
-<pre><code>## Warning: Removed 1266 rows containing missing values (geom_tile).</code></pre>
-<pre><code>## Warning: Removed 1266 rows containing missing values (geom_point).</code></pre>
+<pre><code>## Warning: Removed 1411 rows containing missing values (geom_tile).</code></pre>
+<pre><code>## Warning: Removed 1411 rows containing missing values (geom_point).</code></pre>
 <p><img src="2_descriptives_files/figure-html/unnamed-chunk-41-1.png" width="960" /></p>
 </div>
 </div>
@@ -1897,713 +1976,760 @@ cor(use=&#39;pairwise.complete.obs&#39;) %&gt;% form() %&gt;% pander()</code></p
 <pre class="r"><code>diary %&gt;% 
   select(person, day_number, extra_pair_2:extra_pair_13) %&gt;%
   multi_rel(lmer = T, lme = F)</code></pre>
-<pre><code>## Warning: attributes are not identical across measure variables; they will be dropped</code></pre>
-<pre><code>## 
-## Multilevel Generalizability analysis   
-## Call: multilevel.reliability(x = ., grp = &quot;person&quot;, Time = &quot;day_number&quot;, 
-##     items = &quot;variable&quot;, aov = F, lmer = lmer, lme = lme, long = T, 
-##     values = &quot;value&quot;)
-## 
-## The data had  1054  observations taken over  41  time intervals for  12 items.
-## 
-##  Alternative estimates of reliabilty based upon Generalizability theory
-## 
-## RkF  =  0.99 Reliability of average of all ratings across all items and  times (Fixed time effects)
-## R1R  =  0.5 Generalizability of a single time point across all items (Random time effects)
-## RkR  =  0.98 Generalizability of average time points across all items (Random time effects)
-## Rc   =  0.76 Generalizability of change (fixed time points, fixed items) 
-## RkRn =  0.98 Generalizability of between person differences averaged over time (time nested within people)
-## Rcn  =  0.6 Generalizability of within person variations averaged over items  (time nested within people)
-## 
-##  These reliabilities are derived from the components of variance estimated by lmer 
-##              variance Percent
-## ID               0.28    0.12
-## Time             0.00    0.00
-## Items            0.21    0.09
-## ID x time        0.24    0.10
-## ID x items       0.40    0.17
-## time x items     0.28    0.12
-## Residual         0.90    0.39
-## Total            2.31    1.00
-## 
-##  The nested components of variance estimated from lmer are:
-##          variance Percent
-## id           0.32   0.157
-## id(time)     0.19   0.093
-## residual     1.51   0.750
-## total        2.01   1.000
-## 
-## To see the ANOVA and alpha by subject, use the short = FALSE option.
-##  To see the summaries of the ICCs by subject and time, use all=TRUE
-##  To see specific objects select from the following list:
-##  ANOVA s.lmer s.lme alpha summary.by.person summary.by.time ICC.by.person ICC.by.time lmer long Call</code></pre>
+<pre><code>## Warning: attributes are not identical across measure variables;
+## they will be dropped</code></pre>
+<pre><code>## Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl = control$checkConv, : Model failed to converge with
+## max|grad| = 0.0021235 (tol = 0.002, component 1)</code></pre>
+<pre><code>
+Multilevel Generalizability analysis   
+Call: multilevel.reliability(x = ., grp = &quot;person&quot;, Time = &quot;day_number&quot;, 
+    items = &quot;variable&quot;, aov = F, lmer = lmer, lme = lme, long = T, 
+    values = &quot;value&quot;)
+
+The data had  1054  observations taken over  41  time intervals for  12 items.
+
+ Alternative estimates of reliability based upon Generalizability theory
+
+RkF  =  0.99 Reliability of average of all ratings across all items and  times (Fixed time effects)
+R1R  =  0.5 Generalizability of a single time point across all items (Random time effects)
+RkR  =  0.98 Generalizability of average time points across all items (Random time effects)
+Rc   =  0.76 Generalizability of change (fixed time points, fixed items) 
+RkRn =  0.98 Generalizability of between person differences averaged over time (time nested within people)
+Rcn  =  0.6 Generalizability of within person variations averaged over items  (time nested within people)
+
+ These reliabilities are derived from the components of variance estimated by lmer 
+             variance Percent
+ID               0.28    0.12
+Time             0.00    0.00
+Items            0.21    0.09
+ID x time        0.24    0.10
+ID x items       0.40    0.17
+time x items     0.28    0.12
+Residual         0.90    0.39
+Total            2.31    1.00
+
+ The nested components of variance estimated from lmer are:
+         variance Percent
+id           0.32   0.157
+id(time)     0.19   0.093
+residual     1.51   0.750
+total        2.01   1.000
+
+To see the ANOVA and alpha by subject, use the short = FALSE option.
+ To see the summaries of the ICCs by subject and time, use all=TRUE
+ To see specific objects select from the following list:
+ ANOVA s.lmer s.lme alpha summary.by.person summary.by.time ICC.by.person ICC.by.time lmer long Call</code></pre>
 </div>
 <div id="extra-pair-desire" class="section level3">
 <h3>Extra-pair desire</h3>
 <pre class="r"><code>diary %&gt;% 
   select(person, day_number, extra_pair_7, extra_pair_10, extra_pair_11, extra_pair_12, extra_pair_13) %&gt;%
   multi_rel(lmer = T, lme = F)</code></pre>
-<pre><code>## Warning: attributes are not identical across measure variables; they will be dropped</code></pre>
+<pre><code>## Warning: attributes are not identical across measure variables;
+## they will be dropped</code></pre>
 <pre><code>## Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl = control$checkConv, : Model failed to converge with
-## max|grad| = 0.00200714 (tol = 0.002, component 1)</code></pre>
-<pre><code>## 
-## Multilevel Generalizability analysis   
-## Call: multilevel.reliability(x = ., grp = &quot;person&quot;, Time = &quot;day_number&quot;, 
-##     items = &quot;variable&quot;, aov = F, lmer = lmer, lme = lme, long = T, 
-##     values = &quot;value&quot;)
-## 
-## The data had  1054  observations taken over  41  time intervals for  5 items.
-## 
-##  Alternative estimates of reliabilty based upon Generalizability theory
-## 
-## RkF  =  0.99 Reliability of average of all ratings across all items and  times (Fixed time effects)
-## R1R  =  0.55 Generalizability of a single time point across all items (Random time effects)
-## RkR  =  0.98 Generalizability of average time points across all items (Random time effects)
-## Rc   =  0.62 Generalizability of change (fixed time points, fixed items) 
-## RkRn =  0.98 Generalizability of between person differences averaged over time (time nested within people)
-## Rcn  =  0.36 Generalizability of within person variations averaged over items  (time nested within people)
-## 
-##  These reliabilities are derived from the components of variance estimated by lmer 
-##              variance Percent
-## ID               0.36    0.17
-## Time             0.00    0.00
-## Items            0.14    0.07
-## ID x time        0.22    0.11
-## ID x items       0.32    0.15
-## time x items     0.36    0.17
-## Residual         0.68    0.32
-## Total            2.09    1.00
-## 
-##  The nested components of variance estimated from lmer are:
-##          variance Percent
-## id           0.43   0.253
-## id(time)     0.13   0.076
-## residual     1.14   0.670
-## total        1.70   1.000
-## 
-## To see the ANOVA and alpha by subject, use the short = FALSE option.
-##  To see the summaries of the ICCs by subject and time, use all=TRUE
-##  To see specific objects select from the following list:
-##  ANOVA s.lmer s.lme alpha summary.by.person summary.by.time ICC.by.person ICC.by.time lmer long Call</code></pre>
+## max|grad| = 0.0145761 (tol = 0.002, component 1)</code></pre>
+<pre><code>
+Multilevel Generalizability analysis   
+Call: multilevel.reliability(x = ., grp = &quot;person&quot;, Time = &quot;day_number&quot;, 
+    items = &quot;variable&quot;, aov = F, lmer = lmer, lme = lme, long = T, 
+    values = &quot;value&quot;)
+
+The data had  1054  observations taken over  41  time intervals for  5 items.
+
+ Alternative estimates of reliability based upon Generalizability theory
+
+RkF  =  0.99 Reliability of average of all ratings across all items and  times (Fixed time effects)
+R1R  =  0.55 Generalizability of a single time point across all items (Random time effects)
+RkR  =  0.98 Generalizability of average time points across all items (Random time effects)
+Rc   =  0.62 Generalizability of change (fixed time points, fixed items) 
+RkRn =  0.98 Generalizability of between person differences averaged over time (time nested within people)
+Rcn  =  0.36 Generalizability of within person variations averaged over items  (time nested within people)
+
+ These reliabilities are derived from the components of variance estimated by lmer 
+             variance Percent
+ID               0.37    0.17
+Time             0.00    0.00
+Items            0.14    0.07
+ID x time        0.22    0.11
+ID x items       0.32    0.15
+time x items     0.37    0.17
+Residual         0.68    0.32
+Total            2.09    1.00
+
+ The nested components of variance estimated from lmer are:
+         variance Percent
+id           0.43   0.253
+id(time)     0.13   0.076
+residual     1.14   0.670
+total        1.70   1.000
+
+To see the ANOVA and alpha by subject, use the short = FALSE option.
+ To see the summaries of the ICCs by subject and time, use all=TRUE
+ To see specific objects select from the following list:
+ ANOVA s.lmer s.lme alpha summary.by.person summary.by.time ICC.by.person ICC.by.time lmer long Call</code></pre>
 </div>
 <div id="extra-pair-flirting" class="section level3">
 <h3>Extra-pair flirting</h3>
 <pre class="r"><code>diary %&gt;% 
   select(person, day_number, extra_pair_4, extra_pair_8, extra_pair_9) %&gt;%
   multi_rel(lmer = T, lme = F)</code></pre>
-<pre><code>## Warning: attributes are not identical across measure variables; they will be dropped</code></pre>
-<pre><code>## 
-## Multilevel Generalizability analysis   
-## Call: multilevel.reliability(x = ., grp = &quot;person&quot;, Time = &quot;day_number&quot;, 
-##     items = &quot;variable&quot;, aov = F, lmer = lmer, lme = lme, long = T, 
-##     values = &quot;value&quot;)
-## 
-## The data had  1054  observations taken over  41  time intervals for  3 items.
-## 
-##  Alternative estimates of reliabilty based upon Generalizability theory
-## 
-## RkF  =  0.99 Reliability of average of all ratings across all items and  times (Fixed time effects)
-## R1R  =  0.46 Generalizability of a single time point across all items (Random time effects)
-## RkR  =  0.97 Generalizability of average time points across all items (Random time effects)
-## Rc   =  0.49 Generalizability of change (fixed time points, fixed items) 
-## RkRn =  0.97 Generalizability of between person differences averaged over time (time nested within people)
-## Rcn  =  0.36 Generalizability of within person variations averaged over items  (time nested within people)
-## 
-##  These reliabilities are derived from the components of variance estimated by lmer 
-##              variance Percent
-## ID               0.21    0.19
-## Time             0.00    0.00
-## Items            0.01    0.01
-## ID x time        0.14    0.12
-## ID x items       0.11    0.10
-## time x items     0.21    0.19
-## Residual         0.44    0.39
-## Total            1.10    1.00
-## 
-##  The nested components of variance estimated from lmer are:
-##          variance Percent
-## id           0.24    0.27
-## id(time)     0.10    0.11
-## residual     0.54    0.61
-## total        0.89    1.00
-## 
-## To see the ANOVA and alpha by subject, use the short = FALSE option.
-##  To see the summaries of the ICCs by subject and time, use all=TRUE
-##  To see specific objects select from the following list:
-##  ANOVA s.lmer s.lme alpha summary.by.person summary.by.time ICC.by.person ICC.by.time lmer long Call</code></pre>
+<pre><code>## Warning: attributes are not identical across measure variables;
+## they will be dropped</code></pre>
+<pre><code>## Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl = control$checkConv, : Model failed to converge with
+## max|grad| = 0.00281509 (tol = 0.002, component 1)</code></pre>
+<pre><code>
+Multilevel Generalizability analysis   
+Call: multilevel.reliability(x = ., grp = &quot;person&quot;, Time = &quot;day_number&quot;, 
+    items = &quot;variable&quot;, aov = F, lmer = lmer, lme = lme, long = T, 
+    values = &quot;value&quot;)
+
+The data had  1054  observations taken over  41  time intervals for  3 items.
+
+ Alternative estimates of reliability based upon Generalizability theory
+
+RkF  =  0.99 Reliability of average of all ratings across all items and  times (Fixed time effects)
+R1R  =  0.46 Generalizability of a single time point across all items (Random time effects)
+RkR  =  0.97 Generalizability of average time points across all items (Random time effects)
+Rc   =  0.49 Generalizability of change (fixed time points, fixed items) 
+RkRn =  0.97 Generalizability of between person differences averaged over time (time nested within people)
+Rcn  =  0.36 Generalizability of within person variations averaged over items  (time nested within people)
+
+ These reliabilities are derived from the components of variance estimated by lmer 
+             variance Percent
+ID               0.21    0.19
+Time             0.00    0.00
+Items            0.01    0.01
+ID x time        0.14    0.12
+ID x items       0.11    0.10
+time x items     0.21    0.19
+Residual         0.44    0.39
+Total            1.10    1.00
+
+ The nested components of variance estimated from lmer are:
+         variance Percent
+id           0.24    0.27
+id(time)     0.10    0.11
+residual     0.54    0.61
+total        0.89    1.00
+
+To see the ANOVA and alpha by subject, use the short = FALSE option.
+ To see the summaries of the ICCs by subject and time, use all=TRUE
+ To see specific objects select from the following list:
+ ANOVA s.lmer s.lme alpha summary.by.person summary.by.time ICC.by.person ICC.by.time lmer long Call</code></pre>
 </div>
 <div id="extra-pair-compliments" class="section level3">
 <h3>Extra-pair compliments</h3>
 <pre class="r"><code>diary %&gt;% 
   select(person, day_number, extra_pair_2, extra_pair_3) %&gt;%
   multi_rel(lmer = T, lme = F)</code></pre>
-<pre><code>## Warning: attributes are not identical across measure variables; they will be dropped</code></pre>
-<pre><code>## 
-## Multilevel Generalizability analysis   
-## Call: multilevel.reliability(x = ., grp = &quot;person&quot;, Time = &quot;day_number&quot;, 
-##     items = &quot;variable&quot;, aov = F, lmer = lmer, lme = lme, long = T, 
-##     values = &quot;value&quot;)
-## 
-## The data had  1054  observations taken over  41  time intervals for  2 items.
-## 
-##  Alternative estimates of reliabilty based upon Generalizability theory
-## 
-## RkF  =  0.99 Reliability of average of all ratings across all items and  times (Fixed time effects)
-## R1R  =  0.44 Generalizability of a single time point across all items (Random time effects)
-## RkR  =  0.97 Generalizability of average time points across all items (Random time effects)
-## Rc   =  0.54 Generalizability of change (fixed time points, fixed items) 
-## RkRn =  0.97 Generalizability of between person differences averaged over time (time nested within people)
-## Rcn  =  0.24 Generalizability of within person variations averaged over items  (time nested within people)
-## 
-##  These reliabilities are derived from the components of variance estimated by lmer 
-##              variance Percent
-## ID               0.58    0.18
-## Time             0.00    0.00
-## Items            0.21    0.06
-## ID x time        0.54    0.17
-## ID x items       0.39    0.12
-## time x items     0.58    0.18
-## Residual         0.93    0.29
-## Total            3.24    1.00
-## 
-##  The nested components of variance estimated from lmer are:
-##          variance Percent
-## id           0.78   0.305
-## id(time)     0.24   0.093
-## residual     1.54   0.602
-## total        2.55   1.000
-## 
-## To see the ANOVA and alpha by subject, use the short = FALSE option.
-##  To see the summaries of the ICCs by subject and time, use all=TRUE
-##  To see specific objects select from the following list:
-##  ANOVA s.lmer s.lme alpha summary.by.person summary.by.time ICC.by.person ICC.by.time lmer long Call</code></pre>
+<pre><code>## Warning: attributes are not identical across measure variables;
+## they will be dropped</code></pre>
+<pre><code>## Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl = control$checkConv, : Model failed to converge with
+## max|grad| = 0.0619795 (tol = 0.002, component 1)</code></pre>
+<pre><code>
+Multilevel Generalizability analysis   
+Call: multilevel.reliability(x = ., grp = &quot;person&quot;, Time = &quot;day_number&quot;, 
+    items = &quot;variable&quot;, aov = F, lmer = lmer, lme = lme, long = T, 
+    values = &quot;value&quot;)
+
+The data had  1054  observations taken over  41  time intervals for  2 items.
+
+ Alternative estimates of reliability based upon Generalizability theory
+
+RkF  =  0.99 Reliability of average of all ratings across all items and  times (Fixed time effects)
+R1R  =  0.44 Generalizability of a single time point across all items (Random time effects)
+RkR  =  0.97 Generalizability of average time points across all items (Random time effects)
+Rc   =  0.54 Generalizability of change (fixed time points, fixed items) 
+RkRn =  0.97 Generalizability of between person differences averaged over time (time nested within people)
+Rcn  =  0.24 Generalizability of within person variations averaged over items  (time nested within people)
+
+ These reliabilities are derived from the components of variance estimated by lmer 
+             variance Percent
+ID               0.58    0.02
+Time             0.00    0.00
+Items           34.54    0.92
+ID x time        0.54    0.01
+ID x items       0.39    0.01
+time x items     0.58    0.02
+Residual         0.93    0.02
+Total           37.56    1.00
+
+ The nested components of variance estimated from lmer are:
+         variance Percent
+id           0.78   0.305
+id(time)     0.24   0.093
+residual     1.54   0.602
+total        2.55   1.000
+
+To see the ANOVA and alpha by subject, use the short = FALSE option.
+ To see the summaries of the ICCs by subject and time, use all=TRUE
+ To see specific objects select from the following list:
+ ANOVA s.lmer s.lme alpha summary.by.person summary.by.time ICC.by.person ICC.by.time lmer long Call</code></pre>
 </div>
 <div id="extra-pair-going-out" class="section level3">
 <h3>Extra-pair going out</h3>
 <pre class="r"><code>diary %&gt;% 
   select(person, day_number, extra_pair_5, extra_pair_6) %&gt;%
   multi_rel(lmer = T, lme = F)</code></pre>
-<pre><code>## Warning: attributes are not identical across measure variables; they will be dropped</code></pre>
-<pre><code>## 
-## Multilevel Generalizability analysis   
-## Call: multilevel.reliability(x = ., grp = &quot;person&quot;, Time = &quot;day_number&quot;, 
-##     items = &quot;variable&quot;, aov = F, lmer = lmer, lme = lme, long = T, 
-##     values = &quot;value&quot;)
-## 
-## The data had  1054  observations taken over  41  time intervals for  2 items.
-## 
-##  Alternative estimates of reliabilty based upon Generalizability theory
-## 
-## RkF  =  0.98 Reliability of average of all ratings across all items and  times (Fixed time effects)
-## R1R  =  0.28 Generalizability of a single time point across all items (Random time effects)
-## RkR  =  0.94 Generalizability of average time points across all items (Random time effects)
-## Rc   =  0.75 Generalizability of change (fixed time points, fixed items) 
-## RkRn =  0.94 Generalizability of between person differences averaged over time (time nested within people)
-## Rcn  =  0.61 Generalizability of within person variations averaged over items  (time nested within people)
-## 
-##  These reliabilities are derived from the components of variance estimated by lmer 
-##              variance Percent
-## ID               0.46    0.13
-## Time             0.00    0.00
-## Items            0.05    0.01
-## ID x time        1.35    0.36
-## ID x items       0.46    0.12
-## time x items     0.46    0.13
-## Residual         0.92    0.25
-## Total            3.69    1.00
-## 
-##  The nested components of variance estimated from lmer are:
-##          variance Percent
-## id           0.69    0.21
-## id(time)     1.10    0.34
-## residual     1.42    0.44
-## total        3.21    1.00
-## 
-## To see the ANOVA and alpha by subject, use the short = FALSE option.
-##  To see the summaries of the ICCs by subject and time, use all=TRUE
-##  To see specific objects select from the following list:
-##  ANOVA s.lmer s.lme alpha summary.by.person summary.by.time ICC.by.person ICC.by.time lmer long Call</code></pre>
+<pre><code>## Warning: attributes are not identical across measure variables;
+## they will be dropped</code></pre>
+<pre><code>## singular fit</code></pre>
+<pre><code>
+Multilevel Generalizability analysis   
+Call: multilevel.reliability(x = ., grp = &quot;person&quot;, Time = &quot;day_number&quot;, 
+    items = &quot;variable&quot;, aov = F, lmer = lmer, lme = lme, long = T, 
+    values = &quot;value&quot;)
+
+The data had  1054  observations taken over  41  time intervals for  2 items.
+
+ Alternative estimates of reliability based upon Generalizability theory
+
+RkF  =  0.98 Reliability of average of all ratings across all items and  times (Fixed time effects)
+R1R  =  0.28 Generalizability of a single time point across all items (Random time effects)
+RkR  =  0.94 Generalizability of average time points across all items (Random time effects)
+Rc   =  0.75 Generalizability of change (fixed time points, fixed items) 
+RkRn =  0.94 Generalizability of between person differences averaged over time (time nested within people)
+Rcn  =  0.61 Generalizability of within person variations averaged over items  (time nested within people)
+
+ These reliabilities are derived from the components of variance estimated by lmer 
+             variance Percent
+ID               0.46    0.13
+Time             0.00    0.00
+Items            0.05    0.01
+ID x time        1.35    0.36
+ID x items       0.46    0.12
+time x items     0.46    0.13
+Residual         0.92    0.25
+Total            3.69    1.00
+
+ The nested components of variance estimated from lmer are:
+         variance Percent
+id           0.69    0.21
+id(time)     1.10    0.34
+residual     1.42    0.44
+total        3.21    1.00
+
+To see the ANOVA and alpha by subject, use the short = FALSE option.
+ To see the summaries of the ICCs by subject and time, use all=TRUE
+ To see specific objects select from the following list:
+ ANOVA s.lmer s.lme alpha summary.by.person summary.by.time ICC.by.person ICC.by.time lmer long Call</code></pre>
 </div>
 <div id="extra-pair-sexual-fantasies" class="section level3">
 <h3>Extra-pair sexual fantasies</h3>
 <pre class="r"><code>diary %&gt;% 
   select(person, day_number, extra_pair_13) %&gt;%
   multi_rel(lmer = F, lme = T)</code></pre>
-<pre><code>## 
-## Multilevel Generalizability analysis   
-## Call: multilevel.reliability(x = ., grp = &quot;person&quot;, Time = &quot;day_number&quot;, 
-##     items = &quot;variable&quot;, aov = F, lmer = lmer, lme = lme, long = T, 
-##     values = &quot;value&quot;)
-## 
-## The data had  1054  observations taken over  41  time intervals for  1 items.
-## 
-##  Alternative estimates of reliabilty based upon Generalizability theory
-## 
-## RkRn =  0.97 Generalizability of between person differences averaged over time (time nested within people)
-## Rcn  =  0.85 Generalizability of within person variations averaged over items  (time nested within people)
-##  The nested components of variance estimated from lme are:
-##          Variance Percent
-## id           0.67   0.453
-## id(time)     0.69   0.466
-## residual     0.12   0.081
-## total        1.48   1.000
-## 
-## To see the ANOVA and alpha by subject, use the short = FALSE option.
-##  To see the summaries of the ICCs by subject and time, use all=TRUE
-##  To see specific objects select from the following list:
-##  ANOVA s.lmer s.lme alpha summary.by.person summary.by.time ICC.by.person ICC.by.time lmer long Call</code></pre>
+<pre><code>
+Multilevel Generalizability analysis   
+Call: multilevel.reliability(x = ., grp = &quot;person&quot;, Time = &quot;day_number&quot;, 
+    items = &quot;variable&quot;, aov = F, lmer = lmer, lme = lme, long = T, 
+    values = &quot;value&quot;)
+
+The data had  1054  observations taken over  41  time intervals for  1 items.
+
+ Alternative estimates of reliability based upon Generalizability theory
+
+RkRn =  0.97 Generalizability of between person differences averaged over time (time nested within people)
+Rcn  =  0.85 Generalizability of within person variations averaged over items  (time nested within people)
+ The nested components of variance estimated from lme are:
+         Variance Percent
+id           0.67   0.453
+id(time)     0.69   0.466
+residual     0.12   0.081
+total        1.48   1.000
+
+To see the ANOVA and alpha by subject, use the short = FALSE option.
+ To see the summaries of the ICCs by subject and time, use all=TRUE
+ To see specific objects select from the following list:
+ ANOVA s.lmer s.lme alpha summary.by.person summary.by.time ICC.by.person ICC.by.time lmer long Call</code></pre>
 </div>
 <div id="in-pair-desire" class="section level3">
 <h3>In-pair desire</h3>
 <pre class="r"><code>diary %&gt;% 
   select(person, day_number, sexual_intercourse_1_6scale, desirability_partner, attention_2) %&gt;%
   multi_rel(lme = F, lmer = T)</code></pre>
-<pre><code>## Warning: attributes are not identical across measure variables; they will be dropped</code></pre>
-<pre><code>## 
-## Multilevel Generalizability analysis   
-## Call: multilevel.reliability(x = ., grp = &quot;person&quot;, Time = &quot;day_number&quot;, 
-##     items = &quot;variable&quot;, aov = F, lmer = lmer, lme = lme, long = T, 
-##     values = &quot;value&quot;)
-## 
-## The data had  1054  observations taken over  41  time intervals for  3 items.
-## 
-##  Alternative estimates of reliabilty based upon Generalizability theory
-## 
-## RkF  =  0.99 Reliability of average of all ratings across all items and  times (Fixed time effects)
-## R1R  =  0.38 Generalizability of a single time point across all items (Random time effects)
-## RkR  =  0.96 Generalizability of average time points across all items (Random time effects)
-## Rc   =  0.82 Generalizability of change (fixed time points, fixed items) 
-## RkRn =  0.96 Generalizability of between person differences averaged over time (time nested within people)
-## Rcn  =  0.75 Generalizability of within person variations averaged over items  (time nested within people)
-## 
-##  These reliabilities are derived from the components of variance estimated by lmer 
-##              variance Percent
-## ID               0.68    0.21
-## Time             0.00    0.00
-## Items            0.09    0.03
-## ID x time        0.97    0.30
-## ID x items       0.17    0.05
-## time x items     0.68    0.21
-## Residual         0.62    0.19
-## Total            3.22    1.00
-## 
-##  The nested components of variance estimated from lmer are:
-##          variance Percent
-## id           0.74    0.29
-## id(time)     0.89    0.35
-## residual     0.88    0.35
-## total        2.51    1.00
-## 
-## To see the ANOVA and alpha by subject, use the short = FALSE option.
-##  To see the summaries of the ICCs by subject and time, use all=TRUE
-##  To see specific objects select from the following list:
-##  ANOVA s.lmer s.lme alpha summary.by.person summary.by.time ICC.by.person ICC.by.time lmer long Call</code></pre>
+<pre><code>## Warning: attributes are not identical across measure variables;
+## they will be dropped</code></pre>
+<pre><code>
+Multilevel Generalizability analysis   
+Call: multilevel.reliability(x = ., grp = &quot;person&quot;, Time = &quot;day_number&quot;, 
+    items = &quot;variable&quot;, aov = F, lmer = lmer, lme = lme, long = T, 
+    values = &quot;value&quot;)
+
+The data had  1054  observations taken over  41  time intervals for  3 items.
+
+ Alternative estimates of reliability based upon Generalizability theory
+
+RkF  =  0.99 Reliability of average of all ratings across all items and  times (Fixed time effects)
+R1R  =  0.38 Generalizability of a single time point across all items (Random time effects)
+RkR  =  0.96 Generalizability of average time points across all items (Random time effects)
+Rc   =  0.82 Generalizability of change (fixed time points, fixed items) 
+RkRn =  0.96 Generalizability of between person differences averaged over time (time nested within people)
+Rcn  =  0.75 Generalizability of within person variations averaged over items  (time nested within people)
+
+ These reliabilities are derived from the components of variance estimated by lmer 
+             variance Percent
+ID               0.68    0.21
+Time             0.00    0.00
+Items            0.09    0.03
+ID x time        0.97    0.30
+ID x items       0.17    0.05
+time x items     0.68    0.21
+Residual         0.62    0.19
+Total            3.22    1.00
+
+ The nested components of variance estimated from lmer are:
+         variance Percent
+id           0.74    0.29
+id(time)     0.89    0.35
+residual     0.88    0.35
+total        2.51    1.00
+
+To see the ANOVA and alpha by subject, use the short = FALSE option.
+ To see the summaries of the ICCs by subject and time, use all=TRUE
+ To see specific objects select from the following list:
+ ANOVA s.lmer s.lme alpha summary.by.person summary.by.time ICC.by.person ICC.by.time lmer long Call</code></pre>
 </div>
 <div id="self-perceived-desirability" class="section level3">
 <h3>Self-perceived desirability</h3>
 <pre class="r"><code>diary %&gt;% 
   select(person, day_number, desirability_1) %&gt;%
   multi_rel(lme = T, lmer = F)</code></pre>
-<pre><code>## 
-## Multilevel Generalizability analysis   
-## Call: multilevel.reliability(x = ., grp = &quot;person&quot;, Time = &quot;day_number&quot;, 
-##     items = &quot;variable&quot;, aov = F, lmer = lmer, lme = lme, long = T, 
-##     values = &quot;value&quot;)
-## 
-## The data had  1054  observations taken over  41  time intervals for  1 items.
-## 
-##  Alternative estimates of reliabilty based upon Generalizability theory
-## 
-## RkRn =  0.96 Generalizability of between person differences averaged over time (time nested within people)
-## Rcn  =  0.86 Generalizability of within person variations averaged over items  (time nested within people)
-##  The nested components of variance estimated from lme are:
-##          Variance Percent
-## id           0.72   0.364
-## id(time)     1.08   0.545
-## residual     0.18   0.091
-## total        1.98   1.000
-## 
-## To see the ANOVA and alpha by subject, use the short = FALSE option.
-##  To see the summaries of the ICCs by subject and time, use all=TRUE
-##  To see specific objects select from the following list:
-##  ANOVA s.lmer s.lme alpha summary.by.person summary.by.time ICC.by.person ICC.by.time lmer long Call</code></pre>
+<pre><code>
+Multilevel Generalizability analysis   
+Call: multilevel.reliability(x = ., grp = &quot;person&quot;, Time = &quot;day_number&quot;, 
+    items = &quot;variable&quot;, aov = F, lmer = lmer, lme = lme, long = T, 
+    values = &quot;value&quot;)
+
+The data had  1054  observations taken over  41  time intervals for  1 items.
+
+ Alternative estimates of reliability based upon Generalizability theory
+
+RkRn =  0.96 Generalizability of between person differences averaged over time (time nested within people)
+Rcn  =  0.86 Generalizability of within person variations averaged over items  (time nested within people)
+ The nested components of variance estimated from lme are:
+         Variance Percent
+id           0.72   0.364
+id(time)     1.08   0.545
+residual     0.18   0.091
+total        1.98   1.000
+
+To see the ANOVA and alpha by subject, use the short = FALSE option.
+ To see the summaries of the ICCs by subject and time, use all=TRUE
+ To see specific objects select from the following list:
+ ANOVA s.lmer s.lme alpha summary.by.person summary.by.time ICC.by.person ICC.by.time lmer long Call</code></pre>
 </div>
 <div id="sexy-clothing-choices" class="section level3">
 <h3>Sexy clothing choices</h3>
 <pre class="r"><code>diary %&gt;% 
   select(person, day_number, matches(&quot;choice_of_clothing_(4|6|7)&quot;)) %&gt;%
   multi_rel(lmer = T)</code></pre>
-<pre><code>## Warning: attributes are not identical across measure variables; they will be dropped</code></pre>
+<pre><code>## Warning: attributes are not identical across measure variables;
+## they will be dropped</code></pre>
 <pre><code>## Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl = control$checkConv, : Model failed to converge with
-## max|grad| = 0.00398983 (tol = 0.002, component 1)</code></pre>
-<pre><code>## 
-## Multilevel Generalizability analysis   
-## Call: multilevel.reliability(x = ., grp = &quot;person&quot;, Time = &quot;day_number&quot;, 
-##     items = &quot;variable&quot;, aov = F, lmer = lmer, lme = lme, long = T, 
-##     values = &quot;value&quot;)
-## 
-## The data had  1054  observations taken over  41  time intervals for  3 items.
-## 
-##  Alternative estimates of reliabilty based upon Generalizability theory
-## 
-## RkF  =  0.99 Reliability of average of all ratings across all items and  times (Fixed time effects)
-## R1R  =  0.39 Generalizability of a single time point across all items (Random time effects)
-## RkR  =  0.96 Generalizability of average time points across all items (Random time effects)
-## Rc   =  0.81 Generalizability of change (fixed time points, fixed items) 
-## RkRn =  0.96 Generalizability of between person differences averaged over time (time nested within people)
-## Rcn  =  0.6 Generalizability of within person variations averaged over items  (time nested within people)
-## 
-##  These reliabilities are derived from the components of variance estimated by lmer 
-##              variance Percent
-## ID               0.52    0.18
-## Time             0.00    0.00
-## Items            0.38    0.13
-## ID x time        0.72    0.25
-## ID x items       0.18    0.06
-## time x items     0.52    0.18
-## Residual         0.52    0.18
-## Total            2.85    1.00
-## 
-##  The nested components of variance estimated from lmer are:
-##          variance Percent
-## id           0.58    0.26
-## id(time)     0.54    0.24
-## residual     1.09    0.49
-## total        2.21    1.00
-## 
-## To see the ANOVA and alpha by subject, use the short = FALSE option.
-##  To see the summaries of the ICCs by subject and time, use all=TRUE
-##  To see specific objects select from the following list:
-##  ANOVA s.lmer s.lme alpha summary.by.person summary.by.time ICC.by.person ICC.by.time lmer long Call</code></pre>
+## max|grad| = 0.122512 (tol = 0.002, component 1)</code></pre>
+<pre><code>
+Multilevel Generalizability analysis   
+Call: multilevel.reliability(x = ., grp = &quot;person&quot;, Time = &quot;day_number&quot;, 
+    items = &quot;variable&quot;, aov = F, lmer = lmer, lme = lme, long = T, 
+    values = &quot;value&quot;)
+
+The data had  1054  observations taken over  41  time intervals for  3 items.
+
+ Alternative estimates of reliability based upon Generalizability theory
+
+RkF  =  0.99 Reliability of average of all ratings across all items and  times (Fixed time effects)
+R1R  =  0.39 Generalizability of a single time point across all items (Random time effects)
+RkR  =  0.96 Generalizability of average time points across all items (Random time effects)
+Rc   =  0.81 Generalizability of change (fixed time points, fixed items) 
+RkRn =  0.96 Generalizability of between person differences averaged over time (time nested within people)
+Rcn  =  0.6 Generalizability of within person variations averaged over items  (time nested within people)
+
+ These reliabilities are derived from the components of variance estimated by lmer 
+             variance Percent
+ID               0.52    0.18
+Time             0.00    0.00
+Items            0.35    0.12
+ID x time        0.72    0.26
+ID x items       0.18    0.07
+time x items     0.52    0.18
+Residual         0.52    0.18
+Total            2.82    1.00
+
+ The nested components of variance estimated from lmer are:
+         variance Percent
+id           0.58    0.26
+id(time)     0.54    0.24
+residual     1.09    0.49
+total        2.21    1.00
+
+To see the ANOVA and alpha by subject, use the short = FALSE option.
+ To see the summaries of the ICCs by subject and time, use all=TRUE
+ To see specific objects select from the following list:
+ ANOVA s.lmer s.lme alpha summary.by.person summary.by.time ICC.by.person ICC.by.time lmer long Call</code></pre>
 </div>
 <div id="partner-mate-retention" class="section level3">
 <h3>Partner mate retention</h3>
 <pre class="r"><code>diary %&gt;% 
   select(person, day_number, male_jealousy_2, male_mate_retention_1, male_mate_retention_2, male_attention_1) %&gt;%
   multi_rel(lme = F, lmer = T)</code></pre>
-<pre><code>## Warning: attributes are not identical across measure variables; they will be dropped</code></pre>
-<pre><code>## 
-## Multilevel Generalizability analysis   
-## Call: multilevel.reliability(x = ., grp = &quot;person&quot;, Time = &quot;day_number&quot;, 
-##     items = &quot;variable&quot;, aov = F, lmer = lmer, lme = lme, long = T, 
-##     values = &quot;value&quot;)
-## 
-## The data had  1054  observations taken over  41  time intervals for  4 items.
-## 
-##  Alternative estimates of reliabilty based upon Generalizability theory
-## 
-## RkF  =  0.98 Reliability of average of all ratings across all items and  times (Fixed time effects)
-## R1R  =  0.46 Generalizability of a single time point across all items (Random time effects)
-## RkR  =  0.97 Generalizability of average time points across all items (Random time effects)
-## Rc   =  0.43 Generalizability of change (fixed time points, fixed items) 
-## RkRn =  0.96 Generalizability of between person differences averaged over time (time nested within people)
-## Rcn  =  0 Generalizability of within person variations averaged over items  (time nested within people)
-## 
-##  These reliabilities are derived from the components of variance estimated by lmer 
-##              variance Percent
-## ID               0.30    0.07
-## Time             0.00    0.00
-## Items            1.37    0.29
-## ID x time        0.27    0.06
-## ID x items       0.97    0.21
-## time x items     0.30    0.07
-## Residual         1.44    0.31
-## Total            4.65    1.00
-## 
-##  The nested components of variance estimated from lmer are:
-##          variance Percent
-## id           0.53    0.13
-## id(time)     0.00    0.00
-## residual     3.50    0.87
-## total        4.03    1.00
-## 
-## To see the ANOVA and alpha by subject, use the short = FALSE option.
-##  To see the summaries of the ICCs by subject and time, use all=TRUE
-##  To see specific objects select from the following list:
-##  ANOVA s.lmer s.lme alpha summary.by.person summary.by.time ICC.by.person ICC.by.time lmer long Call</code></pre>
+<pre><code>## Warning: attributes are not identical across measure variables;
+## they will be dropped</code></pre>
+<pre><code>## Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl = control$checkConv, : Model failed to converge with
+## max|grad| = 0.500119 (tol = 0.002, component 1)</code></pre>
+<pre><code>## singular fit</code></pre>
+<pre><code>
+Multilevel Generalizability analysis   
+Call: multilevel.reliability(x = ., grp = &quot;person&quot;, Time = &quot;day_number&quot;, 
+    items = &quot;variable&quot;, aov = F, lmer = lmer, lme = lme, long = T, 
+    values = &quot;value&quot;)
+
+The data had  1054  observations taken over  41  time intervals for  4 items.
+
+ Alternative estimates of reliability based upon Generalizability theory
+
+RkF  =  0.98 Reliability of average of all ratings across all items and  times (Fixed time effects)
+R1R  =  0.46 Generalizability of a single time point across all items (Random time effects)
+RkR  =  0.97 Generalizability of average time points across all items (Random time effects)
+Rc   =  0.43 Generalizability of change (fixed time points, fixed items) 
+RkRn =  0.96 Generalizability of between person differences averaged over time (time nested within people)
+Rcn  =  0 Generalizability of within person variations averaged over items  (time nested within people)
+
+ These reliabilities are derived from the components of variance estimated by lmer 
+             variance Percent
+ID               0.30    0.07
+Time             0.00    0.00
+Items            1.04    0.24
+ID x time        0.27    0.06
+ID x items       0.97    0.22
+time x items     0.30    0.07
+Residual         1.44    0.33
+Total            4.33    1.00
+
+ The nested components of variance estimated from lmer are:
+         variance Percent
+id           0.53    0.13
+id(time)     0.00    0.00
+residual     3.50    0.87
+total        4.03    1.00
+
+To see the ANOVA and alpha by subject, use the short = FALSE option.
+ To see the summaries of the ICCs by subject and time, use all=TRUE
+ To see specific objects select from the following list:
+ ANOVA s.lmer s.lme alpha summary.by.person summary.by.time ICC.by.person ICC.by.time lmer long Call</code></pre>
 </div>
 <div id="female-mate-retention" class="section level3">
 <h3>Female mate retention</h3>
 <pre class="r"><code>diary %&gt;% 
   select(person, day_number, mate_retention_3, mate_retention_4, mate_retention_5, mate_retention_6, attention_1) %&gt;%
   multi_rel(lme = F, lmer = T)</code></pre>
-<pre><code>## Warning: attributes are not identical across measure variables; they will be dropped</code></pre>
+<pre><code>## Warning: attributes are not identical across measure variables;
+## they will be dropped</code></pre>
 <pre><code>## Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl = control$checkConv, : Model failed to converge with
-## max|grad| = 0.00247107 (tol = 0.002, component 1)</code></pre>
-<pre><code>## 
-## Multilevel Generalizability analysis   
-## Call: multilevel.reliability(x = ., grp = &quot;person&quot;, Time = &quot;day_number&quot;, 
-##     items = &quot;variable&quot;, aov = F, lmer = lmer, lme = lme, long = T, 
-##     values = &quot;value&quot;)
-## 
-## The data had  1054  observations taken over  41  time intervals for  5 items.
-## 
-##  Alternative estimates of reliabilty based upon Generalizability theory
-## 
-## RkF  =  0.99 Reliability of average of all ratings across all items and  times (Fixed time effects)
-## R1R  =  0.44 Generalizability of a single time point across all items (Random time effects)
-## RkR  =  0.97 Generalizability of average time points across all items (Random time effects)
-## Rc   =  0.68 Generalizability of change (fixed time points, fixed items) 
-## RkRn =  0.97 Generalizability of between person differences averaged over time (time nested within people)
-## Rcn  =  0.17 Generalizability of within person variations averaged over items  (time nested within people)
-## 
-##  These reliabilities are derived from the components of variance estimated by lmer 
-##              variance Percent
-## ID               0.41    0.10
-## Time             0.00    0.00
-## Items            1.08    0.26
-## ID x time        0.48    0.11
-## ID x items       0.67    0.16
-## time x items     0.41    0.10
-## Residual         1.13    0.27
-## Total            4.17    1.00
-## 
-##  The nested components of variance estimated from lmer are:
-##          variance Percent
-## id           0.54   0.152
-## id(time)     0.12   0.033
-## residual     2.93   0.816
-## total        3.59   1.000
-## 
-## To see the ANOVA and alpha by subject, use the short = FALSE option.
-##  To see the summaries of the ICCs by subject and time, use all=TRUE
-##  To see specific objects select from the following list:
-##  ANOVA s.lmer s.lme alpha summary.by.person summary.by.time ICC.by.person ICC.by.time lmer long Call</code></pre>
+## max|grad| = 0.0101463 (tol = 0.002, component 1)</code></pre>
+<pre><code>
+Multilevel Generalizability analysis   
+Call: multilevel.reliability(x = ., grp = &quot;person&quot;, Time = &quot;day_number&quot;, 
+    items = &quot;variable&quot;, aov = F, lmer = lmer, lme = lme, long = T, 
+    values = &quot;value&quot;)
+
+The data had  1054  observations taken over  41  time intervals for  5 items.
+
+ Alternative estimates of reliability based upon Generalizability theory
+
+RkF  =  0.99 Reliability of average of all ratings across all items and  times (Fixed time effects)
+R1R  =  0.44 Generalizability of a single time point across all items (Random time effects)
+RkR  =  0.97 Generalizability of average time points across all items (Random time effects)
+Rc   =  0.68 Generalizability of change (fixed time points, fixed items) 
+RkRn =  0.97 Generalizability of between person differences averaged over time (time nested within people)
+Rcn  =  0.17 Generalizability of within person variations averaged over items  (time nested within people)
+
+ These reliabilities are derived from the components of variance estimated by lmer 
+             variance Percent
+ID               0.41    0.10
+Time             0.00    0.00
+Items            1.08    0.26
+ID x time        0.48    0.11
+ID x items       0.67    0.16
+time x items     0.41    0.10
+Residual         1.13    0.27
+Total            4.18    1.00
+
+ The nested components of variance estimated from lmer are:
+         variance Percent
+id           0.54   0.152
+id(time)     0.12   0.033
+residual     2.93   0.816
+total        3.59   1.000
+
+To see the ANOVA and alpha by subject, use the short = FALSE option.
+ To see the summaries of the ICCs by subject and time, use all=TRUE
+ To see specific objects select from the following list:
+ ANOVA s.lmer s.lme alpha summary.by.person summary.by.time ICC.by.person ICC.by.time lmer long Call</code></pre>
 </div>
 <div id="female-jealousy" class="section level3">
 <h3>Female jealousy</h3>
 <pre class="r"><code>diary %&gt;% 
   select(person, day_number, jealousy_1, male_jealousy_1, male_jealousy_3) %&gt;%
   multi_rel(lme = F, lmer = T)</code></pre>
-<pre><code>## Warning: attributes are not identical across measure variables; they will be dropped</code></pre>
+<pre><code>## Warning: attributes are not identical across measure variables;
+## they will be dropped</code></pre>
 <pre><code>## Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl = control$checkConv, : Model failed to converge with
-## max|grad| = 0.00600409 (tol = 0.002, component 1)</code></pre>
-<pre><code>## 
-## Multilevel Generalizability analysis   
-## Call: multilevel.reliability(x = ., grp = &quot;person&quot;, Time = &quot;day_number&quot;, 
-##     items = &quot;variable&quot;, aov = F, lmer = lmer, lme = lme, long = T, 
-##     values = &quot;value&quot;)
-## 
-## The data had  1054  observations taken over  41  time intervals for  3 items.
-## 
-##  Alternative estimates of reliabilty based upon Generalizability theory
-## 
-## RkF  =  0.98 Reliability of average of all ratings across all items and  times (Fixed time effects)
-## R1R  =  0.42 Generalizability of a single time point across all items (Random time effects)
-## RkR  =  0.97 Generalizability of average time points across all items (Random time effects)
-## Rc   =  0.29 Generalizability of change (fixed time points, fixed items) 
-## RkRn =  0.96 Generalizability of between person differences averaged over time (time nested within people)
-## Rcn  =  0 Generalizability of within person variations averaged over items  (time nested within people)
-## 
-##  These reliabilities are derived from the components of variance estimated by lmer 
-##              variance Percent
-## ID               0.12    0.06
-## Time             0.00    0.00
-## Items            0.44    0.21
-## ID x time        0.12    0.05
-## ID x items       0.49    0.23
-## time x items     0.12    0.06
-## Residual         0.85    0.40
-## Total            2.16    1.00
-## 
-##  The nested components of variance estimated from lmer are:
-##          variance Percent
-## id           0.28    0.15
-## id(time)     0.00    0.00
-## residual     1.61    0.85
-## total        1.89    1.00
-## 
-## To see the ANOVA and alpha by subject, use the short = FALSE option.
-##  To see the summaries of the ICCs by subject and time, use all=TRUE
-##  To see specific objects select from the following list:
-##  ANOVA s.lmer s.lme alpha summary.by.person summary.by.time ICC.by.person ICC.by.time lmer long Call</code></pre>
+## max|grad| = 0.00404246 (tol = 0.002, component 1)</code></pre>
+<pre><code>## singular fit</code></pre>
+<pre><code>
+Multilevel Generalizability analysis   
+Call: multilevel.reliability(x = ., grp = &quot;person&quot;, Time = &quot;day_number&quot;, 
+    items = &quot;variable&quot;, aov = F, lmer = lmer, lme = lme, long = T, 
+    values = &quot;value&quot;)
+
+The data had  1054  observations taken over  41  time intervals for  3 items.
+
+ Alternative estimates of reliability based upon Generalizability theory
+
+RkF  =  0.98 Reliability of average of all ratings across all items and  times (Fixed time effects)
+R1R  =  0.42 Generalizability of a single time point across all items (Random time effects)
+RkR  =  0.97 Generalizability of average time points across all items (Random time effects)
+Rc   =  0.29 Generalizability of change (fixed time points, fixed items) 
+RkRn =  0.96 Generalizability of between person differences averaged over time (time nested within people)
+Rcn  =  0 Generalizability of within person variations averaged over items  (time nested within people)
+
+ These reliabilities are derived from the components of variance estimated by lmer 
+             variance Percent
+ID               0.12    0.06
+Time             0.00    0.00
+Items            0.45    0.21
+ID x time        0.12    0.05
+ID x items       0.49    0.23
+time x items     0.12    0.06
+Residual         0.85    0.40
+Total            2.16    1.00
+
+ The nested components of variance estimated from lmer are:
+         variance Percent
+id           0.28    0.15
+id(time)     0.00    0.00
+residual     1.61    0.85
+total        1.89    1.00
+
+To see the ANOVA and alpha by subject, use the short = FALSE option.
+ To see the summaries of the ICCs by subject and time, use all=TRUE
+ To see specific objects select from the following list:
+ ANOVA s.lmer s.lme alpha summary.by.person summary.by.time ICC.by.person ICC.by.time lmer long Call</code></pre>
 </div>
 <div id="narcissistic-admiration" class="section level3">
 <h3>Narcissistic admiration</h3>
 <pre class="r"><code>diary %&gt;% 
   select(person, day_number, NARQ_admiration_1, NARQ_admiration_2, NARQ_admiration_3) %&gt;%
   multi_rel(lmer = T, lme = F)</code></pre>
-<pre><code>## Warning: attributes are not identical across measure variables; they will be dropped</code></pre>
-<pre><code>## 
-## Multilevel Generalizability analysis   
-## Call: multilevel.reliability(x = ., grp = &quot;person&quot;, Time = &quot;day_number&quot;, 
-##     items = &quot;variable&quot;, aov = F, lmer = lmer, lme = lme, long = T, 
-##     values = &quot;value&quot;)
-## 
-## The data had  1054  observations taken over  41  time intervals for  3 items.
-## 
-##  Alternative estimates of reliabilty based upon Generalizability theory
-## 
-## RkF  =  1 Reliability of average of all ratings across all items and  times (Fixed time effects)
-## R1R  =  0.68 Generalizability of a single time point across all items (Random time effects)
-## RkR  =  0.99 Generalizability of average time points across all items (Random time effects)
-## Rc   =  0.72 Generalizability of change (fixed time points, fixed items) 
-## RkRn =  0.99 Generalizability of between person differences averaged over time (time nested within people)
-## Rcn  =  0.57 Generalizability of within person variations averaged over items  (time nested within people)
-## 
-##  These reliabilities are derived from the components of variance estimated by lmer 
-##              variance Percent
-## ID               1.05    0.33
-## Time             0.00    0.00
-## Items            0.00    0.00
-## ID x time        0.38    0.12
-## ID x items       0.24    0.08
-## time x items     1.05    0.33
-## Residual         0.45    0.14
-## Total            3.17    1.00
-## 
-##  The nested components of variance estimated from lmer are:
-##          variance Percent
-## id           1.13    0.53
-## id(time)     0.30    0.14
-## residual     0.69    0.33
-## total        2.12    1.00
-## 
-## To see the ANOVA and alpha by subject, use the short = FALSE option.
-##  To see the summaries of the ICCs by subject and time, use all=TRUE
-##  To see specific objects select from the following list:
-##  ANOVA s.lmer s.lme alpha summary.by.person summary.by.time ICC.by.person ICC.by.time lmer long Call</code></pre>
+<pre><code>## Warning: attributes are not identical across measure variables;
+## they will be dropped</code></pre>
+<pre><code>## singular fit</code></pre>
+<pre><code>
+Multilevel Generalizability analysis   
+Call: multilevel.reliability(x = ., grp = &quot;person&quot;, Time = &quot;day_number&quot;, 
+    items = &quot;variable&quot;, aov = F, lmer = lmer, lme = lme, long = T, 
+    values = &quot;value&quot;)
+
+The data had  1054  observations taken over  41  time intervals for  3 items.
+
+ Alternative estimates of reliability based upon Generalizability theory
+
+RkF  =  1 Reliability of average of all ratings across all items and  times (Fixed time effects)
+R1R  =  0.68 Generalizability of a single time point across all items (Random time effects)
+RkR  =  0.99 Generalizability of average time points across all items (Random time effects)
+Rc   =  0.72 Generalizability of change (fixed time points, fixed items) 
+RkRn =  0.99 Generalizability of between person differences averaged over time (time nested within people)
+Rcn  =  0.57 Generalizability of within person variations averaged over items  (time nested within people)
+
+ These reliabilities are derived from the components of variance estimated by lmer 
+             variance Percent
+ID               1.05    0.33
+Time             0.00    0.00
+Items            0.00    0.00
+ID x time        0.38    0.12
+ID x items       0.24    0.08
+time x items     1.05    0.33
+Residual         0.45    0.14
+Total            3.17    1.00
+
+ The nested components of variance estimated from lmer are:
+         variance Percent
+id           1.13    0.53
+id(time)     0.30    0.14
+residual     0.69    0.33
+total        2.12    1.00
+
+To see the ANOVA and alpha by subject, use the short = FALSE option.
+ To see the summaries of the ICCs by subject and time, use all=TRUE
+ To see specific objects select from the following list:
+ ANOVA s.lmer s.lme alpha summary.by.person summary.by.time ICC.by.person ICC.by.time lmer long Call</code></pre>
 </div>
 <div id="narcissistic-rivalry" class="section level3">
 <h3>Narcissistic rivalry</h3>
 <pre class="r"><code>diary %&gt;% 
   select(person, day_number, NARQ_rivalry_1, NARQ_rivalry_2, NARQ_rivalry_3) %&gt;%
   multi_rel(lmer = T)</code></pre>
-<pre><code>## Warning: attributes are not identical across measure variables; they will be dropped</code></pre>
-<pre><code>## 
-## Multilevel Generalizability analysis   
-## Call: multilevel.reliability(x = ., grp = &quot;person&quot;, Time = &quot;day_number&quot;, 
-##     items = &quot;variable&quot;, aov = F, lmer = lmer, lme = lme, long = T, 
-##     values = &quot;value&quot;)
-## 
-## The data had  1054  observations taken over  41  time intervals for  3 items.
-## 
-##  Alternative estimates of reliabilty based upon Generalizability theory
-## 
-## RkF  =  0.99 Reliability of average of all ratings across all items and  times (Fixed time effects)
-## R1R  =  0.49 Generalizability of a single time point across all items (Random time effects)
-## RkR  =  0.98 Generalizability of average time points across all items (Random time effects)
-## Rc   =  0.65 Generalizability of change (fixed time points, fixed items) 
-## RkRn =  0.98 Generalizability of between person differences averaged over time (time nested within people)
-## Rcn  =  0.53 Generalizability of within person variations averaged over items  (time nested within people)
-## 
-##  These reliabilities are derived from the components of variance estimated by lmer 
-##              variance Percent
-## ID               0.21    0.23
-## Time             0.00    0.00
-## Items            0.00    0.00
-## ID x time        0.16    0.17
-## ID x items       0.08    0.09
-## time x items     0.21    0.23
-## Residual         0.26    0.28
-## Total            0.94    1.00
-## 
-##  The nested components of variance estimated from lmer are:
-##          variance Percent
-## id           0.24    0.33
-## id(time)     0.13    0.18
-## residual     0.35    0.49
-## total        0.72    1.00
-## 
-## To see the ANOVA and alpha by subject, use the short = FALSE option.
-##  To see the summaries of the ICCs by subject and time, use all=TRUE
-##  To see specific objects select from the following list:
-##  ANOVA s.lmer s.lme alpha summary.by.person summary.by.time ICC.by.person ICC.by.time lmer long Call</code></pre>
+<pre><code>## Warning: attributes are not identical across measure variables;
+## they will be dropped</code></pre>
+<pre><code>## Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl = control$checkConv, : Model failed to converge with
+## max|grad| = 0.0100517 (tol = 0.002, component 1)</code></pre>
+<pre><code>
+Multilevel Generalizability analysis   
+Call: multilevel.reliability(x = ., grp = &quot;person&quot;, Time = &quot;day_number&quot;, 
+    items = &quot;variable&quot;, aov = F, lmer = lmer, lme = lme, long = T, 
+    values = &quot;value&quot;)
+
+The data had  1054  observations taken over  41  time intervals for  3 items.
+
+ Alternative estimates of reliability based upon Generalizability theory
+
+RkF  =  0.99 Reliability of average of all ratings across all items and  times (Fixed time effects)
+R1R  =  0.49 Generalizability of a single time point across all items (Random time effects)
+RkR  =  0.98 Generalizability of average time points across all items (Random time effects)
+Rc   =  0.65 Generalizability of change (fixed time points, fixed items) 
+RkRn =  0.98 Generalizability of between person differences averaged over time (time nested within people)
+Rcn  =  0.53 Generalizability of within person variations averaged over items  (time nested within people)
+
+ These reliabilities are derived from the components of variance estimated by lmer 
+             variance Percent
+ID               0.21    0.23
+Time             0.00    0.00
+Items            0.00    0.00
+ID x time        0.16    0.17
+ID x items       0.08    0.09
+time x items     0.21    0.23
+Residual         0.26    0.28
+Total            0.94    1.00
+
+ The nested components of variance estimated from lmer are:
+         variance Percent
+id           0.24    0.33
+id(time)     0.13    0.18
+residual     0.35    0.49
+total        0.72    1.00
+
+To see the ANOVA and alpha by subject, use the short = FALSE option.
+ To see the summaries of the ICCs by subject and time, use all=TRUE
+ To see specific objects select from the following list:
+ ANOVA s.lmer s.lme alpha summary.by.person summary.by.time ICC.by.person ICC.by.time lmer long Call</code></pre>
 </div>
 <div id="self-esteem" class="section level3">
 <h3>Self esteem</h3>
 <pre class="r"><code>diary %&gt;% 
   select(person, day_number,self_esteem_1) %&gt;%
   multi_rel(lmer = F)</code></pre>
-<pre><code>## Error in lme.formula(values ~ 1, random = list(id = ~1, time = ~1 | id:items), : nlminb problem, convergence error code = 1
-##   message = false convergence (8)</code></pre>
+<pre><code>
+Multilevel Generalizability analysis   
+Call: multilevel.reliability(x = ., grp = &quot;person&quot;, Time = &quot;day_number&quot;, 
+    items = &quot;variable&quot;, aov = F, lmer = lmer, lme = lme, long = T, 
+    values = &quot;value&quot;)
+
+The data had  1054  observations taken over  41  time intervals for  1 items.
+
+ Alternative estimates of reliability based upon Generalizability theory
+
+RkRn =  0.97 Generalizability of between person differences averaged over time (time nested within people)
+Rcn  =  0.86 Generalizability of within person variations averaged over items  (time nested within people)
+ The nested components of variance estimated from lme are:
+         Variance Percent
+id           0.59    0.43
+id(time)     0.67    0.49
+residual     0.11    0.08
+total        1.37    1.00
+
+To see the ANOVA and alpha by subject, use the short = FALSE option.
+ To see the summaries of the ICCs by subject and time, use all=TRUE
+ To see specific objects select from the following list:
+ ANOVA s.lmer s.lme alpha summary.by.person summary.by.time ICC.by.person ICC.by.time lmer long Call</code></pre>
 </div>
 <div id="satisfaction-with-sexual-intercourse" class="section level3">
 <h3>Satisfaction with sexual intercourse</h3>
 <pre class="r"><code>diary %&gt;% 
   select(person, day_number, desirability_partner) %&gt;%
   multi_rel(lmer = F)</code></pre>
-<pre><code>## 
-## Multilevel Generalizability analysis   
-## Call: multilevel.reliability(x = ., grp = &quot;person&quot;, Time = &quot;day_number&quot;, 
-##     items = &quot;variable&quot;, aov = F, lmer = lmer, lme = lme, long = T, 
-##     values = &quot;value&quot;)
-## 
-## The data had  1054  observations taken over  41  time intervals for  1 items.
-## 
-##  Alternative estimates of reliabilty based upon Generalizability theory
-## 
-## RkRn =  0.96 Generalizability of between person differences averaged over time (time nested within people)
-## Rcn  =  0.86 Generalizability of within person variations averaged over items  (time nested within people)
-##  The nested components of variance estimated from lme are:
-##          Variance Percent
-## id           0.84   0.402
-## id(time)     1.07   0.512
-## residual     0.18   0.086
-## total        2.09   1.000
-## 
-## To see the ANOVA and alpha by subject, use the short = FALSE option.
-##  To see the summaries of the ICCs by subject and time, use all=TRUE
-##  To see specific objects select from the following list:
-##  ANOVA s.lmer s.lme alpha summary.by.person summary.by.time ICC.by.person ICC.by.time lmer long Call</code></pre>
+<pre><code>
+Multilevel Generalizability analysis   
+Call: multilevel.reliability(x = ., grp = &quot;person&quot;, Time = &quot;day_number&quot;, 
+    items = &quot;variable&quot;, aov = F, lmer = lmer, lme = lme, long = T, 
+    values = &quot;value&quot;)
+
+The data had  1054  observations taken over  41  time intervals for  1 items.
+
+ Alternative estimates of reliability based upon Generalizability theory
+
+RkRn =  0.96 Generalizability of between person differences averaged over time (time nested within people)
+Rcn  =  0.86 Generalizability of within person variations averaged over items  (time nested within people)
+ The nested components of variance estimated from lme are:
+         Variance Percent
+id           0.84   0.402
+id(time)     1.07   0.512
+residual     0.18   0.086
+total        2.09   1.000
+
+To see the ANOVA and alpha by subject, use the short = FALSE option.
+ To see the summaries of the ICCs by subject and time, use all=TRUE
+ To see specific objects select from the following list:
+ ANOVA s.lmer s.lme alpha summary.by.person summary.by.time ICC.by.person ICC.by.time lmer long Call</code></pre>
 </div>
 <div id="relationship-satisfaction-1" class="section level3">
 <h3>Relationship satisfaction</h3>
 <pre class="r"><code>diary %&gt;% 
   select(person, day_number, relationship_satisfaction_1) %&gt;%
   multi_rel(lmer = F)</code></pre>
-<pre><code>## 
-## Multilevel Generalizability analysis   
-## Call: multilevel.reliability(x = ., grp = &quot;person&quot;, Time = &quot;day_number&quot;, 
-##     items = &quot;variable&quot;, aov = F, lmer = lmer, lme = lme, long = T, 
-##     values = &quot;value&quot;)
-## 
-## The data had  1054  observations taken over  41  time intervals for  1 items.
-## 
-##  Alternative estimates of reliabilty based upon Generalizability theory
-## 
-## RkRn =  0.97 Generalizability of between person differences averaged over time (time nested within people)
-## Rcn  =  0.86 Generalizability of within person variations averaged over items  (time nested within people)
-##  The nested components of variance estimated from lme are:
-##          Variance Percent
-## id           0.65    0.43
-## id(time)     0.73    0.49
-## residual     0.12    0.08
-## total        1.50    1.00
-## 
-## To see the ANOVA and alpha by subject, use the short = FALSE option.
-##  To see the summaries of the ICCs by subject and time, use all=TRUE
-##  To see specific objects select from the following list:
-##  ANOVA s.lmer s.lme alpha summary.by.person summary.by.time ICC.by.person ICC.by.time lmer long Call</code></pre>
+<pre><code>
+Multilevel Generalizability analysis   
+Call: multilevel.reliability(x = ., grp = &quot;person&quot;, Time = &quot;day_number&quot;, 
+    items = &quot;variable&quot;, aov = F, lmer = lmer, lme = lme, long = T, 
+    values = &quot;value&quot;)
+
+The data had  1054  observations taken over  41  time intervals for  1 items.
+
+ Alternative estimates of reliability based upon Generalizability theory
+
+RkRn =  0.97 Generalizability of between person differences averaged over time (time nested within people)
+Rcn  =  0.86 Generalizability of within person variations averaged over items  (time nested within people)
+ The nested components of variance estimated from lme are:
+         Variance Percent
+id           0.65    0.43
+id(time)     0.73    0.49
+residual     0.12    0.08
+total        1.50    1.00
+
+To see the ANOVA and alpha by subject, use the short = FALSE option.
+ To see the summaries of the ICCs by subject and time, use all=TRUE
+ To see specific objects select from the following list:
+ ANOVA s.lmer s.lme alpha summary.by.person summary.by.time ICC.by.person ICC.by.time lmer long Call</code></pre>
 </div>
 <div id="partner-initiated-sex" class="section level3">
 <h3>Partner initiated sex</h3>
 <pre class="r"><code>diary %&gt;% 
   select(person, day_number, partner_initiated_sexual_intercourse) %&gt;%
   multi_rel(lmer = F)</code></pre>
-<pre><code>## 
-## Multilevel Generalizability analysis   
-## Call: multilevel.reliability(x = ., grp = &quot;person&quot;, Time = &quot;day_number&quot;, 
-##     items = &quot;variable&quot;, aov = F, lmer = lmer, lme = lme, long = T, 
-##     values = &quot;value&quot;)
-## 
-## The data had  1054  observations taken over  41  time intervals for  1 items.
-## 
-##  Alternative estimates of reliabilty based upon Generalizability theory
-## 
-## RkRn =  0.72 Generalizability of between person differences averaged over time (time nested within people)
-## Rcn  =  0.89 Generalizability of within person variations averaged over items  (time nested within people)
-##  The nested components of variance estimated from lme are:
-##          Variance Percent
-## id          0.014   0.059
-## id(time)    0.200   0.837
-## residual    0.025   0.105
-## total       0.239   1.000
-## 
-## To see the ANOVA and alpha by subject, use the short = FALSE option.
-##  To see the summaries of the ICCs by subject and time, use all=TRUE
-##  To see specific objects select from the following list:
-##  ANOVA s.lmer s.lme alpha summary.by.person summary.by.time ICC.by.person ICC.by.time lmer long Call</code></pre>
+<pre><code>
+Multilevel Generalizability analysis   
+Call: multilevel.reliability(x = ., grp = &quot;person&quot;, Time = &quot;day_number&quot;, 
+    items = &quot;variable&quot;, aov = F, lmer = lmer, lme = lme, long = T, 
+    values = &quot;value&quot;)
+
+The data had  1054  observations taken over  41  time intervals for  1 items.
+
+ Alternative estimates of reliability based upon Generalizability theory
+
+RkRn =  0.72 Generalizability of between person differences averaged over time (time nested within people)
+Rcn  =  0.89 Generalizability of within person variations averaged over items  (time nested within people)
+ The nested components of variance estimated from lme are:
+         Variance Percent
+id          0.014   0.059
+id(time)    0.200   0.837
+residual    0.025   0.105
+total       0.239   1.000
+
+To see the ANOVA and alpha by subject, use the short = FALSE option.
+ To see the summaries of the ICCs by subject and time, use all=TRUE
+ To see specific objects select from the following list:
+ ANOVA s.lmer s.lme alpha summary.by.person summary.by.time ICC.by.person ICC.by.time lmer long Call</code></pre>
 </div>
 <div id="extra-pair-sex-frequency" class="section level3">
 <h3>Extra-pair sex frequency</h3>
@@ -2616,10 +2742,10 @@ cor(use=&#39;pairwise.complete.obs&#39;) %&gt;% form() %&gt;% pander()</code></p
             n_petting = sum(had_petting,na.rm = T))
 
 table(diary$extra_pair_sex) %&gt;% pander()</code></pre>
-<table style="width:12%;">
+<table style="width:22%;">
 <colgroup>
-<col width="8%" />
-<col width="4%" />
+<col width="11%" />
+<col width="11%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -2635,10 +2761,10 @@ table(diary$extra_pair_sex) %&gt;% pander()</code></pre>
 </tbody>
 </table>
 <pre class="r"><code>prop.table(table(diary$extra_pair_sex)) %&gt;% pander()</code></pre>
-<table style="width:19%;">
+<table style="width:26%;">
 <colgroup>
-<col width="9%" />
-<col width="9%" />
+<col width="12%" />
+<col width="13%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -2656,22 +2782,22 @@ table(diary$extra_pair_sex) %&gt;% pander()</code></pre>
 <pre class="r"><code>ggplot(sex_summary, aes(n_extra_pair_sex)) + geom_bar() + scale_y_log10(breaks = c(1,5,10,100,1000))</code></pre>
 <p><img src="2_descriptives_files/figure-html/unnamed-chunk-61-1.png" width="672" /></p>
 <pre class="r"><code>xtabs(~ hormonal_contraception + n_extra_pair_sex, data = sex_summary) %&gt;% pander()</code></pre>
-<table style="width:61%;">
+<table style="width:68%;">
 <colgroup>
-<col width="11%" />
+<col width="12%" />
+<col width="8%" />
+<col width="6%" />
 <col width="5%" />
 <col width="5%" />
 <col width="5%" />
 <col width="5%" />
 <col width="5%" />
 <col width="5%" />
-<col width="5%" />
-<col width="5%" />
-<col width="5%" />
+<col width="6%" />
 </colgroup>
 <thead>
 <tr class="header">
-<th align="left"> </th>
+<th align="center"> </th>
 <th align="center">0</th>
 <th align="center">1</th>
 <th align="center">2</th>
@@ -2685,7 +2811,7 @@ table(diary$extra_pair_sex) %&gt;% pander()</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left"><strong>0</strong></td>
+<td align="center"><strong>0</strong></td>
 <td align="center">401</td>
 <td align="center">9</td>
 <td align="center">8</td>
@@ -2697,7 +2823,7 @@ table(diary$extra_pair_sex) %&gt;% pander()</code></pre>
 <td align="center">1</td>
 </tr>
 <tr class="even">
-<td align="left"><strong>1</strong></td>
+<td align="center"><strong>1</strong></td>
 <td align="center">604</td>
 <td align="center">11</td>
 <td align="center">3</td>
@@ -2711,27 +2837,27 @@ table(diary$extra_pair_sex) %&gt;% pander()</code></pre>
 </tbody>
 </table>
 <pre class="r"><code>xtabs(~ hormonal_contraception + I(n_extra_pair_sex&gt;0), data = sex_summary) %&gt;% pander()</code></pre>
-<table style="width:33%;">
+<table style="width:35%;">
 <colgroup>
-<col width="11%" />
+<col width="12%" />
 <col width="11%" />
 <col width="11%" />
 </colgroup>
 <thead>
 <tr class="header">
-<th align="left"> </th>
+<th align="center"> </th>
 <th align="center">FALSE</th>
 <th align="center">TRUE</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left"><strong>0</strong></td>
+<td align="center"><strong>0</strong></td>
 <td align="center">401</td>
 <td align="center">28</td>
 </tr>
 <tr class="even">
-<td align="left"><strong>1</strong></td>
+<td align="center"><strong>1</strong></td>
 <td align="center">604</td>
 <td align="center">21</td>
 </tr>
@@ -2741,10 +2867,10 @@ table(diary$extra_pair_sex) %&gt;% pander()</code></pre>
 <div id="extra-pair-intimacy-frequency" class="section level3">
 <h3>Extra-pair intimacy frequency</h3>
 <pre class="r"><code>table(diary$extra_pair_intimacy) %&gt;% pander()</code></pre>
-<table style="width:12%;">
+<table style="width:22%;">
 <colgroup>
-<col width="8%" />
-<col width="4%" />
+<col width="11%" />
+<col width="11%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -2760,10 +2886,10 @@ table(diary$extra_pair_sex) %&gt;% pander()</code></pre>
 </tbody>
 </table>
 <pre class="r"><code>prop.table(table(diary$extra_pair_intimacy)) %&gt;% pander()</code></pre>
-<table style="width:19%;">
+<table style="width:26%;">
 <colgroup>
-<col width="9%" />
-<col width="9%" />
+<col width="12%" />
+<col width="13%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -2784,9 +2910,9 @@ table(diary$extra_pair_sex) %&gt;% pander()</code></pre>
 <table style="width:100%;">
 <colgroup>
 <col width="9%" />
-<col width="4%" />
-<col width="4%" />
-<col width="4%" />
+<col width="6%" />
+<col width="5%" />
+<col width="5%" />
 <col width="4%" />
 <col width="4%" />
 <col width="4%" />
@@ -2805,7 +2931,7 @@ table(diary$extra_pair_sex) %&gt;% pander()</code></pre>
 </colgroup>
 <thead>
 <tr class="header">
-<th align="left"> </th>
+<th align="center"> </th>
 <th align="center">0</th>
 <th align="center">1</th>
 <th align="center">2</th>
@@ -2828,7 +2954,7 @@ table(diary$extra_pair_sex) %&gt;% pander()</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left"><strong>0</strong></td>
+<td align="center"><strong>0</strong></td>
 <td align="center">365</td>
 <td align="center">29</td>
 <td align="center">11</td>
@@ -2849,7 +2975,7 @@ table(diary$extra_pair_sex) %&gt;% pander()</code></pre>
 <td align="center">1</td>
 </tr>
 <tr class="even">
-<td align="left"><strong>1</strong></td>
+<td align="center"><strong>1</strong></td>
 <td align="center">576</td>
 <td align="center">27</td>
 <td align="center">9</td>
@@ -2872,27 +2998,27 @@ table(diary$extra_pair_sex) %&gt;% pander()</code></pre>
 </tbody>
 </table>
 <pre class="r"><code>xtabs(~ hormonal_contraception + I(n_extra_pair_intimacy&gt;0), data = sex_summary) %&gt;% pander()</code></pre>
-<table style="width:33%;">
+<table style="width:35%;">
 <colgroup>
-<col width="11%" />
+<col width="12%" />
 <col width="11%" />
 <col width="11%" />
 </colgroup>
 <thead>
 <tr class="header">
-<th align="left"> </th>
+<th align="center"> </th>
 <th align="center">FALSE</th>
 <th align="center">TRUE</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left"><strong>0</strong></td>
+<td align="center"><strong>0</strong></td>
 <td align="center">365</td>
 <td align="center">64</td>
 </tr>
 <tr class="even">
-<td align="left"><strong>1</strong></td>
+<td align="center"><strong>1</strong></td>
 <td align="center">576</td>
 <td align="center">49</td>
 </tr>
@@ -2902,10 +3028,10 @@ table(diary$extra_pair_sex) %&gt;% pander()</code></pre>
 <div id="sexual-intercourse-frequency" class="section level3">
 <h3>Sexual intercourse frequency</h3>
 <pre class="r"><code>table(diary$had_sexual_intercourse) %&gt;% pander()</code></pre>
-<table style="width:17%;">
+<table style="width:22%;">
 <colgroup>
-<col width="8%" />
-<col width="8%" />
+<col width="11%" />
+<col width="11%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -2921,10 +3047,10 @@ table(diary$extra_pair_sex) %&gt;% pander()</code></pre>
 </tbody>
 </table>
 <pre class="r"><code>prop.table(table(diary$had_sexual_intercourse)) %&gt;% pander()</code></pre>
-<table style="width:19%;">
+<table style="width:25%;">
 <colgroup>
-<col width="9%" />
-<col width="9%" />
+<col width="12%" />
+<col width="12%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -2951,16 +3077,16 @@ table(diary$extra_pair_sex) %&gt;% pander()</code></pre>
 <table style="width:100%;">
 <colgroup>
 <col width="5%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
 <col width="3%" />
 <col width="3%" />
 <col width="3%" />
@@ -2985,7 +3111,7 @@ table(diary$extra_pair_sex) %&gt;% pander()</code></pre>
 </colgroup>
 <thead>
 <tr class="header">
-<th align="left"> </th>
+<th align="center"> </th>
 <th align="center">0</th>
 <th align="center">1</th>
 <th align="center">2</th>
@@ -3021,7 +3147,7 @@ table(diary$extra_pair_sex) %&gt;% pander()</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left"><strong>0</strong></td>
+<td align="center"><strong>0</strong></td>
 <td align="center">103</td>
 <td align="center">48</td>
 <td align="center">33</td>
@@ -3055,7 +3181,7 @@ table(diary$extra_pair_sex) %&gt;% pander()</code></pre>
 <td align="center">1</td>
 </tr>
 <tr class="even">
-<td align="left"><strong>1</strong></td>
+<td align="center"><strong>1</strong></td>
 <td align="center">76</td>
 <td align="center">46</td>
 <td align="center">43</td>
@@ -3091,38 +3217,38 @@ table(diary$extra_pair_sex) %&gt;% pander()</code></pre>
 </tbody>
 </table>
 <pre class="r"><code>xtabs(~ hormonal_contraception + I(n_sex&gt;0), data = sex_summary) %&gt;% pander()</code></pre>
-<table style="width:33%;">
+<table style="width:35%;">
 <colgroup>
-<col width="11%" />
+<col width="12%" />
 <col width="11%" />
 <col width="11%" />
 </colgroup>
 <thead>
 <tr class="header">
-<th align="left"> </th>
+<th align="center"> </th>
 <th align="center">FALSE</th>
 <th align="center">TRUE</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left"><strong>0</strong></td>
+<td align="center"><strong>0</strong></td>
 <td align="center">103</td>
 <td align="center">326</td>
 </tr>
 <tr class="even">
-<td align="left"><strong>1</strong></td>
+<td align="center"><strong>1</strong></td>
 <td align="center">76</td>
 <td align="center">549</td>
 </tr>
 </tbody>
 </table>
 <pre class="r"><code>sex_summary %&gt;% filter(n_days &gt; 25) %&gt;% group_by(hormonal_contraception) %&gt;% summarise(sex = sum(n_sex&gt;0), no_sex = sum(n_sex==0)) %&gt;% pander()</code></pre>
-<table style="width:54%;">
+<table style="width:56%;">
 <colgroup>
 <col width="34%" />
 <col width="8%" />
-<col width="11%" />
+<col width="12%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -3148,10 +3274,10 @@ table(diary$extra_pair_sex) %&gt;% pander()</code></pre>
 <div id="petting-frequency" class="section level3">
 <h3>Petting frequency</h3>
 <pre class="r"><code>table(diary$had_petting) %&gt;% pander()</code></pre>
-<table style="width:17%;">
+<table style="width:22%;">
 <colgroup>
-<col width="8%" />
-<col width="8%" />
+<col width="11%" />
+<col width="11%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -3167,10 +3293,10 @@ table(diary$extra_pair_sex) %&gt;% pander()</code></pre>
 </tbody>
 </table>
 <pre class="r"><code>prop.table(table(diary$had_petting)) %&gt;% pander()</code></pre>
-<table style="width:19%;">
+<table style="width:25%;">
 <colgroup>
-<col width="9%" />
-<col width="9%" />
+<col width="12%" />
+<col width="12%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -3195,16 +3321,16 @@ table(diary$extra_pair_sex) %&gt;% pander()</code></pre>
 <table style="width:100%;">
 <colgroup>
 <col width="5%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
 <col width="3%" />
 <col width="3%" />
 <col width="3%" />
@@ -3229,7 +3355,7 @@ table(diary$extra_pair_sex) %&gt;% pander()</code></pre>
 </colgroup>
 <thead>
 <tr class="header">
-<th align="left"> </th>
+<th align="center"> </th>
 <th align="center">0</th>
 <th align="center">1</th>
 <th align="center">2</th>
@@ -3265,7 +3391,7 @@ table(diary$extra_pair_sex) %&gt;% pander()</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left"><strong>0</strong></td>
+<td align="center"><strong>0</strong></td>
 <td align="center">113</td>
 <td align="center">55</td>
 <td align="center">40</td>
@@ -3299,7 +3425,7 @@ table(diary$extra_pair_sex) %&gt;% pander()</code></pre>
 <td align="center">1</td>
 </tr>
 <tr class="even">
-<td align="left"><strong>1</strong></td>
+<td align="center"><strong>1</strong></td>
 <td align="center">102</td>
 <td align="center">60</td>
 <td align="center">44</td>
@@ -3335,27 +3461,27 @@ table(diary$extra_pair_sex) %&gt;% pander()</code></pre>
 </tbody>
 </table>
 <pre class="r"><code>xtabs(~ hormonal_contraception + I(n_petting&gt;0), data = sex_summary) %&gt;% pander()</code></pre>
-<table style="width:33%;">
+<table style="width:35%;">
 <colgroup>
-<col width="11%" />
+<col width="12%" />
 <col width="11%" />
 <col width="11%" />
 </colgroup>
 <thead>
 <tr class="header">
-<th align="left"> </th>
+<th align="center"> </th>
 <th align="center">FALSE</th>
 <th align="center">TRUE</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left"><strong>0</strong></td>
+<td align="center"><strong>0</strong></td>
 <td align="center">113</td>
 <td align="center">316</td>
 </tr>
 <tr class="even">
-<td align="left"><strong>1</strong></td>
+<td align="center"><strong>1</strong></td>
 <td align="center">102</td>
 <td align="center">523</td>
 </tr>
@@ -3385,20 +3511,20 @@ summary(trend$mer)</code></pre>
 ## Random effects:
 ##  Groups   Name                                   Variance Std.Dev.
 ##  person   (Intercept)                            0.00224  0.0473  
-##  Xr.2     s(days_filled_out):includedhorm_contra 0.02012  0.1418  
-##  Xr.1     s(days_filled_out):includedcycling     0.02248  0.1499  
+##  Xr.2     s(days_filled_out):includedhorm_contra 0.02012  0.1419  
+##  Xr.1     s(days_filled_out):includedcycling     0.02246  0.1499  
 ##  Xr.0     s(day_number):includedhorm_contra      0.00000  0.0000  
-##  Xr       s(day_number):includedcycling          0.00257  0.0507  
+##  Xr       s(day_number):includedcycling          0.00257  0.0506  
 ##  Residual                                        0.03637  0.1907  
 ## Number of obs: 24942, groups:  person, 1054; Xr.2, 8; Xr.1, 8; Xr.0, 8; Xr, 8
 ## 
 ## Fixed effects:
 ##                                            Estimate Std. Error t value
-## X(Intercept)                                0.17166    0.00200    85.8
-## Xs(day_number):includedcyclingFx1          -0.00160    0.01974    -0.1
-## Xs(day_number):includedhorm_contraFx1       0.01262    0.00688     1.8
-## Xs(days_filled_out):includedcyclingFx1     -0.00308    0.03086    -0.1
-## Xs(days_filled_out):includedhorm_contraFx1  0.01100    0.02390     0.5
+## X(Intercept)                                0.17166    0.00200   85.75
+## Xs(day_number):includedcyclingFx1          -0.00160    0.01974   -0.08
+## Xs(day_number):includedhorm_contraFx1       0.01262    0.00688    1.84
+## Xs(days_filled_out):includedcyclingFx1     -0.00308    0.03086   -0.10
+## Xs(days_filled_out):includedhorm_contraFx1  0.01100    0.02390    0.46
 ## 
 ## Correlation of Fixed Effects:
 ##             X(Int) X(_):F X(_):_ X(__):F
@@ -3413,7 +3539,7 @@ summary(trend$mer)</code></pre>
 ## 
 ## Formula:
 ## fertile ~ s(day_number, by = included) + s(days_filled_out, by = included)
-## &lt;environment: 0x7fa3d392d3b8&gt;
+## &lt;environment: 0x7f9c99ca2910&gt;
 ## 
 ## Parametric coefficients:
 ##             Estimate Std. Error t value Pr(&gt;|t|)    
@@ -3439,12 +3565,13 @@ summary(trend$mer)</code></pre>
 <h2>Contraception</h2>
 <div id="very-broad-categories-of-contraceptive-methods-as-used-in-the-analyses" class="section level3">
 <h3>Very broad categories of contraceptive methods, as used in the analyses</h3>
-<pre class="r"><code>count(xsection, vars = contraceptive_method) %&gt;% arrange(desc(n)) %&gt;% mutate(percent = round(n/sum(n),2)) %&gt;% filter(n &gt; 2) %&gt;% data.frame() %&gt;% pander()</code></pre>
-<table style="width:49%;">
+<pre class="r"><code>xsection &lt;- xsection %&gt;% tbl_df()
+count(xsection %&gt;% tbl_df(), vars = contraceptive_method) %&gt;% arrange(desc(n)) %&gt;% mutate(percent = round(n/sum(n),2)) %&gt;% filter(n &gt; 2) %&gt;% data.frame() %&gt;% pander()</code></pre>
+<table style="width:56%;">
 <colgroup>
-<col width="30%" />
-<col width="5%" />
-<col width="12%" />
+<col width="33%" />
+<col width="8%" />
+<col width="13%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -3485,11 +3612,11 @@ summary(trend$mer)</code></pre>
 <div id="of-hormonal-contraceptives-pill" class="section level3">
 <h3>Of hormonal contraceptives: pill</h3>
 <pre class="r"><code>xsection %&gt;% filter(contraceptive_method == &#39;hormonal&#39;) %&gt;% mutate(contraceptive_pill = contraception %contains% &quot;contraceptive_pill&quot;) %&gt;% count(vars = contraceptive_pill) %&gt;% arrange(desc(n)) %&gt;% mutate(percent = round(n/sum(n),2)) %&gt;% filter(n &gt; 2) %&gt;% data.frame() %&gt;% pander()</code></pre>
-<table style="width:28%;">
+<table style="width:33%;">
 <colgroup>
-<col width="9%" />
-<col width="5%" />
-<col width="12%" />
+<col width="11%" />
+<col width="8%" />
+<col width="13%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -3517,11 +3644,11 @@ summary(trend$mer)</code></pre>
 <pre class="r"><code>otherhormmethods = c(&quot;1&quot; = &quot;depot-injected&quot;, &quot;2&quot; = &quot;hormonal implant&quot;, &quot;3&quot; = &quot;vaginal ring&quot;, &quot;4&quot; = &quot;contraceptive patch&quot;, &quot;5&quot; = &quot;hormonal IUD&quot;)
 xsection = xsection %&gt;% mutate(other_hormonal_methods = otherhormmethods[hormonal_1])
 xsection %&gt;% filter(contraceptive_method == &#39;hormonal&#39;) %&gt;% mutate(contraceptive_pill = contraception %contains% &quot;contraceptive_pill&quot;) %&gt;% filter(contraceptive_pill == F) %&gt;% count(vars = other_hormonal_methods) %&gt;% arrange(desc(n)) %&gt;% mutate(percent = round(n/sum(n),2)) %&gt;% filter(n &gt; 2) %&gt;% data.frame() %&gt;% pander()</code></pre>
-<table style="width:42%;">
+<table style="width:47%;">
 <colgroup>
-<col width="23%" />
-<col width="5%" />
-<col width="12%" />
+<col width="26%" />
+<col width="6%" />
+<col width="13%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -3547,12 +3674,12 @@ xsection %&gt;% filter(contraceptive_method == &#39;hormonal&#39;) %&gt;% mutate
 <td align="center">0.16</td>
 </tr>
 <tr class="even">
-<td align="center">hormonal implant</td>
+<td align="center">depot-injected</td>
 <td align="center">3</td>
 <td align="center">0.04</td>
 </tr>
 <tr class="odd">
-<td align="center">depot-injected</td>
+<td align="center">hormonal implant</td>
 <td align="center">3</td>
 <td align="center">0.04</td>
 </tr>
@@ -3564,11 +3691,11 @@ xsection %&gt;% filter(contraceptive_method == &#39;hormonal&#39;) %&gt;% mutate
 <div id="slightly-more-differentiated-contraceptive-methods" class="section level3">
 <h3>Slightly more differentiated contraceptive methods</h3>
 <pre class="r"><code>count(xsection, vars = contraceptives_broad_categories) %&gt;% arrange(desc(n)) %&gt;% mutate(percent = round(n/sum(n),2)) %&gt;% filter(n &gt; 2) %&gt;% data.frame() %&gt;% pander()</code></pre>
-<table style="width:68%;">
+<table style="width:75%;">
 <colgroup>
-<col width="50%" />
-<col width="5%" />
-<col width="12%" />
+<col width="52%" />
+<col width="8%" />
+<col width="13%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -3634,11 +3761,11 @@ xsection %&gt;% filter(contraceptive_method == &#39;hormonal&#39;) %&gt;% mutate
 <div id="methods-as-reported-by-at-least-3-women" class="section level3">
 <h3>Methods as reported by at least 3 women</h3>
 <pre class="r"><code>count(xsection, vars = contraception) %&gt;% arrange(desc(n)) %&gt;% mutate(percent = round(n/sum(n),2)) %&gt;% filter(n &gt; 2) %&gt;% data.frame() %&gt;% pander()</code></pre>
-<table style="width:60%;">
+<table style="width:67%;">
 <colgroup>
-<col width="41%" />
-<col width="5%" />
-<col width="12%" />
+<col width="44%" />
+<col width="8%" />
+<col width="13%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -3704,12 +3831,12 @@ xsection %&gt;% filter(contraceptive_method == &#39;hormonal&#39;) %&gt;% mutate
 <td align="center">0.01</td>
 </tr>
 <tr class="even">
-<td align="center">other_hormonal, condoms</td>
+<td align="center">none, condoms</td>
 <td align="center">7</td>
 <td align="center">0.01</td>
 </tr>
 <tr class="odd">
-<td align="center">none, condoms</td>
+<td align="center">other_hormonal, condoms</td>
 <td align="center">7</td>
 <td align="center">0.01</td>
 </tr>
@@ -3724,7 +3851,7 @@ xsection %&gt;% filter(contraceptive_method == &#39;hormonal&#39;) %&gt;% mutate
 <td align="center">0</td>
 </tr>
 <tr class="even">
-<td align="center">none, coitus_interruptus</td>
+<td align="center">kalendermethode</td>
 <td align="center">4</td>
 <td align="center">0</td>
 </tr>
@@ -3734,7 +3861,7 @@ xsection %&gt;% filter(contraceptive_method == &#39;hormonal&#39;) %&gt;% mutate
 <td align="center">0</td>
 </tr>
 <tr class="even">
-<td align="center">kalendermethode</td>
+<td align="center">none, coitus_interruptus</td>
 <td align="center">4</td>
 <td align="center">0</td>
 </tr>
@@ -3760,7 +3887,8 @@ xsection %&gt;% filter(contraceptive_method == &#39;hormonal&#39;) %&gt;% mutate
 </tr>
 </tbody>
 </table>
-<pre class="r"><code>commoncontra = xsection[contraception %in% head((count(xsection, vars=contraception) %&gt;% arrange(desc(n)))$vars,10), ]
+<pre class="r"><code>common &lt;- head((count(xsection, vars=contraception) %&gt;% arrange(desc(n)))$vars,10)
+commoncontra = xsection %&gt;% filter(contraception %in% common)
 
 bar_count(commoncontra, contraception)</code></pre>
 <p><img src="2_descriptives_files/figure-html/unnamed-chunk-69-1.png" width="672" /></p>
@@ -3768,11 +3896,11 @@ bar_count(commoncontra, contraception)</code></pre>
 <div id="common-pill-brands" class="section level3">
 <h3>Common pill brands</h3>
 <pre class="r"><code>count(xsection, vars=pills) %&gt;% filter(!is.na(vars)) %&gt;% arrange(desc(n)) %&gt;% mutate(percent = round(n/sum(n),2)) %&gt;% filter(n &gt; 10) %&gt;% data.frame() %&gt;% pander()</code></pre>
-<table style="width:43%;">
+<table style="width:49%;">
 <colgroup>
-<col width="25%" />
-<col width="5%" />
-<col width="12%" />
+<col width="27%" />
+<col width="6%" />
+<col width="13%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -3793,12 +3921,12 @@ bar_count(commoncontra, contraception)</code></pre>
 <td align="center">0.09</td>
 </tr>
 <tr class="odd">
-<td align="center">velafee</td>
+<td align="center">belara</td>
 <td align="center">25</td>
 <td align="center">0.05</td>
 </tr>
 <tr class="even">
-<td align="center">belara</td>
+<td align="center">velafee</td>
 <td align="center">25</td>
 <td align="center">0.05</td>
 </tr>
@@ -3818,6 +3946,16 @@ bar_count(commoncontra, contraception)</code></pre>
 <td align="center">0.03</td>
 </tr>
 <tr class="even">
+<td align="center">asumate_20</td>
+<td align="center">15</td>
+<td align="center">0.03</td>
+</tr>
+<tr class="odd">
+<td align="center">chariva</td>
+<td align="center">15</td>
+<td align="center">0.03</td>
+</tr>
+<tr class="even">
 <td align="center">evaluna_20</td>
 <td align="center">15</td>
 <td align="center">0.03</td>
@@ -3828,27 +3966,17 @@ bar_count(commoncontra, contraception)</code></pre>
 <td align="center">0.03</td>
 </tr>
 <tr class="even">
-<td align="center">chariva</td>
-<td align="center">15</td>
-<td align="center">0.03</td>
-</tr>
-<tr class="odd">
-<td align="center">asumate_20</td>
-<td align="center">15</td>
-<td align="center">0.03</td>
-</tr>
-<tr class="even">
 <td align="center">leonahexal</td>
 <td align="center">12</td>
 <td align="center">0.02</td>
 </tr>
 <tr class="odd">
-<td align="center">bellissima</td>
+<td align="center">aida</td>
 <td align="center">11</td>
 <td align="center">0.02</td>
 </tr>
 <tr class="even">
-<td align="center">aida</td>
+<td align="center">bellissima</td>
 <td align="center">11</td>
 <td align="center">0.02</td>
 </tr>
@@ -3876,7 +4004,7 @@ bar_count(commoncontra, contraception)</code></pre>
 <col width="26%" />
 <col width="13%" />
 <col width="8%" />
-<col width="8%" />
+<col width="9%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -3917,7 +4045,7 @@ bar_count(commoncontra, contraception)</code></pre>
 <col width="26%" />
 <col width="13%" />
 <col width="8%" />
-<col width="8%" />
+<col width="9%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -3948,8 +4076,139 @@ bar_count(commoncontra, contraception)</code></pre>
 </tr>
 </tbody>
 </table>
-<pre class="r"><code>xsection2 %&gt;% filter(n_days &gt; 20, contraceptive_method == &#39;hormonal&#39;, !had_any_period) %&gt;% select(contraception, age, n_days, pills, other_hormonal_methods) %&gt;% pander()</code></pre>
-<pre><code>## Error in eval(x$expr, data, x$env): object &#39;other_hormonal_methods&#39; not found</code></pre>
+<pre class="r"><code>xsection2 %&gt;% filter(n_days &gt; 20, contraceptive_method == &#39;hormonal&#39;, !had_any_period) %&gt;% select(contraception, age, n_days, pills) %&gt;% pander()</code></pre>
+<table style="width:81%;">
+<colgroup>
+<col width="41%" />
+<col width="8%" />
+<col width="12%" />
+<col width="18%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">contraception</th>
+<th align="center">age</th>
+<th align="center">n_days</th>
+<th align="center">pills</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">none, contraceptive_pill</td>
+<td align="center">24</td>
+<td align="center">29</td>
+<td align="center">evaluna_30</td>
+</tr>
+<tr class="even">
+<td align="center">other_hormonal</td>
+<td align="center">50</td>
+<td align="center">24</td>
+<td align="center">NA</td>
+</tr>
+<tr class="odd">
+<td align="center">contraceptive_pill, condoms</td>
+<td align="center">23</td>
+<td align="center">39</td>
+<td align="center">seculact</td>
+</tr>
+<tr class="even">
+<td align="center">contraceptive_pill</td>
+<td align="center">22</td>
+<td align="center">33</td>
+<td align="center">desirett</td>
+</tr>
+<tr class="odd">
+<td align="center">contraceptive_pill</td>
+<td align="center">24</td>
+<td align="center">29</td>
+<td align="center">desirett</td>
+</tr>
+<tr class="even">
+<td align="center">other_hormonal</td>
+<td align="center">49</td>
+<td align="center">30</td>
+<td align="center">NA</td>
+</tr>
+<tr class="odd">
+<td align="center">contraceptive_pill</td>
+<td align="center">21</td>
+<td align="center">26</td>
+<td align="center">zoely</td>
+</tr>
+<tr class="even">
+<td align="center">other_hormonal</td>
+<td align="center">24</td>
+<td align="center">30</td>
+<td align="center">NA</td>
+</tr>
+<tr class="odd">
+<td align="center">contraceptive_pill</td>
+<td align="center">20</td>
+<td align="center">30</td>
+<td align="center">lamuna_20</td>
+</tr>
+<tr class="even">
+<td align="center">other_hormonal</td>
+<td align="center">24</td>
+<td align="center">38</td>
+<td align="center">NA</td>
+</tr>
+<tr class="odd">
+<td align="center">other_hormonal</td>
+<td align="center">27</td>
+<td align="center">34</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">contraceptive_pill, condoms</td>
+<td align="center">23</td>
+<td align="center">31</td>
+<td align="center">bellissima</td>
+</tr>
+<tr class="odd">
+<td align="center">contraceptive_pill</td>
+<td align="center">33</td>
+<td align="center">29</td>
+<td align="center">desmin_20</td>
+</tr>
+<tr class="even">
+<td align="center">contraceptive_pill</td>
+<td align="center">22</td>
+<td align="center">39</td>
+<td align="center">maxim</td>
+</tr>
+<tr class="odd">
+<td align="center">contraceptive_pill</td>
+<td align="center">24</td>
+<td align="center">30</td>
+<td align="center">jubrele</td>
+</tr>
+<tr class="even">
+<td align="center">contraceptive_pill</td>
+<td align="center">30</td>
+<td align="center">28</td>
+<td align="center">cilest</td>
+</tr>
+<tr class="odd">
+<td align="center">contraceptive_pill, condoms</td>
+<td align="center">37</td>
+<td align="center">30</td>
+<td align="center">other</td>
+</tr>
+<tr class="even">
+<td align="center">contraceptive_pill</td>
+<td align="center">20</td>
+<td align="center">28</td>
+<td align="center">maxim</td>
+</tr>
+<tr class="odd">
+<td align="center">contraceptive_pill</td>
+<td align="center">18</td>
+<td align="center">38</td>
+<td align="center">other</td>
+</tr>
+</tbody>
+</table>
 <pre class="r"><code>crosstabs(~ cycle_length_groups + contraceptive_method , data = xsection)  %&gt;% 
   prop.table(2) %&gt;% 
   round(2) %&gt;% 
@@ -3957,11 +4216,11 @@ bar_count(commoncontra, contraception)</code></pre>
 <table>
 <colgroup>
 <col width="16%" />
-<col width="28%" />
+<col width="27%" />
 <col width="25%" />
 <col width="12%" />
 <col width="8%" />
-<col width="8%" />
+<col width="9%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -4012,12 +4271,12 @@ bar_count(commoncontra, contraception)</code></pre>
   group_by(contraceptive_method) %&gt;% 
   summarise(cycle_length = mean(cycle_length, na.rm = T), sd = sd(cycle_length, na.rm = T), n = n()) %&gt;% 
   pander()</code></pre>
-<table style="width:65%;">
+<table style="width:69%;">
 <colgroup>
-<col width="31%" />
+<col width="33%" />
 <col width="20%" />
+<col width="6%" />
 <col width="8%" />
-<col width="4%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -4031,31 +4290,31 @@ bar_count(commoncontra, contraception)</code></pre>
 <tr class="odd">
 <td align="center">barrier_or_abstinence</td>
 <td align="center">29</td>
-<td align="center">3.622</td>
+<td align="center">NA</td>
 <td align="center">293</td>
-</tr>
-<tr class="even">
-<td align="center">hormonal</td>
-<td align="center">27.96</td>
-<td align="center">3.011</td>
-<td align="center">625</td>
-</tr>
-<tr class="odd">
-<td align="center">none</td>
-<td align="center">29.62</td>
-<td align="center">4.496</td>
-<td align="center">73</td>
 </tr>
 <tr class="even">
 <td align="center">fertility_awareness</td>
 <td align="center">29.04</td>
-<td align="center">2.667</td>
+<td align="center">NA</td>
 <td align="center">53</td>
+</tr>
+<tr class="odd">
+<td align="center">hormonal</td>
+<td align="center">27.96</td>
+<td align="center">NA</td>
+<td align="center">625</td>
+</tr>
+<tr class="even">
+<td align="center">none</td>
+<td align="center">29.62</td>
+<td align="center">NA</td>
+<td align="center">73</td>
 </tr>
 <tr class="odd">
 <td align="center">other</td>
 <td align="center">28.4</td>
-<td align="center">3.062</td>
+<td align="center">NA</td>
 <td align="center">10</td>
 </tr>
 </tbody>
@@ -4064,6 +4323,11 @@ bar_count(commoncontra, contraception)</code></pre>
 <p><img src="2_descriptives_files/figure-html/unnamed-chunk-72-1.png" width="672" /></p>
 <pre class="r"><code>qplot(cycle_length, data = xsection, binwidth = 1) + facet_wrap(~ contraceptive_method_by_pearl, scales = &quot;free_y&quot;)</code></pre>
 <p><img src="2_descriptives_files/figure-html/unnamed-chunk-72-2.png" width="672" /></p>
+<pre class="r"><code>xsection %&gt;% select(cycle_length, partner_attractiveness_physical,partner_attractiveness_shortterm, partner_attractiveness_rel_to_self, ZIP, duration_relationship_total) %&gt;% cor(use=&#39;pairwise.complete.obs&#39;) %&gt;% round(2) %&gt;% .[1, -1]</code></pre>
+<pre><code>##    partner_attractiveness_physical   partner_attractiveness_shortterm partner_attractiveness_rel_to_self 
+##                               0.00                              -0.01                               0.01 
+##                                ZIP        duration_relationship_total 
+##                               0.05                               0.09</code></pre>
 </div>
 </div>
 </div>
@@ -4082,8 +4346,9 @@ xsection %&gt;%
   summarise(count = n()) %&gt;% 
   right_join(plz_populations, by = &#39;postal_code&#39;, copy = T) %&gt;% 
   mutate(count = ifelse(is.na(count), 0, count),
-    percent = count/einwohner) -&gt; origins
-# origins
+    percent = count/einwohner) -&gt; origins</code></pre>
+<pre><code>## Warning: Column `postal_code` has different attributes on LHS and RHS of join</code></pre>
+<pre class="r"><code># origins
 # 
 # 
 library(leaflet)
@@ -4097,6 +4362,7 @@ library(leaflet)
 load(&quot;geo/map.rdata&quot;)
 origins = data.frame(postal_code = map$plz) %&gt;% left_join(origins, by = &#39;postal_code&#39;)</code></pre>
 <pre><code>## Loading required package: sp</code></pre>
+<pre><code>## Warning: Column `postal_code` has different attributes on LHS and RHS of join</code></pre>
 <pre class="r"><code>map$count = origins$count
 map$einwohner = origins$einwohner
 map$percent = origins$percent
@@ -4149,7 +4415,7 @@ Show map in full screen (<kbd>Esc</kbd> to leave)
 <h2>Components/factors in preregistered outcomes</h2>
 <pre class="r"><code>diary %&gt;% ungroup() %&gt;%  select(extra_pair, in_pair_desire, desirability_1, had_sexual_intercourse, partner_initiated_sexual_intercourse, partner_mate_retention, sexy_clothes, NARQ_admiration, NARQ_rivalry) %&gt;%
   psych::fa.parallel(fa=&#39;pc&#39;)</code></pre>
-<p><img src="2_descriptives_files/figure-html/unnamed-chunk-74-1.png" width="672" /></p>
+<p><img src="2_descriptives_files/figure-html/unnamed-chunk-75-1.png" width="672" /></p>
 <pre><code>## Parallel analysis suggests that the number of factors =  NA  and the number of components =  3</code></pre>
 </div>
 </div>
